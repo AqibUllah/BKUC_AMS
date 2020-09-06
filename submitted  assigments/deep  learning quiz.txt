@@ -1,0 +1,20 @@
+Attention PIAIC Batch 1 Quarter 3 AIC
+Deep Learning Quiz has been scheduled on Sep 11 & 12, 2020.
+Quiz Content :
+
+Chapter 5 to 8 of Deep Learning with Python by Francois Chollet
+https://www.amazon.com/Deep-Learning-Python-Francois-Chollet/dp/1617294438/ref=sr_1_7
+
+Deep learning for computer vision
+Deep learning for text and sequences
+Advanced deep-learning best practices
+Generative deep learning
+
+Presentation by Dr. Noman Islam
+https://docs.google.com/a/nu.edu.pk/viewer?a=v&pid=sites&srcid=bnUuZWR1LnBrfG5vbWFuLWlzbGFtfGd4OjEzZjhiNjU5MDllN2IyNmE
+
+Introduction to Convolutional Neural Networks for Visual Recognition by Stanford University
+https://www.youtube.com/watch?v=vT1JzLTH4G4
+
+It is important to note the following:
+You will attempt your exam at your home using…
