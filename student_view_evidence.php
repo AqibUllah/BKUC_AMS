@@ -51,11 +51,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
       table th{
         text-align: center;
       }
-      .btn{
-        font-size: 10px;
-        width: auto;
-        height: auto;
-      }
     </style>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -210,12 +205,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
             } ?>
         </div>
         <div class="info">
+          <a href="student_profile.php">
           <?php
             if(isset($_SESSION["lecturer_logged_in"])){
               echo $_SESSION["lecturer_logged_in"]["username"];
             }
-          ?><br>
-          <span class="right badge badge-danger"><a href="LogOff_page.php">Log Out</a></span>
+          ?>
+        </a>
         </div>
       </div>
 
@@ -301,24 +297,38 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="col-lg-12 col-md-12">
                 <!-- write or design something in 12 columns -->
                 <?php
-                  $sql="SELECT * FROM `submitted_assigments`";
-                  $run=mysqli_query($cn,$sql);
-                  $assigment_count = 0;
-                  while($get_data=mysqli_fetch_array($run)){
-                    $submitted_id=$get_data['id'];
-                    $assigment_name=$get_data['sibmitted_assigment'];
-                    $student_name=$get_data['std_name'];
-                    $student_email=$get_data['email'];
-                    $student_department=$get_data['department'];
-                    $student_semester=$get_data['semester'];
-                    $student_submitted_Date=$get_data['submitted_date'];
-                    $student_faculty=$get_data['faculty'];
-                    $std_assigment_title=$get_data['title'];
-                    $std_assigment_description=$get_data['description'];
-                    $assigment_evidence=$get_data['evidence'];
-                    $assigment_submitted_date=$get_data['submitted_date'];
-                    $assigment_count+=1;
-                  }
+                if(isset($_GET['student_id'])){
+                  $pk=$_GET['student_id'];
+                  $sql="SELECT * FROM `submit_assigments` WHERE `primary_key`='$pk'";
+                    $get=mysqli_query($cn,$sql);
+                    if(mysqli_num_rows($get)>0){
+                      while ($get_submit_data=mysqli_fetch_array($get)) {
+                        $id_a=$get_submit_data['std_id'];
+                        $submitted_date_on=$get_submit_data['submitted_on'];
+                        $pk=$get_submit_data['primary_key'];
+                        $fk_assigment=$get_submit_data['assigment'];
+                      }
+
+                      $sql="SELECT * FROM `student_whose_submitted` WHERE `id`='$id_a'";
+                      $run=mysqli_query($cn,$sql);
+                      while($get_data=mysqli_fetch_array($run)){
+                        $submitted_id=$get_data['id'];
+                        $std_image=$get_data['std_img'];
+                        $student_name=$get_data['std_name'];
+                        $student_email=$get_data['email'];
+                        $student_department=$get_data['department'];
+                        $student_semester=$get_data['semester'];
+                        $student_submitted_Date=$get_data['submitted_date'];
+                        $student_faculty=$get_data['faculty'];
+                        $std_assigment_title=$get_data['title'];
+                        $std_assigment_description=$get_data['description'];
+                        $assigment_submitted_date=$get_data['submitted_date'];
+                        //$assigment_count+=1;
+                      }
+                    }
+
+                }
+                  
                 ?>
 
                 <div class="row">
@@ -335,36 +345,63 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       </div>
                       <!-- /.card-header -->
                       <div class="card-body">
+                        <div class="text-center">
+                          <img class="profile-user-img img-fluid img-circle"
+                               src="<?php echo $std_image; ?>"
+                               alt="User profile picture">
+                               <h3 class="text-muted profile-username text-center">
+                                  <?php echo $student_name; ?>
+                               </h3>
+                        </div>
+                        <hr>
                         <strong><i class="fas fa-envelope mr-1"></i> Email</strong>
 
                         <p class="text-muted">
-                          <?php echo $_email; ?>
+                          <?php echo $student_email; ?>
                         </p>
 
                         <hr>
 
-                        <strong><i class="fas fa-map-marker-alt mr-1"></i> Address</strong>
+                        <strong><i class="fas fa-map-marker-alt mr-1"></i> Department</strong>
 
-                        <p class="text-muted"><?php echo $_address; ?></p>
+                        <p class="text-muted"><?php echo $student_department; ?></p>
 
                         <hr>
 
-                        <strong><i class="fas fa-phone mr-1"></i> Phone</strong>
+                        <strong><i class="fas fa-phone mr-1"></i> Semester</strong>
 
                         <p class="text-muted">
-                          <?php echo $_phone; ?>
+                          <?php echo $student_semester; ?>
                         </p>
-
-                        <hr>
-
-                        <strong><i class="far fa-file-alt mr-1"></i> Date Of Birth</strong>
-
-                        <p class="text-muted"><?php echo $_dob; ?></p>
                       </div>
                       <!-- /.card-body -->
                     </div>
                     <!-- /.card -->
                   </div>
+                  <?php
+
+                    $sql="SELECT * FROM `submit_assigments` WHERE `std_id`='$id_a' and `assigment`='$fk_assigment'";
+                    $getting=mysqli_query($cn,$sql);
+                    if(mysqli_num_rows($getting)>0){
+                      while ($get_submit_data=mysqli_fetch_array($getting)) {
+                        $id_b=$get_submit_data['std_id'];
+                        $submitted_date_on=$get_submit_data['submitted_on'];
+                        $pk=$get_submit_data['primary_key'];
+                        $fk_assigment=$get_submit_data['assigment'];
+                      }
+                    }
+
+                    $sql="SELECT * FROM `attach_evidences` WHERE `id`='$id_a' and `assigment`='$fk_assigment'";
+                    $getting=mysqli_query($cn,$sql);
+                    if(mysqli_num_rows($getting)>0){
+                      while ($get_submit_data=mysqli_fetch_array($getting)) {
+                        $id_b=$get_submit_data['id'];
+                        $fk_assigment=$get_submit_data['assigment'];
+                        $fk_assigment_files=$get_submit_data['files'];
+                      }
+                    }
+                  
+                  ?>
 
                     <div class="col-lg-6 col-md-6">
                       <!-- Profile Image -->
@@ -380,23 +417,30 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <!-- /.card-header -->
                         <div class="card-body box-profile">
                           <div class="text-center">
-                            <img class="profile-user-img img-fluid img-circle"
-                                 src="<?php echo $_img; ?>"
-                                 alt="User profile picture">
+                            <a href="preview_pdf.php?view_evidence_id=<?php echo $pk; ?>" class="btn btn-secondary">Open Evidence <span class="fas fa-file"></span></a>
                           </div>
-                          <h3 class="profile-username text-center"><?php echo $_std_name; ?></h3>
-                          <?php if(strlen($_semester)>0){
-                            ?>
-                            <p class="text-muted text-center"><?php echo $_user_type." Of ".$_semester;?></p>
-                            <?php
-                          }else{
-                            ?>
-                            <p class="text-muted text-center"><?php echo $_user_type; ?></p>
-                            <?php
-                          } ?>
-                          <hr><br>
+                          <h3 class="profile-username text-center"><?php echo $fk_assigment;?></h3>
+                            
+                          <hr>
+                          <h3 class="profile-username">title</h3>
+                          <p class="text-muted"><?php echo $std_assigment_title;?></p>
+                          <hr>
+                          <h3 class="profile-username">Description</h3>
+                          <p class="text-muted"><?php echo $std_assigment_description;?></p>
+                          <hr>
+                          <h3 class="profile-username">Submitted Date</h3>
+                          <p class="text-muted"><?php echo $submitted_date_on;?></p>
                           <center>
-                          <button type="submit" class="btn btn-danger btn-block">Add more info</button>
+                            <div class="row">
+                              <div class="col-md-6">
+                                <a href="#" class="btn btn-danger btn-block">Reject</a>
+                              </div>
+                              <div class="col-md-6">
+                                <a href="#" class="btn btn-success btn-block">Accept</a>
+                              </div>
+                            </div>
+                            
+                            
                           </center>
                         </div>
                         <!-- /.card-body -->

@@ -210,12 +210,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
             } ?>
         </div>
         <div class="info">
+          <a href="lecturer_profile.php">
           <?php
             if(isset($_SESSION["lecturer_logged_in"])){
               echo $_SESSION["lecturer_logged_in"]["username"];
             }
-          ?><br>
-          <span class="right badge badge-danger"><a href="LogOff_page.php">Log Out</a></span>
+          ?>
+          </a>
         </div>
       </div>
 
@@ -301,27 +302,37 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="col-lg-12">
                 <!-- write or design something in 12 columns -->
                 <?php
-                  $sql="SELECT * FROM `submitted_assigments`";
-                  $run=mysqli_query($cn,$sql);
+                    $lec_name=$_SESSION["lecturer_logged_in"]["username"];
+                    
+                  ?>
+                  <table id="example2" class="table table-bordere table-hover table-dark">
+                    <thead>
+                      <tr>
+                      <th>S.No</th>
+                      <th style="text-align: center;">Student</th>
+                      <th style="text-align: center;">Assigment</th>
+                      <th style="text-align: center;">Submnitted on</th>
+                      
+                      <th style="text-align: center;">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                     
+                  <?php
                   $assigment_count = 0;
                   
-                ?>
-            <table id="example2" class="table table-bordere table-hover table-dark">
-              <thead>
-                <tr>
-                <th>S.No</th>
-                <th style="text-align: center;">Student</th>
-                <th style="text-align: center;">Assigment</th>
-                <th style="text-align: center;">Submnitted on</th>
-                
-                <th style="text-align: center;">Action</th>
-              </tr>
-              </thead>
-                <tbody>
-                  <?php
-                  while($get_data=mysqli_fetch_array($run)){
-                    $submitted_id=$get_data['id'];
-                    $assigment_name=$get_data['sibmitted_assigment'];
+                  $sql_a="SELECT * FROM `submit_assigments` WHERE `assigment_was_created_by`='$lec_name'";
+                  $run_a=mysqli_query($cn,$sql_a);
+                  if(mysqli_num_rows($run_a)>0){
+                    while($get_data=mysqli_fetch_array($run_a)){
+                    $submitted_id=$get_data['std_id'];
+                    $submitted_assigment=$get_data['assigment'];
+                    $submitted_on=$get_data['submitted_on'];
+                    $primary_key=$get_data['primary_key'];
+                    $assigment_count+=1;
+                    /*$_id=$get_data['id'];
+                    //$assigment_name=$get_data['sibmitted_assigment'];
+                    
                     $student_name=$get_data['std_name'];
                     $student_email=$get_data['email'];
                     $student_department=$get_data['department'];
@@ -332,25 +343,114 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     $std_assigment_description=$get_data['description'];
                     $assigment_evidence=$get_data['evidence'];
                     $assigment_submitted_date=$get_data['submitted_date'];
-                    $assigment_count+=1;
+                    */
+
+                  $sql="SELECT * FROM `student_whose_submitted` WHERE `id`='$submitted_id'";
+                  $run=mysqli_query($cn,$sql);
+                  while($get_data_a=mysqli_fetch_assoc($run)){
+                    $_id=$get_data_a['id'];
+                    //$assigment_name=$get_data['sibmitted_assigment'];
+                    
+                    $student_name=$get_data_a['std_name'];
+                    $student_email=$get_data_a['email'];
+                    $student_department=$get_data_a['department'];
+                    $student_semester=$get_data_a['semester'];
+                    $student_submitted_Date=$get_data_a['submitted_date'];
+                    $student_faculty=$get_data_a['faculty'];
+                    $std_assigment_title=$get_data_a['title'];
+                    $std_assigment_description=$get_data_a['description'];
+                    $assigment_submitted_date=$get_data_a['submitted_date'];
+                    /*
+                    $submitted_id=$get_data_a['std_id'];
+                    $submitted_assigment=$get_data_a['assigment'];
+                    $Assigment_Evidence=$get_data_a['evidence'];
+                    $submitted_on=$get_data_a['submitted_on'];
+                    $primary_key=$get_data_a['primary_key'];
+                    */
+                    
+                    //$assigment_count+=1;
 
                     ?>
-                    <tr>
+                       <tr>
                       <td><?php echo $assigment_count; ?></td>
                       <td><?php echo $student_name; ?></td>
-                      <td><?php echo $assigment_name; ?></td>
-                      <td><?php echo $student_submitted_Date; ?></td>
+                      <td><?php echo $submitted_assigment; ?></td>
+                      <td><?php echo $submitted_on; ?></td>
                       <td class="text-center py-0 align-middle">
-                        
-                          <a href="student_view_evidence.php?student_id=<?php echo $submitted_id; ?>" class="btn btn-primary">View Evidence</a>
+
+                          <a href="student_view_evidence.php?student_id=<?php echo $primary_key; ?>" class="btn btn-primary">View Evidence</a>
+
                           <a href="#" class="btn btn-danger">Reject</a>
                           <a href="#" class="btn btn-success">Accept</a>
                         
                       </td>
-                    </tr>
+                      </tr>
                     <?php
                   }
+
+                    }
+                  
+                  
+                  
+
+                    
+                  }else{
+                    $lec_name=$_SESSION["lecturer_logged_in"]["username"];
+                    $sql="SELECT * FROM `submit_assigments` WHERE 
+                        `assigment_was_created_by`='$lec_name'";
+                    $run_b=mysqli_query($cn,$sql);
+                  if(mysqli_num_rows($run_b)>0){
+                    //if(mysqli_num_rows($run_b)>0){
+
+                    while($get_data_b=mysqli_fetch_assoc($run_b)){
+                    $submitted_id=$get_data_b['std_id'];
+                    $submitted_assigment=$get_data_b['assigment'];
+                    $Assigment_Evidence=$get_data_b['evidence'];
+                    $submitted_on=$get_data_b['submitted_on'];
+                    $primary_key=$get_data_b['primary_key'];
+                    $assigment_count+=1;
+
+                    $sql="SELECT * FROM `student_whose_submitted` WHERE `id`='$submitted_id'";
+                    $run_d=mysqli_query($cn,$sql);
+                    if(mysqli_num_rows($run_d)>0){
+                      while($get_data=mysqli_fetch_array($run_d)){
+                        $_id=$get_data['id'];
+                        //$assigment_name=$get_data['sibmitted_assigment'];
+                        $student_name=$get_data['std_name'];
+                        $student_email=$get_data['email'];
+                        $student_department=$get_data['department'];
+                        $student_semester=$get_data['semester'];
+                        $student_submitted_Date=$get_data['submitted_date'];
+                        $student_faculty=$get_data['faculty'];
+                        $std_assigment_title=$get_data['title'];
+                        $std_assigment_description=$get_data['description'];
+                        $assigment_evidence=$get_data['evidence'];
+                        $assigment_submitted_date=$get_data['submitted_date'];
+                      }
+                    }
+
+                    ?>
+                    
+                      <td><?php echo $assigment_count; ?></td>
+                      <td><?php echo $student_name; ?></td>
+                      <td><?php echo $submitted_assigment; ?></td>
+                      <td><?php echo $submitted_on; ?></td>
+                      <td class="text-center py-0 align-middle">
+
+                          <a href="student_view_evidence.php?student_id=<?php echo $primary_key; ?>" class="btn btn-primary">View Evidence</a>
+
+                          <a href="#" class="btn btn-danger">Reject</a>
+                          <a href="#" class="btn btn-success">Accept</a>
+                        
+                      </td>
+                    
+                    <?php
+                  }
+                    }
+
+                  }
                   ?>
+              
                 </tbody>
           </table>
           </div>

@@ -78,6 +78,19 @@ function validate_sanitize_student_Update_inputs($arg){
 	return array("edit_first_name"=>$_std_firstName,"edit_last_name"=>$_std_lasstName,"edit_birth"=>$_std_dob,"edit_phone"=>$_std_mob,"edit_email"=>$_std_email,"edit_address"=>$_std_address,"edit_batch"=>$_std_batch_no,"edit_session"=>$_std_session,"edit_faculty"=>$_std_Faculty,"edit_department"=>$_std_Department);
 }
 
+function validate_sanitize_admin_Update_inputs($arg){
+	$_admin_username=filter_var($arg["edit_username"],FILTER_SANITIZE_STRING);
+	$_admin_mob=filter_var($arg["edit_phone"],FILTER_SANITIZE_NUMBER_INT);
+	$_std_email=filter_var($arg["edit_email"], FILTER_SANITIZE_EMAIL);
+	$_admin_address=filter_var($arg["edit_address"], FILTER_SANITIZE_STRING);
+	$_admin_gender=filter_var($arg["edit_gender"], FILTER_SANITIZE_STRING);
+	$_admin_email=filter_var($arg["edit_email"], FILTER_VALIDATE_EMAIL);
+	if(!$_std_email){
+		return "invalid_email_format";
+	}
+	return array("edit_username"=>$_admin_username,"edit_phone"=>$_admin_mob,"edit_email"=>$_admin_email,"edit_gender"=>$_admin_gender,"edit_address"=>$_admin_address);
+}
+
 function validate_sanitize_creat_assigment_inputs($arg){
 	$_faculty=filter_var($arg["select_faculty"],FILTER_SANITIZE_STRING);
 	$_department=filter_var($arg["select_department"],FILTER_SANITIZE_STRING);

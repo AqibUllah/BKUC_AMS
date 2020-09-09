@@ -19,24 +19,28 @@ while($get_data=mysqli_fetch_array($run)){
 
 <?php
 $std_email=$_SESSION["student_logged_in"]["std_email"];
-$sql="SELECT * FROM `submitted_assigments` WHERE `email`='$std_email'";
+$sql="SELECT * FROM `student_whose_submitted` WHERE `email`='$std_email'";
 $run_a=mysqli_query($cn,$sql);
 if(mysqli_num_rows($run_a)>0){
     while($get_data=mysqli_fetch_array($run_a)){
     $student_email=$get_data['email'];
     $student_id=$get_data['id'];
     //$assigment_count+=1;
+
+
   }
+
+  if(mysqli_num_rows($run_a)>0){
+    $sql="SELECT * FROM `submit_assigments` WHERE `std_id`='$student_id'";
+    $run=mysqli_query($cn,$sql);
+    $fk_count = 0;
+      while ($get_submitter_confirmation=mysqli_fetch_array($run)) {
+        $fk_count+=1;
+      }
+    }
 }
 
-if(mysqli_num_rows($run_a)>0){
-  $sql="SELECT * FROM `submit_assigments` WHERE `std_id`='$student_id'";
-$run=mysqli_query($cn,$sql);
-$fk_count = 0;
-while ($get_submitter_confirmation=mysqli_fetch_array($run)) {
-  $fk_count+=1;
-}
-}
+
 
 ?>
 <!DOCTYPE html>
@@ -178,7 +182,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <i class="fas fa-lock mr-2"></i>Profile
           </a>
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
+          <a href="change_password.php" class="dropdown-item">
             <i class="fas fa-lock-open mr-2"></i>Change Password
           </a>
           <div class="dropdown-divider"></div>
@@ -216,12 +220,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
             } ?>
         </div>
         <div class="info">
+          <a href="student_profile.php">
           <?php
             if(isset($_SESSION["student_logged_in"])){
               echo $_SESSION["student_logged_in"]["first_name"];
             }
-          ?><br>
-          <span class="right badge badge-danger"><a href="LogOff_page.php">Log Out</a></span>
+          ?>
+        </a>
         </div>
       </div>
 

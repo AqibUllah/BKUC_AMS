@@ -1,6 +1,6 @@
 <?php
 session_start();
-   if(isset($_SESSION["lecturer_logged_in"])){
+   if(isset($_SESSION["admin_logged_in"])){
           }else{
             header("location:login_page.php");
           }
@@ -9,23 +9,19 @@ session_start();
 <?php
 include 'db_page.php';
 $cn=db_connection();
-$_lecturer_id=$_SESSION["lecturer_logged_in"]["id"];
-$sql="SELECT * FROM `registred_lecturers` WHERE `id`='$_lecturer_id'";
+$_admin_id=$_SESSION["admin_logged_in"]["id"];
+$sql="SELECT * FROM `tbl_super_admin` WHERE `id`='$_admin_id'";
 $done=mysqli_query($cn,$sql);
 if($done){
-  while ($get_lec_info=mysqli_fetch_array($done)) {
-    $_username=$get_lec_info['username'];
-    $_entry_dat=$get_lec_info['entry_date'];
-    $_image=$get_lec_info['image'];
-    $_gender=$get_lec_info['gender'];
-    $_email=$get_lec_info['email'];
-    $_address=$get_lec_info['address'];
-    $_phone=$get_lec_info['phone'];
-    $_dob=$get_lec_info['dob'];
-    $_user_role=$get_lec_info['role'];
-    $_skill=$get_lec_info['skills'];
-    $_faculty=$get_lec_info['faculty'];
-    $_department=$get_lec_info['department'];
+  while ($get_admin_info=mysqli_fetch_array($done)) {
+    $admin_username=$get_admin_info['username'];
+    $admin_entry_dat=$get_admin_info['entry_date'];
+    $admin_img=$get_admin_info['img'];
+    $admin_email=$get_admin_info['email'];
+    $admin_phone=$get_admin_info['phone'];
+    $admin_gender=$get_admin_info['gender'];
+    $admin_address=$get_admin_info['address'];
+    $admin_role=$get_admin_info['role'];
   }
 }
 
@@ -227,21 +223,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-            <?php if(file_exists($_SESSION["lecturer_logged_in"]["lecturer_image"])){
+            <?php if(file_exists($_SESSION["admin_logged_in"]["admin_image"])){
               ?>
-              <img src="<?php echo $_SESSION["lecturer_logged_in"]["lecturer_image"]; ?>" class="img-circle elevation-2" alt="User Image">
+              <img src="<?php echo $_SESSION["admin_logged_in"]["admin_image"]; ?>" class="img-circle elevation-2" alt="User Image">
               <?php
             }else{
               ?>
-              <img src="lecturers images/no_image.jpg">
+              <img src="admin image/no_image.jpg">
               <?php
             } ?>
         </div>
         <div class="info">
-          <a href="lecturer_profile.php">
+          <a href="admin_profile.php">
           <?php
-            if(isset($_SESSION["lecturer_logged_in"])){
-              echo $_SESSION["lecturer_logged_in"]["username"];
+            if(isset($_SESSION["admin_logged_in"])){
+              echo $_SESSION["admin_logged_in"]["username"];
             }
           ?>
           </a>
@@ -254,31 +250,117 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="Lecturer_Dashboard.php" class="nav-link">
+            <a href="admin_main_dashboard.php" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
               </p>
             </a>
           </li>
+          <li class="nav-item has-treeview menu-close">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                REQUESTS
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="student_requests_page.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Student Requests</p>
+                      <?php
+                      $cn=db_connection();
+                      $sql="SELECT * FROM `tbl_students_requests`";
+                      $run=mysqli_query($cn,$sql);
+                      $count=0;
+                      while ($done=mysqli_fetch_array($run)) {
+                        $count=$count+1;
+                      }
+                      if($count>0){
+                        echo "<span class='right badge badge-danger' style='font-size: 10px;'>$count</span>";
+                      }else{
+                        
+                      }
+                      
+                      ?>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="teacher_requests_page.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Teacher Requests</p>
+                   <?php
+                      $cn=db_connection();
+                      $sql="SELECT * FROM `tbl_request_lectureres`";
+                      $run=mysqli_query($cn,$sql);
+                      $count=0;
+                      while ($done=mysqli_fetch_array($run)) {
+                        $count=$count+1;
+                      }
+                      if($count>0){
+                        echo "<span class='right badge badge-danger' style='font-size: 10px;'>$count</span>";
+                      }else{
+                        
+                      }
+                      
+                      ?>
+                </a>
+              </li>
+            </ul>
+          </li>
           <li class="nav-item">
-            <a href="creat_assigment.php" class="nav-link">
-              <i class="nav-icon fas fa-file"></i>
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                Creat Assigment
-                <span class="right badge badge-info">New</span>
+                Password Requests
+                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-          </li>
-             <li class="nav-item">
-            <a href="assigment_list.php" class="nav-link">
-              <i class="nav-icon fas fa-check"></i>
+            <ul class="nav nav-treeview">
+              <li class="nav-item"><a href="student_password_requests_page.php" class="nav-link"><i class="far fa-circle nav-icon"></i>
               <p>
-                Created Assigments
-              </p>
-            </a>
-          </li>
-          <li class="nav-item has-treeview menu-open">
+               <?php
+                      $cn=db_connection();
+                      $sql="SELECT * FROM `password_retrieve`";
+                      $run=mysqli_query($cn,$sql);
+                      $count=0;
+                      while ($done=mysqli_fetch_array($run)) {
+                        $count=$count+1;
+                      }
+                      if($count>0){
+                        echo "<span class='right badge badge-danger' style='font-size: 10px;'>$count </span> From Students";
+                      }else{
+                        echo "No Requests";
+                      }
+                      
+                      ?>
+                        
+                      </p></a>
+              </li>
+              <li class="nav-item"><a href="teacher_password_requests_page.php" class="nav-link"><i class="far fa-circle nav-icon"></i>
+              <p>
+                 <?php
+                      $cn=db_connection();
+                      $sql="SELECT * FROM `lecturer_password_retreive`";
+                      $run=mysqli_query($cn,$sql);
+                      $count=0;
+                      while ($done=mysqli_fetch_array($run)) {
+                        $count=$count+1;
+                      }
+                      if($count>0){
+                        echo "<span class='right badge badge-danger' style='font-size: 10px;'>$count </span> From Lecturers";
+                      }else{
+                        echo "No Requests";
+                      }
+                      
+                      ?>
+
+              </p></a>
+              </li>
+            </ul>
+            <li class="nav-item has-treeview menu-open">
             <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
@@ -288,24 +370,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="lecturer_profile.php" class="nav-link active">
-                  <i class="far fa-user nav-icon"></i>
+                <a href="admin_profile.php" class="nav-link active">
+                  <i class="nav-icon far fa-user nav-icon"></i>
                   <p>Profile</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="lecturer_change_password.php" class="nav-link">
-                  <i class="fas fa-lock-open nav-icon"></i>
+                <a href="amdin_change_password.php" class="nav-link">
+                  <i class="nav-icon fas fa-lock-open nav-icon"></i>
                   <p>Change Password</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="LogOff_page.php" class="nav-link">
-                  <i class="fas fa-lock nav-icon"></i>
+                  <i class="nav-icon fas fa-lock nav-icon"></i>
                   <p>Log Out</p>
                 </a>
               </li>
             </ul>
+          </li>
           </li>
         </ul>
       </nav>
@@ -338,7 +421,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </div>
                 <ul class="nav nav-pills nav-justified">
                   <li class="nav-item"><a class="nav-link active" href="#profile" data-toggle="tab">My Profile</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#edit" data-toggle="tab">Add or Edit Profile</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#edit" data-toggle="tab">Edit Profile</a></li>
                   
                 </ul>
               </div><!-- /.card-header -->
@@ -359,18 +442,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <strong><i class="fas fa-envelope mr-1"></i> Email</strong>
+                <strong><i class="fas fa-envelope mr-1"></i>Email</strong>
 
                 <p class="text-muted">
-                  <?php echo $_email; ?>
+                  <?php echo $admin_email; ?>
                 </p>
 
                 <hr>
 
                 <strong><i class="fas fa-map-marker-alt mr-1"></i> Address</strong>
                 <?php
-                if(isset($_address) and count_chars($_address)>0){
-                  ?><p class="text-muted"><?php echo $_address; ?></p><?php
+                if(isset($admin_address) and count_chars($admin_address)>0){
+                  ?><p class="text-muted"><?php echo $admin_address; ?></p><?php
                 }else{
                   ?><p class="text-muted"><?php echo "Not available"; ?></p><?php
                 }
@@ -381,20 +464,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <strong><i class="fas fa-phone mr-1"></i> Phone</strong>
 
                 <?php
-                if(isset($_phone) and count_chars($_phone)>0){
-                  ?><p class="text-muted"><?php echo $_phone; ?></p><?php
-                }else{
-                  ?><p class="text-muted"><?php echo "Not available"; ?></p><?php
-                }
-                ?>
-
-                <hr>
-
-                <strong><i class="far fa-file-alt mr-1"></i> Date Of Birth</strong>
-
-                <?php
-                if(isset($_dob) & $_dob>0){
-                  ?><p class="text-muted"><?php echo $_dob; ?></p><?php
+                if(isset($admin_phone) and count_chars($admin_phone)>0){
+                  ?><p class="text-muted"><?php echo $admin_phone; ?></p><?php
                 }else{
                   ?><p class="text-muted"><?php echo "Not available"; ?></p><?php
                 }
@@ -420,16 +491,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <div class="card-body box-profile">
                           <div class="text-center">
                             <img class="profile-user-img img-fluid img-circle"
-                                 src="<?php echo $_image; ?>"
+                                 src="<?php echo $admin_img; ?>"
                                  alt="User profile picture">
                           </div>
-                          <h3 class="profile-username text-center"><?php echo $_username; ?></h3>
-        
-                          <p class="text-muted text-center"><?php echo $_user_role; ?></p>
-                          <hr><br>
-                          <center>
-                          <button type="submit" class="btn btn-danger btn-block">Add more info</button>
-                          </center>
+                          <h3 class="profile-username text-center"><?php echo $admin_username; ?></h3>
+                          <p class="text-muted text-center"><?php echo $admin_email; ?></p>
+                          <hr>
+                          <h5 class="text-muted text-center">
+                            <span class="badge badge-danger"><?php echo $admin_role." : ".$admin_gender; ?></span></h5>
                         </div>
                         <!-- /.card-body -->
                       </div>
@@ -439,7 +508,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               <!-- About Me Box -->
             <div class="card card-success">
               <div class="card-header">
-                <h3 class="card-title">Educational</h3>
+                <h3 class="card-title">Facilities</h3>
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse">
                     <i class="fas fa-minus"></i>
@@ -448,18 +517,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <strong><i class="fas fa-book mr-1"></i>Faculty</strong>
-
-                <p class="text-muted">
-                  <?php echo $_faculty; ?>
-                </p>
-
-                <hr>
-
-                <strong><i class="fas fa-map-marker-alt mr-1"></i>Department</strong>
-
-                <p class="text-muted"><?php echo $_department; ?></p>
-
+                <ul style="list-style-type: disc;"></ul>
+                <p>Admin can reponse to students or lectures.
+                      Whose like to  request an account for joining BKUC AMS</p>
+                <p>it can be accept or reject from the admin</p>
+                <hr style="font-weight: bold;">
+                <p>Admin can response to a BKUC AMS users whose forgot his/her password</p>
+                <p>it also can be reject or send new password by admin</p>
               </div>
               <!-- /.card-body -->
             </div>
@@ -473,7 +537,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="card-body">
                         <form method="post" enctype="multipart/form-data">
                           <div class="row">
-                            <div class="col-lg-4 col-md-4">
+                            <div class="col-lg-6 col-md-6">
                               <!-- About Me Box -->
                               <div class="card card-primary">
                                 <div class="card-header">
@@ -491,7 +555,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <div class="input-group-prepend">
                                       <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                                     </div>
-                                    <input type="text" name="edit_email" value="<?php echo $_email; ?>" class="form-control" placeholder="Email">
+                                    <input type="text" name="edit_email" value="<?php echo $admin_email; ?>" class="form-control" placeholder="Email">
                                   </div>
 
                                   <hr>
@@ -500,7 +564,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <div class="input-group-prepend">
                                       <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
                                     </div>
-                                    <input type="text" name="edit_address" <?php if(isset($_address)){echo "value='$_address'";} ?> class="form-control" placeholder="Address">
+                                    <input type="text" name="edit_address" <?php if(isset($admin_address)){echo "value='$admin_address'";} ?> class="form-control" placeholder="Address">
                                   </div>
 
                                   <hr>
@@ -509,16 +573,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <div class="input-group-prepend">
                                       <span class="input-group-text"><i class="fas fa-phone"></i></span>
                                     </div>
-                                    <input type="text" class="form-control" name="edit_phone" <?php if(isset($_phone)){echo "value='$_phone'";} ?> placeholder="Phone"  data-inputmask='"mask": "(9999) (9999999)"' data-mask>
-                                  </div>
-
-                                  <hr>
-
-                                  <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                      <span class="input-group-text"><i class="fas fa-birthday-cake"></i></span>
-                                    </div>
-                                    <input type="text" class="form-control" <?php if(isset($_dob)){echo "value='$_dob'";} ?> placeholder="Date Of Birth" data-inputmask-alias="datetime" name="edit_birth" data-inputmask-inputformat="mm-dd-yyyy" data-mask>
+                                    <input type="text" class="form-control" name="edit_phone" <?php if(isset($admin_phone)){echo "value='$admin_phone'";} ?> placeholder="Phone"  data-inputmask='"mask": "(9999) (9999999)"' data-mask>
                                   </div>
                                 </div>
                                 <!-- /.card-body -->
@@ -526,7 +581,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               <!-- /.card -->
                             </div>
 
-            <div class="col-lg-4 col-md-4">
+            <div class="col-lg-6 col-md-6">
               <!-- Profile Image -->
                       <div class="card card-danger">
                         <div class="card-header">
@@ -541,7 +596,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <div class="card-body box-profile">
                           <div class="text-center">
                             <img class="profile-user-img img-fluid img-circle"
-                                 src="<?php echo $_image; ?>"
+                                 src="<?php echo $admin_img; ?>"
                                  alt="User profile picture">
                                  <input type="file" name="edit_file" id="upload_img"  hidden onchange="readURL(this);" value="Document">
                                  <label for="upload_img" id="selector">SELECT IMAGE</label>
@@ -561,9 +616,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           <h3 class="profile-username text-center">
                                   <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                      <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                      <span class="input-group-text"><i>User NAme</i></span>
                                     </div>
-                                    <input type="text" name="edit_username" value="<?php echo $_username ?>" class="form-control" placeholder="User Name">
+                                    <input type="text" name="edit_username" value="<?php echo $admin_username ?>" class="form-control" placeholder="Full Name">
                                   </div>
                           </h3>
         
@@ -572,14 +627,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <span class="input-group-text"><i>Gender</i></span>
                               </div>
                               <select name="edit_gender" class="form-control">
-                                <option disabled selected>Gender</option>
-                                <?php
-                                if(isset($_gender)){
-                                  ?><option selected="<?php echo $_gender ?>"><?php echo $_gender ?></option><?php
-                                }
-                                ?>
-                                <option value="Male" name="edit_gender">Male</option>
-                                <option value="Female" name="edit_gender">Female</option>
+                                <option disabled selected>Select Gender</option>
+                                
+                                <option value="Male" name="edit_gender">M</option>
+                                <option value="Female" name="edit_gender">F</option>
+                                
                               </select>
                             </div>
                           <hr><br>
@@ -590,59 +642,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <!-- /.card-body -->
                       </div>
                       <!-- /.card -->
-            </div>
-            <div class="col-lg-4 col-md-4">
-                              <!-- About Me Box -->
-            <div class="card card-success">
-              <div class="card-header">
-                <h3 class="card-title">Educational</h3>
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                </button>
-                </div>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i>Factulty</i></span>
-                        </div>
-                        <select name="edit_faculty" class="form-control">
-                          <option disabled selected>Faculty</option>
-                          <option selected="<?php echo $_faculty; ?>"><?php echo $_faculty; ?></option>
-                          <option value="Management Science" name="edit_faculty">Management Science</option>
-                          <option value="Social Science" name="edit_faculty">Social Science</option>
-                          <option value="Arts" name="edit_faculty">Arts</option>
-                        </select>
-                </div>
-
-                <hr>
-
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i>Department</i></span>
-                        </div>
-                        <select name="edit_department" class="form-control">
-                          <option disabled selected>Select</option>
-                          <option selected="<?php echo $_department; ?>"><?php echo $_department; ?></option>
-                          <option value="Computer Science" name="edit_department">Coomputer Science</option>
-                          <option value="Agriculture" name="edit_department">Agriculture</option>
-                          <option value="English" name="edit_department">English</option>
-                          <option value="Botany" name="edit_department">Botany</option>
-                        </select>
-                </div>
-                <hr>
-                                  <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                      <span class="input-group-text"><i>skill</i></span>
-                                    </div>
-                                    <input type="text" name="edit_skill" value="<?php echo $_skill ?>" class="form-control" placeholder="Your Skill">
-                                  </div>                
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
             </div>
           </div>
         </form> <!-- /.form -->
@@ -831,9 +830,9 @@ function PreviewImage() {
 <?php 
 if(isset($_POST['btn_update'])){
   include('functions_page.php');
-    $status=validate_sanitize_student_Update_inputs($_POST);
+    $status=validate_sanitize_admin_Update_inputs($_POST);
       if(is_array($status)){
-          $uploaded_dir = 'lecturers images/';
+          $uploaded_dir = 'admin image/';
           $filename   = $_FILES["edit_file"]["name"];
           $uploaded_dir.= $filename;
           $tmp_dir    =$_FILES["edit_file"]["tmp_name"];
@@ -845,7 +844,7 @@ if(isset($_POST['btn_update'])){
           if(pathinfo($filename, PATHINFO_EXTENSION)!=null){
             if($text == 'jpg' or $text == 'JPG' or $text == 'png' or $text == 'PNG' or
                $text == 'gif' or $text == 'GIF' or $text == 'jpeg' or $text == 'GPEG'){
-              $status=edit_lecturer();
+              $status=edit_admin($status);
             if($status === true){
                   ?>
                     <script type="text/javascript">

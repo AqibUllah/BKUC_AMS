@@ -5,6 +5,26 @@ session_start();
             header("location:login_page.php");
           }
 ?>
+
+<?php
+include 'db_page.php';
+$cn=db_connection();
+$sql="SELECT * FROM `creat_assigment`";
+$run=mysqli_query($cn,$sql);
+$count = 0;
+while($get_data=mysqli_fetch_array($run)){
+  $count+=1;
+}
+$admin_id=$_SESSION["admin_logged_in"]["id"];
+$sql="SELECT * FROM `tbl_super_admin` WHERE `id`='$admin_id'";
+$done=mysqli_query($cn,$sql);
+if($done){
+  while ($get_std_info=mysqli_fetch_array($done)) {
+    // ...code here
+  }
+}
+
+?>
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -16,7 +36,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>Dashboard</title>
+  <title>Change Passsword</title>
+
+    <!-- css -->
+  <link rel="stylesheet" href="css2/bootstrap-responsive.css" />
+  <link rel="stylesheet" href="css2/prettyPhoto.css" />
+  <link rel="stylesheet" href="css2/sequence.css" />
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="assets/img/apple-icon.png">
+
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
     <!-- DataTables -->
@@ -25,19 +54,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
     <style type="text/css">
-      table{
-        overflow-x:auto;
-      }
-       td{
-        height: 5px;
+      table td{
         font-size: 12px;
+        height: auto;
+        width: auto;
       }
-      th {
-          height: 30px;
-        }
+      .btn{
+        font-size: 12px;
+        width: auto;
+        height: auto;
+        padding: auto;
+      }
     </style>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -119,169 +148,50 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
-                     <?php
-                      include('db_page.php');
-                      $cn=db_connection();
-                      $sql="SELECT * FROM `tbl_students_requests`";
-                      $run=mysqli_query($cn,$sql);
-                      $count=0;
-                      while ($done=mysqli_fetch_array($run)) {
-                        $count=$count+1;
-                      }
-                      $sql="SELECT * FROM `tbl_request_lectureres`";
-                      $run=mysqli_query($cn,$sql);
-                      while ($done=mysqli_fetch_array($run)) {
-                      $count=$count+1;
-                      }
-                        $sql="SELECT * FROM `lecturer_password_retreive`";
-                      $run=mysqli_query($cn,$sql);
-                      while ($done=mysqli_fetch_array($run)) {
-                        $count=$count+1;
-                      }
-                       $sql="SELECT * FROM `password_retrieve`";
-                      $run=mysqli_query($cn,$sql);
-                      while ($done=mysqli_fetch_array($run)) {
-                      $count=$count+1;
-                      }
-                      if($count>0){
-                        echo "<span class='right badge badge-warning' style='font-size: 10px;'>$count</span>";
-                      }
-                      
-                      ?>
-          
+          <span class="badge badge-warning navbar-badge">15</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-header  badge-dark"><i class="fas fa-key mr-2"></i>
-            <?php
-                     $cn=db_connection();
-                      $sql="SELECT * FROM `tbl_students_requests`";
-                      $run=mysqli_query($cn,$sql);
-                      $count=0;
-                      while ($done=mysqli_fetch_array($run)) {
-                        $count=$count+1;
-                      }
-                      $sql="SELECT * FROM `tbl_request_lectureres`";
-                      $run=mysqli_query($cn,$sql);
-                      while ($done=mysqli_fetch_array($run)) {
-                      $count=$count+1;
-                      }
-                      if($count>0){
-                        echo "<span class='right badge badge-warning' style='font-size: 10px;text-align:center;'>$count Joining Requests</span>";
-                      }else{
-                        echo "No Joining Requests";
-                      }
-                      
-                      ?></span>
+          <span class="dropdown-header">15 Notifications</span>
           <div class="dropdown-divider"></div>
-          <a href="teacher_requests_page.php" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i> 
-                  <?php
-                      $cn=db_connection();
-                      $sql="SELECT * FROM `tbl_request_lectureres`";
-                      $run=mysqli_query($cn,$sql);
-                      $count=0;
-                      while ($done=mysqli_fetch_array($run)) {
-                        $count=$count+1;
-                      }
-                      if($count>0){
-                        echo "<span class='right badge badge-warning' style='font-size: 10px;'>$count </span> From Lecturer";
-                      }else{
-                        echo "No Requests";
-                      }
-                      
-                      ?>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-envelope mr-2"></i> 4 new messages
+            <span class="float-right text-muted text-sm">3 mins</span>
           </a>
           <div class="dropdown-divider"></div>
-          <a href="student_requests_page.php" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i>
- <?php
-                      $cn=db_connection();
-                      $sql="SELECT * FROM `tbl_students_requests`";
-                      $run=mysqli_query($cn,$sql);
-                      $count=0;
-                      while ($done=mysqli_fetch_array($run)) {
-                        $count=$count+1;
-                      }
-                      if($count>0){
-                        echo "<span class='right badge badge-warning' style='font-size: 10px;'>$count </span> From Student";
-                      }else{
-                        echo "No Requests";
-                      }
-                      
-                      ?>
-
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-users mr-2"></i> 8 friend requests
+            <span class="float-right text-muted text-sm">12 hours</span>
           </a>
           <div class="dropdown-divider"></div>
-          <a href="" class="dropdown-item badge-dark" style="text-align: center;">
-            <i class="fas fa-lock-open mr-2"></i>
-            <?php
-                     $cn=db_connection();
-                      $sql="SELECT * FROM `lecturer_password_retreive`";
-                      $run=mysqli_query($cn,$sql);
-                      $count=0;
-                      while ($done=mysqli_fetch_array($run)) {
-                        $count=$count+1;
-                      }
-                      $sql="SELECT * FROM `password_retrieve`";
-                      $run=mysqli_query($cn,$sql);
-                      while ($done=mysqli_fetch_array($run)) {
-                      $count=$count+1;
-                      }
-                      if($count>0){
-                        echo "<span class='right badge badge-warning' style='font-size: 10px;text-align:center;'>$count Password Requests</span>";
-                      }else{
-                        echo "No Password Requests";
-                      }
-                      
-                      ?>
-            <span class="float-right text-muted text-sm"></span>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-file mr-2"></i> 3 new reports
+            <span class="float-right text-muted text-sm">2 days</span>
           </a>
           <div class="dropdown-divider"></div>
-           <div class="dropdown-divider"></div>
-          <a href="student_password_requests_page.php" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i> 
-                  <?php
-                      $cn=db_connection();
-                      $sql="SELECT * FROM `password_retrieve`";
-                      $run=mysqli_query($cn,$sql);
-                      $count=0;
-                      while ($done=mysqli_fetch_array($run)) {
-                        $count=$count+1;
-                      }
-                      if($count>0){
-                        echo "<span class='right badge badge-warning' style='font-size: 10px;'>$count </span> From Students";
-                      }else{
-                        echo "No Requests";
-                      }
-                      
-                      ?>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="teacher_password_requests_page.php" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i>
- <?php
-                      $cn=db_connection();
-                      $sql="SELECT * FROM `lecturer_password_retreive`";
-                      $run=mysqli_query($cn,$sql);
-                      $count=0;
-                      while ($done=mysqli_fetch_array($run)) {
-                        $count=$count+1;
-                      }
-                      if($count>0){
-                        echo "<span class='right badge badge-warning' style='font-size: 10px;'>$count </span> From Lecturers";
-                      }else{
-                        echo "No Requests";
-                      }
-                      
-                      ?>
-
-          </a>
           <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
         </div>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#"><i
-            class="fas fa-th-large"></i></a>
+
+      <!-- account dropdown -->
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="far fa-user"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <span class="dropdown-header">Account Settings</span>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-lock mr-2"></i>Profile
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-lock-open mr-2"></i>Change Password
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="LogOff_page.php" class="dropdown-item bg-dark" style="text-align: center;">
+            Log Out <i class="fas fa-arrow-right mr-2"></i>
+          </a>
+        </div>
       </li>
     </ul>
   </nav>
@@ -301,19 +211,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="<?php
-            if(isset($_SESSION['admin_logged_in'])){
-              echo $_SESSION['admin_logged_in']['admin_image'];
-            }
-          ?>" class="img-circle elevation-2" alt="User Image">
+            <?php if(file_exists($_SESSION["admin_logged_in"]["admin_image"])){
+              ?>
+              <img src="<?php echo $_SESSION["admin_logged_in"]["admin_image"]; ?>" class="img-circle elevation-2" alt="User Image">
+              <?php
+            }else{
+              ?>
+              <img src="admin image/no_image.jpg">
+              <?php
+            } ?>
         </div>
         <div class="info">
+          <a href="admin_profile.php">
           <?php
             if(isset($_SESSION["admin_logged_in"])){
               echo $_SESSION["admin_logged_in"]["username"];
             }
           ?>
-          <span class="right badge badge-danger"><a href="LogOff_page.php">Log Out</a></span>
         </div>
       </div>
 
@@ -330,8 +244,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
           </li>
-          <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
+          <li class="nav-item has-treeview menu-close">
+            <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 REQUESTS
@@ -340,7 +254,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="student_requests_page.php" class="nav-link active">
+                <a href="student_requests_page.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Student Requests</p>
                       <?php
@@ -433,8 +347,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p></a>
               </li>
             </ul>
-            <li class="nav-item has-treeview menu-close">
-            <a href="#" class="nav-link">
+            <li class="nav-item has-treeview menu-open">
+            <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Account Settings
@@ -449,7 +363,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
               </li>
               <li class="nav-item">
-                <a href="amdin_change_password.php" class="nav-link">
+                <a href="amdin_change_password.php" class="nav-link active">
                   <i class="nav-icon fas fa-lock-open nav-icon"></i>
                   <p>Change Password</p>
                 </a>
@@ -475,91 +389,155 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-4">
 
-            <!-- write somthing for Right page header -->
+        <div class="row-fluid">
 
-          </div><!-- /.col -->
-          <div class="col-sm-4">
-            <!-- write somthing for Midle page header -->
-                        <?php
-                      //include('db_page.php');
-                      $cn=db_connection();
-                      $sql="SELECT * FROM `tbl_students_requests`";
-                      $run=mysqli_query($cn,$sql);
-                      $count=0;
-                      while ($done=mysqli_fetch_array($run)) {
-                        $count=$count+1;
-                      }
-                      if($count>0){
-                        echo "<center><span class='right badge badge-dark'>".$count."</span>"." <span class='right badge badge-danger'> PENDING REQUESTS</span>"."</center>";
-                      }else{
-                        echo "<div style='color:red;'><span class='right badge badge-primary'>NO PENDING REQUESTS</span></div>";
-                      }
-                      
-            ?>
           </div>
-          <div class="col-sm-4">
 
-            <!-- write somthing for Left page header -->
-
-          </div><!-- /.col -->
-        </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
+
+    <!-- jQuery -->
+<script src="plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script src="js/jquery.prettyPhoto.js"></script>
+<script src="js/sequence.jquery.js"></script>
+<script src="js/jquery-hover-effect.js"></script>
+
+<!-- Contact Form JavaScript File -->
+  <script src="contactform/contactform.js"></script>
+
+   <!-- Template Custom Javascript File -->
+  <script src="js/custom.js"></script>
+
+<!-- Select2 -->
+<script src="plugins/select2/js/select2.full.min.js"></script>
+<!-- Bootstrap4 Duallistbox -->
+<script src="plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+<!-- InputMask -->
+<script src="plugins/moment/moment.min.js"></script>
+<script src="plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
+<!-- date-range-picker -->
+<script src="plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Bootstrap Switch -->
+<script src="plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+<!-- SweetAlert2 -->
+<script src="plugins/sweetalert2/sweetalert2.min.js"></script>
+<!-- Toastr -->
+<script src="plugins/toastr/toastr.min.js"></script>
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.min.js"></script>
 
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-lg-12">
-                <!-- write or design something in 6 columns -->
-                <div id="#show">
-                <table id="example2" class="table table-bordere table-hover table-dark">
-                  <thead>
-                    <tr>
-                      <th>S.No</th>
-                      <th>User Name</th>
-                      <th>Email</th>
-                      <th>Phone</th>
-                      <th>Request Date</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                      <?php
-                      $cn=db_connection();
-                      $sql="SELECT * FROM `tbl_students_requests`";
-                      $run=mysqli_query($cn,$sql);
-                      $count = 0;
-                      while($data=mysqli_fetch_array($run)){
-                        $count=$count+1;
-                        ?>
-                       <tr id="data_id">
-                        <td><?php echo /*$data['id']*/$count; ?></td>
-                        <td><?php echo $data['first_name']." ".$data['last_name']; ?></td>
-                        <td><?php echo $data['email']; ?></td>
-                        <td><?php echo $data['phone']; ?></td>
-                        <td><?php echo $data['entry_date_time']; ?></td>
-                        <td><a href="?approve_id=<?php echo $data['id'];?>"  class="btn btn-primary">Accept</a>
-                        <a href="?reject_id=<?php echo $data['id'];?>"  class="btn btn-danger">Reject</a>
-                        <a href="student_details_page.php?details_id=<?php echo $data['id'];?>"  class="btn btn-success">Details</a>
-                        </td>
-                      </tr>
+          <div class="col-lg-4 col-md-3"></div>
+          <div class="col-lg-4 col-md-6">
+                        <div class="card card-maroon">
+                          <div class="card-header">
+                            <h3 class="card-title">Password Recovery</h3>
+                            <div class="card-tools">
+                              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                  <i class="fas fa-minus"></i>
+                              </button>                  
+                            </div>
+                          </div>
+                          <div class="card-body">
+                            <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                              <div class="form-group">
+                              <input type="password" name="old_pass" class="form-control" placeholder="Old Password">                                
+                              </div>
+                              <div class="form-group">
+                                <input type="submit" name="btn_check_pass" class="btn btn-danger btn-block" value="Check" style="font-size: 18px;">
+                              </div>
+                              
+                            </form>
+                          </div>
+                        </div>
+
                         <?php
-                      }
-                      ?>
-                </table>
-                </div>
+if(isset($_POST['btn_check_pass'])){
+  include('functions_page.php');
+  $status = input_recieved($_POST);
+  if($status === true){
+    $status = check_admin_old_pass();
+    if($status === true){
+      ?>
+                      <form method="post" action="#">
+                        <div class="card card-info">
+                          <div class="card-header">
+                            <h3 class="card-title">Change Password</h3>
+                            <div class="card-tools">
+                              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                  <i class="fas fa-minus"></i>
+                              </button>                  
+                            </div>
+                          </div>
+                          <div class="card-body">
+                            <div class="form-group">
+                              <input type="password" name="new_pass" class="form-control" placeholder="Old Password">
+                            </div>
+                            <div class="form-group">
+                              <input type="password" name="confirm_pass" class="form-control" placeholder="Old Password">
+                            </div>
+                            <div class="form-group">
+                              <input type="submit" name="btn_change_pass" class="btn btn-info btn-block" value="Chage" style="font-size: 18px;">
+                            </div>
+                          </div>
+                        </div>
+      </form>
+
+      <?php
+      }else{
+  ?>
+  <script type="text/javascript">
+        $(document).ready(function(){
+              $('.toastsDefaultDanger').ready(function() {
+                $(document).Toasts('create', {
+                  position: 'topRight',
+                  class: 'bg-danger', 
+                  autohide : true,
+                  delay    : 4000,
+                  title: 'Error',
+                  subtitle: 'null field',
+                  body: "Old password <strong>DIDN'T MATCHED</strong>."
+                })
+              });
+        });
+      </script>
+  <?php
+    }
+  }else{
+  ?>
+  <script type="text/javascript">
+        $(document).ready(function(){
+              $('.toastsDefaultDanger').ready(function() {
+                $(document).Toasts('create', {
+                  position: 'topRight',
+                  class: 'bg-danger', 
+                  autohide : true,
+                  delay    : 4000,
+                  title: 'Error',
+                  subtitle: 'null field',
+                  body: 'Old password <strong>REQUIRED</strong>.'
+                })
+              });
+        });
+      </script>
+  <?php
+  }
+}
+?>
+                    
           </div>
-          <!-- /.col-md-6 -->
-          <div class="col-lg-6">
-            <!-- write or design something in 6 columns -->
-          </div>
-          <!-- /.col-md-6 -->
+          <div class="col-lg-4 col-md-3"></div>
         </div>
-        <!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
@@ -588,54 +566,128 @@ scratch. This page gets rid of all links and provides the needed markup only.
 </div>
 <!-- ./wrapper -->
 
-<!-- jQuery -->
-<script src="plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- REQUIRED SCRIPTS -->
-<!-- DataTables -->
-<script src="plugins/datatables/jquery.dataTables.js"></script>
-<script src="plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
-<!-- AdminLTE App -->
-<script src="dist/js/adminlte.min.js"></script>
-
-<!-- page script -->
-<script>
-  $(function () {
-    $("#example1").DataTable();
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": true,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-    });
-  });
+<script type="text/javascript">
+$("input[type=password]").keyup(function(){
+    var ucase = new RegExp("[A-Z]+");
+  var lcase = new RegExp("[a-z]+");
+  var num = new RegExp("[0-9]+");
+  
+  if($("#password1").val().length >= 8){
+    $("#8char").removeClass("glyphicon-remove");
+    $("#8char").addClass("glyphicon-ok");
+    $("#8char").css("color","#00A41E");
+  }else{
+    $("#8char").removeClass("glyphicon-ok");
+    $("#8char").addClass("glyphicon-remove");
+    $("#8char").css("color","#FF0004");
+  }
+  
+  if(ucase.test($("#password1").val())){
+    $("#ucase").removeClass("glyphicon-remove");
+    $("#ucase").addClass("glyphicon-ok");
+    $("#ucase").css("color","#00A41E");
+  }else{
+    $("#ucase").removeClass("glyphicon-ok");
+    $("#ucase").addClass("glyphicon-remove");
+    $("#ucase").css("color","#FF0004");
+  }
+  
+  if(lcase.test($("#password1").val())){
+    $("#lcase").removeClass("glyphicon-remove");
+    $("#lcase").addClass("glyphicon-ok");
+    $("#lcase").css("color","#00A41E");
+  }else{
+    $("#lcase").removeClass("glyphicon-ok");
+    $("#lcase").addClass("glyphicon-remove");
+    $("#lcase").css("color","#FF0004");
+  }
+  
+  if(num.test($("#password1").val())){
+    $("#num").removeClass("glyphicon-remove");
+    $("#num").addClass("glyphicon-ok");
+    $("#num").css("color","#00A41E");
+  }else{
+    $("#num").removeClass("glyphicon-ok");
+    $("#num").addClass("glyphicon-remove");
+    $("#num").css("color","#FF0004");
+  }
+  
+  if($("#password1").val() == $("#password2").val()){
+    $("#pwmatch").removeClass("glyphicon-remove");
+    $("#pwmatch").addClass("glyphicon-ok");
+    $("#pwmatch").css("color","#00A41E");
+  }else{
+    $("#pwmatch").removeClass("glyphicon-ok");
+    $("#pwmatch").addClass("glyphicon-remove");
+    $("#pwmatch").css("color","#FF0004");
+  }
+});  
 </script>
+
 </body>
 </html>
-
-
 <?php
- if(isset($_GET['approve_id'])){
-    $status=approve_students();
-    if($status){
-      
+if(isset($_POST['btn_change_pass'])){
+  include('functions_page.php');
+  $status = input_recieved($_POST);
+  if($status === true){
+    $status = admin_password_change();
+    if($status === true){
+      ?>
+  <script type="text/javascript">
+        $(document).ready(function(){
+              $('.toastsDefaultSuccess').ready(function() {
+                $(document).Toasts('create', {
+                  position: 'topRight',
+                  class: 'bg-success', 
+                  autohide : true,
+                  delay    : 4000,
+                  title: 'Done',
+                  subtitle: 'changed',
+                  body: "Password Changed <strong>Successfully</strong>."
+                })
+              });
+        });
+      </script>
+  <?php
     }else{
-      echo "Error in Approving";
-    }
- }
-   if(isset($_GET['reject_id'])){
-    $status=reject_student();
-      if($status){
-        ?>
-          <script type="text/javascript">
-            window.location='student_requests_page.php';
-          </script>
-          <?php
-      }else{
 
-      }
-   }
+    ?>
+      <script type="text/javascript">
+            $(document).ready(function(){
+                  $('.toastsDefaultDanger').ready(function() {
+                    $(document).Toasts('create', {
+                      position: 'topRight',
+                      class: 'bg-danger', 
+                      autohide : true,
+                      delay    : 4000,
+                      title: 'Error',
+                      subtitle: 'new & confirm',
+                      body: "New & Confirm password <strong>didn't matched</strong>."
+                    })
+                  });
+            });
+          </script>
+      <?php
+    }
+  }else{
+    ?>
+  <script type="text/javascript">
+        $(document).ready(function(){
+              $('.toastsDefaultMaroon').ready(function() {
+                $(document).Toasts('create', {
+                  position: 'topRight',
+                  class: 'bg-maroon', 
+                  autohide : true,
+                  delay    : 4000,
+                  title: 'Error',
+                  subtitle: 'null password',
+                  body: "Empty password <strong>can't be change</strong>."
+                })
+              });
+        });
+      </script>
+  <?php
+  }
+}
 ?>

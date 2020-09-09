@@ -299,12 +299,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
           ?>" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
+          <a href="#">
           <?php
             if(isset($_SESSION["admin_logged_in"])){
               echo $_SESSION["admin_logged_in"]["username"];
             }
           ?>
           <span class="right badge badge-danger"><a href="LogOff_page.php">Log Out</a></span>
+        </a>
         </div>
       </div>
 
@@ -323,7 +325,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
           <li class="nav-item has-treeview menu-close">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-restroom"></i>
               <p>
                 REQUESTS
                 <i class="right fas fa-angle-left"></i>
@@ -376,14 +378,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-key"></i>
               <p>
                 Password Requests
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item"><a href="student_password_requests_page.php" class="nav-link"><i class="far fa-circle nav-icon"></i>
+              <li class="nav-item"><a href="student_password_requests_page.php" class="nav-link"><i class="fas fa-graduation-cap"></i>
               <p>
                <?php
                       $cn=db_connection();
@@ -403,7 +405,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         
                       </p></a>
               </li>
-              <li class="nav-item"><a href="teacher_password_requests_page.php" class="nav-link"><i class="far fa-circle nav-icon"></i>
+              <li class="nav-item"><a href="teacher_password_requests_page.php" class="nav-link"><i class="fas fa-user-md"></i>
               <p>
                  <?php
                       $cn=db_connection();
@@ -424,15 +426,35 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p></a>
               </li>
             </ul>
-          </li>
-          <li class="nav-item">
+            <li class="nav-item has-treeview menu-close">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="nav-icon fas fa-wrench"></i>  <!-- fas fa-cogs -->
               <p>
-                Simple Link
-                <span class="right badge badge-danger">New</span>
+                Account Settings
+                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="admin_profile.php" class="nav-link">
+                  <i class="nav-icon fas fa-id-card nav-icon"></i>
+                  <p>Profile</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="amdin_change_password.php" class="nav-link">
+                  <i class="nav-icon fas fa-lock-open nav-icon"></i>
+                  <p>Change Password</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="LogOff_page.php" class="nav-link">
+                  <i class="nav-icon fas fa-lock nav-icon"></i>
+                  <p>Log Out</p>
+                </a>
+              </li>
+            </ul>
+          </li>
           </li>
         </ul>
       </nav>

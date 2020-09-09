@@ -1,19 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>Assigment Evidence</title>
 </head>
 <body>
 <div style="clear:both">
     <center>
-    <?php  
+    <?php 
+    include('db_page_2.php');
+    $cn=db_connection();
     if(isset($_GET['get_pdf'])){
         $pdf = $_GET['get_pdf'];
+        if(file_exists($pdf)){
+        ?>
+        <embed src="<?php echo $pdf; ?>" width="800px" height="2100px" />
+        <?php
+        }else{
+            echo "<h1 align='center' style='color:red'>No Evidence Found !</h1>";
+        }
+        
+    }else if(isset($_GET['view_evidence_id'])){
+                    $id=$_GET['view_evidence_id'];
+                    $sql="SELECT * FROM `submit_assigments` WHERE `primary_key`='$id'";
+                    $getting=mysqli_query($cn,$sql);
+                    if(mysqli_num_rows($getting)>0){
+                      while ($get_submit_data=mysqli_fetch_array($getting)) {
+                        $id_b=$get_submit_data['std_id'];
+                        $fk_assigment=$get_submit_data['assigment'];
+                      }
+                    }
+
+                    $sql="SELECT * FROM `attach_evidences` WHERE `id`='$id_b' and `assigment`='$fk_assigment'";
+                    $getting=mysqli_query($cn,$sql);
+                    if(mysqli_num_rows($getting)>0){
+                      while ($get_submit_data=mysqli_fetch_array($getting)) {
+                        $id_b=$get_submit_data['id'];
+                        $fk_assigment=$get_submit_data['assigment'];
+                        $fk_assigment_files=$get_submit_data['files'];
+                        if(file_exists($fk_assigment_files)){
+                            ?>
+                        <embed src="<?php echo $fk_assigment_files; ?>" />
+                            <hr>
+                        <?php
+                        }else{
+                            echo "<h1 align='center' style='color:red'>No Evidence Found !</h1>";
+                        }
+                      }
+                    }
+
+        
     }else{
-        echo "<h1 align='center' color='red'>No Pdf Found!..</h1>";
+        echo "<h1 align='center' style='color:red'>No Evidence Found !</h1>";
     }
     ?>
-  <embed src="<?php echo $pdf; ?>" width="800px" height="2100px" />
+  
     </center>
 </div>
 

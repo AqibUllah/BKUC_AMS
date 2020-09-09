@@ -91,41 +91,144 @@ if(isset($_POST['btn_login_signIn'])){
 		$status=validate_sanitize_login_inputs($_POST);
 		if(is_array($status)){
 			include('db_page.php');
-			$student=authenticate_student($status);
-			$admin=atuthenticate_admin($status);
-			$lecturer=atuthenticate_lecturer($status);
-			if(is_array($admin)){
-				$_SESSION["admin_logged_in"]=$admin;
-				header("location:admin_main_dashboard.php");
-					
-				
-			} if(is_array($student)){
-				$_SESSION["student_logged_in"]=$student;
-				header("location:Student_Dashboard.php");
-			}
-			if(is_array($lecturer)){
-				$_SESSION["lecturer_logged_in"]=$lecturer;			
-				header("location:Lecturer_Dashboard.php");
-			}
-			else
-			{
-				?>
-				<script type="text/javascript">
-					$(document).ready(function(){
-						    $('.toastsDefaultDanger').ready(function() {
-						      $(document).Toasts('create', {
-						        class: 'bg-danger',
-                    autohide : true,
-                    delay    : 4000, 
-						        title: 'Error',
-						        subtitle: 'Invalid ID',
-						        body: 'Invalid Email OR Password.'
-						      })
-						    });
-					});
-				</script>
-				<?php
-				}
+      $cn=db_connection();
+      $input_email=$_POST['std_login_email'];
+      //super admin
+      $sql="select * from `tbl_super_admin` where `email`='$input_email'";
+      $stmt = mysqli_query($cn,$sql);
+      //lecturer
+      $sql_a="SELECT * FROM `registred_lecturers` WHERE `email`='$input_email'";
+      $stmt_a = mysqli_query($cn,$sql_a);
+      //student
+      $sql_b="select * from `registred_students` where `email`='$input_email'";
+      $stmt_b = mysqli_query($cn,$sql_b);
+      if(mysqli_num_rows($stmt)>0){
+                $student=authenticate_student($status);
+                $admin=atuthenticate_admin($status);
+                $lecturer=atuthenticate_lecturer($status);
+                if(is_array($admin)){
+                  $_SESSION["admin_logged_in"]=$admin;
+                  header("location:admin_main_dashboard.php");
+                    
+                  
+                } if(is_array($student)){
+                  $_SESSION["student_logged_in"]=$student;
+                  header("location:Student_Dashboard.php");
+                }
+                if(is_array($lecturer)){
+                  $_SESSION["lecturer_logged_in"]=$lecturer;      
+                  header("location:Lecturer_Dashboard.php");
+                }
+                else
+                {
+                  ?>
+                  <script type="text/javascript">
+                    $(document).ready(function(){
+                          $('.toastsDefaultDanger').ready(function() {
+                            $(document).Toasts('create', {
+                              class: 'bg-danger',
+                              autohide : true,
+                              delay    : 4000, 
+                              title: 'Error',
+                              subtitle: 'Invalid ID',
+                              body: 'Invalid Email OR Password.'
+                            })
+                          });
+                    });
+                  </script>
+                  <?php
+                  }
+      }elseif(mysqli_num_rows($stmt_a)>0){
+                  $student=authenticate_student($status);
+                  $admin=atuthenticate_admin($status);
+                  $lecturer=atuthenticate_lecturer($status);
+                  if(is_array($admin)){
+                    $_SESSION["admin_logged_in"]=$admin;
+                    header("location:admin_main_dashboard.php");
+                      
+                    
+                  } if(is_array($student)){
+                    $_SESSION["student_logged_in"]=$student;
+                    header("location:Student_Dashboard.php");
+                  }
+                  if(is_array($lecturer)){
+                    $_SESSION["lecturer_logged_in"]=$lecturer;      
+                    header("location:Lecturer_Dashboard.php");
+                  }
+                  else
+                  {
+                    ?>
+                    <script type="text/javascript">
+                      $(document).ready(function(){
+                            $('.toastsDefaultDanger').ready(function() {
+                              $(document).Toasts('create', {
+                                class: 'bg-danger',
+                                autohide : true,
+                                delay    : 4000, 
+                                title: 'Error',
+                                subtitle: 'Invalid ID',
+                                body: 'Invalid Email OR Password.'
+                              })
+                            });
+                      });
+                    </script>
+                    <?php
+                    }
+      }elseif(mysqli_num_rows($stmt_b)>0){
+                    $student=authenticate_student($status);
+                    $admin=atuthenticate_admin($status);
+                    $lecturer=atuthenticate_lecturer($status);
+                    if(is_array($admin)){
+                      $_SESSION["admin_logged_in"]=$admin;
+                      header("location:admin_main_dashboard.php");
+                        
+                      
+                    } if(is_array($student)){
+                      $_SESSION["student_logged_in"]=$student;
+                      header("location:Student_Dashboard.php");
+                    }
+                    if(is_array($lecturer)){
+                      $_SESSION["lecturer_logged_in"]=$lecturer;      
+                      header("location:Lecturer_Dashboard.php");
+                    }
+                    else
+                    {
+                      ?>
+                      <script type="text/javascript">
+                        $(document).ready(function(){
+                              $('.toastsDefaultDanger').ready(function() {
+                                $(document).Toasts('create', {
+                                  class: 'bg-danger',
+                                  autohide : true,
+                                  delay    : 4000, 
+                                  title: 'Error',
+                                  subtitle: 'Invalid ID',
+                                  body: 'Invalid Email OR Password.'
+                                })
+                              });
+                        });
+                      </script>
+                      <?php
+                      }
+      }else{
+        ?>
+      <script type="text/javascript">
+        $(document).ready(function(){
+              $('.toastsDefaultMaroon').ready(function() {
+                $(document).Toasts('create', {
+                  class: 'bg-maroon', 
+                  autohide : true,
+                  delay    : 4000,
+                  title: 'Error',
+                  subtitle: 'Not Found',
+                  body: 'User Not <strong>Exists</strong>.'
+                })
+              });
+        });
+      </script>
+      <?php
+      }
+			
 
 		}else{
 			?>

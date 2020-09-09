@@ -208,12 +208,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
             } ?>
         </div>
         <div class="info">
+          <a href="lecturer_profile.php">
           <?php
             if(isset($_SESSION["lecturer_logged_in"])){
               echo $_SESSION["lecturer_logged_in"]["username"];
             }
-          ?><br>
-          <span class="right badge badge-danger"><a href="LogOff_page.php">Log Out</a></span>
+          ?>
+        </a>
         </div>
       </div>
 
@@ -234,16 +235,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <a href="creat_assigment.php" class="nav-link active">
               <i class="nav-icon fas fa-file"></i>
               <p>
-                Creat Assigment
+                New Assigment
                 <span class="right badge badge-danger">New</span>
               </p>
             </a>
           </li>
-             <li class="nav-item">
+          <li class="nav-item">
             <a href="assigment_list.php" class="nav-link">
-              <i class="nav-icon fas fa-list"></i>
+              <i class="nav-icon fas fa-check"></i>
               <p>
-                Assigment List
+                Created Assigments
               </p>
             </a>
           </li>

@@ -210,12 +210,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
             } ?>
         </div>
         <div class="info">
+          <a href="student_profile.php">
           <?php
             if(isset($_SESSION["student_logged_in"])){
               echo $_SESSION["student_logged_in"]["first_name"];
             }
-          ?><br>
-          <span class="right badge badge-danger"><a href="LogOff_page.php">Log Out</a></span>
+          ?>
+        </a>
         </div>
       </div>
 
@@ -307,7 +308,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <!-- write or design something in 12 columns -->
                 <?php
                   $std_email=$_SESSION["student_logged_in"]["std_email"];
-                  $sql="SELECT * FROM `submitted_assigments` WHERE `email`='$std_email'";
+                  $sql="SELECT * FROM `student_whose_submitted` WHERE `email`='$std_email'";
                   $run=mysqli_query($cn,$sql);
                   if(mysqli_num_rows($run)>0){
                     while($get_data=mysqli_fetch_array($run)){
@@ -321,7 +322,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     $student_faculty=$get_data['faculty'];
                     $std_assigment_title=$get_data['title'];
                     $std_assigment_description=$get_data['description'];
-                    $assigment_evidence=$get_data['evidence'];
                     $assigment_submitted_date=$get_data['submitted_date'];
                   }
                   }
@@ -336,6 +336,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <!-- <th style="text-align: center;">Due date</th> -->
                 <th style="text-align: center;">Submnitted on</th>
                 <th style="text-align: center;">Status</th>
+                <th style="text-align: center;">Confirmation</th>
                 <th style="text-align: center;">Action</th>
               </tr>
               </thead>
@@ -344,19 +345,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   $assigment_count=0;
                   if(mysqli_num_rows($run)>0){
                     $sql="SELECT * FROM `submit_assigments` WHERE `std_id`='$_id'";
-                  $run=mysqli_query($cn,$sql);
-                  while($get_data=mysqli_fetch_array($run)){
-                    $submitted_id=$get_data['std_id'];
-                    $submitted_assigment=$get_data['assigment'];
-                    $submitted_on=$get_data['submitted_on'];
-                    $assigment_count+=1;
-                    ;
+                    $run=mysqli_query($cn,$sql);
+                    while($get_data=mysqli_fetch_array($run)){
+                      $submitted_id=$get_data['std_id'];
+                      $submitted_assigment=$get_data['assigment'];
+                      $submitted_on=$get_data['submitted_on'];
+                      $assigment_count+=1;
+                      
 
                     ?>
                     <tr>
                       <td><?php echo $assigment_count; ?></td>
                       <td><?php echo $submitted_assigment; ?></td>
                       <td><?php echo $submitted_on; ?></td>
+                      <td><?php echo "<span class='badge badge-success'>Completed</span>";?></td>
                       <td><?php echo "<span class='badge badge-primary'>pending</span>";?></td>
                       <td class="text-center py-0 align-middle">
                         <div class="btn-group btn-group-sm">

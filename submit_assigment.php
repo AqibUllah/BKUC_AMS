@@ -7,7 +7,7 @@ session_start();
 ?>
 
 <?php
-include 'db_page.php';
+include 'db_page_2.php';
 $cn=db_connection();
 $sql="SELECT * FROM `creat_assigment`";
 $run=mysqli_query($cn,$sql);
@@ -76,7 +76,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
-
+<?php
+if(isset($_GET["extension_error"])){
+                // echo "<div style='color:red;font-size:20px;text-align:center;'>Some Files are not acceptable check your files and then try again</div>";
+  echo $_GET['extension_error'];
+              }
+?>
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
@@ -227,12 +232,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
             } ?>
         </div>
         <div class="info">
+          <a href="student_profile.php">
           <?php
             if(isset($_SESSION["student_logged_in"])){
               echo $_SESSION["student_logged_in"]["first_name"];
             }
-          ?><br>
-          <span class="right badge badge-danger"><a href="LogOff_page.php">Log Out</a></span>
+          ?>
+        </a>
         </div>
       </div>
 
@@ -352,10 +358,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <center>
                   <div class="card">
                     <div class="card-header bg-dark">
-                      <h3>Your Evodince</h3>
-                      <?php
-
-                            echo $assigment_name; ?>
+                      <h3>Your Evoidence</h3>
                     </div>
                     <div class="card-body">
                       <form method="post" enctype="multipart/form-data">
@@ -393,7 +396,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <textarea class="form-control" name="txt_description" placeholder="Description"></textarea>
                         </div>
                         <div class="form-group">
-                          <input type="file" id="upload_evidence" name="btn_evidence" value="Evidence"
+                          <input type="file" id="upload_evidence" multiple name="btn_evidence[]" value="Evidence"
                            hidden onchange="readURL(this);">
                            
                     <label for="upload_evidence" id="selector">Upload Your Evidence <span class="fas fa-file"></span></label>
@@ -512,162 +515,28 @@ if(isset($_POST['btn_submit_assigment'])){
   include('functions_page.php');
   $status = input_recieved($_POST);
   if($_POST['txt_assigment_name'] == true and $_POST['txt_title'] == true and $_POST['txt_description']==true){
-          $uploaded_dir   = 'submitted  assigments/';
-          $filename       = $_FILES["btn_evidence"]["name"];
-          $uploaded_dir  .= $filename;
+          
+          //$uploaded_dir   = 'submitted  assigments/';
+          
+          $count          =  count($_FILES["btn_evidence"]["name"]);
+          //$uploaded_dir  .= $filename;
           $tmp_dir        =$_FILES["btn_evidence"]["tmp_name"];
           //$size           =$_FILES["btn_evidence"]["size"];
           //$file_type      =$_FILES['btn_evidencebtn_evidence']['type'];
           //$new_size       = $size/1024;   // new size
-          $text     =pathinfo($filename,PATHINFO_EXTENSION);
-          $uploaded=move_uploaded_file($tmp_dir, $uploaded_dir);
-          if(pathinfo($filename, PATHINFO_EXTENSION)!=null){
+          for($i=0;$i<$count;$i++){
+          $filename       =  $_FILES["btn_evidence"]["name"][$i];
+          $text             =pathinfo($filename,PATHINFO_EXTENSION);
+          }
+         
+          //$uploaded=move_uploaded_file($tmp_dir, $uploaded_dir);
+          if($text!=null){/*
             if($text == 'jpg' or $text == 'JPG' or $text == 'png' or $text == 'PNG' or
                $text == 'gif' or $text == 'GIF' or $text == 'jpeg' or $text == 'GPEG' or $text == 'pdf'
-               or $text == 'PDF' or $text == 'docx' or $text == 'DOCX' or $text == 'txt' or $text == 'TXT' or $text == 'doc' or $text == 'DOC'){
-
-              //$status = submit_assigment();
-
-              $cn=db_connection();
-              $id=$_SESSION["student_logged_in"]['id'];
-              $user_name=$_SESSION['student_logged_in']['first_name'];
-              $user_email=$_SESSION['student_logged_in']['std_email'];
-              $login_student_image=$_SESSION['student_logged_in']['student_image'];
-              $_assigment=$_POST["txt_assigment_name"];
-
-              $sql="SELECT * FROM `submitted_assigments` WHERE `email`='$user_email'";
-              $done=mysqli_query($cn,$sql);
-              if(mysqli_num_rows($done)>0){
-
-                while ($get=mysqli_fetch_assoc($done)) {
-                $std_department = $get['department'];
-                $Submitter_ID = $get['id'];
-                $std_faculty = $get['faculty'];
-                $std_semester = $get['semester'];
-                $std_image = $get['std_img'];
-                $Submitter_email = $get['email'];
-                
-                }
-
-                $sql="SELECT * FROM `submit_assigments` WHERE `std_id`='$Submitter_ID'";
-                $done=mysqli_query($cn,$sql);
-                if(mysqli_num_rows($done)>0){
-                  while ($get_submitting_data=mysqli_fetch_assoc($done)) {
-                  $COMP_forien_Key = $get_submitting_data['std_id'];
-                  $_COMP_EVIDENCE = $get_submitting_data['assigment'];
-                  $COMP_ON_SUBMITTED = $get_submitting_data['submitted_on'];
-                  $COMP_PK1 = $get_submitting_data['primary_key'];
-
-                  $array = array('$fk_id' => $COMP_forien_Key, '$_Evidence'=> $_COMP_EVIDENCE, '$date_on_submitted'=>$COMP_ON_SUBMITTED, 'pk'=>$COMP_PK1);
-                    foreach ($array as $arr => $value) {
-                      echo $value."<br>";
-                    }
-
-                  $sql="SELECT * FROM `submit_assigments` WHERE `assigment`='$_COMP_EVIDENCE'";
-                  $done=mysqli_query($cn,$sql);
-                  while ($get_submitting_data=mysqli_fetch_assoc($done)) {
-                    $FOREN_KEY = $get_submitting_data['std_id'];
-                    $EVIDENCE = $get_submitting_data['assigment'];
-                    $Date_ON_SUBMITTED = $get_submitting_data['submitted_on'];
-                    $PK2 = $get_submitting_data['primary_key'];
-
-                    $array = array('$fk_id' => $FOREN_KEY, '$_Evidence'=> $EVIDENCE, '$date_on_submitted'=>$Date_ON_SUBMITTED, 'pk'=>$PK2);
-                    foreach ($array as $arr => $value) {
-                      echo $value."<br>";
-                    }
-
-                    //echo $_evidence;exit();
-                    echo "<br>".$PK2."<br>";
-                    echo "<br>".$FOREN_KEY."<br>";
-                    echo "<br>".$EVIDENCE."<br>";
-                    echo "<br>".$_assigment."<br>";
-                    //exit();
-                    $submitted_on=date('m/d/Y h:i A');
-                    if($Submitter_ID == $FOREN_KEY and $_COMP_EVIDENCE!= $_assigment and $COMP_PK1 != $PK2){
-                    
-                       $sql_fk="INSERT INTO `submit_assigments`(`std_id`,`assigment`,`submitted_on`) 
-                          VALUES ('$Submitter_ID','$_assigment','$submitted_on')";
-                       $add = mysqli_query($cn,$sql_fk);
-                       mysqli_close($cn);
-                      echo "submitted<br>";
-                  }else{
-                    echo "false<br>";
-                  }
-                  }
-
-                  
-                }
-                  }else{
-                    $submitted_on=date('m/d/Y h:i A');
-                    $sql_fk="INSERT INTO `submit_assigments`(`std_id`,`assigment`,`submitted_on`) 
-                          VALUES ('$Submitter_ID','$_assigment','$submitted_on')";
-                       $add = mysqli_query($cn,$sql_fk);
-                       mysqli_close($cn);
-                      echo "submitted<br>";
-                  }
-                
-
-              }else{
-
-                $sql="SELECT * FROM `registred_students` WHERE `id`='$id'";
-                $getting=mysqli_query($cn,$sql);
-                if(mysqli_num_rows($getting)>0){
-                  while ($get_std_info=mysqli_fetch_assoc($getting)) {
-                    $_loggedIn_std_department=$get_std_info['department'];
-                    $_loggedIn_std_faculty=$get_std_info['faculty'];
-                    $_loggedIn_std_semester=$get_std_info['semester'];
-                  }
-                }
-                 $sql="INSERT INTO `submitted_assigments`(`std_name`, `email`, `department`, 
-                                    `semester`, `faculty`, `std_img`, `title`, `description`, 
-                                    `evidence`, `submitted_date`) VALUES (?,?,?,?,?,?,?,?,?,?)";
-                  $stmt=mysqli_prepare($cn,$sql);
-                  if($stmt){
-                    $uploaded_dir = 'submitted  assigments/';
-                    $filename   = $_FILES["btn_evidence"]["name"];
-                    $uploaded_dir.= $filename;
-                    $tmp_dir    =$_FILES["btn_evidence"]["tmp_name"];
-                    $size       =$_FILES["btn_evidence"]["size"];
-                    $file_type    =$_FILES['btn_evidence']['type'];
-                    $new_size = $size/1024;   // new size
-                    $text     =pathinfo($filename,PATHINFO_EXTENSION);
-
-                    $user_name=$_SESSION['student_logged_in']['first_name'];
-                    $user_email=$_SESSION['student_logged_in']['std_email'];
-                    $login_student_image=$_SESSION['student_logged_in']['student_image'];
-                    $_assigment=$_POST["txt_assigment_name"];
-
-                    $assigment=$_POST["txt_assigment_name"];
-                    $assigment_title=$_POST["txt_title"];
-                    $assigment_discription=$_POST["txt_description"];
-                    $submitted_date=date('m/d/Y h:i A');
-                    mysqli_stmt_bind_param($stmt, 'ssssssssss',$user_name,$user_email,$_loggedIn_std_department,$_loggedIn_std_semester,$_loggedIn_std_faculty,$login_student_image,$assigment_title,$assigment_discription,$uploaded_dir,$submitted_date);
-                    $status_a = mysqli_stmt_execute($stmt);
-
-                    if($status_a){
-                    $submitted_on=date('m/d/Y h:i A');
-                    $sql_fk="INSERT INTO `submit_assigments`(`std_id`,`assigment`,`submitted_on`) 
-                         VALUES ('$id','$_assigment','$submitted_on')";
-                    $add = mysqli_query($cn,$sql_fk);
-                      mysqli_stmt_close($stmt);
-                      mysqli_close($cn);
-                      echo "submitted";
-                    }else{
-
-                      echo "not submitted";
-                      mysqli_stmt_close($stmt);
-                      mysqli_close($cn);
-                    }
-
-                    
-                  }else{
-                    mysqli_stmt_close($stmt);
-                    mysqli_close($cn);
-                     echo "not submitted";
-                  }
-
-              }
-
+               or $text == 'PDF' or $text == 'docx' or $text == 'DOCX' or $text == 'txt' or $text == 'TXT' or $text == 'doc' or $text == 'DOC'){*/
+              //include('db_page_2.php');
+              $status = submit_assigment_multiple();
+              
               if($status === true){
                 ?>
                 <script type="text/javascript">
@@ -685,10 +554,28 @@ if(isset($_POST['btn_submit_assigment'])){
                   });
                 </script>
               <?php
-              }else{
-                if(file_exists($uploaded_dir)){
-                  unlink($uploaded_dir);
-                }
+              }elseif($status === "extension_error"){
+                ?>
+                <script type="text/javascript">
+                  $(document).ready(function(){
+                    $('.toastsDefaultDanger').ready(function() {
+                      $(document).Toasts('create', {
+                        class: 'bg-danger', 
+                        title: 'Files Error',
+                        autohide:true,
+                        delay:10000,
+                        subtitle: 'not submit',
+                        body: 'Some files can not be acceptable plz check your files and then try gain.'
+                      })
+                    });
+                  });
+                </script>
+              <?php
+              }
+              else{
+                // if(file_exists($uploaded_dir)){
+                //   unlink($uploaded_dir);
+                // }
                 ?>
                 <script type="text/javascript">
                   $(document).ready(function(){
@@ -706,7 +593,7 @@ if(isset($_POST['btn_submit_assigment'])){
                 </script>
               <?php
               }
-            }else{
+           /*}else{
               ?>
                     <script type="text/javascript">
                       $(document).ready(function(){
@@ -724,7 +611,7 @@ if(isset($_POST['btn_submit_assigment'])){
                       });
                     </script>
                   <?php
-            }
+            }*/
           }else{
             ?>
                     <script type="text/javascript">

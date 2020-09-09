@@ -206,12 +206,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
             } ?>
         </div>
         <div class="info">
+          <a href="">
           <?php
             if(isset($_SESSION["lecturer_logged_in"])){
               echo $_SESSION["lecturer_logged_in"]["username"];
             }
-          ?><br>
-          <span class="right badge badge-danger"><a href="LogOff_page.php">Log Out</a></span>
+          ?>
+        </a>
         </div>
       </div>
 
@@ -233,15 +234,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <i class="nav-icon fas fa-file"></i>
               <p>
                 Creat Assigment
-                <span class="right badge badge-danger">New</span>
+                <span class="right badge badge-info">New</span>
               </p>
             </a>
           </li>
              <li class="nav-item">
             <a href="assigment_list.php" class="nav-link active">
-              <i class="nav-icon fas fa-list"></i>
+              <i class="nav-icon fas fa-check"></i>
               <p>
-                Assigment List
+               Created Assigment
               </p>
             </a>
           </li>
@@ -331,7 +332,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 $current=strtotime($current);
                 //$time=time('H:ia');
                 $end = strtotime($last_date);
-                if($end >= $current){
+                //if($end >= $current){
                   $diff= abs($current-$end);
 
                   $a=abs($diff-$end);
@@ -357,7 +358,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           - $compare_hours*60*60 - $compare_minutes*60));
 
 
-                }
+                //}
                 $years = floor($diff / (365*60*60*24));
 
                 $months = floor(($diff - $years * 365*60*60*24) 

@@ -206,12 +206,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
             } ?>
         </div>
         <div class="info">
+          <a href="student_profile.php">
           <?php
             if(isset($_SESSION["student_logged_in"])){
               echo $_SESSION["student_logged_in"]["first_name"];
             }
-          ?><br>
-          <span class="right badge badge-danger"><a href="LogOff_page.php">Log Out</a></span>
+          ?>
+          </a>
         </div>
       </div>
 
@@ -316,19 +317,66 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <tbody>
                   <?php
                     $sql="SELECT * FROM `creat_assigment`";
-                    $run=mysqli_query($cn,$sql);
+                    $run_a=mysqli_query($cn,$sql);
                     $id_count=0;
-                    while($get_data=mysqli_fetch_array($run)){
+                    while($get_data_a=mysqli_fetch_array($run_a)){
                     $id_count+=1;
-                    $id=$get_data['id'];
-                    $start_date=substr($get_data['time_duration'],0,19);
-                    $last_date=substr($get_data['time_duration'], 22);
+                    $id=$get_data_a['id'];
+                    $assigment=$get_data_a['ass_name'];
+                    $department=$get_data_a['department'];
+                    $time_duration=$get_data_a['time_duration'];
+                    $start_date=substr($get_data_a['time_duration'],0,19);
+                    $last_date=substr($get_data_a['time_duration'], 22);
                     $start = strtotime($start_date);
                     $current=date("m/d/Y h:i:s A");
                     $current=strtotime($current);
                     $end = strtotime($last_date);
-                    //echo $end;
-                    if($end >= $current){
+
+                    $std_email=$_SESSION["student_logged_in"]["std_email"];
+                    $sql="SELECT * FROM `student_whose_submitted` WHERE `email`='$std_email'";
+                    $run=mysqli_query($cn,$sql);
+                    if(mysqli_num_rows($run)>0){
+                      while($get_data=mysqli_fetch_array($run)){
+                      $_id=$get_data['id'];
+                      //$assigment_name=$get_data['sibmitted_assigment'];
+                      $student_name=$get_data['std_name'];
+                      $student_email=$get_data['email'];
+                      $student_department=$get_data['department'];
+                      $student_semester=$get_data['semester'];
+                      $student_submitted_Date=$get_data['submitted_date'];
+                      $student_faculty=$get_data['faculty'];
+                      $std_assigment_title=$get_data['title'];
+                      $std_assigment_description=$get_data['description'];
+                      $assigment_submitted_date=$get_data['submitted_date'];
+                      }
+                      $sql="SELECT * FROM `submit_assigments` WHERE `std_id`='$_id' and `assigment`='$assigment'";
+                      $run=mysqli_query($cn,$sql);
+                    }
+
+                      
+                      if(mysqli_num_rows($run)>0){
+                        while ($submitter=mysqli_fetch_assoc($run)) {
+                          $student_submitted_on=$submitter['submitted_on'];
+                        }
+                        ?>
+                        <tr>
+                        <td><?php echo $id_count; ?></td>
+                        <td style="text-align: center;"><?php echo $get_data_a['ass_name']; ?></td>
+                        <td style="text-align: center;"><?php echo $get_data_a['department']."<br>".$get_data['semester']; ?></td>
+                        <td style="text-align: center;"><?php echo "<i class='fas fa-clock'></i> ".$last_date; ?></td>
+                        <td style="text-align: center;"><?php echo "<p><span class='badge badge-success'>Submitted on : $student_submitted_on</span></p>"; ?></td>
+                        <td align="center">
+                          <span class="badge badge-success">Completed</span>
+                        </td>
+                        <td class="float-right" style="width: 142px;">
+                          <a href="#" class="btn btn-secondary btn-block">Submitted</a>
+                        </td>
+                      </tr>                          
+                        <?php
+
+                      }else{
+
+                        //if($end >= $current){
                       $diff= abs($current-$end);
 
 
@@ -355,7 +403,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               - $compare_hours*60*60 - $compare_minutes*60));
 
 
-                    }
+                    //}
                     $years = floor($diff / (365*60*60*24));
 
                     $months = floor(($diff - $years * 365*60*60*24) 
@@ -378,12 +426,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                     $calc = (($days*24)+$hours)*(100)/(($compare_days*24)+$compare_hours); 
 
+
+
                   ?>
 
                 <tr>
                 <td><?php echo $id_count; ?></td>
-                <td style="text-align: center;"><?php echo $get_data['ass_name']; ?></td>
-                <td style="text-align: center;"><?php echo $get_data['department']."<br>".$get_data['semester']; ?></td>
+                <td style="text-align: center;"><?php echo $get_data_a['ass_name']; ?></td>
+                <td style="text-align: center;"><?php echo $get_data_a['department']."<br>".$get_data_a['semester']; ?></td>
                 <td style="text-align: center;"><?php echo "<i class='fas fa-clock'></i> ".$last_date; ?></td>
                 <td style="text-align: center;"><?php if($end>$current){echo "<i class='fas fa-clock'></i> ".$days." days ".$hours." hourse ".$minutes." minutes Remaining";}else{echo "<span class='badge badge-maroon bg-danger'>Time Out</span>";} ?></td>
                 <?php if($end>$current){if($calc > 8.99){
@@ -403,7 +453,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     ?><a href="#?get_id=<?php echo $get_data['id']; ?>" class="btn btn-danger btn-block">Can't be submit <i class="fas fa-angle-right"></i></a><?php
                   }else{
                     ?>
-                    <a href="assigments_details.php?get_id=<?php echo $get_data['id']; ?>" class="btn btn-info">Details <i class="fas fa-angle-right"></i></a>
+                    <a href="assigments_details.php?get_id=<?php echo $get_data_a['id']; ?>" class="btn btn-info">Details <i class="fas fa-angle-right"></i></a>
                     <a href="submit_assigment.php?assigment_id=<?php echo $id; ?>" class="btn btn-success">Submit <i class="fas fa-angle-right"></i></a><?php
                   } ?>
                 </td>
@@ -411,7 +461,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <?php
                     
 
-                  }
+                           }
+                        
+                      }
+
+                    
                   ?>
 
                 </tbody>

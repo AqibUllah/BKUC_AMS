@@ -5,6 +5,21 @@ session_start();
             header("location:login_page.php");
           }
 ?>
+
+<?php
+            include('db_page.php');
+            $cn=db_connection();
+            $id_count=0;
+            $lec_name=$_SESSION["lecturer_logged_in"]["username"];
+                    $sql="SELECT * FROM `creat_assigment` WHERE 
+                        `created_by`='$lec_name'";
+                    $run_b=mysqli_query($cn,$sql);
+                    if(mysqli_num_rows($run_b)>0){
+                      while ($get=mysqli_fetch_assoc($run_b)) {
+                        $id_count+=1;
+                      }
+                    }
+            ?>
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -20,6 +35,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+   <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- DataTables -->
   <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.css">
   <!-- Theme style -->
@@ -180,12 +197,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
             } ?>
         </div>
         <div class="info">
+          <a href="lecturer_profile.php">
           <?php
             if(isset($_SESSION["lecturer_logged_in"])){
               echo $_SESSION["lecturer_logged_in"]["username"];
             }
-          ?><br>
-          <span class="right badge badge-danger"><a href="LogOff_page.php">Log Out</a></span>
+          ?>
+          </a>
         </div>
       </div>
 
@@ -204,18 +222,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
           <li class="nav-item">
             <a href="creat_assigment.php" class="nav-link">
-              <i class="nav-icon fas fa-file"></i>
+              <i class="nav-icon fas fa-files-o"></i>
               <p>
-                Creat Assigment
-                <span class="right badge badge-danger">New</span>
+                New Assigment
+                <span class="right badge badge-info">New</span>
               </p>
             </a>
           </li>
-             <li class="nav-item">
+          <li class="nav-item">
             <a href="assigment_list.php" class="nav-link">
-              <i class="nav-icon fas fa-list"></i>
+              <i class="nav-icon fas fa-check"></i>
               <p>
-                Assigment List
+                Created Assigments
+                
               </p>
             </a>
           </li>
@@ -263,70 +282,103 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="row mb-2">
 
           <div class="col-12 col-sm-6 col-md-3">
-            <a href="creat_assigment.php">
-            <div class="info-box">
-              <span class="info-box-icon bg-info elevation-1"><i class="fas fa-file"></i></span>
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h3>Creat</h3>
 
-              <div class="info-box-content">
-                <span class="info-box-text">Creat Assigment</span>
-                <span class="info-box-number">
-                  10
-                  <small>%</small>
-                </span>
+                <p>New Assigment</p>
               </div>
-              <!-- /.info-box-content -->
+              <div class="icon">
+                <i class="ion ion-paintbucket"></i>
+              </div>
+              <a href="creat_assigment.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
-            <!-- /.info-box -->
-          </a>
           </div>
           <!-- /.col -->
 
           <div class="col-12 col-sm-6 col-md-3">
-            <a href="#">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-users"></i></span>
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3><?php
+                if(mysqli_num_rows($run_b)>0){
+                  
+                  echo $id_count;
+                }else{
+                  echo "0";
+                }
+                ?></h3>
 
-              <div class="info-box-content">
-                <span class="info-box-text">Claims</span>
-                <span class="info-box-number">41,410</span>
+                <p>Created Assigments</p>
               </div>
-              <!-- /.info-box-content -->
+              <div class="icon">
+                <i class="ion ion-document-text"></i>
+              </div>
+              <a href="assigment_list.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
-            <!-- /.info-box -->
-          </a>
           </div>
           <!-- /.col -->
            <!-- fix for small devices only -->
           <div class="clearfix hidden-md-up"></div>
           <div class="col-12 col-sm-6 col-md-3">
-            <a href="assigment_list.php">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-list"></i></span>
-               <div class="info-box-content">
-                <span class="info-box-text">Assigment Lists</span>
-                <span class="info-box-number">760</span>
+            <!-- small box -->
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <?php
+                $sql="SELECT * FROM `submit_assigments` WHERE 
+                        `assigment_was_created_by`='$lec_name'";
+                    $run_b=mysqli_query($cn,$sql);
+                  if(mysqli_num_rows($run_b)>0){
+                    //if(mysqli_num_rows($run_b)>0){
+                    $assigment_count=0;
+                    while($get_data_b=mysqli_fetch_assoc($run_b)){
+                    $assigment_count+=1;
+                  }
+                  echo "<h3>$assigment_count</h3>";
+                }else{
+                  echo "<h3>0</h3>";
+                }
+                ?>
+                
+
+                <p>Students Submitted</p>
               </div>
-              <!-- /.info-box-content --> 
-             
-              
+              <div class="icon">
+                <?php
+                if(mysqli_num_rows($run_b)==1){
+                  ?>
+                  <i class="ion ion-person"></i>
+                  <?php
+                }elseif(mysqli_num_rows($run_b)>1){
+                  ?>
+                  <i class="ion ion-person-add"></i>
+                  <?php
+                }else{
+                  ?>
+                  <i class="ion ion-bag"></i>
+                  <?php
+                }
+                ?>
+                
+              </div>
+              <a href="show_assigment_submitted_list_to_lecturer.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
-            <!-- /.info-box -->
-          </a>
           </div>
           <!-- /.col -->
            <div class="col-12 col-sm-6 col-md-3">
-            <a href="show_assigment_submitted_list_to_lecturer.php">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
+            <!-- small box -->
+            <div class="small-box bg-danger">
+              <div class="inner">
+                <h3>65</h3>
 
-              <div class="info-box-content">
-                <span class="info-box-text">Submitted Assigments</span>
-                <span class="info-box-number">2,000</span>
+                <p>Confirmation Visitors</p>
               </div>
-              <!-- /.info-box-content -->
+              <div class="icon">
+                <i class="ion ion-pie-graph"></i>
+              </div>
+              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
-            <!-- /.info-box -->
-          </a>
+          
           </div>
           <!-- /.col -->
         </div><!-- /.row -->

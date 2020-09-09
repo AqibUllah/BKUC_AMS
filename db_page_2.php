@@ -136,7 +136,7 @@ function creat_assigment($arg){
 
 }
 
-function submit_assigment(){
+function submit_assigment_multiple(){
 			  $cn=db_connection();
               $id=$_SESSION["student_logged_in"]['id'];
               $user_name=$_SESSION['student_logged_in']['first_name'];
@@ -144,10 +144,6 @@ function submit_assigment(){
               $login_student_image=$_SESSION['student_logged_in']['student_image'];
               $_assigment=$_POST["txt_assigment_name"];
 
-              		$uploaded_dir = 'submitted  assigments/';
-                    $filename  	  = $_FILES["btn_evidence"]["name"];
-                    $uploaded_dir.= $filename;
-                    $tmp_dir      =$_FILES["btn_evidence"]["tmp_name"];
 
               $sql="SELECT * FROM `student_whose_submitted` WHERE `email`='$user_email'";
               $done=mysqli_query($cn,$sql);
@@ -185,10 +181,40 @@ function submit_assigment(){
 		                  }
 		                }
 
+		                $filename_count  	  = count($_FILES["btn_evidence"]["name"]);
+		                for($i = 0;$i<$filename_count;$i++){
+		                	$filename     = $_FILES['btn_evidence']['name'][$i];
+		                	$text             =pathinfo($filename,PATHINFO_EXTENSION);
+		                	if($text == 'jpg' or $text == 'JPG' or $text == 'png' or $text == 'PNG' or
+				               $text == 'gif' or $text == 'GIF' or $text == 'jpeg' or $text == 'GPEG' or $text == 'pdf'
+				               or $text == 'PDF' or $text == 'docx' or $text == 'DOCX' or $text == 'txt' or $text == 'TXT' or $text == 'doc' or $text == 'DOC'){
+		                		continue;
+		                	}else{
+		                		return "extension_error";
+		                	}
+		                }
+
+		                
 	                    $submitted_on=date('m/d/Y h:i A');
-	                    $sql_fk="INSERT INTO `submit_assigments`(`std_id`,`assigment`,`evidence`,`submitted_on`,`assigment_was_created_by`) 
-	                          VALUES ('$Submitter_ID','$_assigment','$uploaded_dir','$submitted_on','$lecturer_name')";
+	                    $sql_fk="INSERT INTO `submit_assigments`(`std_id`,`assigment`,`submitted_on`,`assigment_was_created_by`) 
+	                          VALUES ('$Submitter_ID','$_assigment','$submitted_on','$lecturer_name')";
 	                       $add = mysqli_query($cn,$sql_fk);
+	                       for($i = 0;$i<$filename_count;$i++){
+
+				            $uploaded_dir = 'submitted  assigments/';
+				            $filename     = $_FILES['btn_evidence']['name'][$i];
+				            $uploaded_dir.= $filename;
+				            $tmp_dir      =$_FILES["btn_evidence"]["tmp_name"][$i];
+				            $sql="INSERT INTO `attach_evidences`(`id`,`assigment`, `files`) VALUES ('$Submitter_ID','$_assigment','uploaded_dir')";
+				            $done=mysqli_query($cn,$sql);
+				            if($done){
+				            	$uploaded=move_uploaded_file($tmp_dir, $uploaded_dir);
+				            }else{
+				            	if(file_exists($uploaded_dir)){
+				            		unlink($uploaded_dir);
+				            	}
+				            }
+				        }
 	                       mysqli_close($cn);
 	                      return true;
 	                  }
@@ -214,19 +240,24 @@ function submit_assigment(){
                   }
                 }
 
+                		$filename_count  	  = count($_FILES["btn_evidence"]["name"]);
+		                for($i = 0;$i<$filename_count;$i++){
+		                	$filename     = $_FILES['btn_evidence']['name'][$i];
+		                	$text             =pathinfo($filename,PATHINFO_EXTENSION);
+		                	if($text == 'jpg' or $text == 'JPG' or $text == 'png' or $text == 'PNG' or
+				               $text == 'gif' or $text == 'GIF' or $text == 'jpeg' or $text == 'GPEG' or $text == 'pdf'
+				               or $text == 'PDF' or $text == 'docx' or $text == 'DOCX' or $text == 'txt' or $text == 'TXT' or $text == 'doc' or $text == 'DOC'){
+		                		continue;
+		                	}else{
+		                		return "extension_error";
+		                	}
+		                }
+
                  $sql="INSERT INTO `student_whose_submitted`(`std_name`, `email`, `department`, 
                                     `semester`, `faculty`, `std_img`, `title`, `description`, 
-                                    `evidence`, `submitted_date`, `assigment_created_by`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+                                     `submitted_date`, `assigment_created_by`) VALUES (?,?,?,?,?,?,?,?,?,?)";
                   $stmt=mysqli_prepare($cn,$sql);
                   if($stmt){
-                    $uploaded_dir = 'submitted  assigments/';
-                    $filename   = $_FILES["btn_evidence"]["name"];
-                    $uploaded_dir.= $filename;
-                    $tmp_dir    =$_FILES["btn_evidence"]["tmp_name"];
-                    $size       =$_FILES["btn_evidence"]["size"];
-                    $file_type    =$_FILES['btn_evidence']['type'];
-                    $new_size = $size/1024;   // new size
-                    $text     =pathinfo($filename,PATHINFO_EXTENSION);
 
                     $user_name=$_SESSION['student_logged_in']['first_name'];
                     $user_email=$_SESSION['student_logged_in']['std_email'];
@@ -237,7 +268,7 @@ function submit_assigment(){
                     $assigment_title=$_POST["txt_title"];
                     $assigment_discription=$_POST["txt_description"];
                     $submitted_date=date('m/d/Y h:i A');
-                    mysqli_stmt_bind_param($stmt, 'sssssssssss',$user_name,$user_email,$_loggedIn_std_department,$_loggedIn_std_semester,$_loggedIn_std_faculty,$login_student_image,$assigment_title,$assigment_discription,$uploaded_dir,$submitted_date,$lecturer_name);
+                    mysqli_stmt_bind_param($stmt, 'ssssssssss',$user_name,$user_email,$_loggedIn_std_department,$_loggedIn_std_semester,$_loggedIn_std_faculty,$login_student_image,$assigment_title,$assigment_discription,$submitted_date,$lecturer_name);
                     $status_a = mysqli_stmt_execute($stmt);
 
                     if($status_a){
@@ -258,10 +289,27 @@ function submit_assigment(){
             }
 
 
-                    $submitted_on=date('m/d/Y h:i A');
-                    $sql_fk="INSERT INTO `submit_assigments`(`std_id`,`assigment`,`evidence`,`submitted_on`, `assigment_was_created_by`) 
-                         VALUES ('$Submitter_ID','$_assigment','$uploaded_dir','$submitted_on','$lecturer_name')";
-                    $add = mysqli_query($cn,$sql_fk);
+                    	$submitted_on=date('m/d/Y h:i A');
+	                    $sql_fk="INSERT INTO `submit_assigments`(`std_id`,`assigment`,`submitted_on`,`assigment_was_created_by`) 
+	                          VALUES ('$Submitter_ID','$_assigment','$submitted_on','$lecturer_name')";
+	                       $add = mysqli_query($cn,$sql_fk);
+	                       for($i = 0;$i<$filename_count;$i++){
+
+				            $uploaded_dir = 'submitted  assigments/';
+				            $filename     = $_FILES['btn_evidence']['name'][$i];
+				            $uploaded_dir.= $filename;
+				            $tmp_dir      =$_FILES["btn_evidence"]["tmp_name"][$i];
+				            $sql="INSERT INTO `attach_evidences`(`id`,`assigment`, `files`) VALUES ('$Submitter_ID','$_assigment','$uploaded_dir')";
+				            $done=mysqli_query($cn,$sql);
+				            if($done){
+				            	$uploaded=move_uploaded_file($tmp_dir, $uploaded_dir);
+				            }else{
+				            	return false;
+				            	if(file_exists($uploaded_dir)){
+				            		unlink($uploaded_dir);
+				            	}
+				            }
+				        }
                       mysqli_stmt_close($stmt);
                       mysqli_close($cn);
                       return true;
