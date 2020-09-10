@@ -350,6 +350,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       $submitted_id=$get_data['std_id'];
                       $submitted_assigment=$get_data['assigment'];
                       $submitted_on=$get_data['submitted_on'];
+                      $pk=$get_data['primary_key'];
                       $assigment_count+=1;
                       
 
@@ -362,7 +363,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <td><?php echo "<span class='badge badge-primary'>pending</span>";?></td>
                       <td class="text-center py-0 align-middle">
                         <div class="btn-group btn-group-sm">
-                          <a href="#" class="btn btn-primary"><i class="fas fa-eye"></i></a>
+                          <a href="student_view_submitted.php?get_std_view_id=<?php echo $pk; ?>" class="btn btn-primary"><i class="fas fa-eye"></i></a>
                           <a href="#" class="btn btn-warning"><i class="fas fa-edit"></i></a>
                           <a href="#" class="btn btn-danger"><i class="fas fa-times"></i></a>
                           
