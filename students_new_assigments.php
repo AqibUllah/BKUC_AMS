@@ -448,7 +448,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <td class="float-right" style="width: 142px;">
 
                   <?php if($current>=$end){
-                    ?><a href="#?get_id=<?php echo $get_data['id']; ?>" class="btn btn-danger btn-block">Can't be submit <i class="fas fa-angle-right"></i></a><?php
+                    ?><a href="#?get_id=<?php echo $get_data['id']; ?>" class="btn btn-danger btn-block">Can't submit</a><?php
                   }else{
                     ?>
                     <a href="assigments_details.php?get_id=<?php echo $get_data_a['id']; ?>" class="btn btn-info">Details <i class="fas fa-angle-right"></i></a>

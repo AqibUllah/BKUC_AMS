@@ -372,18 +372,27 @@ if(isset($_GET["extension_error"])){
                             echo $assigment_name; ?></option><?php
                           }elseif(isset($_GET['submit_id'])){
                             ?><option selected="<?php echo $_name; ?>"><?php echo $_name; ?></option><?php
+                          }else{
+
                           }
-                          ?>
-                          <?php 
                           $cn;
                           $sql="SELECT * FROM `creat_assigment`";
                           $run=mysqli_query($cn,$sql);
                           if($run){
                             while($_get_data=mysqli_fetch_array($run)){
                               $name_of_assigments=$_get_data['ass_name'];
-                              ?>
-                          <option value="<?php echo $name_of_assigments; ?>" name="txt_assigment_name"><?php echo $name_of_assigments; ?></option>
-                              <?php
+                              //$total_time=$_get_data['time_duration'];
+                              $start_date=substr($_get_data['time_duration'],0,19);
+                              $last_date=substr($_get_data['time_duration'], 22);
+                              $current=date("m/d/Y h:i:s A");
+                              $current=strtotime($current);
+                              $end = strtotime($last_date);
+                              if($end>$current){
+                                ?>
+                               <option value="<?php echo $name_of_assigments; ?>" name="txt_assigment_name"><?php echo $name_of_assigments; ?></option>
+                                <?php
+                              }
+                              
                             }
                           }
                           ?>
