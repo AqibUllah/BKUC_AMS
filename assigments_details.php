@@ -274,6 +274,7 @@ if(isset($_GET['get_id'])){
       $batch = $get['batch'];
       $session = $get['session'];
       $duration = $get['time_duration'];
+      $marks = $get['ass_marks'];
       $message = $get['message'];
       $document = $get['document'];
       $created_on = $get['created_on'];
@@ -355,6 +356,9 @@ if(isset($_GET['get_id'])){
                       </tr>
                       <tr>
                        <th>Total Duration</th><td><?php echo "<i class='fas fa-clock'></i> ".$duration; ?></td>
+                      </tr>
+                      <tr>
+                       <th>Assigment Marks</th><td><?php echo $marks; ?></td>
                       </tr>
                       <tr>
                        <th>Last Date</th><td><?php echo "<i class='fas fa-clock'></i> ".$last_date; ?></td>

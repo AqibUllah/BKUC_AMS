@@ -307,7 +307,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </div>
                 </div>
                 <div class="col-md-5">
-                  
+                  <h4>Set Assigment Marks</h4>
+                  <input type="text" name="assimgent_marks" placeholder="Total Marks" class="form-control">
                 </div>
               </div>
             </div>
@@ -375,7 +376,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       </div>
                       <div class="col-sm-6">
                         <div class="form-group">
-                          <input type="submit" name="btn_back" value="Reset" class="btn btn-danger btn-block">
+                          <input type="submit" name="btn_reset" value="Reset" class="btn btn-danger btn-block">
                           <input type="submit" name="btn_submit" value="Upload" class="btn btn-success btn-block">
                         </div>
                       </div>
@@ -601,9 +602,7 @@ if(isset($_POST['btn_submit'])){
   include('functions_page.php');
     $status = input_recieved($_POST);
     if($status === true){
-      $status=validate_sanitize_creat_assigment_inputs($_POST);
-      if(is_array($status)){
-        include('db_page.php');
+        include('db_page_2.php');
           $uploaded_dir = 'assigment_images_pdf/';
           $filename   = $_FILES["file"]["name"];
           $uploaded_dir.= $filename;
@@ -617,7 +616,7 @@ if(isset($_POST['btn_submit'])){
             if($text == 'jpg' or $text == 'JPG' or $text == 'png' or $text == 'PNG' or
                $text == 'gif' or $text == 'GIF' or $text == 'jpeg' or $text == 'GPEG' or $text == 'pdf'
                or $text == 'PDF' or $text == 'docx' or $text == 'DOCX' or $text == 'doc' or $text == 'DOC'){
-               $status=creat_assigment($status);
+               $status=creat_assigment($_POST);
                 if($status === true){
                   ?>
                     <script type="text/javascript">
@@ -637,9 +636,9 @@ if(isset($_POST['btn_submit'])){
                     </script>
                   <?php
                 }else{
-                   if(file_exists($uploaded_directory)){
-                      unlink($uploaded_directory);
-                    }
+                   // if(file_exists($uploaded_directory)){
+                   //    unlink($uploaded_directory);
+                   //  }
                   ?>
                     <script type="text/javascript">
                       $(document).ready(function(){
@@ -696,7 +695,7 @@ if(isset($_POST['btn_submit'])){
                     </script>
                   <?php
           }
-      }
+    
     }else{
       ?>
       <script type="text/javascript">

@@ -312,7 +312,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <th style="text-align: center;">Student</th>
                       <th style="text-align: center;">Assigment</th>
                       <th style="text-align: center;">Submnitted on</th>
-                      
+                      <th style="text-align: center;">Marks</th>
                       <th style="text-align: center;">Action</th>
                     </tr>
                     </thead>
@@ -330,6 +330,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     $submitted_on=$get_data['submitted_on'];
                     $primary_key=$get_data['primary_key'];
                     $assigment_count+=1;
+
+                    $sql="SELECT * FROM `creat_assigment` WHERE `created_by`='$lec_name' and `ass_name`='$submitted_assigment'";
+                    $run_e=mysqli_query($cn,$sql);
+                    if(mysqli_num_rows($run_e)>0){
+                      while ($get_data_e=mysqli_fetch_array($run_e)) {
+                        $total_marks = $get_data_e['ass_marks'];
+                      }
+                    }
                     /*$_id=$get_data['id'];
                     //$assigment_name=$get_data['sibmitted_assigment'];
                     
@@ -357,8 +365,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     $student_semester=$get_data_a['semester'];
                     $student_submitted_Date=$get_data_a['submitted_date'];
                     $student_faculty=$get_data_a['faculty'];
-                    $std_assigment_title=$get_data_a['title'];
-                    $std_assigment_description=$get_data_a['description'];
                     $assigment_submitted_date=$get_data_a['submitted_date'];
                     /*
                     $submitted_id=$get_data_a['std_id'];
@@ -376,6 +382,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <td><?php echo $student_name; ?></td>
                       <td><?php echo $submitted_assigment; ?></td>
                       <td><?php echo $submitted_on; ?></td>
+                      <td><input type="text" name="txt_marks" placeholder="student marks / <?php echo $total_marks; ?>" class="form-control"></td>
                       <td class="text-center py-0 align-middle">
 
                           <a href="student_view_evidence.php?student_id=<?php echo $primary_key; ?>" class="btn btn-primary">View Evidence</a>

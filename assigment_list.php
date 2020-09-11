@@ -7,7 +7,7 @@ session_start();
 ?>
 
 <?php
-include 'db_page.php';
+include 'db_page_2.php';
 $cn=db_connection();
 $_lec_name=$_SESSION["lecturer_logged_in"]["username"];
 $sql="SELECT * FROM `creat_assigment` WHERE `created_by`='$_lec_name'";
@@ -315,6 +315,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <th style="text-align: center;">S.No</th>
                 <th style="text-align: center;">Assigment</th>
                 <th style="text-align: center;">Total Duration</th>
+                <th style="text-align: center;">Marks</th>
                 <th style="text-align: center;">Remaining Time</th>
                 <th style="text-align: center;">Status</th>
                 <th style="text-align: center;">Action</th>
@@ -325,6 +326,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               $sql="SELECT * FROM `creat_assigment` WHERE `created_by`='$_lec_name'";
               $run=mysqli_query($cn,$sql);
               while($get_data=mysqli_fetch_array($run)){
+                $marks = $get_data['ass_marks'];
                 $start_date=substr($get_data['time_duration'],0,19);
                 $last_date=substr($get_data['time_duration'], 22);
                 $start = strtotime($start_date);
@@ -388,6 +390,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <td style="text-align: center;"><?php echo $get_data['id']; ?></td>
                 <td style="text-align: center;"><?php echo $get_data['ass_name']; ?></td>
                 <td style="text-align: center;"><?php echo "<i class='fas fa-clock'></i> ".$get_data['time_duration']; ?></td>
+                <td style="text-align: center;"><?php echo $marks; ?></td>
                <td style="text-align: center;"><?php if($end>$current){echo "<i class='fas fa-clock'></i> ".$days." days ".$hours." hourse ".$minutes." minutes Remaining";}else{echo "<span class='badge badge-danger'>Time Out</span>";} ?></td>
                <?php if($end>$current){if($calc > 8.99){
                   echo "<td style='text-align:center;'><span class='badge badge-primary'>in progress</span><br><br>

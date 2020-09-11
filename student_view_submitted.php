@@ -368,9 +368,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <div class="row">
                               <div class="col-md-6">
                                 <table>
-                                  <tr>
+                                  <tr bgcolor="card-dark">
                                   <td style="text-align: left;" id="td_titles">
-                                    Title : 
+                                    Title  
                                   </td>
                                   <td>
                                   <?php echo $std_assigment_title; ?>
@@ -378,7 +378,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </tr>
                                 <tr>
                                   <td style="text-align: left;" id="td_titles">
-                                    Description : 
+                                    Description  
                                   </td>
                                   <td>
                                     <?php echo $std_assigment_description; ?>
@@ -386,7 +386,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </tr>
                                 <tr>
                                   <td  style="text-align: left;" id="td_titles">
-                                    Status : 
+                                    Status  
                                   </td>
                                   <td>
                                     <?php echo "<span class='badge badge-success'>Completed</span>"; ?>
@@ -394,7 +394,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </tr>
                                 <tr>
                                   <td  style="text-align: left;" id="td_titles">
-                                    Confirmation : 
+                                    Confirmation  
                                   </td>
                                   <td>
                                     <?php echo "<span class='badge badge-info'>pending</span>"; ?>

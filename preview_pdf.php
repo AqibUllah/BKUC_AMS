@@ -19,7 +19,7 @@
             echo "<h1 align='center' style='color:red'>No Evidence Found !</h1>";
         }
         
-    }else if(isset($_GET['view_evidence_id'])){
+    }elseif(isset($_GET['view_evidence_id'])){
                     $id=$_GET['view_evidence_id'];
                     $sql="SELECT * FROM `submit_assigments` WHERE `primary_key`='$id'";
                     $getting=mysqli_query($cn,$sql);
@@ -37,11 +37,21 @@
                         $id_b=$get_submit_data['id'];
                         $fk_assigment=$get_submit_data['assigment'];
                         $fk_assigment_files=$get_submit_data['files'];
+                        $text=pathinfo($fk_assigment_files,PATHINFO_EXTENSION);
                         if(file_exists($fk_assigment_files)){
-                            ?>
-                        <embed src="<?php echo $fk_assigment_files; ?>" />
-                            <hr>
-                        <?php
+                            if($text == 'pdf' or $text == 'PDF'){
+                                ?>
+                                <embed src="<?php echo $fk_assigment_files; ?>" style="width: 800px;height: 2100px;"> 
+                                    <hr>
+                                <?php
+                            }else{
+                                ?>
+                                <embed src="<?php echo $fk_assigment_files; ?>" style="width: auto;height: auto;"> 
+                                    <hr>
+                                <?php
+                            }
+                            
+                            
                         }else{
                             echo "<h1 align='center' style='color:red'>No Evidence Found !</h1>";
                         }

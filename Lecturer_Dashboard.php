@@ -369,9 +369,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3>65</h3>
+                <h3>History</h3>
 
-                <p>Confirmation Visitors</p>
+                <p>Students  Confirmation</p>
               </div>
               <div class="icon">
                 <i class="ion ion-pie-graph"></i>

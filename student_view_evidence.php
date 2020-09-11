@@ -306,6 +306,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         $id_a=$get_submit_data['std_id'];
                         $submitted_date_on=$get_submit_data['submitted_on'];
                         $pk=$get_submit_data['primary_key'];
+                        $std_assigment_title=$get_submit_data['title'];
+                        $std_assigment_description=$get_submit_data['description'];
                         $fk_assigment=$get_submit_data['assigment'];
                       }
 
@@ -320,8 +322,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         $student_semester=$get_data['semester'];
                         $student_submitted_Date=$get_data['submitted_date'];
                         $student_faculty=$get_data['faculty'];
-                        $std_assigment_title=$get_data['title'];
-                        $std_assigment_description=$get_data['description'];
                         $assigment_submitted_date=$get_data['submitted_date'];
                         //$assigment_count+=1;
                       }

@@ -86,7 +86,8 @@ function SignUp_Lecturer($arg){
 
 function creat_assigment($arg){
 	$cn=db_connection();
-	$sql="INSERT INTO `creat_assigment`(`faculty`, `department`, `semester`, `batch`, `ass_name`, `session`, `time_duration`, `message`, `document`, `created_on`, `created_by`) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+
+	$sql="INSERT INTO `creat_assigment`(`faculty`, `department`, `semester`, `batch`, `ass_name`, `ass_marks`, `session`, `time_duration`, `message`, `document`, `created_on`, `created_by`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
 	$stmt = mysqli_prepare($cn,$sql);
 	if($stmt){
 	$uploaded_dir = 'assigment_images_pdf/';
@@ -103,26 +104,28 @@ function creat_assigment($arg){
 		$_semester=$arg["select_semester"];
 		$_batch=$arg["txt_batch"];
 		$_name=$arg["txt_assgmnt_name"];
+		$_ass_marks=$arg["assimgent_marks"];
 		$_session=$arg["txt_session"];
 		$_total_duration=$arg["txt_duration"];
 		$_message=$arg["txt_message"];
 		$_created_on=date('d/m/yy');
 		$_created_by=$_SESSION["lecturer_logged_in"]["username"];
 
-
-			$sql="SELECT * FROM `creat_assigment`";
+	$sql="SELECT * FROM `creat_assigment`";
 			$run=mysqli_query($cn,$sql);
 			while ($get=mysqli_fetch_array($run)){
 				$_assigment_name=$get['ass_name'];
-				$_creater=$get['$_created_by'];
+				$_creater=$get['created_by'];
 				if($_created_by == $_creater and $_name == $_assigment_name){
 					return false;
 				}
 			}
-	mysqli_stmt_bind_param($stmt, 'sssssssssss', $_faculty,$_department,$_semester,$_batch,$_name,$_session,$_total_duration,$_message,$uploaded_dir,$_created_on,$_created_by);
+
+	mysqli_stmt_bind_param($stmt, 'ssssssssssss', $_faculty,$_department,$_semester,$_batch,$_name,$_ass_marks,$_session,$_total_duration,$_message,$uploaded_dir,$_created_on,$_created_by);
 
 		$status=mysqli_stmt_execute($stmt);
 		if($status){
+
 			mysqli_stmt_close($stmt);
 			mysqli_close($cn);
           	return true;

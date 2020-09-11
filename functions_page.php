@@ -8,7 +8,8 @@ function input_recieved($arg){
 		}
 	}
 	return true;
-}function read_file_docx($filename){  
+}
+function read_file_docx($filename){  
       $striped_content = '';  
       $content = '';  
       if(!$filename || !file_exists($filename)) return false;  
@@ -115,11 +116,12 @@ function validate_sanitize_creat_assigment_inputs($arg){
 	$_semester=filter_var($arg["select_semester"],FILTER_SANITIZE_STRING);
 	$_batch=filter_var($arg["txt_batch"],FILTER_SANITIZE_STRING);
 	$_name=filter_var($arg["txt_assgmnt_name"], FILTER_SANITIZE_STRING);
+	$_ass_marks=filter_var($arg["assimgent_marks"], FILTER_SANITIZE_STRING);
 	$_session=filter_var($arg["txt_session"], FILTER_SANITIZE_STRING);
 	$_total_duration=filter_var($arg["txt_duration"],FILTER_SANITIZE_STRING);
 	$_message=filter_var($arg["txt_message"],FILTER_SANITIZE_STRING);
 	return array("select_faculty"=>$_faculty,"select_department"=>$_department,"select_semester"=>$_semester,
-				 "txt_batch"=>$_batch,"txt_assgmnt_name"=>$_name,"txt_session"=>$_session,
+				 "txt_batch"=>$_batch,"txt_assgmnt_name"=>$_name,"assimgent_marks"=>$_ass_marks,"txt_session"=>$_session,
 				 "txt_duration"=>$_total_duration,"txt_message"=>$_message);	
 }
 
