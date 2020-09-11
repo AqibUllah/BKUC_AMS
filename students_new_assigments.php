@@ -345,8 +345,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       $student_semester=$get_data['semester'];
                       $student_submitted_Date=$get_data['submitted_date'];
                       $student_faculty=$get_data['faculty'];
-                      $std_assigment_title=$get_data['title'];
-                      $std_assigment_description=$get_data['description'];
                       $assigment_submitted_date=$get_data['submitted_date'];
                       }
                       $sql="SELECT * FROM `submit_assigments` WHERE `std_id`='$_id' and `assigment`='$assigment'";

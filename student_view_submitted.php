@@ -326,6 +326,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       $submitted_id=$get_data['std_id'];
                       $submitted_assigment=$get_data['assigment'];
                       $submitted_on=$get_data['submitted_on'];
+                      $std_assigment_title=$get_data['title'];
+                      $std_assigment_description=$get_data['description'];
                       $pk=$get_data['primary_key'];
                       $created_by=$get_data['assigment_was_created_by'];
                     }
@@ -342,8 +344,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         $student_semester=$get_data['semester'];
                         $student_submitted_Date=$get_data['submitted_date'];
                         $student_faculty=$get_data['faculty'];
-                        $std_assigment_title=$get_data['title'];
-                        $std_assigment_description=$get_data['description'];
                         $assigment_submitted_date=$get_data['submitted_date'];
                       }
                     }
@@ -355,11 +355,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           <div class="card-header">
                             <h3 class="text-center"><?php echo $submitted_assigment; ?></h3>
                             <div class="row">
-                              <div class="col-md-6">
+                              <div class="col-md-8">
                                 <?php $user_submitted=$_SESSION['student_logged_in']['first_name']; ?>
                                 <?php echo "<h6 class='float-left'>Submitted By: $user_submitted</h6>"?>
                               </div>
-                              <div class="col-md-6">
+                              <div class="col-md-4">
                                 <?php echo "<h6 class='float-right'>Submitted On : $submitted_on</h6>"; ?>
                               </div>
                             </div>
@@ -403,18 +403,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               </table>
                             </div>
                             <div class="col-md-6" style="text-align: center;">
-                              <?php
-                              $sql="SELECT * FROM `attach_evidences` WHERE `id`='$submitted_id' and `assigment`='$submitted_assigment'";
-                              $run_b=mysqli_query($cn,$sql);
-                              if(mysqli_num_rows($run_b)>0){
-                                $count_b=0;
-                                while ($get_data_b=mysqli_fetch_array($run_b)) {
-                                  $count_b+=1;
-                                }
-                                ?>
-                              <span class="badge badge-secondary"><?php echo $count_b." files"; ?></span><hr>
-                              <?php
-                              }
+                              <div class="card">
+                                <div class="card-header bg-dark">
+                                  <?php
+                                  $sql="SELECT * FROM `attach_evidences` WHERE `id`='$submitted_id' and `assigment`='$submitted_assigment'";
+                                    $run_b=mysqli_query($cn,$sql);
+                                    if(mysqli_num_rows($run_b)>0){
+                                      $count_b=0;
+                                      while ($get_data_b=mysqli_fetch_array($run_b)) {
+                                        $count_b+=1;
+                                      }
+                                      
+                                     echo "<h6>".$count_b." Attachements</h6>"; 
+                                    
+                                    }
+                                  ?>
+                                </div>
+                                <div class="card-body">
+                                  <?php
+                              
 
                               
                               $sql="SELECT * FROM `attach_evidences` WHERE `id`='$submitted_id' and `assigment`='$submitted_assigment'";
@@ -437,7 +444,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                               </a>
                                             </td>
                                           </tr>
-                                          
                                           
                                           <?php   
 
@@ -499,6 +505,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 }
                               }
                               ?>
+                                </div>
+                              </div>
+                              
         
                               </div>
                             </div>

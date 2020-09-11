@@ -143,7 +143,8 @@ function submit_assigment_multiple(){
               $user_email=$_SESSION['student_logged_in']['std_email'];
               $login_student_image=$_SESSION['student_logged_in']['student_image'];
               $_assigment=$_POST["txt_assigment_name"];
-
+              $assigment_title=$_POST["txt_title"];
+              $assigment_discription=$_POST["txt_description"];
 
               $sql="SELECT * FROM `student_whose_submitted` WHERE `email`='$user_email'";
               $done=mysqli_query($cn,$sql);
@@ -196,8 +197,8 @@ function submit_assigment_multiple(){
 
 		                
 	                    $submitted_on=date('m/d/Y h:i A');
-	                    $sql_fk="INSERT INTO `submit_assigments`(`std_id`,`assigment`,`submitted_on`,`assigment_was_created_by`) 
-	                          VALUES ('$Submitter_ID','$_assigment','$submitted_on','$lecturer_name')";
+	                    $sql_fk="INSERT INTO `submit_assigments`(`std_id`,`assigment`,`title`,`description`,`submitted_on`,`assigment_was_created_by`) 
+	                          VALUES ('$Submitter_ID','$_assigment','$assigment_title','$assigment_discription','$submitted_on','$lecturer_name')";
 	                       $add = mysqli_query($cn,$sql_fk);
 	                       for($i = 0;$i<$filename_count;$i++){
 
@@ -255,8 +256,8 @@ function submit_assigment_multiple(){
 		                }
 
                  $sql="INSERT INTO `student_whose_submitted`(`std_name`, `email`, `department`, 
-                                    `semester`, `faculty`, `std_img`, `title`, `description`, 
-                                     `submitted_date`, `assigment_created_by`) VALUES (?,?,?,?,?,?,?,?,?,?)";
+                                    `semester`, `faculty`, `std_img` , 
+                                     `submitted_date`, `assigment_created_by`) VALUES (?,?,?,?,?,?,?,?)";
                   $stmt=mysqli_prepare($cn,$sql);
                   if($stmt){
 
@@ -269,7 +270,7 @@ function submit_assigment_multiple(){
                     $assigment_title=$_POST["txt_title"];
                     $assigment_discription=$_POST["txt_description"];
                     $submitted_date=date('m/d/Y h:i A');
-                    mysqli_stmt_bind_param($stmt, 'ssssssssss',$user_name,$user_email,$_loggedIn_std_department,$_loggedIn_std_semester,$_loggedIn_std_faculty,$login_student_image,$assigment_title,$assigment_discription,$submitted_date,$lecturer_name);
+                    mysqli_stmt_bind_param($stmt, 'ssssssss',$user_name,$user_email,$_loggedIn_std_department,$_loggedIn_std_semester,$_loggedIn_std_faculty,$login_student_image,$submitted_date,$lecturer_name);
                     $status_a = mysqli_stmt_execute($stmt);
 
                     if($status_a){
@@ -291,8 +292,8 @@ function submit_assigment_multiple(){
 
 
                     	$submitted_on=date('m/d/Y h:i A');
-	                    $sql_fk="INSERT INTO `submit_assigments`(`std_id`,`assigment`,`submitted_on`,`assigment_was_created_by`) 
-	                          VALUES ('$Submitter_ID','$_assigment','$submitted_on','$lecturer_name')";
+	                    $sql_fk="INSERT INTO `submit_assigments`(`std_id`,`assigment`,`title`,`description`,`submitted_on`,`assigment_was_created_by`) 
+	                          VALUES ('$Submitter_ID','$_assigment','$assigment_title','$assigment_discription','$submitted_on','$lecturer_name')";
 	                       $add = mysqli_query($cn,$sql_fk);
 	                       for($i = 0;$i<$filename_count;$i++){
 
