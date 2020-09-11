@@ -187,7 +187,7 @@ function submit_assigment_multiple(){
 		                	$text             =pathinfo($filename,PATHINFO_EXTENSION);
 		                	if($text == 'jpg' or $text == 'JPG' or $text == 'png' or $text == 'PNG' or
 				               $text == 'gif' or $text == 'GIF' or $text == 'jpeg' or $text == 'GPEG' or $text == 'pdf'
-				               or $text == 'PDF' or $text == 'docx' or $text == 'DOCX' or $text == 'txt' or $text == 'TXT' or $text == 'doc' or $text == 'DOC'){
+				               or $text == 'PDF' or $text =='pptx' or $text=='PPTX' or $text == 'docx' or $text == 'DOCX' or $text == 'txt' or $text == 'TXT' or $text == 'doc' or $text == 'DOC'){
 		                		continue;
 		                	}else{
 		                		return "extension_error";
@@ -205,9 +205,10 @@ function submit_assigment_multiple(){
 				            $filename     = $_FILES['btn_evidence']['name'][$i];
 				            $uploaded_dir.= $filename;
 				            $tmp_dir      =$_FILES["btn_evidence"]["tmp_name"][$i];
-				            $sql="INSERT INTO `attach_evidences`(`id`,`assigment`, `files`) VALUES ('$Submitter_ID','$_assigment','uploaded_dir')";
+				            $sql="INSERT INTO `attach_evidences`(`id`,`assigment`, `files`) VALUES ('$Submitter_ID','$_assigment','$uploaded_dir')";
 				            $done=mysqli_query($cn,$sql);
 				            if($done){
+				            	echo $uploaded_dir;
 				            	$uploaded=move_uploaded_file($tmp_dir, $uploaded_dir);
 				            }else{
 				            	if(file_exists($uploaded_dir)){

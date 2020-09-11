@@ -4,10 +4,10 @@ session_start();
           }else{
             header("location:login_page.php");
           }
-?>
 
-<?php
-include 'db_page.php';
+
+
+include 'db_page_2.php';
 $cn=db_connection();
 $sql="SELECT * FROM `creat_assigment`";
 $run=mysqli_query($cn,$sql);
@@ -28,13 +28,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
   <title>Submitted Assigments</title>
-  <!-- css -->
-  <link rel="stylesheet" href="css/bootstrap.css" />
-  <link rel="stylesheet" href="css/bootstrap-responsive.css" />
-  <link rel="stylesheet" href="css/prettyPhoto.css" />
-  <link rel="stylesheet" href="css/sequence.css" />
-  <link rel="stylesheet" href="css/style.css" />
-
+  <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="lightbox.css" type="text/css" media="screen" />
+  <script type="text/javascript" src="lightbox.js"></script>
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
     <!-- DataTables -->
@@ -60,13 +58,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
       embed{
         width: 100px;
         height: 100px;
-        transform: scale(1.0);
-        cursor: crosshair;
+        cursor: pointer;
+        padding: 5px;
       }
       embed:hover{
         transform: scale(2.0);
+      }#docx_id{
+
       }
     </style>
+
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -350,7 +351,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     ?>
                     <div class="row">
                       <div class="col-lg-12 col-md-12">
-                        <div class="card">
+                        <div class="card card-dark">
                           <div class="card-header">
                             <h3 class="text-center"><?php echo $submitted_assigment; ?></h3>
                             <div class="row">
@@ -401,23 +402,104 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </tr>
                               </table>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="text-align: center;">
                               <?php
+                              $sql="SELECT * FROM `attach_evidences` WHERE `id`='$submitted_id' and `assigment`='$submitted_assigment'";
+                              $run_b=mysqli_query($cn,$sql);
+                              if(mysqli_num_rows($run_b)>0){
+                                $count_b=0;
+                                while ($get_data_b=mysqli_fetch_array($run_b)) {
+                                  $count_b+=1;
+                                }
+                                ?>
+                              <span class="badge badge-secondary"><?php echo $count_b." files"; ?></span><hr>
+                              <?php
+                              }
+
+                              
                               $sql="SELECT * FROM `attach_evidences` WHERE `id`='$submitted_id' and `assigment`='$submitted_assigment'";
                               $run_a=mysqli_query($cn,$sql);
                               if(mysqli_num_rows($run_a)>0){
-                                $count=0;
                                 while ($get_data_b=mysqli_fetch_array($run_a)) {
                                   $attach_id=$get_data_b['id'];
                                   $attach_assigment=$get_data_b['assigment'];
                                   $attach_file=$get_data_b['files'];
+                                  $text             =pathinfo($attach_file,PATHINFO_EXTENSION);
+                                  if($text === 'pptx' or $text === 'PPTX'){
+                                    
+                                     //$attach_file=read_file_docx($attach_file);
+                                          // or /var/www/html/file.docx
+                                          ?>
+                                          <tr>
+                                            <td>ppt file
+                                              <a href="preview_pdf.php?doc_id=<?php echo $attach_file; ?>" href="">
+                                                <span class="badge badge-danger">click to open</span>
+                                              </a>
+                                            </td>
+                                          </tr>
+                                          
+                                          
+                                          <?php   
+
+                                   
+                                  }elseif($text === 'docx' or $text === 'DOCX'){
+                                    
+                                     //$attach_file=read_file_docx($attach_file);
+                                          // or /var/www/html/file.docx
+                                          ?>
+                                          <tr>
+                                            <td>word file
+                                              <a href="preview_pdf.php?doc_id=<?php echo $attach_file; ?>" href="">
+                                                <span class="badge badge-info">click to open</span>
+                                              </a>
+                                            </td>
+                                          </tr>
+                                          
+                                          
+                                          <?php   
+
+                                   
+                                  }elseif ($text == 'pdf' or $text=='PDF') { 
+                                    ?><tr>
+                                      <td>pdf file
+                                        <a href="preview_pdf.php?get_pdf=<?php echo $attach_file; ?>" href="">
+                                            <span class="badge bg-maroon">click to open</span>
+                                          </a>
+                                      </td>
+                                    </tr>
+                                          
+                                          
+                                          <?php
+                                  }elseif ($text == 'txt' or $text=='TXT') {
+                                    ?><tr>
+                                      <td>text file
+                                        <a href="preview_pdf.php?get_pdf=<?php echo $attach_file; ?>" href="">
+                                            <span class="badge badge-info">click to open</span>
+                                          </a>
+                                      </td>
+                                    </tr>
+                                    <?php
+                                  }
+                                  else{
+                                    ?>
+                                   <a href="<?php echo $attach_file; ?>" rel="lightbox" data-toggle="lightbox" data-gallery="example-gallery" class="col-sm-4">
+                                      
+                                      <embed src="<?php echo $attach_file; ?>" rel="lightbox"></embed>
+                                  </a>                                    
+                                    <?php
+                                  }
                                   ?> 
-                                  <embed src="<?php echo $attach_file; ?>" width="100%" height="100%">
-                                  </embed>
+                                  
+
+
+ 
+                                     
+                                    
                                   <?php
                                 }
                               }
                               ?>
+        
                               </div>
                             </div>
                           </div>
@@ -463,6 +545,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
+<script src="lib/lightbox/js/lightbox.min.js"></script>
+<link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+<!-- Contact Form JavaScript File -->
+  <script src="contactform/contactform.js"></script>
+  <!-- Template Main Javascript File -->
+  <script src="js/main.js"></script>
 
 <!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -472,6 +560,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
+
+
+ 
 
 <!-- page script -->
 <script>

@@ -49,7 +49,24 @@
                     }
 
         
-    }else{
+    }elseif (isset($_GET['doc_id'])) {
+        $doc_file=$_GET['doc_id'];
+        ?>
+        <div id="docx_id" style="width: auto;height: auto;margin: auto auto;font-family: candara">
+        <?php
+           include('functions_page.php');
+            $content = read_file_docx($doc_file);  
+            if($content !== false) {  
+               echo nl2br($content);  
+            }  
+            else {  
+                echo 'Couldn\'t open the file. Please check that file.';  
+            }
+            ?>
+            </div>
+        <?php
+    }
+    else{
         echo "<h1 align='center' style='color:red'>No Evidence Found !</h1>";
     }
     ?>
