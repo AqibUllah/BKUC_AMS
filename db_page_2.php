@@ -616,11 +616,11 @@ function delete_assigment(){
 				mysqli_stmt_bind_result($stmt, $db_lecturer_id,$db_lecturer_username,$db_lecturer_email,$dB_lecturer_address,$db_lecturer_phone,$db_lecturer_dob,$db_lecturer_password,$db_image,$db_lecturer_gender,$db_lecturer_role,$db_lecturer_skills,$db_lecturer_faculty,$db_lecturer_department,$db_lecturer_registry_date);
 				mysqli_stmt_execute($stmt);
 				mysqli_stmt_fetch($stmt);
-				
 				if(!empty($db_lecturer_id)){
 					if(password_verify($_login_password, $db_lecturer_password)){
-						
-						return array("id"=>$db_lecturer_id,"username"=>$db_lecturer_username,"lecturer_image"=>$db_image);
+
+						return array("id"=>$db_lecturer_id,"username"=>$db_lecturer_username,
+							"lec_email"=>$db_lecturer_email,"lecturer_image"=>$db_image);
 						 
 					}else{
 						return false;
@@ -697,6 +697,204 @@ function delete_assigment(){
 		}else{
 			return false;
 		}
+}
+
+function student_accept_assigment(){
+$cn=db_connection();
+$_PK=$_POST['h_value'];
+$std_marks=$_POST["std_marks"];
+				$lec_name=$_SESSION["lecturer_logged_in"]["username"];
+				$lec_email=$_SESSION["lecturer_logged_in"]["lec_email"];
+				//get assigment info
+                $sql="SELECT * FROM `submit_assigments` WHERE 
+                        `primary_key`='$_PK'";
+                $run=mysqli_query($cn,$sql);
+                if(mysqli_num_rows($run)>0){
+
+	                while($get_data_b=mysqli_fetch_assoc($run)){
+	                    $submitted_id=$get_data_b['std_id'];
+	                    $submitted_assigment=$get_data_b['assigment'];
+	                    $submitted_on=$get_data_b['submitted_on'];
+	                    $title=$get_data_b['title'];
+	                    $description=$get_data_b['description'];
+	                    $primary_key=$get_data_b['primary_key'];
+	                }
+	                
+            	}
+            	//get lec assigment more info
+                $sql="SELECT * FROM `creat_assigment` WHERE 
+                        `ass_name`='$submitted_assigment' and `created_by`='$lec_name'";
+                $run_a=mysqli_query($cn,$sql);
+                if(mysqli_num_rows($run_a)>0){
+
+	                while($get_data_b=mysqli_fetch_assoc($run_a)){
+	                    $due_date=substr($get_data_b['time_duration'], 22);
+	                }
+	                
+            	}
+            	//get student info
+            	$sql="SELECT * FROM `student_whose_submitted` WHERE 
+                        `id`='$submitted_id'";
+                $run_b=mysqli_query($cn,$sql);
+                if(mysqli_num_rows($run_b)>0){
+
+	                while($get_data_c=mysqli_fetch_assoc($run_b)){
+	                $student_name=$get_data_c['std_name'];
+                    $student_email=$get_data_c['email'];
+                    $student_department=$get_data_c['department'];
+                    $student_semester=$get_data_c['semester'];
+                    $student_img=$get_data_a['std_img'];
+                    $student_faculty=$get_data_c['faculty'];
+                    //$assigment_submitted_date=$get_data_a['submitted_date'];
+	                }
+	                
+            	}
+            	//get student more info from registred students table
+            	$sql="SELECT * FROM `registred_students` WHERE 
+                        `email`='$student_email'";
+                $run_c=mysqli_query($cn,$sql);
+                if(mysqli_num_rows($run_c)>0){
+
+	                while($get_data_d=mysqli_fetch_assoc($run_c)){
+	                $student_mob=$get_data_d['phone'];
+	                $std_image=$get_data_d['img'];
+	                }
+	                
+            	}
+            	//insert data to another tabel
+            	$on=date("m/d/Y h:i:s A");
+            	$sql4="SELECT * FROM `students_assigment_accepted` WHERE `std_email`='$student_email' and `asssigment`='$submitted_assigment'";
+
+            	$done1=mysqli_query($cn,$sql4);
+            	if(mysqli_num_rows($done1)>0){
+
+            		return "already_accepted";
+
+            	}
+
+            	$sql="INSERT INTO `students_assigment_accepted`(`std_name`, `std_email`, `std_mob`, `std_img`, `asssigment`, `marks`, `title`, `description`, `due_date`, `submition_date`, `confirmation`, `confirm_by`, `lec_email`, `confirm_on`) VALUES ('$student_name','$student_email',
+            		'$student_mob','$std_image','$submitted_assigment','$std_marks','$title','$description','$due_date','$submitted_on','Accepted','$lec_name','$lec_email','$on')";
+            		$all_done=mysqli_query($cn,$sql);
+            		if($all_done){
+            			$sql2="DELETE FROM `submit_assigments` WHERE `primary_key`='$_PK'";
+            			$all_done2=mysqli_query($cn,$sql2);
+            			if($all_done2){
+            				$sql3="DELETE FROM `attach_evidences` WHERE `id`='$submitted_id' and `assigment`='$submitted_assigment'";
+            				$all_done3=mysqli_query($cn,$sql3);
+            				if($all_done3){
+            					mysqli_close($cn);
+            					return "done";
+            				}else{
+            					return "evidence not delete";
+            				}
+            				
+            			}else{
+            				mysqli_close($cn);
+            				return "not delete";
+            			}
+            		}else{
+            			mysqli_close($cn);
+            			return "not accept";
+            		}
+}
+
+function student_reject_assigment(){
+$cn=db_connection();
+$_PK=$_GET['student_reject_id'];
+$std_marks=$_POST["std_marks"];
+				$lec_name=$_SESSION["lecturer_logged_in"]["username"];
+				$lec_email=$_SESSION["lecturer_logged_in"]["lec_email"];
+				//get assigment info
+                $sql="SELECT * FROM `submit_assigments` WHERE 
+                        `primary_key`='$_PK'";
+                $run=mysqli_query($cn,$sql);
+                if(mysqli_num_rows($run)>0){
+
+	                while($get_data_b=mysqli_fetch_assoc($run)){
+	                    $submitted_id=$get_data_b['std_id'];
+	                    $submitted_assigment=$get_data_b['assigment'];
+	                    $submitted_on=$get_data_b['submitted_on'];
+	                    $title=$get_data_b['title'];
+	                    $description=$get_data_b['description'];
+	                    $primary_key=$get_data_b['primary_key'];
+	                }
+	                
+            	}
+            	//get lec assigment more info
+                $sql="SELECT * FROM `creat_assigment` WHERE 
+                        `ass_name`='$submitted_assigment' and `created_by`='$lec_name'";
+                $run_a=mysqli_query($cn,$sql);
+                if(mysqli_num_rows($run_a)>0){
+
+	                while($get_data_b=mysqli_fetch_assoc($run_a)){
+	                    $due_date=substr($get_data_b['time_duration'], 22);
+	                }
+	                
+            	}
+            	//get student info
+            	$sql="SELECT * FROM `student_whose_submitted` WHERE 
+                        `id`='$submitted_id'";
+                $run_b=mysqli_query($cn,$sql);
+                if(mysqli_num_rows($run_b)>0){
+
+	                while($get_data_c=mysqli_fetch_assoc($run_b)){
+	                $student_name=$get_data_c['std_name'];
+                    $student_email=$get_data_c['email'];
+                    $student_department=$get_data_c['department'];
+                    $student_semester=$get_data_c['semester'];
+                    $student_img=$get_data_a['std_img'];
+                    $student_faculty=$get_data_c['faculty'];
+                    //$assigment_submitted_date=$get_data_a['submitted_date'];
+	                }
+	                
+            	}
+            	//get student more info from registred students table
+            	$sql="SELECT * FROM `registred_students` WHERE 
+                        `email`='$student_email'";
+                $run_c=mysqli_query($cn,$sql);
+                if(mysqli_num_rows($run_c)>0){
+
+	                while($get_data_d=mysqli_fetch_assoc($run_c)){
+	                $student_mob=$get_data_d['phone'];
+	                $std_image=$get_data_d['img'];
+	                }
+	                
+            	}
+            	//insert data to another tabel
+            	$on=date("m/d/Y h:i:s A");
+            	$sql4="SELECT * FROM `students_assigment_rejected` WHERE `std_email`='$student_email' and `asssigment`='$submitted_assigment'";
+
+            	$done1=mysqli_query($cn,$sql4);
+            	if(mysqli_num_rows($done1)>0){
+
+            		return "already_accepted";
+
+            	}
+
+            	$sql="INSERT INTO `students_assigment_rejected`(`std_name`, `std_email`, `std_mob`, `std_img`,`asssigment`, `marks`, `title`, `description`, `due_date`, `submition_date`, `confirmation`, `confirm_by`, `lec_email`, `confirm_on`) VALUES ('$student_name','$student_email',
+            		'$student_mob','$std_image','$submitted_assigment','$std_marks','$title','$description','$due_date','$submitted_on','Rejected','$lec_name','$lec_email','$on')";
+            		$all_done=mysqli_query($cn,$sql);
+            		if($all_done){
+            			$sql2="DELETE FROM `submit_assigments` WHERE `primary_key`='$_PK'";
+            			$all_done2=mysqli_query($cn,$sql2);
+            			if($all_done2){
+            				$sql3="DELETE FROM `attach_evidences` WHERE `id`='$submitted_id' and `assigment`='$submitted_assigment'";
+            				$all_done3=mysqli_query($cn,$sql3);
+            				if($all_done3){
+            					mysqli_close($cn);
+            					return "done";
+            				}else{
+            					return "evidence not delete";
+            				}
+            				
+            			}else{
+            				mysqli_close($cn);
+            				return "not delete";
+            			}
+            		}else{
+            			mysqli_close($cn);
+            			return "not accept";
+            		}
 }
 
 	function approve_students(){

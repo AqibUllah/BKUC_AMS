@@ -7,19 +7,18 @@ session_start();
 ?>
 
 <?php
-            include('db_page.php');
-            $cn=db_connection();
-            $id_count=0;
-            $lec_name=$_SESSION["lecturer_logged_in"]["username"];
-                    $sql="SELECT * FROM `creat_assigment` WHERE 
-                        `created_by`='$lec_name'";
-                    $run_b=mysqli_query($cn,$sql);
-                    if(mysqli_num_rows($run_b)>0){
-                      while ($get=mysqli_fetch_assoc($run_b)) {
-                        $id_count+=1;
-                      }
-                    }
-            ?>
+include 'db_page_2.php';
+$cn=db_connection();
+$sql="SELECT * FROM `creat_assigment`";
+$run=mysqli_query($cn,$sql);
+$count = 0;
+while($get_data=mysqli_fetch_array($run)){
+  $count+=1;
+}
+
+
+          
+?>
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -31,12 +30,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>Dashboard</title>
+  <title>Submitted Assigments</title>
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
-   <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- DataTables -->
   <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.css">
   <!-- Theme style -->
@@ -44,6 +41,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <style type="text/css">
+      table td{
+        font-size: 12px;
+        height: auto;
+        width: auto;
+        text-align: center;
+      }
+      table th{
+        text-align: center;
+      }
+      .btn{
+        font-size: 10px;
+        width: auto;
+        height: auto;
+      }
+      #success{
+        text-align: center;
+        font-family: candara;
+        font-size: 25px;
+        font-weight: bold;
+        color: green;
+      }img{
+        width: 50px;height: 50px;
+      }b{
+        font-weight: bold;
+      }
+    </style>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -155,11 +179,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-header">Account Settings</span>
           <div class="dropdown-divider"></div>
-          <a href="lecturer_profile.php" class="dropdown-item">
+          <a href="student_profile.php" class="dropdown-item">
             <i class="fas fa-lock mr-2"></i>Profile
           </a>
           <div class="dropdown-divider"></div>
-          <a href="lecturer_change_password.php" class="dropdown-item">
+          <a href="#" class="dropdown-item">
             <i class="fas fa-lock-open mr-2"></i>Change Password
           </a>
           <div class="dropdown-divider"></div>
@@ -186,7 +210,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-           <?php if(file_exists($_SESSION["lecturer_logged_in"]["lecturer_image"])){
+            <?php if(file_exists($_SESSION["lecturer_logged_in"]["lecturer_image"])){
               ?>
               <img src="<?php echo $_SESSION["lecturer_logged_in"]["lecturer_image"]; ?>" class="img-circle elevation-2" alt="User Image">
               <?php
@@ -229,12 +253,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
           </li>
-          <li class="nav-item">
+             <li class="nav-item">
             <a href="assigment_list.php" class="nav-link">
               <i class="nav-icon fas fa-check"></i>
               <p>
                 Created Assigments
-                
               </p>
             </a>
           </li>
@@ -279,126 +302,155 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
-        <div class="row mb-2">
-
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="small-box bg-info">
-              <div class="inner">
-                <h3>Creat</h3>
-
-                <p>New Assigment</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-paintbucket"></i>
-              </div>
-              <a href="creat_assigment.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- /.col -->
-
-          <div class="col-12 col-sm-6 col-md-3">
-            <!-- small box -->
-            <div class="small-box bg-success">
-              <div class="inner">
-                <h3><?php
-                if(mysqli_num_rows($run_b)>0){
-                  
-                  echo $id_count;
-                }else{
-                  echo "0";
-                }
-                ?></h3>
-
-                <p>Created Assigments</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-document-text"></i>
-              </div>
-              <a href="assigment_list.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- /.col -->
-           <!-- fix for small devices only -->
-          <div class="clearfix hidden-md-up"></div>
-          <div class="col-12 col-sm-6 col-md-3">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-              <div class="inner">
-                <?php
-                $sql="SELECT * FROM `submit_assigments` WHERE 
-                        `assigment_was_created_by`='$lec_name'";
-                    $run_b=mysqli_query($cn,$sql);
-                  if(mysqli_num_rows($run_b)>0){
-                    //if(mysqli_num_rows($run_b)>0){
-                    $assigment_count=0;
-                    while($get_data_b=mysqli_fetch_assoc($run_b)){
-                    $assigment_count+=1;
-                  }
-                  echo "<h3>$assigment_count</h3>";
-                }else{
-                  echo "<h3>0</h3>";
-                }
-                ?>
-                
-
-                <p>Students Submitted</p>
-              </div>
-              <div class="icon">
-                <?php
-                if(mysqli_num_rows($run_b)==1){
-                  ?>
-                  <i class="ion ion-person"></i>
-                  <?php
-                }elseif(mysqli_num_rows($run_b)>1){
-                  ?>
-                  <i class="ion ion-person-add"></i>
-                  <?php
-                }else{
-                  ?>
-                  <i class="ion ion-bag"></i>
-                  <?php
-                }
-                ?>
-                
-              </div>
-              <a href="show_assigment_submitted_list_to_lecturer.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- /.col -->
-           <div class="col-12 col-sm-6 col-md-3">
-            <!-- small box -->
-            <div class="small-box bg-danger">
-              <div class="inner">
-                <h3>History</h3>
-
-                <p>Students  Confirmation</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-pie-graph"></i>
-              </div>
-              <a href="assigment_category.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          
-          </div>
-          <!-- /.col -->
-        </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
+
+<!-- jQuery -->
+<script src="plugins/jquery/jquery.min.js"></script>
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
         <div class="row">
           <div class="col-lg-12">
-                <!-- write or design something in 6 columns -->
+            <?php
+            if(isset($_GET['accepted_std_details_id'])){
+              $a_id=$_GET['accepted_std_details_id'];
+              $cn=db_connection();
+                    $sql="SELECT * FROM `students_assigment_accepted` WHERE `id`='$a_id'";
+                    $run=mysqli_query($cn,$sql);
+                    if(mysqli_num_rows($run)>0){
+                      $count_accepted=0;
+                      while ($get_data=mysqli_fetch_assoc($run)) {
+                        $id=$get_data['id'];
+                        $std_name=$get_data['std_name'];
+                        $std_email=$get_data['std_email'];
+                        $std_mob=$get_data['std_mob'];
+                        $std_img=$get_data['std_img'];
+                        $std_assigment=$get_data['asssigment'];
+                        $std_marks=$get_data['marks'];
+                        $assigment_title=$get_data['title'];
+                        $assigment_description=$get_data['description'];
+                        $ass_due_date=$get_data['due_date'];
+                        $ass_submit_date=$get_data['submition_date'];
+                        $std_confirmation=$get_data['confirmation'];
+                        $confirm_by=$get_data['confirm_by'];
+                        $lec_email=$get_data['lec_email'];
+                        $confirm_on=$get_data['confirm_on'];
+                        $count_accepted+=1;
+                      }
+                      //getting std more info
+                      $sql="SELECT * FROM `registred_students` WHERE `email`='$std_email'";
+                      $getting=mysqli_query($cn,$sql);
+                      if(mysqli_num_rows($getting)>0){
+                        while ($get_std_info=mysqli_fetch_assoc($getting)) {
+                          $std_department=$get_std_info['department'];
+                          $std_faculty=$get_std_info['faculty'];
+                          $std_semester=$get_std_info['semester'];
+                        }
+                      }
+                    }
+            }elseif (isset($_GE['rejected_std_details_id'])) {
+              $b_id=$_GET['rejected_std_details_id'];
+              $cn=db_connection();
+                    $sql="SELECT * FROM `students_assigment_rejected` WHERE `id`='$b_id'";
+                    $run_a=mysqli_query($cn,$sql);
+                    if(mysqli_num_rows($run_a)>0){
+                      $count_rejected=0;
+                      while ($get_data_b=mysqli_fetch_array($run_a)) {
+                        $id_r=$get_data_b['id'];
+                        $std_name_r=$get_data_b['std_name'];
+                        $std_email_r=$get_data_b['std_email'];
+                        $std_mob_r=$get_data_b['std_mob'];
+                        $std_img_r=$get_data_b['std_img'];
+                        $std_assigmen_rt=$get_data_b['asssigment'];
+                        $std_marks_r=$get_data_b['marks'];
+                        $std_title_r=$get_data_b['title'];
+                        $std_description_r=$get_data_b['description'];
+                        $ass_due_date_r=$get_data_b['due_date'];
+                        $ass_submit_date_r=$get_data_b['submition_date'];
+                        $std_confirmation_r=$get_data_b['confirmation'];
+                        $confirm_by_r=$get_data_b['confirm_by'];
+                        $lec_email_r=$get_data_b['lec_email'];
+                        $confirm_on_r=$get_data_b['confirm_on'];
+                        $count_rejected+=1;
+                      }
+
+                    }
+            }
+            ?>
           </div>
-          <!-- /.col-md-6 -->
-          <div class="col-lg-6">
-            <!-- write or design something in 6 columns -->
-          </div>
-          <!-- /.col-md-6 -->
         </div>
-        <!-- /.row -->
+        <!-- Content Header (Page header) -->
+
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="callout callout-info">
+                <h4>
+                    <img src="<?php echo $std_img; ?>" class="img-circle img-fluid" width="100%" height="100%"> <?php echo $std_name; ?>
+                    <span class="badge badge-success float-right" style="margin-top: 20px;"><p><?php echo $std_confirmation; ?></p></span>
+                  </h4>
+
+                <!-- /.col -->
+            </div>
+
+
+            <!-- Main content -->
+            <div class="invoice p-3 mb-3">
+              <small class="float-right"><?php echo "Date : ". date('m/d/Y'); ?></small>
+              <!-- info row -->
+              <div class="row invoice-info">
+                <div class="col-sm-4 invoice-col">
+                  <i class="fas fa-info"></i> <b>Student Info</b><br><br>
+                  <address>
+                    <strong>Faculty : <?php echo "$std_faculty"; ?></strong><br>
+                    Department : <?php echo "$std_department"; ?><br>
+                    Semester : <?php echo "$std_semester"; ?><br>
+                    Phone : <?php echo "$std_mob"; ?><br>
+                    Emil : <?php echo "$std_email"; ?>
+                  </address>
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4 invoice-col">
+                  <i class="fas fa-info"></i> <b>Assigment Info</b><br><br>
+                  <address>
+                    <strong>Assigment : <?php echo "$std_assigment"; ?></strong><br>
+                    Title : <?php echo "$assigment_title"; ?><br>
+                    Descriptionn : <?php echo "$assigment_description"; ?><br>
+                  </address>
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4 invoice-col">
+                  <i class="fas fa-info"></i> <b>Submission Info</b><br><br>
+                    <strong>Due Date : <?php echo "$ass_due_date"; ?></strong><br>
+                    Submitted On : <?php echo "$ass_submit_date"; ?><br><br>
+                    <div class="badge badge-info">
+                    Submitted To : <?php echo "$confirm_by"; ?><br>
+                    Email : <?php echo "$lec_email"; ?><br>
+                    </div>
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+
+              <!-- this row will not appear when printing -->
+              <div class="row no-print">
+                <div class="col-12">
+                  <a href="student_assigment_details_print.php?accepted_std_details_id=<?php echo $id ?>" target="_blank" class="btn btn-secondary"><i class="fas fa-print"></i> Print</a>
+                  <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
+                    <i class="fas fa-download"></i> Generate PDF
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- /.invoice -->
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
@@ -427,8 +479,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 </div>
 <!-- ./wrapper -->
 
-<!-- jQuery -->
-<script src="plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- REQUIRED SCRIPTS -->
@@ -442,14 +492,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script>
   $(function () {
     $("#example1").DataTable();
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": true,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-    });
+    $('#example2').DataTable();
   });
 </script>
 </body>

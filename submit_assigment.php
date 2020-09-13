@@ -651,6 +651,7 @@ if(isset($_POST['btn_submit_assigment'])){
               autohide:true,
               delay:4000,
               subtitle: 'missing fields',
+              icon: 'fas fa-envelope fa-lg',
               body: 'Missing Input Fields <strong>All REQUIRED</strong>'
             })
           });

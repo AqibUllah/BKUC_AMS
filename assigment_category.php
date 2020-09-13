@@ -7,19 +7,18 @@ session_start();
 ?>
 
 <?php
-            include('db_page.php');
-            $cn=db_connection();
-            $id_count=0;
-            $lec_name=$_SESSION["lecturer_logged_in"]["username"];
-                    $sql="SELECT * FROM `creat_assigment` WHERE 
-                        `created_by`='$lec_name'";
-                    $run_b=mysqli_query($cn,$sql);
-                    if(mysqli_num_rows($run_b)>0){
-                      while ($get=mysqli_fetch_assoc($run_b)) {
-                        $id_count+=1;
-                      }
-                    }
-            ?>
+include 'db_page_2.php';
+$cn=db_connection();
+$sql="SELECT * FROM `creat_assigment`";
+$run=mysqli_query($cn,$sql);
+$count = 0;
+while($get_data=mysqli_fetch_array($run)){
+  $count+=1;
+}
+
+
+          
+?>
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -31,19 +30,40 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>Dashboard</title>
+  <title>Submitted Assigments</title>
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
-   <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- DataTables -->
   <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.css">
+  <!-- Tempusdominus Bbootstrap 4 -->
+  <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <style type="text/css">
+      table td{
+        font-size: 12px;
+        height: auto;
+        width: auto;
+        text-align: center;
+      }
+      table th{
+        text-align: center;
+      }
+      #success{
+        text-align: center;
+        font-family: candara;
+        font-size: 25px;
+        font-weight: bold;
+        color: green;
+      }
+    </style>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -155,11 +175,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-header">Account Settings</span>
           <div class="dropdown-divider"></div>
-          <a href="lecturer_profile.php" class="dropdown-item">
+          <a href="student_profile.php" class="dropdown-item">
             <i class="fas fa-lock mr-2"></i>Profile
           </a>
           <div class="dropdown-divider"></div>
-          <a href="lecturer_change_password.php" class="dropdown-item">
+          <a href="#" class="dropdown-item">
             <i class="fas fa-lock-open mr-2"></i>Change Password
           </a>
           <div class="dropdown-divider"></div>
@@ -186,7 +206,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-           <?php if(file_exists($_SESSION["lecturer_logged_in"]["lecturer_image"])){
+            <?php if(file_exists($_SESSION["lecturer_logged_in"]["lecturer_image"])){
               ?>
               <img src="<?php echo $_SESSION["lecturer_logged_in"]["lecturer_image"]; ?>" class="img-circle elevation-2" alt="User Image">
               <?php
@@ -229,12 +249,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
           </li>
-          <li class="nav-item">
+             <li class="nav-item">
             <a href="assigment_list.php" class="nav-link">
               <i class="nav-icon fas fa-check"></i>
               <p>
                 Created Assigments
-                
               </p>
             </a>
           </li>
@@ -279,126 +298,73 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
-        <div class="row mb-2">
-
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="small-box bg-info">
-              <div class="inner">
-                <h3>Creat</h3>
-
-                <p>New Assigment</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-paintbucket"></i>
-              </div>
-              <a href="creat_assigment.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- /.col -->
-
-          <div class="col-12 col-sm-6 col-md-3">
-            <!-- small box -->
-            <div class="small-box bg-success">
-              <div class="inner">
-                <h3><?php
-                if(mysqli_num_rows($run_b)>0){
-                  
-                  echo $id_count;
-                }else{
-                  echo "0";
-                }
-                ?></h3>
-
-                <p>Created Assigments</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-document-text"></i>
-              </div>
-              <a href="assigment_list.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- /.col -->
-           <!-- fix for small devices only -->
-          <div class="clearfix hidden-md-up"></div>
-          <div class="col-12 col-sm-6 col-md-3">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-              <div class="inner">
-                <?php
-                $sql="SELECT * FROM `submit_assigments` WHERE 
-                        `assigment_was_created_by`='$lec_name'";
-                    $run_b=mysqli_query($cn,$sql);
-                  if(mysqli_num_rows($run_b)>0){
-                    //if(mysqli_num_rows($run_b)>0){
-                    $assigment_count=0;
-                    while($get_data_b=mysqli_fetch_assoc($run_b)){
-                    $assigment_count+=1;
-                  }
-                  echo "<h3>$assigment_count</h3>";
-                }else{
-                  echo "<h3>0</h3>";
-                }
-                ?>
-                
-
-                <p>Students Submitted</p>
-              </div>
-              <div class="icon">
-                <?php
-                if(mysqli_num_rows($run_b)==1){
-                  ?>
-                  <i class="ion ion-person"></i>
-                  <?php
-                }elseif(mysqli_num_rows($run_b)>1){
-                  ?>
-                  <i class="ion ion-person-add"></i>
-                  <?php
-                }else{
-                  ?>
-                  <i class="ion ion-bag"></i>
-                  <?php
-                }
-                ?>
-                
-              </div>
-              <a href="show_assigment_submitted_list_to_lecturer.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- /.col -->
-           <div class="col-12 col-sm-6 col-md-3">
-            <!-- small box -->
-            <div class="small-box bg-danger">
-              <div class="inner">
-                <h3>History</h3>
-
-                <p>Students  Confirmation</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-pie-graph"></i>
-              </div>
-              <a href="assigment_category.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          
-          </div>
-          <!-- /.col -->
-        </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
+
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
+        
         <div class="row">
           <div class="col-lg-12">
-                <!-- write or design something in 6 columns -->
-          </div>
-          <!-- /.col-md-6 -->
-          <div class="col-lg-6">
-            <!-- write or design something in 6 columns -->
+            <div class="card card-info">
+              <div class="card-header bg-dark">
+                <h4>Assigment Category</h4>
+              </div>
+              <div class="card-body">
+                <form method="get" action="#">
+                  <div class="form-group">
+                    <table class="table table-hover" id="example1">
+                      <thead style="font-weight: bold;">
+                        <tr>
+                          <td>S.No</td>
+                          <td>Assigment</td>
+                          <td>Belongs to</td>
+                          <td style="text-align: right;">Details</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      <?php
+                        $cn=db_connection();
+                        $lec_name=$_SESSION["lecturer_logged_in"]["username"];
+                        $lec_email=$_SESSION["lecturer_logged_in"]["lec_email"];
+                        $sql="SELECT * FROM `creat_assigment` WHERE `created_by`='$lec_name'";
+                        $run=mysqli_query($cn,$sql);
+                        if(mysqli_num_rows($run)>0){
+                          $count=0;
+                          while ($get_data = mysqli_fetch_array($run)) {
+                            $assigment = $get_data['ass_name'];
+                            $semester = $get_data['semester'];
+                            $department = $get_data['department'];
+                            $count+=1;
+                            ?>
+                            <tr>
+                              <td><?php echo $count; ?></td>
+                              <td><?php echo $assigment; ?></td>
+                              <td><?php echo $department." ".$semester; ?></td>
+                              <td style="text-align: right;">
+                                <a href="students_confirmation_history.php?assigment_name=<?php echo $assigment; ?>" class="btn btn-info btn-sm">Students History</a>
+                              </td>
+                            </tr>
+                            <?php
+                          }
+                        }
+                        ?>
+                      </tbody>
+                    </table>
+                        
+                        
+                </div>
+                </form>
+              </div>
+            </div>
           </div>
           <!-- /.col-md-6 -->
         </div>
         <!-- /.row -->
+
+
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
@@ -426,15 +392,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
   </footer>
 </div>
 <!-- ./wrapper -->
-
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Select2 -->
+<script src="plugins/select2/js/select2.full.min.js"></script>
+<!-- Bootstrap4 Duallistbox -->
+<script src="plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+<!-- InputMask -->
+<script src="plugins/moment/moment.min.js"></script>
+<script src="plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
 <!-- REQUIRED SCRIPTS -->
 <!-- DataTables -->
 <script src="plugins/datatables/jquery.dataTables.js"></script>
 <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+<!-- Bootstrap Switch -->
+<script src="plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
 
@@ -450,6 +424,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
       "info": true,
       "autoWidth": false,
     });
+  });
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+    $('.select2').select2()
   });
 </script>
 </body>

@@ -7,7 +7,7 @@ session_start();
 ?>
 
 <?php
-include 'db_page.php';
+include 'db_page_2.php';
 $cn=db_connection();
 $sql="SELECT * FROM `creat_assigment`";
 $run=mysqli_query($cn,$sql);
@@ -55,6 +55,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
         font-size: 10px;
         width: auto;
         height: auto;
+      }
+      #success{
+        text-align: center;
+        font-family: candara;
+        font-size: 25px;
+        font-weight: bold;
+        color: green;
       }
     </style>
 </head>
@@ -295,6 +302,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </div>
     <!-- /.content-header -->
 
+<!-- jQuery -->
+<script src="plugins/jquery/jquery.min.js"></script>
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
@@ -303,7 +312,43 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <!-- write or design something in 12 columns -->
                 <?php
                     $lec_name=$_SESSION["lecturer_logged_in"]["username"];
-                    
+                    if(isset($_GET['success_id'])){
+                      ?>
+                <script type="text/javascript">
+                  $(document).ready(function(){
+                    $('.toastsDefaultSuccess').ready(function() {
+                      $(document).Toasts('create', {
+                        class: 'bg-success', 
+                        title: 'Accepted',
+                        autohide:true,
+                        delay:5000,
+                        subtitle: 'Done',
+                        body: "Assigment has been accepted"
+                      })
+                    });
+                  });
+                  
+                </script>
+              <?php
+                    }elseif(isset($_GET['reject_id'])){
+                      ?>
+                      <script type="text/javascript">
+                        $(document).ready(function(){
+                          $('.toastsDefaultMaroon').ready(function() {
+                            $(document).Toasts('create', {
+                              class: 'bg-maroon', 
+                              title: 'Rejected',
+                              autohide:true,
+                              delay:5000,
+                              subtitle: 'Done',
+                              body: "Assigment has been Rejected"
+                            })
+                          });
+                        });
+                        
+                      </script>
+                    <?php
+                    }
                   ?>
                   <table id="example2" class="table table-bordere table-hover table-dark">
                     <thead>
@@ -317,7 +362,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </tr>
                     </thead>
                     <tbody>
-                     
+                    
                   <?php
                   $assigment_count = 0;
                   
@@ -338,20 +383,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         $total_marks = $get_data_e['ass_marks'];
                       }
                     }
-                    /*$_id=$get_data['id'];
-                    //$assigment_name=$get_data['sibmitted_assigment'];
-                    
-                    $student_name=$get_data['std_name'];
-                    $student_email=$get_data['email'];
-                    $student_department=$get_data['department'];
-                    $student_semester=$get_data['semester'];
-                    $student_submitted_Date=$get_data['submitted_date'];
-                    $student_faculty=$get_data['faculty'];
-                    $std_assigment_title=$get_data['title'];
-                    $std_assigment_description=$get_data['description'];
-                    $assigment_evidence=$get_data['evidence'];
-                    $assigment_submitted_date=$get_data['submitted_date'];
-                    */
 
                   $sql="SELECT * FROM `student_whose_submitted` WHERE `id`='$submitted_id'";
                   $run=mysqli_query($cn,$sql);
@@ -382,83 +413,30 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <td><?php echo $student_name; ?></td>
                       <td><?php echo $submitted_assigment; ?></td>
                       <td><?php echo $submitted_on; ?></td>
-                      <td><input type="text" name="txt_marks" placeholder="student marks / <?php echo $total_marks; ?>" class="form-control"></td>
+                      <form method="post" action="show_assigment_submitted_list_to_lecturer.php">
+                      <td>
+                        <input type="text" placeholder="student marks / <?php echo $total_marks ?>" name="std_marks" class="form-control">
+                        </td>
                       <td class="text-center py-0 align-middle">
 
                           <a href="student_view_evidence.php?student_id=<?php echo $primary_key; ?>" class="btn btn-primary">View Evidence</a>
-
-                          <a href="#" class="btn btn-danger">Reject</a>
-                          <a href="#" class="btn btn-success">Accept</a>
+                          <input type="hidden" name="h_value" id="h_value" value="<?php echo $primary_key; ?>">
+                          <a href="?student_reject_id=<?php echo $primary_key; ?>" class="btn btn-danger">Reject</a>
+                          
+                          <input type="submit" name="btn_accept" id="btn_accept" value="Accept" class="btn btn-success">
                         
                       </td>
+                    </form>
                       </tr>
+                    
                     <?php
+
                   }
 
                     }
-                  
-                  
-                  
-
-                    
-                  }else{
-                    $lec_name=$_SESSION["lecturer_logged_in"]["username"];
-                    $sql="SELECT * FROM `submit_assigments` WHERE 
-                        `assigment_was_created_by`='$lec_name'";
-                    $run_b=mysqli_query($cn,$sql);
-                  if(mysqli_num_rows($run_b)>0){
-                    //if(mysqli_num_rows($run_b)>0){
-
-                    while($get_data_b=mysqli_fetch_assoc($run_b)){
-                    $submitted_id=$get_data_b['std_id'];
-                    $submitted_assigment=$get_data_b['assigment'];
-                    $Assigment_Evidence=$get_data_b['evidence'];
-                    $submitted_on=$get_data_b['submitted_on'];
-                    $primary_key=$get_data_b['primary_key'];
-                    $assigment_count+=1;
-
-                    $sql="SELECT * FROM `student_whose_submitted` WHERE `id`='$submitted_id'";
-                    $run_d=mysqli_query($cn,$sql);
-                    if(mysqli_num_rows($run_d)>0){
-                      while($get_data=mysqli_fetch_array($run_d)){
-                        $_id=$get_data['id'];
-                        //$assigment_name=$get_data['sibmitted_assigment'];
-                        $student_name=$get_data['std_name'];
-                        $student_email=$get_data['email'];
-                        $student_department=$get_data['department'];
-                        $student_semester=$get_data['semester'];
-                        $student_submitted_Date=$get_data['submitted_date'];
-                        $student_faculty=$get_data['faculty'];
-                        $std_assigment_title=$get_data['title'];
-                        $std_assigment_description=$get_data['description'];
-                        $assigment_evidence=$get_data['evidence'];
-                        $assigment_submitted_date=$get_data['submitted_date'];
-                      }
-                    }
-
-                    ?>
-                    
-                      <td><?php echo $assigment_count; ?></td>
-                      <td><?php echo $student_name; ?></td>
-                      <td><?php echo $submitted_assigment; ?></td>
-                      <td><?php echo $submitted_on; ?></td>
-                      <td class="text-center py-0 align-middle">
-
-                          <a href="student_view_evidence.php?student_id=<?php echo $primary_key; ?>" class="btn btn-primary">View Evidence</a>
-
-                          <a href="#" class="btn btn-danger">Reject</a>
-                          <a href="#" class="btn btn-success">Accept</a>
-                        
-                      </td>
-                    
-                    <?php
-                  }
-                    }
-
                   }
                   ?>
-              
-                </tbody>
+            </tbody>
           </table>
           </div>
           <!-- /.col-md-6 -->
@@ -492,8 +470,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 </div>
 <!-- ./wrapper -->
 
-<!-- jQuery -->
-<script src="plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- REQUIRED SCRIPTS -->
@@ -519,3 +495,138 @@ scratch. This page gets rid of all links and provides the needed markup only.
 </script>
 </body>
 </html>
+<?php
+if(isset($_POST["btn_accept"])){
+  include('functions_page.php');
+  $std_marks=$_POST['std_marks'];
+  //$status = input_recieved($_POST['std_marks']);
+  if($std_marks != "" or $std_marks != null){
+    $status = student_accept_assigment();
+    if($status == "done"){
+      ?>
+                <script type="text/javascript">
+                  window.location="show_assigment_submitted_list_to_lecturer.php?success_id";
+                </script>
+              <?php
+
+    }elseif ($status == "evidence not delete") {
+      ?>
+                <script type="text/javascript">
+                  $(document).ready(function(){
+                    $('.toastsDefaultDanger').ready(function() {
+                      $(document).Toasts('create', {
+                        class: 'bg-danger', 
+                        title: 'Accepted',
+                        autohide:true,
+                        delay:5000,
+                        subtitle: 'Error',
+                        body: "Oops! Evidence files not deleted something went wrong"
+                      })
+                    });
+                  });
+                </script>
+              <?php
+    }elseif ($status=="already_accepted") {
+      ?>
+                <script type="text/javascript">
+                  $(document).ready(function(){
+                    $('.toastsDefaultInfo').ready(function() {
+                      $(document).Toasts('create', {
+                        class: 'bg-info', 
+                        title: 'accepted',
+                        autohide:true,
+                        delay:5000,
+                        subtitle: 'Already done',
+                        body: "Assigment was already accepted"
+                      })
+                    });
+                  });
+                </script>
+              <?php
+    }elseif ($status == "not delete") {
+    ?>
+                <script type="text/javascript">
+                  $(document).ready(function(){
+                    $('.toastsDefaultMaroon').ready(function() {
+                      $(document).Toasts('create', {
+                        class: 'bg-maroon', 
+                        title: 'Error',
+                        autohide:true,
+                        delay:5000,
+                        subtitle: 'Not delete',
+                        body: "data can not delete"
+                      })
+                    });
+                  });
+                </script>
+              <?php
+  }elseif ($status == "not accept") {
+    ?>
+                <script type="text/javascript">
+                  $(document).ready(function(){
+                    $('.toastsDefaultDanger').ready(function() {
+                      $(document).Toasts('create', {
+                        class: 'bg-danger', 
+                        title: 'Error',
+                        autohide:true,
+                        delay:5000,
+                        subtitle: 'Not Accept',
+                        body: "Oops! Student can not accept something went wrong."
+                      })
+                    });
+                  });
+                </script>
+              <?php
+  }
+
+}else{
+    ?>
+                <script type="text/javascript">
+                  $(document).ready(function(){
+                    $('.toastsDefaultMaroon').ready(function() {
+                      $(document).Toasts('create', {
+                        class: 'bg-maroon', 
+                        title: 'Error',
+                        autohide:true,
+                        delay:5000,
+                        subtitle: 'Not Accept',
+                        body: "can not accept beacuse of students marks was empty"
+                      })
+                    });
+                  });
+                </script>
+              <?php
+  }
+  
+                    
+}
+
+
+if(isset($_GET['student_reject_id'])){
+  $status = student_reject_assigment();
+  if($status == "done"){
+              ?>
+                <script type="text/javascript">
+                  window.location="show_assigment_submitted_list_to_lecturer.php?reject_id";
+                </script>
+              <?php
+  }else{
+    ?>
+                <script type="text/javascript">
+                  $(document).ready(function(){
+                    $('.toastsDefaultDanger').ready(function() {
+                      $(document).Toasts('create', {
+                        class: 'bg-danger', 
+                        title: 'Error',
+                        autohide:true,
+                        delay:5000,
+                        subtitle: 'Not Done',
+                        body: "Oops Something went wrong"
+                      })
+                    });
+                  });
+                </script>
+              <?php
+  }
+}
+?>

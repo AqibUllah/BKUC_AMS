@@ -90,7 +90,7 @@ if(isset($_POST['btn_login_signIn'])){
 	if($status===true){
 		$status=validate_sanitize_login_inputs($_POST);
 		if(is_array($status)){
-			include('db_page.php');
+			include('db_page_2.php');
       $cn=db_connection();
       $input_email=$_POST['std_login_email'];
       //super admin
