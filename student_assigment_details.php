@@ -237,7 +237,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="Lecturer_Dashboard.php" class="nav-link active">
+            <a href="Lecturer_Dashboard.php" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -253,11 +253,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
           </li>
-             <li class="nav-item">
+          <li class="nav-item">
             <a href="assigment_list.php" class="nav-link">
               <i class="nav-icon fas fa-check"></i>
               <p>
                 Created Assigments
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="assigment_category.php" class="nav-link active">
+              <i class="nav-icon fas fa-globe"></i>
+              <p>
+                Assigments History
               </p>
             </a>
           </li>
@@ -350,7 +358,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         }
                       }
                     }
-            }elseif (isset($_GE['rejected_std_details_id'])) {
+            }elseif (isset($_GET['rejected_std_details_id'])) {
               $b_id=$_GET['rejected_std_details_id'];
               $cn=db_connection();
                     $sql="SELECT * FROM `students_assigment_rejected` WHERE `id`='$b_id'";
@@ -363,7 +371,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         $std_email_r=$get_data_b['std_email'];
                         $std_mob_r=$get_data_b['std_mob'];
                         $std_img_r=$get_data_b['std_img'];
-                        $std_assigmen_rt=$get_data_b['asssigment'];
+                        $std_assigmen_r=$get_data_b['asssigment'];
                         $std_marks_r=$get_data_b['marks'];
                         $std_title_r=$get_data_b['title'];
                         $std_description_r=$get_data_b['description'];
@@ -375,22 +383,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         $confirm_on_r=$get_data_b['confirm_on'];
                         $count_rejected+=1;
                       }
-
+                      //getting std more info
+                      $sql="SELECT * FROM `registred_students` WHERE `email`='$std_email_r'";
+                      $getting_a=mysqli_query($cn,$sql);
+                      if(mysqli_num_rows($getting_a)>0){
+                        while ($get_std_info=mysqli_fetch_assoc($getting_a)) {
+                          $std_department_r=$get_std_info['department'];
+                          $std_faculty_r=$get_std_info['faculty'];
+                          $std_semester_r=$get_std_info['semester'];
+                        }
+                      }
                     }
             }
             ?>
           </div>
         </div>
         <!-- Content Header (Page header) -->
-
+<?php
+if(isset($_GET['accepted_std_details_id'])){
+  ?>
     <section class="content">
       <div class="container-fluid">
         <div class="row">
           <div class="col-12">
-            <div class="callout callout-info">
+            <div class="callout callout-success">
                 <h4>
                     <img src="<?php echo $std_img; ?>" class="img-circle img-fluid" width="100%" height="100%"> <?php echo $std_name; ?>
-                    <span class="badge badge-success float-right" style="margin-top: 20px;"><p><?php echo $std_confirmation; ?></p></span>
+                    <p style="margin-top: 20px; color: green;" class="float-right"><strong><i class="fas fa-check"></i> <?php echo $std_confirmation; ?></strong></p>
                   </h4>
 
                 <!-- /.col -->
@@ -405,7 +424,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="col-sm-4 invoice-col">
                   <i class="fas fa-info"></i> <b>Student Info</b><br><br>
                   <address>
-                    <strong>Faculty : <?php echo "$std_faculty"; ?></strong><br>
+                    Faculty : <?php echo "$std_faculty"; ?><br>
                     Department : <?php echo "$std_department"; ?><br>
                     Semester : <?php echo "$std_semester"; ?><br>
                     Phone : <?php echo "$std_mob"; ?><br>
@@ -416,7 +435,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="col-sm-4 invoice-col">
                   <i class="fas fa-info"></i> <b>Assigment Info</b><br><br>
                   <address>
-                    <strong>Assigment : <?php echo "$std_assigment"; ?></strong><br>
+                    Assigment : <?php echo "$std_assigment"; ?><br>
                     Title : <?php echo "$assigment_title"; ?><br>
                     Descriptionn : <?php echo "$assigment_description"; ?><br>
                   </address>
@@ -424,7 +443,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <!-- /.col -->
                 <div class="col-sm-4 invoice-col">
                   <i class="fas fa-info"></i> <b>Submission Info</b><br><br>
-                    <strong>Due Date : <?php echo "$ass_due_date"; ?></strong><br>
+                    Due Date : <?php echo "$ass_due_date"; ?><br>
                     Submitted On : <?php echo "$ass_submit_date"; ?><br><br>
                     <div class="badge badge-info">
                     Submitted To : <?php echo "$confirm_by"; ?><br>
@@ -438,10 +457,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <!-- this row will not appear when printing -->
               <div class="row no-print">
                 <div class="col-12">
-                  <a href="student_assigment_details_print.php?accepted_std_details_id=<?php echo $id ?>" target="_blank" class="btn btn-secondary"><i class="fas fa-print"></i> Print</a>
-                  <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
+                  <a href="student_assigment_details_print.php?accepted_std_details_id=<?php echo $id ?>" target="_blank" class="btn btn-success float-right"><i class="fas fa-print"></i> Print</a>
+                  <!-- <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
                     <i class="fas fa-download"></i> Generate PDF
-                  </button>
+                  </button> -->
                 </div>
               </div>
             </div>
@@ -451,6 +470,82 @@ scratch. This page gets rid of all links and provides the needed markup only.
       </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
+  <?php
+}
+if(isset($_GET['rejected_std_details_id'])){
+?>
+<section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="callout callout-danger">
+                <h4>
+                    <img src="<?php echo $std_img_r; ?>" class="img-circle img-fluid" width="100%" height="100%"> <?php echo $std_name_r; ?>
+                    <p style="color: red; margin-top: 20px;" class="float-right"><strong><i class="fas fa-times"></i> <?php echo $std_confirmation_r; ?></strong></p>
+                  </h4>
+
+                <!-- /.col -->
+            </div>
+
+
+            <!-- Main content -->
+            <div class="invoice p-3 mb-3">
+              <small class="float-right"><?php echo "Date : ". date('m/d/Y'); ?></small>
+              <!-- info row -->
+              <div class="row invoice-info">
+                <div class="col-sm-4 invoice-col">
+                  <i class="fas fa-info"></i> <b>Student Info</b><br><br>
+                  <address>
+                    Faculty : <?php echo "$std_faculty_r"; ?><br>
+                    Department : <?php echo "$std_department_r"; ?><br>
+                    Semester : <?php echo "$std_semester_r"; ?><br>
+                    Phone : <?php echo "$std_mob_r"; ?><br>
+                    Emil : <?php echo "$std_email_r"; ?>
+                  </address>
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4 invoice-col">
+                  <i class="fas fa-info"></i> <b>Assigment Info</b><br><br>
+                  <address>
+                    Assigment : <?php echo "$std_assigmen_r"; ?><br>
+                    Title : <?php echo "$std_title_r"; ?><br>
+                    Descriptionn : <?php echo "$std_department_r"; ?><br>
+                  </address>
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4 invoice-col">
+                  <i class="fas fa-info"></i> <b>Submission Info</b><br><br>
+                    Due Date : <?php echo "$ass_due_date_r"; ?><br>
+                    Submitted On : <?php echo "$ass_submit_date_r"; ?><br><br>
+                    <div class="badge badge-info">
+                    Submitted To : <?php echo "$confirm_by_r"; ?><br>
+                    Email : <?php echo "$lec_email_r"; ?><br>
+                    </div>
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+
+              <!-- this row will not appear when printing -->
+              <div class="row no-print">
+                <div class="col-12">
+                  <a href="student_assigment_details_print.php?rejected_std_details_id=<?php echo $id_r ?>" target="_blank" class="btn btn-danger float-right"><i class="fas fa-print"></i> Print</a>
+                  <!-- <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
+                    <i class="fas fa-download"></i> Generate PDF
+                  </button> -->
+                </div>
+              </div>
+            </div>
+            <!-- /.invoice -->
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+<?php
+}
+?>
+
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->

@@ -16,7 +16,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>Update Assigment</title>
+  <title>Edit Assigment</title>
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
@@ -191,18 +191,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
             } ?>
         </div>
         <div class="info">
+          <a href="lecturer_profile.php">
           <?php
             if(isset($_SESSION["lecturer_logged_in"])){
               echo $_SESSION["lecturer_logged_in"]["username"];
             }
           ?>
-          <span class="right badge badge-danger"><a href="LogOff_page.php">Log Out</a></span>
+          </a>
         </div>
       </div>
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
-    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
@@ -214,7 +215,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
           <li class="nav-item">
-            <a href="creat_assigment.php" class="nav-link active">
+            <a href="creat_assigment.php" class="nav-link">
               <i class="nav-icon fas fa-file"></i>
               <p>
                 Creat Assigment
@@ -222,13 +223,50 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
           </li>
-             <li class="nav-item">
-            <a href="assigment_list.php" class="nav-link">
-              <i class="nav-icon fas fa-list"></i>
+          <li class="nav-item">
+            <a href="assigment_list.php" class="nav-link active">
+              <i class="nav-icon fas fa-check"></i>
               <p>
-                Assigment List
+                Created Assigments
               </p>
             </a>
+          </li>
+          <li class="nav-item">
+            <a href="assigment_category.php" class="nav-link">
+              <i class="nav-icon fas fa-globe"></i>
+              <p>
+                Assigments History
+              </p>
+            </a>
+          </li>
+          <li class="nav-item has-treeview menu-close">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Account Settings
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="lecturer_profile.php" class="nav-link">
+                  <i class="nav-icon far fa-user nav-icon"></i>
+                  <p>Profile</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="lecturer_change_password.php" class="nav-link">
+                  <i class="nav-icon fas fa-lock-open nav-icon"></i>
+                  <p>Change Password</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="LogOff_page.php" class="nav-link">
+                  <i class="nav-icon fas fa-lock nav-icon"></i>
+                  <p>Log Out</p>
+                </a>
+              </li>
+            </ul>
           </li>
         </ul>
       </nav>
@@ -258,6 +296,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     $semseter = $get['semester'];
                                     $faculty = $get['faculty'];
                                     $batch = $get['batch'];
+                                    $total_marks = $get['ass_marks'];
                                     $session = $get['session'];
                                     $message = $get['message'];
                                     $document = $get['document'];
@@ -282,7 +321,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </div>
                 </div>
                 <div class="col-md-5">
-                  
+                  <h4>Set Assigment Marks</h4>
+                  <input type="text" name="edit_marks" placeholder="Total Marks" value="<?php echo $total_marks ?>" class="form-control">
                 </div>
               </div>
             </div>

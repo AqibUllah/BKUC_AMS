@@ -51,6 +51,17 @@
 
 function SignUp_Lecturer($arg){
 	$cn=db_connection();
+	$_admin_email=$arg["admin_email"];
+	$sql="SELECT * FROM `registred_lecturers` WHERE `email`='$_admin_email'";
+	$check=mysqli_query($cn,$sql);
+	if(mysqli_num_rows($check)>0){
+		return "user_exists";
+	}
+	$sql="SELECT * FROM `tbl_request_lectureres` WHERE `email`='$_admin_email'";
+	$check_2=mysqli_query($cn,$sql);
+	if(mysqli_num_rows($check_2)>0){
+		return "user_exists_2";
+	}
 	$sql="INSERT INTO `tbl_request_lectureres`(`username`, `email`, `pass`, `image`, `role`, `faculty`, `entry_date`) VALUES(?,?,?,?,?,?,?)";
 	$stmt=mysqli_prepare($cn,$sql);
 	if($stmt){
@@ -73,13 +84,14 @@ function SignUp_Lecturer($arg){
 			,$arg["std_department"]);*/
 		$status=mysqli_stmt_execute($stmt);
 		if($status){
+			
 			mysqli_stmt_close($stmt);
 			mysqli_close($cn);
           	return true;
 		}
 			mysqli_stmt_close($stmt);
 			mysqli_close($cn);
-          	return "email_exists";
+          	return false;
 		
 	}
 }

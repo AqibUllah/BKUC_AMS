@@ -16,7 +16,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>Creat Assigment</title>
+  <title>New Assigment</title>
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
@@ -245,6 +245,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <i class="nav-icon fas fa-check"></i>
               <p>
                 Created Assigments
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="assigment_category.php" class="nav-link">
+              <i class="nav-icon fas fa-globe"></i>
+              <p>
+                Assigments History
               </p>
             </a>
           </li>

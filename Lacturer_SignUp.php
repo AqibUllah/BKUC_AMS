@@ -83,14 +83,15 @@
 		            <div class="input-group mb-2">
 		                <select name="admin_faculty" class="form-control">
 		                  <option disabled selected>Faculty</option>
-		                  <option value="Science" name="admin_faculty">Science</option>
+		                  <option value="Management Science" name="admin_faculty">Management Science</option>
+                      <option value="Social Science" name="admin_faculty">Social Science</option>
 		                  <option value="Arts" name="admin_faculty">Arts</option>
 		                </select>
 		            </div>
 		            <div class="input-group mb-2">
 		                <select name="admin_role" class="form-control">
 		                  <option disabled selected>Select Role</option>
-		                  <option value="Teacher" name="admin_role">Teacher</option>
+		                  <option value="Lecturer" name="admin_role">Lecturer</option>
 		                  <option value="Manager" name="admin_role">Manager</option>
 		                </select>
 		            </div>
@@ -306,7 +307,7 @@ if(isset($_POST['btn_admin_sign_Up'])){
   if($status === true){
       $status=validate_sanitize_admin_SignUp_inputs($_POST);
       if(is_array($status)){
-                 include('db_page.php');
+                 include('db_page_2.php');
                  $uploaded_directory     ="lecturers images/";
                  $filename               =$_FILES["lecturer_image"]["name"];
                  $uploaded_directory    .=$filename;
@@ -318,8 +319,8 @@ if(isset($_POST['btn_admin_sign_Up'])){
                       if($_POST["admin_psswrd"] == $_POST["admin_confirm_psswrd"]){
 
                           $status = SignUp_Lecturer($status);
-                          $uploaded=move_uploaded_file($tmp_directory, $uploaded_directory);
                           if($status=== true){
+                            $uploaded=move_uploaded_file($tmp_directory, $uploaded_directory);
                             ?>
                             <script type="text/javascript">
                               $(document).ready(function(){
@@ -328,18 +329,17 @@ if(isset($_POST['btn_admin_sign_Up'])){
                                         class: 'bg-success', 
                                         title: 'Request Pending',
                                         subtitle: 'Pending',
+                                        autohide : true,
+                                        delay:10000,
+                                        icon: 'fas fa-check',
                                         body: 'Sir! Your Account Request is now Pending for Approval.<br>Please wait for confirmation.Thank You!'
                                       })
                                     });
                               });
                             </script>
                           <?php 
-                          }else{
-
-                             if(file_exists($uploaded_directory)){
-                                  unlink($uploaded_directory);
-                              }
-                           ?>
+                          }elseif ($status == "user_exists") {
+                            ?>
                             <script type="text/javascript">
                               $(document).ready(function(){
                                     $('.toastsDefaultInfo').ready(function() {
@@ -347,7 +347,50 @@ if(isset($_POST['btn_admin_sign_Up'])){
                                         class: 'bg-info', 
                                         title: 'Not Register',
                                         subtitle: 'Email Exists',
-                                        body: 'This Email is Already <strong>EXISTS</strong>.'
+                                        autohide : true,
+                                        delay:4000,
+                                        icon: 'fas fa-info',
+                                        body: 'This User is Already <strong>EXISTS</strong>.'
+                                      })
+                                    });
+                              });
+                            </script>
+                          <?php 
+                          }elseif ($status == "user_exists_2") {
+                            ?>
+                            <script type="text/javascript">
+                              $(document).ready(function(){
+                                    $('.toastsDefaultInfo').ready(function() {
+                                      $(document).Toasts('create', {
+                                        class: 'bg-info', 
+                                        title: 'Error',
+                                        subtitle: 'Already Pending',
+                                        autohide : true,
+                                        delay:8000,
+                                        icon: 'fas fa-info',
+                                        body: 'Your Account is Already in pending. Wait for confirmation from the admin<strong>ThankYou!</strong>.'
+                                      })
+                                    });
+                              });
+                            </script>
+                          <?php 
+                          }else{
+
+                             // if(file_exists($uploaded_directory)){
+                             //      unlink($uploaded_directory);
+                             //  }
+                           ?>
+                            <script type="text/javascript">
+                              $(document).ready(function(){
+                                    $('.toastsDefaultInfo').ready(function() {
+                                      $(document).Toasts('create', {
+                                        class: 'bg-info', 
+                                        title: 'Not Register',
+                                        subtitle: 'wrong',
+                                        autohide : true,
+                                        delay:6000,
+                                        icon: 'fas fa-times',
+                                        body: 'Oops Account can not register. Somwthing went <strong>Wrong</strong>.'
                                       })
                                     });
                               });
@@ -365,6 +408,9 @@ if(isset($_POST['btn_admin_sign_Up'])){
                                       class: 'bg-danger', 
                                       title: 'Error',
                                       subtitle: 'Mis Matche',
+                                      autohide : true,
+                                      delay:4000,
+                                      icon: 'fas fa-times',
                                       body: 'Confirm Password Not <strong>Matche</strong>.'
                                     })
                                   });
@@ -382,6 +428,9 @@ if(isset($_POST['btn_admin_sign_Up'])){
                                     class: 'bg-danger', 
                                     title: 'Extension Error',
                                     subtitle: 'Not Image',
+                                    autohide : true,
+                                    delay:4000,
+                                    icon: 'fas fa-times',
                                     body: 'Its not an image file.'
                                   })
                                 });
@@ -396,9 +445,12 @@ if(isset($_POST['btn_admin_sign_Up'])){
                             $('.toastsDefaultDanger').ready(function() {
                               $(document).Toasts('create', {
                                 class: 'bg-danger', 
-                                title: 'Not Register',
-                                subtitle: 'Not Select',
-                                body: 'Plz select the Image then try.'
+                                title: 'Error',
+                                subtitle: 'Not done',
+                                autohide : true,
+                                delay:4000,
+                                icon: 'fas fa-times',
+                                body: 'Your image file was not select.'
                               })
                             });
                       });
@@ -414,6 +466,9 @@ if(isset($_POST['btn_admin_sign_Up'])){
                               class: 'bg-maroon', 
                               title: 'Error',
                               subtitle: 'Formate Error',
+                              autohide : true,
+                              delay:4000,
+                              icon: 'fas fa-times',
                               body: 'Email <strong>FORMATE</strong> was not correct.'
                             })
                           });
@@ -431,6 +486,9 @@ if(isset($_POST['btn_admin_sign_Up'])){
                   class: 'bg-warning', 
                   title: 'Warning',
                   subtitle: 'Input Fields',
+                  autohide : true,
+                  delay:4000,
+                  icon:'fas fa-alert',
                   body: 'ALL Fields Should be <strong>REQUIRED</strong>.'
                 })
               });

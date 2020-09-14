@@ -118,7 +118,8 @@
           <div class="input-group mb-1">
               <select name="std_faculty" class="form-control">
                 <option disabled selected>Faculty</option>
-                <option value="Science" name="std_faculty">Science</option>
+                <option value="Management Science" name="std_faculty">Management Science</option>
+                <option value="Social Science" name="std_faculty">Social Science</option>
                 <option value="Arts" name="std_faculty">Arts</option>
               </select>
 
@@ -126,13 +127,15 @@
           <div class="input-group mb-1">
               <select name="std_department" class="form-control">
                 <option disabled selected>Department</option>
-                <option value="CS" name="std_department">CS</option>
-                <option value="BS" name="std_department">BS</option>
-                <option value="Social Science" name="std_department">Social Sience</option>
-                <option value="Agriculture" name="std_department">Agriculture</option>
+                <option value="Computer Science" name="std_department">Computer Science</option>
+                <option value="Chemistry" name="std_department">Chemistry</option>
+                <option value="Bio Technology" name="std_department">Bio Technology</option>
+                <option value="Mathematics" name="std_department">Mathematics</option>
                 <option value="English" name="std_department">English</option>
-                <option value="IT" name="std_department">IT</option>
-                <option value="Arts" name="std_department">Arts</option>
+                <option value="Socialogy" name="std_department">Socialogy</option>
+                <option value="Geology" name="std_department">Geology</option>
+                <option value="Economics" name="std_department">Economics</option>
+                <option value="Agriculture" name="std_department">Agriculture</option>
               </select>
           </div>
 					<div class="row">

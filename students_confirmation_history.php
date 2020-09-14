@@ -30,7 +30,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>Submitted Assigments</title>
+  <title>Students Confirmation</title>
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
@@ -233,7 +233,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="Lecturer_Dashboard.php" class="nav-link active">
+            <a href="Lecturer_Dashboard.php" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -249,11 +249,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
           </li>
-             <li class="nav-item">
+          <li class="nav-item">
             <a href="assigment_list.php" class="nav-link">
               <i class="nav-icon fas fa-check"></i>
               <p>
                 Created Assigments
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="assigment_category.php" class="nav-link active">
+              <i class="nav-icon fas fa-globe"></i>
+              <p>
+                Assigments History
               </p>
             </a>
           </li>

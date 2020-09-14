@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 3 | Invoice</title>
+  <title>BKUC | AMS</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Bootstrap 4 -->
@@ -17,6 +17,11 @@
 
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <style type="text/css">
+    section{
+      padding: 50px;
+    }
+  </style>
 </head>
 <?php
             if(isset($_GET['accepted_std_details_id'])){
@@ -56,8 +61,9 @@
                         }
                       }
                     }
-            }elseif (isset($_GE['rejected_std_details_id'])) {
+            }elseif (isset($_GET['rejected_std_details_id'])) {
               $b_id=$_GET['rejected_std_details_id'];
+              include('db_page_2.php');
               $cn=db_connection();
                     $sql="SELECT * FROM `students_assigment_rejected` WHERE `id`='$b_id'";
                     $run_a=mysqli_query($cn,$sql);
@@ -81,30 +87,44 @@
                         $confirm_on_r=$get_data_b['confirm_on'];
                         $count_rejected+=1;
                       }
+                      //getting std more info
+                      $sql="SELECT * FROM `registred_students` WHERE `email`='$std_email_r'";
+                      $getting=mysqli_query($cn,$sql);
+                      if(mysqli_num_rows($getting)>0){
+                        while ($get_std_info=mysqli_fetch_assoc($getting)) {
+                          $std_department_r=$get_std_info['department'];
+                          $std_faculty_r=$get_std_info['faculty'];
+                          $std_semester_r=$get_std_info['semester'];
+                        }
+                      }
 
                     }
             }
             ?>
 <body>
 <div class="wrapper">
+  <?php
+if(isset($_GET['accepted_std_details_id'])){
+?>
   <!-- Main content -->
   <section class="invoice">
     <!-- title row -->
     <div class="row">
-      <div class="col-12">
-        <h2 class="page-header">
-          <?php echo $std_name; ?>
-          <small class="float-right"><?php echo "Date : ". date('m/d/Y'); ?></small>
-        </h2>
-      </div>
+      
       <!-- /.col -->
-    </div>
+    </div><br>
      <!-- info row -->
+     <div class="col-12">
+        <h2 class="page-header text-center" style="color: green;"><i class="fas fa-globe"></i>
+          BKUC ASSIGMENT MANAGEMENT SYSTEM
+        </h2><small class="float-right"><?php echo "Date : ". date('m/d/Y'); ?></small>
+      </div><br><br>
               <div class="row invoice-info">
                 <div class="col-sm-4 invoice-col">
-                  <i class="fas fa-info"></i> <b>Student Info</b><br><br>
+                  <i class="fas fa-user"></i> <b> Student Info</b><br><br>
                   <address>
-                    <strong>Faculty : <?php echo "$std_faculty"; ?></strong><br>
+                    Student : <?php echo $std_name; ?><br>
+                    Faculty : <?php echo "$std_faculty"; ?><br>
                     Department : <?php echo "$std_department"; ?><br>
                     Semester : <?php echo "$std_semester"; ?><br>
                     Phone : <?php echo "$std_mob"; ?><br>
@@ -113,17 +133,17 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-sm-4 invoice-col">
-                  <i class="fas fa-info"></i> <b>Assigment Info</b><br><br>
+                  <i class="fas fa-file"></i> <b> Assigment Info</b><br><br>
                   <address>
-                    <strong>Assigment : <?php echo "$std_assigment"; ?></strong><br>
+                    Assigment : <?php echo "$std_assigment"; ?><br>
                     Title : <?php echo "$assigment_title"; ?><br>
                     Descriptionn : <?php echo "$assigment_description"; ?><br>
                   </address>
                 </div>
                 <!-- /.col -->
                 <div class="col-sm-4 invoice-col">
-                  <i class="fas fa-info"></i> <b>Submission Info</b><br><br>
-                    <strong>Due Date : <?php echo "$ass_due_date"; ?></strong><br>
+                  <i class="fas fa-clock"></i> <b> Submission Info</b><br><br>
+                    Due Date : <?php echo "$ass_due_date"; ?><br>
                     Submitted On : <?php echo "$ass_submit_date"; ?><br><br>
                     <div class="badge badge-info">
                     Submitted To : <?php echo "$confirm_by"; ?><br>
@@ -134,14 +154,20 @@
               </div>
               <!-- /.row -->
 
-    <div class="row">
+
+  </section>
+  <!-- /.content -->
+      <div class="row">
+      <div class="col-6">
+        
+      </div>
       <div class="col-6">
 
         <div class="table-responsive">
           <table class="table">
             <tr>
-              <th style="width:50%">Confirmation</th>
-              <td><p style="color: green;"><?php echo $std_confirmation; ?></p></td>
+              <th style="width:50%">Assigment Confirmation</th>
+              <td><strong><p style="color: green;"><i class="fas fa-check"></i> <?php echo $std_confirmation; ?></p></strong></td>
             </tr>
           </table>
         </div>
@@ -149,8 +175,83 @@
       <!-- /.col -->
     </div>
     <!-- /.row -->
+<?php
+}
+if(isset($_GET['rejected_std_details_id'])){
+?>
+  <!-- Main content -->
+  <section class="invoice">
+    <!-- title row -->
+    <div class="row">
+      
+      <!-- /.col -->
+    </div><br>
+     <!-- info row -->
+     <div class="col-12">
+        <h2 class="page-header text-center" style="color: green;"><i class="fas fa-globe"></i>
+          BKUC ASSIGMENT MANAGEMENT SYSTEM
+        </h2><small class="float-right"><?php echo "Date : ". date('m/d/Y'); ?></small>
+      </div><br><br>
+              <div class="row invoice-info">
+                <div class="col-sm-4 invoice-col">
+                  <i class="fas fa-user"></i> <b> Student Info</b><br><br>
+                  <address>
+                    Student : <?php echo $std_name_r; ?><br>
+                    Faculty : <?php echo "$std_faculty_r"; ?><br>
+                    Department : <?php echo "$std_department_r"; ?><br>
+                    Semester : <?php echo "$std_semester_r"; ?><br>
+                    Phone : <?php echo "$std_mob_r"; ?><br>
+                    Emil : <?php echo "$std_email_r"; ?>
+                  </address>
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4 invoice-col">
+                  <i class="fas fa-file"></i> <b> Assigment Info</b><br><br>
+                  <address>
+                    Assigment : <?php echo "$std_assigmen_rt"; ?><br>
+                    Title : <?php echo "$std_title_r"; ?><br>
+                    Descriptionn : <?php echo "$std_description_r"; ?><br>
+                  </address>
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4 invoice-col">
+                  <i class="fas fa-clock"></i> <b> Submission Info</b><br><br>
+                    Due Date : <?php echo "$ass_due_date_r"; ?><br>
+                    Submitted On : <?php echo "$ass_submit_date_r"; ?><br><br>
+                    <div class="badge badge-info">
+                    Submitted To : <?php echo "$confirm_by_r"; ?><br>
+                    Email : <?php echo "$lec_email_r"; ?><br>
+                    </div>
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+
+
   </section>
   <!-- /.content -->
+      <div class="row">
+      <div class="col-6">
+        
+      </div>
+      <div class="col-6">
+
+        <div class="table-responsive">
+          <table class="table">
+            <tr>
+              <th style="width:50%">Assigment Confirmation</th>
+              <td><strong><p style="color: red;"><i class="fas fa-times"></i> <?php echo $std_confirmation_r; ?></p></strong></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+<?php
+}
+
+  ?>
 </div>
 <!-- ./wrapper -->
 

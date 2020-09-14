@@ -270,11 +270,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
           </li>
-             <li class="nav-item">
+          <li class="nav-item">
             <a href="assigment_list.php" class="nav-link">
               <i class="nav-icon fas fa-check"></i>
               <p>
                 Created Assigments
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="assigment_category.php" class="nav-link">
+              <i class="nav-icon fas fa-globe"></i>
+              <p>
+                Assigments History
               </p>
             </a>
           </li>
