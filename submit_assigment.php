@@ -28,8 +28,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>Dashboard</title>
+  <title>Submit Assigment</title>
 
+  <link rel="stylesheet" href="uploading lib/css/bootstrap.min.css" crossorigin="anonymous">
+    <link href="uploading lib/css/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="uploading lib/css/all.css" crossorigin="anonymous">
+    <link href="uploading lib/themes/explorer-fas/theme.css" media="all" rel="stylesheet" type="text/css"/>
+
+
+    <script type="text/javascript" src="uploading lib/js/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="uploading lib/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+    <script src="uploading lib/js/plugins/piexif.js" type="text/javascript"></script>
+    <script src="uploading lib/js/plugins/sortable.js" type="text/javascript"></script>
+    <script src="uploading lib/js/fileinput.js" type="text/javascript"></script>
+    <script src="uploading lib/js/locales/fr.js" type="text/javascript"></script>
+    <script src="uploading lib/js/locales/es.js" type="text/javascript"></script>
+    <script src="uploading lib/themes/fas/theme.js" type="text/javascript"></script>
+    <script src="uploading lib/themes/explorer-fas/theme.js" type="text/javascript"></script>
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
     <!-- DataTables -->
@@ -44,33 +60,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         font-size: 12px;
         height: auto;
         width: auto;
-      }
-      .btn{
-        font-size: 12px;
-        width: auto;
-        height: auto;
-        padding: auto;
-      }
-    </style>
-        <style type="text/css">
-      label{
-        padding: 9px 30px;
-        border: 3px solid #ffc872;
-        border-radius: 8px;
-        font-size: 13px;
-        background-color: maroon;
-        cursor: hand;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        color:#ffc872;
-      }
-      label:hover{
-        transform: scale(1.04);
-      }label.active{
-        background-color: #ffc872;
-        color: black;
-      }label span{
-        font-weight: normal;
       }
     </style>
 </head>
@@ -318,7 +307,7 @@ if(isset($_GET["extension_error"])){
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
-        <p align="center" style="font-size: 30px;color:"><span class="badge badge-danger">Upload Your Assigment</span></p>
+        
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
@@ -350,24 +339,52 @@ if(isset($_GET["extension_error"])){
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-lg-12">
-                <!-- write or design something in 12 columns -->
-            <div class="row">
-              <div class="col-md-3"></div>
-              <div class="col-md-6">
-                <center>
-                  <div class="card">
-                    <div class="card-header bg-dark">
-                      <h3>Your Evoidence</h3>
+          <div class="col-md-12">
+            <form method="post" enctype="multipart/form-data">
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="card-title">Upload your assigment</h5>
+
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                      <i class="fas fa-minus"></i>
+                    </button>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-tool dropdown-toggle" data-toggle="dropdown">
+                        <i class="fas fa-wrench"></i>
+                      </button>
+                      <div class="dropdown-menu dropdown-menu-right" role="menu">
+                        <a href="#" class="dropdown-item">Action</a>
+                        <a href="#" class="dropdown-item">Another action</a>
+                        <a href="#" class="dropdown-item">Something else here</a>
+                        <a class="dropdown-divider"></a>
+                        <a href="#" class="dropdown-item">Separated link</a>
+                      </div>
                     </div>
-                    <div class="card-body">
-                      <form method="post" enctype="multipart/form-data">
-                        <div  class="form-group">
-                          <select name="txt_assigment_name" class="form-control">
-                          <option selected disabled>Select Your Assigment</option>
-                          <?php
-                          if(isset($_GET['assigment_id'])){
-                            ?><option selected="<?php echo $assigment_name; ?>"><?php
+                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-8">
+                        
+                          <div class="file-loading">
+                              <input id="file-5" class="file" name="btn_evidence[]" type="file" multiple data-preview-file-type="any" data-upload-url="#" data-theme="fas">
+                          </div>
+                        
+                      <!-- /.chart-responsive -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-4">
+                      <label class="label">Assigment</label>
+                      <div class="form-group">
+                        <select class="form-control" name="txt_assigment_name">
+                        <?php
+                        if(isset($_GET['assigment_id'])){
+                            ?><option selected="<?php echo $assigment_name; ?>" class="form-control"><?php
 
                             echo $assigment_name; ?></option><?php
                           }elseif(isset($_GET['submit_id'])){
@@ -375,7 +392,6 @@ if(isset($_GET["extension_error"])){
                           }else{
 
                           }
-                          $cn;
                           $sql="SELECT * FROM `creat_assigment`";
                           $run=mysqli_query($cn,$sql);
                           if($run){
@@ -395,80 +411,55 @@ if(isset($_GET["extension_error"])){
                               
                             }
                           }
-                          ?>
+                        ?>
                         </select>
-                        </div>
-                        <div  class="form-group">
-                          <input type="text" name="txt_title" class="form-control" placeholder="title">
-                        </div>
-                        <div  class="form-group">
+                      </div>
+                      <!-- /.progress-group -->
+                      <label class="label">Title</label>
+                      <div class="form-group">
+                        <input type="text" placeholder="title" name="txt_title" class="form-control">
+                      </div>
+
+                        <!-- /.progress-group -->
+                        <label class="label">Description</label>
+                      <div  class="form-group">
                         <textarea class="form-control" name="txt_description" placeholder="Description"></textarea>
                         </div>
-                        <div class="form-group">
-                          <input type="file" id="upload_evidence" multiple name="btn_evidence[]" value="Evidence"
-                           hidden onchange="readURL(this);">
-                           
-                    <label for="upload_evidence" id="selector">Upload Your Evidence <span class="fas fa-file"></span></label>
-                          <script type="text/javascript">
-                            var loader = function(e){
-                            let file = e.target.files;
-                            let show = "<span>Selected File : </span>"+file[0].name;
-                            let output = document.getElementById("selector");
-                            output.innerHTML=show;
-                            output.classList.add("active");
-                            };
-                            let fileinput = document.getElementById("upload_evidence");
-                            fileinput.addEventListener("change",loader);
-                          </script>
-                          <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-                         <input type="submit" name="btn_submit_assigment" value="Submit Assigment" style="font-size: 20px;" class="btn btn-success btn-float btn-block">
+
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-sm-6">
+                            <input type="submit" name="btn_reset" value="Reset" class="btn btn-danger btn-block">
+                          </div>
+                          <div class="col-sm-6">
+                            <input type="submit" name="btn_submit_assigment" value="Submit" class="btn btn-success btn-block">
+                          </div>
                         </div>
-                      </form>
+                        
+                        
+                      </div>
+
+                      </div>
+
                     </div>
+                    <!-- /.col -->
                   </div>
-                </center>
+                  <!-- /.row -->
+                </div>
+                <!-- ./card-body -->
+              </form>
+                <!-- /.form -->
               </div>
-              <div class="col-md-3"></div>
-            </div> 
-          </div>
-          <!-- /.col-md-6 -->
-        </div>
-        <!-- /.row -->
+              <!-- /.card -->
+            </div>
+            <!-- /.col -->
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
 
-    <script type="text/javascript">
-      window.onload = function() {
-    var canvas = document.getElementById("myCanvas");
-    var ctx = canvas.getContext("2d");
-    var img = document.getElementById("scream");
-    ctx.drawImage(img, 10, 10);
-};
-function PreviewImage() {
-    pdffile=document.getElementById("upload_evidence").files[0];
-    pdffile_url=URL.createObjectURL(pdffile);
-    $('#viewer').attr('src',pdffile_url);
-}
-    </script>
-    <script type="text/javascript">
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                $('#viewer')
-                    .attr('src', e.target.result)
-                    .width(400)
-                    .height(200);
-            };
-
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-    </script>
+ 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
@@ -483,10 +474,10 @@ function PreviewImage() {
   <footer class="main-footer">
     <!-- To the right -->
     <div class="float-right d-none d-sm-inline">
-      Anything you want
+      Developed by AqibLodhi
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">bkuc ams</a>.</strong> All rights reserved.
   </footer>
 </div>
 <!-- ./wrapper -->
@@ -517,13 +508,122 @@ function PreviewImage() {
   });
 </script>
 </body>
+<script>
+    $('#file-fr').fileinput({
+        theme: 'fas',
+        language: 'fr',
+        uploadUrl: '#',
+        allowedFileExtensions: ['jpg', 'png', 'gif']
+    });
+    $('#file-es').fileinput({
+        theme: 'fas',
+        language: 'es',
+        uploadUrl: '#',
+        allowedFileExtensions: ['jpg', 'png', 'gif']
+    });
+    $("#file-0").fileinput({
+        theme: 'fas',
+        uploadUrl: '#'
+    }).on('filepreupload', function(event, data, previewId, index) {
+        alert('The description entered is:\n\n' + ($('#description').val() || ' NULL'));
+    });
+    $("#file-1").fileinput({
+        theme: 'fas',
+        uploadUrl: '#', // you must set a valid URL here else you will get an error
+        allowedFileExtensions: ['jpg', 'png', 'gif'],
+        overwriteInitial: false,
+        maxFileSize: 1000,
+        maxFilesNum: 10,
+        //allowedFileTypes: ['image', 'video', 'flash'],
+        slugCallback: function (filename) {
+            return filename.replace('(', '_').replace(']', '_');
+        }
+    });
+    /*
+     $(".file").on('fileselect', function(event, n, l) {
+     alert('File Selected. Name: ' + l + ', Num: ' + n);
+     });
+     */
+    $("#file-3").fileinput({
+        theme: 'fas',
+        showUpload: false,
+        showCaption: false,
+        browseClass: "btn btn-primary btn-lg",
+        fileType: "any",
+        previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+        overwriteInitial: false,
+        initialPreviewAsData: true,
+        initialPreview: [
+            "http://lorempixel.com/1920/1080/transport/1",
+            "http://lorempixel.com/1920/1080/transport/2",
+            "http://lorempixel.com/1920/1080/transport/3"
+        ],
+        initialPreviewConfig: [
+            {caption: "transport-1.jpg", size: 329892, width: "120px", url: "{$url}", key: 1},
+            {caption: "transport-2.jpg", size: 872378, width: "120px", url: "{$url}", key: 2},
+            {caption: "transport-3.jpg", size: 632762, width: "120px", url: "{$url}", key: 3}
+        ]
+    });
+    $("#file-4").fileinput({
+        theme: 'fas',
+        uploadExtraData: {kvId: '10'}
+    });
+    $(".btn-warning").on('click', function () {
+        var $el = $("#file-4");
+        if ($el.attr('disabled')) {
+            $el.fileinput('enable');
+        } else {
+            $el.fileinput('disable');
+        }
+    });
+    $(".btn-info").on('click', function () {
+        $("#file-4").fileinput('refresh', {previewClass: 'bg-info'});
+    });
+    /*
+     $('#file-4').on('fileselectnone', function() {
+     alert('Huh! You selected no files.');
+     });
+     $('#file-4').on('filebrowse', function() {
+     alert('File browse clicked for #file-4');
+     });
+     */
+    $(document).ready(function () {
+        $("#test-upload").fileinput({
+            'theme': 'fas',
+            'showPreview': false,
+            'allowedFileExtensions': ['jpg', 'png', 'gif'],
+            'elErrorContainer': '#errorBlock'
+        });
+        $("#kv-explorer").fileinput({
+            'theme': 'explorer-fas',
+            'uploadUrl': '#',
+            overwriteInitial: false,
+            initialPreviewAsData: true,
+            initialPreview: [
+                "http://lorempixel.com/1920/1080/nature/1",
+                "http://lorempixel.com/1920/1080/nature/2",
+                "http://lorempixel.com/1920/1080/nature/3"
+            ],
+            initialPreviewConfig: [
+                {caption: "nature-1.jpg", size: 329892, width: "120px", url: "{$url}", key: 1},
+                {caption: "nature-2.jpg", size: 872378, width: "120px", url: "{$url}", key: 2},
+                {caption: "nature-3.jpg", size: 632762, width: "120px", url: "{$url}", key: 3}
+            ]
+        });
+        /*
+         $("#test-upload").on('fileloaded', function(event, file, previewId, index) {
+         alert('i = ' + index + ', id = ' + previewId + ', file = ' + file.name);
+         });
+         */
+    });
+</script>
 </html>
 
 <?php 
 if(isset($_POST['btn_submit_assigment'])){
   include('functions_page.php');
   $status = input_recieved($_POST);
-  if($_POST['txt_assigment_name'] == true and $_POST['txt_title'] == true and $_POST['txt_description']==true){
+  if($status === true){
           
           //$uploaded_dir   = 'submitted  assigments/';
           

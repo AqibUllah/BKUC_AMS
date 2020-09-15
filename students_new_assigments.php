@@ -349,20 +349,56 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       }
                       $sql="SELECT * FROM `submit_assigments` WHERE `std_id`='$_id' and `assigment`='$assigment'";
                       $run=mysqli_query($cn,$sql);
-                    }
-
-                      
                       if(mysqli_num_rows($run)>0){
                         while ($submitter=mysqli_fetch_assoc($run)) {
                           $student_submitted_on=$submitter['submitted_on'];
                         }
+                      }
+
+                      //check in accepted assimgents
+                      $sql_acp="SELECT * FROM `students_assigment_accepted` WHERE `std_email`='$student_email' and 
+                      `asssigment`='$assigment'";
+                      $run_acp=mysqli_query($cn,$sql_acp);
+                      if(mysqli_num_rows($run_acp)>0){
+                        while ($submitter_acp=mysqli_fetch_assoc($run_acp)) {
+                          $student_submitted_on_acp=$submitter_acp['submition_date'];
+                        }
+                      }
+                      
+
+                      //check in rejected assimgents
+                      $sql_rjt="SELECT * FROM `students_assigment_rejected` WHERE `std_email`='$student_email' and 
+                      `asssigment`='$assigment'";
+                      $run_rjt=mysqli_query($cn,$sql_rjt);
+                      if(mysqli_num_rows($run_rjt)>0){
+                        while ($submitter_rjt=mysqli_fetch_assoc($run_rjt)) {
+                          $student_submitted_on_rjt=$submitter_rjt['submition_date'];
+                        }
+                      }
+                    }
+
+                      
+                      if(mysqli_num_rows($run)>0 or mysqli_num_rows($run_acp)>0 or mysqli_num_rows($run_rjt)>0){
+                        
                         ?>
                         <tr>
                         <td><?php echo $id_count; ?></td>
                         <td style="text-align: center;"><?php echo $get_data_a['ass_name']; ?></td>
                         <td style="text-align: center;"><?php echo $get_data_a['department']."<br>".$get_data['semester']; ?></td>
                         <td style="text-align: center;"><?php echo "<i class='fas fa-clock'></i> ".$last_date; ?></td>
-                        <td style="text-align: center;"><?php echo "<p><span class='badge badge-success'>Submitted on : $student_submitted_on</span></p>"; ?></td>
+                        <td style="text-align: center;">
+                          <?php 
+                          if(isset($student_submitted_on)){
+                            echo "<p><span class='badge badge-success'>Submitted on : $student_submitted_on</span></p>"; 
+                          }elseif (isset($student_submitted_on_acp)) {
+                            echo "<p><span class='badge badge-success'>Submitted on : $student_submitted_on_acp</span></p>"; 
+                          }else{
+                            echo "<p><span class='badge badge-success'>Submitted on : $student_submitted_on_rjt</span></p>"; 
+                          }
+                          
+                          ?>
+                            
+                        </td>
                         <td align="center">
                           <span class="badge badge-success">Completed</span>
                         </td>
@@ -424,8 +460,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                     $calc = (($days*24)+$hours)*(100)/(($compare_days*24)+$compare_hours); 
 
-
-
+                    //echo "<br>".$calc."<br>";
                   ?>
 
                 <tr>

@@ -509,7 +509,7 @@ if(isset($_GET['rejected_std_details_id'])){
                   <address>
                     Assigment : <?php echo "$std_assigmen_r"; ?><br>
                     Title : <?php echo "$std_title_r"; ?><br>
-                    Descriptionn : <?php echo "$std_department_r"; ?><br>
+                    Descriptionn : <?php echo "$std_description_r"; ?><br>
                   </address>
                 </div>
                 <!-- /.col -->

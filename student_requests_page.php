@@ -38,6 +38,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
       th {
           height: 30px;
         }
+        table td{
+        font-size: 12px;
+        height: auto;
+        width: auto;
+        text-align: center;
+      }
+      table th{
+        text-align: center;
+      }
+      .btn{
+        font-size: 10px;
+        width: auto;
+        height: auto;
+      }
     </style>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -279,9 +293,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
         </div>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#"><i
-            class="fas fa-th-large"></i></a>
+      <!-- account dropdown -->
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="far fa-user"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <span class="dropdown-header">Account Settings</span>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-lock mr-2"></i>Profile
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-lock-open mr-2"></i>Change Password
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="LogOff_page.php" class="dropdown-item bg-dark" style="text-align: center;">
+            Log Out <i class="fas fa-arrow-right mr-2"></i>
+          </a>
+        </div>
       </li>
     </ul>
   </nav>
@@ -308,12 +339,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
           ?>" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
+          <a href="admin_profile.php">
           <?php
             if(isset($_SESSION["admin_logged_in"])){
               echo $_SESSION["admin_logged_in"]["username"];
             }
           ?>
-          <span class="right badge badge-danger"><a href="LogOff_page.php">Log Out</a></span>
+        </a>
         </div>
       </div>
 
@@ -334,7 +366,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                REQUESTS
+                Account Requests
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -523,7 +555,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <th>S.No</th>
                       <th>User Name</th>
                       <th>Email</th>
-                      <th>Phone</th>
                       <th>Request Date</th>
                       <th>Action</th>
                     </tr>
@@ -540,11 +571,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <td><?php echo /*$data['id']*/$count; ?></td>
                         <td><?php echo $data['first_name']." ".$data['last_name']; ?></td>
                         <td><?php echo $data['email']; ?></td>
-                        <td><?php echo $data['phone']; ?></td>
                         <td><?php echo $data['entry_date_time']; ?></td>
-                        <td><a href="?approve_id=<?php echo $data['id'];?>"  class="btn btn-primary">Accept</a>
-                        <a href="?reject_id=<?php echo $data['id'];?>"  class="btn btn-danger">Reject</a>
-                        <a href="student_details_page.php?details_id=<?php echo $data['id'];?>"  class="btn btn-success">Details</a>
+                        <td>
+                          <a href="student_details_page.php?details_id=<?php echo $data['id'];?>"  class="btn btn-info">Details</a>
+                          <a href="?reject_id=<?php echo $data['id'];?>"  class="btn btn-danger">Reject</a>
+                          <a href="?approve_id=<?php echo $data['id'];?>"  class="btn btn-success">Accept</a>
+                        
+                        
                         </td>
                       </tr>
                         <?php

@@ -35,6 +35,10 @@
   <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <style type="text/css">
+
+ }
+  </style>
 </head>
 <body class="hold-transition login-page">
 	
@@ -45,8 +49,14 @@
 		<div class="card" style="background: transparent;">
 			<div class="card-body login-card-body">
 				<form method="post" class="md-form" enctype="multipart/form-data">
-            <div class="input-group mb-2">
-                    <input type="file" name="lecturer_image"class="form-control">
+          <div class="file-field">
+            <a class="btn-floating purple-gradient mt-0 float-left">
+              <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
+              <input type="file" name="lecturer_image" class="upload-input">
+            </a>
+            <div class="file-path-wrapper">
+              <input class="file-path validate" type="text" placeholder="Upload your file">
+            </div>
           </div>
 					<div class="input-group mb-2">
 		                <input type="text" name="admin_username" placeholder="User Name" class="form-control">

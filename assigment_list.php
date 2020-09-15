@@ -333,7 +333,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
               $_lec_name=$_SESSION["lecturer_logged_in"]["username"];
               $sql="SELECT * FROM `creat_assigment` WHERE `created_by`='$_lec_name'";
               $run=mysqli_query($cn,$sql);
+              $ass_count=0;
               while($get_data=mysqli_fetch_array($run)){
+                $ass_count+=1;
                 $marks = $get_data['ass_marks'];
                 $start_date=substr($get_data['time_duration'],0,19);
                 $last_date=substr($get_data['time_duration'], 22);
@@ -395,7 +397,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 $calc = (($days*24)+$hours)*(100)/(($compare_days*24)+$compare_hours);
                 ?>
                 <tr>
-                <td style="text-align: center;"><?php echo $get_data['id']; ?></td>
+                <td style="text-align: center;"><?php echo $ass_count; ?></td>
                 <td style="text-align: center;"><?php echo $get_data['ass_name']; ?></td>
                 <td style="text-align: center;"><?php echo "<i class='fas fa-clock'></i> ".$get_data['time_duration']; ?></td>
                 <td style="text-align: center;"><?php echo $marks; ?></td>

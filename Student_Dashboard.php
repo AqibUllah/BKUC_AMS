@@ -7,7 +7,7 @@ session_start();
 ?>
 
 <?php
-include 'db_page.php';
+include 'db_page_2.php';
 $cn=db_connection();
 $sql="SELECT * FROM `creat_assigment`";
 $run=mysqli_query($cn,$sql);
@@ -27,20 +27,42 @@ if(mysqli_num_rows($run_a)>0){
     $student_id=$get_data['id'];
     //$assigment_count+=1;
 
-
   }
 
-  if(mysqli_num_rows($run_a)>0){
-    $sql="SELECT * FROM `submit_assigments` WHERE `std_id`='$student_id'";
+  $sql="SELECT * FROM `submit_assigments` WHERE `std_id`='$student_id'";
     $run=mysqli_query($cn,$sql);
     $fk_count = 0;
+    if(mysqli_num_rows($run)>0){
       while ($get_submitter_confirmation=mysqli_fetch_array($run)) {
         $fk_count+=1;
       }
     }
 }
 
+    //get confirmation data
 
+    //from table rejected
+    $sql_r="SELECT * FROM `students_assigment_rejected` WHERE `std_email`='$std_email'";
+    $run_c=mysqli_query($cn,$sql_r);
+    $total_count_r=0;
+    if(mysqli_num_rows($run_c)>0){
+       while (mysqli_fetch_array($run_c)>0) {
+        $total_count_r+=1;
+      } 
+    }
+
+    //from table  accepted
+    $total_count_a=0;
+    $sql="SELECT * FROM `students_assigment_accepted` WHERE `std_email`='$std_email'";
+    $run_b=mysqli_query($cn,$sql);
+    if(mysqli_num_rows($run_b)>0){
+       while (mysqli_fetch_array($run_b)>0) {
+        $total_count_a+=1;
+      } 
+      $final_count=$fk_count+$total_count_r+$total_count_a;
+    }
+
+//$final_count=$fk_count+$total_count_r+$total_count_a;
 
 ?>
 <!DOCTYPE html>
@@ -338,11 +360,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <div class="inner">
                 <h3>
                   <?php 
-                  if(mysqli_num_rows($run_a)>0){
+                  if(isset($final_count) and $final_count > 0){
+                    echo $final_count;
+                  }elseif (isset($fk_count) and $fk_count > 0) {
                     echo $fk_count;
-                  }else{
+                  }
+                  else{
                     echo "0";
-                  } 
+                  }
                   ?></h3>
 
                 <p>Submitted Assigments</p>

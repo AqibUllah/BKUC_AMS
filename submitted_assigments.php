@@ -340,36 +340,121 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </thead>
                 <tbody>
                   <?php
-                  $assigment_count=0;
+                  //get accepted data
+                  $sql="SELECT * FROM `students_assigment_accepted` WHERE `std_email`='$std_email'";
+                  $run=mysqli_query($cn,$sql);
+
+                  //get rejected data
+                  $sql2="SELECT * FROM `students_assigment_rejected` WHERE `std_email`='$std_email'";
+                  $run2=mysqli_query($cn,$sql2);
+
+                  //get pending data
+                  $sql3="SELECT * FROM `submit_assigments` WHERE `std_id`='$_id'";
+                  $run3=mysqli_query($cn,$sql3);
+                  $total_counts=0;
                   if(mysqli_num_rows($run)>0){
-                    $sql="SELECT * FROM `submit_assigments` WHERE `std_id`='$_id'";
-                    $run=mysqli_query($cn,$sql);
-                    while($get_data=mysqli_fetch_array($run)){
-                      $submitted_id=$get_data['std_id'];
-                      $submitted_assigment=$get_data['assigment'];
-                      $submitted_on=$get_data['submitted_on'];
-                      $pk=$get_data['primary_key'];
-                      $assigment_count+=1;
+                    while ($get_data_b=mysqli_fetch_array($run)) {
+                        $id=$get_data_b['id'];
+                        $std_name=$get_data_b['std_name'];
+                        $std_email=$get_data_b['std_email'];
+                        $std_mob=$get_data_b['std_mob'];
+                        $std_img=$get_data_b['std_img'];
+                        $std_assigmen=$get_data_b['asssigment'];
+                        $std_marks=$get_data_b['marks'];
+                        $std_title=$get_data_b['title'];
+                        $std_description=$get_data_b['description'];
+                        $ass_due_date=$get_data_b['due_date'];
+                        $ass_submit_date=$get_data_b['submition_date'];
+                        $std_confirmation=$get_data_b['confirmation'];
+                        $confirm_by=$get_data_b['confirm_by'];
+                        $lec_email=$get_data_b['lec_email'];
+                        $confirm_on=$get_data_b['confirm_on'];
+                        $total_counts+=1;
+                        ?>
+                        <tr>
+                          <td><?php echo $total_counts; ?></td>
+                          <td><?php echo $std_assigmen; ?></td>
+                          <td><?php echo $ass_submit_date; ?></td>
+                          <td><?php echo "<span class='badge badge-success'>Completed</span>";?></td>
+                          <td><?php echo "<span class='badge badge-purple bg-purple'>$std_confirmation</span>";?></td>
+                          <td class="text-center py-0 align-middle">
+                            <div class="btn-group btn-group-sm">
+                              <a href="student_view_submitted.php?get_std_view_id=<?php echo $pk; ?>" class="btn btn-primary"><i class="fas fa-eye"></i></a>
+                              <a href="#" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                              <a href="#" class="btn btn-danger"><i class="fas fa-times"></i></a>
+                              
+                            </div>
+                          </td>
+                        </tr>
+                        <?php
+
+                      }
+                  }if (mysqli_num_rows($run2)>0) {
+                    while ($get_data_c=mysqli_fetch_array($run2)) {
+                        $id=$get_data_c['id'];
+                        $std_name=$get_data_c['std_name'];
+                        $std_email=$get_data_c['std_email'];
+                        $std_mob=$get_data_c['std_mob'];
+                        $std_img=$get_data_c['std_img'];
+                        $std_assigmen=$get_data_c['asssigment'];
+                        $std_marks=$get_data_c['marks'];
+                        $std_title=$get_data_c['title'];
+                        $std_description=$get_data_c['description'];
+                        $ass_due_date=$get_data_c['due_date'];
+                        $ass_submit_date=$get_data_c['submition_date'];
+                        $std_confirmation=$get_data_c['confirmation'];
+                        $confirm_by=$get_data_c['confirm_by'];
+                        $lec_email=$get_data_c['lec_email'];
+                        $confirm_on=$get_data_c['confirm_on'];
+                        $total_counts+=1;
+                        ?>
+                        <tr>
+                          <td><?php echo $total_counts; ?></td>
+                          <td><?php echo $std_assigmen; ?></td>
+                          <td><?php echo $ass_submit_date; ?></td>
+                          <td><?php echo "<span class='badge badge-success'>Completed</span>";?></td>
+                          <td><?php echo "<span class='badge badge-maroon bg-maroon'>$std_confirmation</span>";?></td>
+                          <td class="text-center py-0 align-middle">
+                            <div class="btn-group btn-group-sm">
+                              <a href="student_view_submitted.php?get_std_view_id=<?php echo $pk; ?>" class="btn btn-primary"><i class="fas fa-eye"></i></a>
+                              <a href="#" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                              <a href="#" class="btn btn-danger"><i class="fas fa-times"></i></a>
+                              
+                            </div>
+                          </td>
+                        </tr>
+                        <?php
+
+                      }
+                  }else{
+                    if(mysqli_num_rows($run3)>0){
+                      while($get_data_d=mysqli_fetch_array($run3)){
+                      $submitted_id=$get_data_d['std_id'];
+                      $submitted_assigment=$get_data_d['assigment'];
+                      $submitted_on=$get_data_d['submitted_on'];
+                      $pk=$get_data_d['primary_key'];
+                      $total_counts+=1;
                       
 
-                    ?>
-                    <tr>
-                      <td><?php echo $assigment_count; ?></td>
-                      <td><?php echo $submitted_assigment; ?></td>
-                      <td><?php echo $submitted_on; ?></td>
-                      <td><?php echo "<span class='badge badge-success'>Completed</span>";?></td>
-                      <td><?php echo "<span class='badge badge-primary'>pending</span>";?></td>
-                      <td class="text-center py-0 align-middle">
-                        <div class="btn-group btn-group-sm">
-                          <a href="student_view_submitted.php?get_std_view_id=<?php echo $pk; ?>" class="btn btn-primary"><i class="fas fa-eye"></i></a>
-                          <a href="#" class="btn btn-warning"><i class="fas fa-edit"></i></a>
-                          <a href="#" class="btn btn-danger"><i class="fas fa-times"></i></a>
-                          
-                        </div>
-                      </td>
-                    </tr>
-                    <?php
-                  }
+                        ?>
+                        <tr>
+                          <td><?php echo $total_counts; ?></td>
+                          <td><?php echo $submitted_assigment; ?></td>
+                          <td><?php echo $submitted_on; ?></td>
+                          <td><?php echo "<span class='badge badge-success'>Completed</span>";?></td>
+                          <td><?php echo "<span class='badge badge-primary'>pending</span>";?></td>
+                          <td class="text-center py-0 align-middle">
+                            <div class="btn-group btn-group-sm">
+                              <a href="student_view_submitted.php?get_std_view_id=<?php echo $pk; ?>" class="btn btn-primary"><i class="fas fa-eye"></i></a>
+                              <a href="#" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                              <a href="#" class="btn btn-danger"><i class="fas fa-times"></i></a>
+                              
+                            </div>
+                          </td>
+                        </tr>
+                        <?php
+                      }
+                    }
                   }
                   
                   ?>

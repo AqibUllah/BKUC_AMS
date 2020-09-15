@@ -39,7 +39,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
         text-align: center;
         padding: 20px;
           height: 50px;
+          background: lightgray;
         }
+        .btn{
+        font-size: 10px;
+        width: auto;
+        height: auto;
+      }
     </style>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -122,7 +128,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
                      <?php
-                      include('db_page.php');
+                      include('db_page_2.php');
                       $cn=db_connection();
                       $sql="SELECT * FROM `tbl_students_requests`";
                       $run=mysqli_query($cn,$sql);
@@ -281,9 +287,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
         </div>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#"><i
-            class="fas fa-th-large"></i></a>
+      <!-- account dropdown -->
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="far fa-user"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <span class="dropdown-header">Account Settings</span>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-lock mr-2"></i>Profile
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-lock-open mr-2"></i>Change Password
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="LogOff_page.php" class="dropdown-item bg-dark" style="text-align: center;">
+            Log Out <i class="fas fa-arrow-right mr-2"></i>
+          </a>
+        </div>
       </li>
     </ul>
   </nav>
@@ -310,12 +333,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
           ?>" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
+          <a href="admin_profile.php">
           <?php
             if(isset($_SESSION["admin_logged_in"])){
               echo $_SESSION["admin_logged_in"]["username"];
             }
           ?>
-          <span class="right badge badge-danger"><a href="LogOff_page.php">Log Out</a></span>
+        </a>
         </div>
       </div>
 
@@ -336,7 +360,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                REQUESTS
+                Account Requests
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -477,114 +501,76 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
-            <div class="card bg-secondary">
-              <div class="card-header text-white bg-dark mb-3">
-                <div class="row">
-                        <?php
+                    <?php
                       $cn=db_connection();
                        if(isset($_GET['details_id'])){
                         $id=$_GET['details_id'];
                         $sql="SELECT * FROM `tbl_students_requests` WHERE `id`='$id'";
                         $run=mysqli_query($cn,$sql);
-                        while ($get_data=mysqli_fetch_assoc($run)) {
-                        $first_name=$get_data["first_name"];
-                        $last_name=$get_data["last_name"];
-                        $d_o_b=$get_data["d_o_b"];
-                        $email=$get_data["email"];
-                        $phone=$get_data["phone"];
-                        $address=$get_data["address"];
-                        $batch_no=$get_data["batch_no"];
-                        $session=$get_data["session"];
-                        $faculty=$get_data["faculty"];
-                        $department=$get_data["department"];
-                        $message=$get_data["message"];
-                        }?>
-                  <div class="col-md-10">
-                    <h3 style=""><?php echo "Name  : ". $first_name.$last_name; ?></h3>
-                    <h3 style=""><?php echo "Email : ".$email; ?></h3>
-                  </div>
-                    <div class="col-md-2">
-                                       <?php
-                      $cn=db_connection();
-                       if(isset($_GET['details_id'])){
-                        $id=$_GET['details_id'];
-                        $sql="SELECT * FROM `tbl_students_requests` WHERE `id`='$id'";
-                        $run=mysqli_query($cn,$sql);
-                        $get_data=mysqli_fetch_assoc($run);
-          
-                        }?>
-                        <div class="img img-circle">
-                          <img src="<?php echo $get_data["img"]; ?>" class="img-circle" style="width: 70%;height: 70%; margin: auto;float: right;">
-                        </div>
-                        <?php
+                            while ($get_data=mysqli_fetch_assoc($run)) {
+                            $id=$get_data['id'];
+                            $first_name=$get_data["first_name"];
+                            $last_name=$get_data["last_name"];
+                            $d_o_b=$get_data["d_o_b"];
+                            $email=$get_data["email"];
+                            $phone=$get_data["phone"];
+                            $std_image=$get_data["img"];
+                            $address=$get_data["address"];
+                            $batch_no=$get_data["batch_no"];
+                            $session=$get_data["session"];
+                            $faculty=$get_data["faculty"];
+                            $department=$get_data["department"];
+                            $message=$get_data["message"];
+                            $on=$get_data["entry_date_time"];
+                            }
                         
-                      }else{
-                        echo "<h2>OOPS! User Not Found <span class='fa fa-angle-right'> <a href='student_requests_page.php'> Go Back To Request Page </a></span></h2>";
-                      }
-                      
-                   
-                        ?>
-                  </div>
-                </div>
-              </div>
-              <div class="card-body mr-1">
-                <table class="table table-bordere table-hover table-dark mb-3">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <?php 
-                        if(isset($_GET['details_id'])){
-                          ?>
-                      <tr>
-                      <th>Date Of Birth</th>
-                      <th>Phone</th>
-                      <th>session</th>
-                      <th>Address </th>
-                      <th>Faculty</th>
-                     <th>Department</th>
-                     <th>Batch No</th></tr>
-                     <tr>
-                        <td><?php echo $d_o_b; ?></td>
-                        <td><?php echo $phone; ?></td>
-                        <td><?php echo $session; ?></td>
-                        <td><?php echo $address; ?></td>
-                        <td><?php echo $faculty; ?></td>
-                        <td><?php echo $department; ?></td>
-                        <td><?php echo $batch_no; ?></td>
-                     </tr>
-                    </div>
-                    <div class="col-md-6">
-                     
-                    </div> 
-                  </div>              
-                </table>
-                <center>
-                <div class="row">
-                  <div class="col-md-12">
-                <?php
-                echo "<span class='badge badge-warning' style='font-family:Arial;'><h4 style='text-align:center;'>".$message."</h4></span>";
-                ?>
-                  </div>
-                </div></center>
-              </div>
-              <div class="card-footer bg-dark">
-                <div class="row" style="margin-left: 100px;">
-                  <div class="col-lg-4">
-                    <a href="student_print.php?print_id=<?php echo $_GET['details_id']; ?>" class="btn btn-info btn-block">Print</a>
-                  </div>
-                  <div class="col-lg-4"></div>
-                  <div class="col-lg-4">
-                    <a href="?approve_id=<?php echo $_GET['details_id'];?>"  class="btn btn-primary">Accept</a>
-                    <a href="?reject_id=<?php echo $_GET['details_id'];?>" class="btn btn-danger">Reject</a>
-                    <a href="student_requests_page.php"  class="btn btn-success">Go Back</a>
-              </div>
-                </div>
-              </div>
-            </div>
-                        <?php
-
+                        }else{
+                          echo "<h2>OOPS! User Not Found <span class='fa fa-angle-right'> <a href='student_requests_page.php'> Go Back To Request Page </a></span></h2>";
                         }
+                      
+                    ?>
 
-                       ?>
+                <div class="card bg-light">
+                <div class="card-header text-muted border-bottom-0">
+                  Student Information
+                </div>
+                <div class="card-body pt-0">
+                  <div class="row">
+                    <div class="col-7">
+                      <h2 class="lead"><i class="fas fa-sm fa-user"></i> <b> <?php echo $first_name." ".$last_name; ?></b><br>
+                      </h2>
+                      <p class="text-muted text-sm"><b>About: </b> Student  / Of / <?php echo $faculty; ?> / <?php echo $department; ?> </p>
+                      <ul class="ml-4 mb-0 fa-ul text-muted">
+                        <li class="small"><span class="fa-li"><i class="fas fa-lg fa-envelope"></i> </span>&nbsp; Email: <?php echo $email; ?> </li><br>
+                        <li class="small"><span class="fa-li"><i class="fas fa-lg fa-map"></i> </span> &nbsp;Address: <?php echo $address; ?> </li><br>
+                        <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i> </span> &nbsp;Phone #: <?php echo $phone; ?> </li><br>
+                        <li class="small"><span class="fa-li"><i class="fas fa-lg fa-clock"></i> </span> &nbsp;Request on: <?php echo $on; ?></li>
+                      </ul>
+                    </div>
+                    <div class="col-5 text-center">
+                      <img src="<?php echo $std_image; ?>" alt="student profile" class="img-circle img-fluid">
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <div class="float-left">
+                    <a href="student_requests_page.php" class="btn btn-info btn-sm btn-block">
+                      <i class="fas fa-angle-left"></i>
+                      Back
+                    </a>
+                  </div>
+                  <div class="text-right">
+                    
+                    <a href="?reject_id=<?php echo $id;?>" class="btn btn-danger btn-sm">
+                      <i class="fas fa-times"></i>
+                      Reject
+                    </a>
+                    <a href="?approve_id=<?php echo $id;?>" class="btn btn-sm btn-success">
+                      <i class="fas fa-check"></i> Accept
+                    </a>
+                  </div>
+                </div>
+              </div>
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->

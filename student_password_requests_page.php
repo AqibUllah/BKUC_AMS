@@ -278,9 +278,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
         </div>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#"><i
-            class="fas fa-th-large"></i></a>
+      <!-- account dropdown -->
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="far fa-user"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <span class="dropdown-header">Account Settings</span>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-lock mr-2"></i>Profile
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-lock-open mr-2"></i>Change Password
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="LogOff_page.php" class="dropdown-item bg-dark" style="text-align: center;">
+            Log Out <i class="fas fa-arrow-right mr-2"></i>
+          </a>
+        </div>
       </li>
     </ul>
   </nav>
@@ -308,12 +325,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
           ?>" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
+          <a href="admin_profile.php">
           <?php
             if(isset($_SESSION["admin_logged_in"])){
               echo $_SESSION["admin_logged_in"]["username"];
             }
           ?>
-          <span class="right badge badge-danger"><a href="LogOff_page.php">Log Out</a></span>
+        </a>
         </div>
       </div>
 
@@ -334,7 +352,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                REQUESTS
+                Accounts Requests
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>

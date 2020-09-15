@@ -269,9 +269,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
         </div>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#"><i
-            class="fas fa-th-large"></i></a>
+      <!-- account dropdown -->
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="far fa-user"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <span class="dropdown-header">Account Settings</span>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-lock mr-2"></i>Profile
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-lock-open mr-2"></i>Change Password
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="LogOff_page.php" class="dropdown-item bg-dark" style="text-align: center;">
+            Log Out <i class="fas fa-arrow-right mr-2"></i>
+          </a>
+        </div>
       </li>
     </ul>
   </nav>
@@ -299,13 +316,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
           ?>" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#">
+          <a href="admin_profile.php">
           <?php
             if(isset($_SESSION["admin_logged_in"])){
               echo $_SESSION["admin_logged_in"]["username"];
             }
           ?>
-          <span class="right badge badge-danger"><a href="LogOff_page.php">Log Out</a></span>
         </a>
         </div>
       </div>
@@ -327,7 +343,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-restroom"></i>
               <p>
-                REQUESTS
+                Account Requests
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -519,49 +535,40 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-sm-4">
-               <div class="small-box bg-info">
-                <div class="inner">
-                  <h3>0</h3>
-
-                  <p>Assigments Pending</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-android-document"></i>
-                </div>
-              <div class="row" style="margin: auto;background-color: #096482;padding-top: 5px;">
-              <div class="col-md-6">
-                <a href="#.php" style="color: white;">Science<i class="fas fa-arrow-circle-right"></i></a>
-              </div>
-              <div class="col-md-6">
-                <a href="#.php" style="color: white;margin-left: 90px;">Arts<i class="fas fa-arrow-circle-right"></i></a>
-              </div>
-              </div>
-              </div>
-          </div>
-          <div class="col-sm-4">
-              <div class="small-box bg-success">
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="small-box bg-info">
               <div class="inner">
-                <h3><?php echo $count; ?><sup style="font-size: 20px"></sup></h3>
+                <h3>0</h3>
+
+                <p>Users Feedback</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-xbox"></i>
+              </div>
+              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- /.col -->
+          <div class="col-12 col-sm-6 col-md-3">
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3><?php echo $count; ?></h3>
 
                 <p>Joining Requests</p>
               </div>
               <div class="icon">
                 <i class="ion ion-ios-people"></i>
               </div>
-              <div class="row" style="margin: auto;background-color: #007E33;padding-top: 5px;">
-              <div class="col-md-6">
-                <a href="teacher_requests_page.php" style="color: white;">Lecturers <i class="fas fa-arrow-circle-right"></i></a>
-              </div>
-              <div class="col-md-6">
-                <a href="student_requests_page.php" style="color: white;margin-left: 53px;">Students<i class="fas fa-arrow-circle-right"></i></a>
-              </div>
-              </div>
-              
+              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
-          <div class="col-sm-4">
-             <div class="small-box bg-danger">
+          <!-- /.col -->
+           <!-- fix for small devices only -->
+          <div class="clearfix hidden-md-up"></div>
+          <div class="col-12 col-sm-6 col-md-3">
+            <!-- small box -->
+            <div class="small-box bg-danger">
               <div class="inner">
                 <h3><?php echo $password_requests; ?></h3>
 
@@ -570,14 +577,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <div class="icon">
                 <i class="ion ion-pull-request"></i>
               </div>
-              <div class="row" style="margin: auto;background-color: #CC0000;padding-top: 5px;">
-              <div class="col-md-6">
-                <a href="teacher_password_requests_page.php" style="color: white;">Lecturers <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-md-3">
+            <!-- small box -->
+            <div class="small-box bg-purple">
+              <div class="inner">
+                <h3>123</h3>
+
+                <p>Total Users</p>
               </div>
-              <div class="col-md-6">
-                <a href="student_password_requests_page.php" style="color: white;margin-left: 53px;">Students<i class="fas fa-arrow-circle-right"></i></a>
+              <div class="icon">
+                <i class="ion ion-ios-people-outline"></i>
               </div>
-              </div>
+              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
         </div>
