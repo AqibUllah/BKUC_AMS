@@ -347,12 +347,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       $student_faculty=$get_data['faculty'];
                       $assigment_submitted_date=$get_data['submitted_date'];
                       }
+                      //check in just submit table
                       $sql="SELECT * FROM `submit_assigments` WHERE `std_id`='$_id' and `assigment`='$assigment'";
-                      $run=mysqli_query($cn,$sql);
-                      if(mysqli_num_rows($run)>0){
-                        while ($submitter=mysqli_fetch_assoc($run)) {
+                      $run_b=mysqli_query($cn,$sql);
+                      if(mysqli_num_rows($run_b)>0){
+                        while ($submitter=mysqli_fetch_assoc($run_b)) {
                           $student_submitted_on=$submitter['submitted_on'];
                         }
+
                       }
 
                       //check in accepted assimgents
@@ -375,10 +377,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           $student_submitted_on_rjt=$submitter_rjt['submition_date'];
                         }
                       }
-                    }
 
-                      
-                      if(mysqli_num_rows($run)>0 or mysqli_num_rows($run_acp)>0 or mysqli_num_rows($run_rjt)>0){
+                      if(mysqli_num_rows($run_b)>0){
                         
                         ?>
                         <tr>
@@ -388,13 +388,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <td style="text-align: center;"><?php echo "<i class='fas fa-clock'></i> ".$last_date; ?></td>
                         <td style="text-align: center;">
                           <?php 
-                          if(isset($student_submitted_on)){
                             echo "<p><span class='badge badge-success'>Submitted on : $student_submitted_on</span></p>"; 
-                          }elseif (isset($student_submitted_on_acp)) {
-                            echo "<p><span class='badge badge-success'>Submitted on : $student_submitted_on_acp</span></p>"; 
-                          }else{
-                            echo "<p><span class='badge badge-success'>Submitted on : $student_submitted_on_rjt</span></p>"; 
-                          }
                           
                           ?>
                             
@@ -408,7 +402,53 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       </tr>                          
                         <?php
 
-                      }else{
+                      }elseif (mysqli_num_rows($run_acp)>0) {
+                        ?>
+                        <tr>
+                        <td><?php echo $id_count; ?></td>
+                        <td style="text-align: center;"><?php echo $get_data_a['ass_name']; ?></td>
+                        <td style="text-align: center;"><?php echo $get_data_a['department']."<br>".$get_data['semester']; ?></td>
+                        <td style="text-align: center;"><?php echo "<i class='fas fa-clock'></i> ".$last_date; ?></td>
+                        <td style="text-align: center;">
+                          <?php 
+                            echo "<p><span class='badge badge-success'>Submitted on : $student_submitted_on_acp</span></p>"; 
+                          
+                          ?>
+                            
+                        </td>
+                        <td align="center">
+                          <span class="badge badge-success">Completed</span>
+                        </td>
+                        <td class="float-right" style="width: 142px;">
+                          <a href="#" class="btn btn-secondary btn-block">Submitted</a>
+                        </td>
+                      </tr>                          
+                        <?php
+                      }elseif (mysqli_num_rows($run_rjt)>0) {
+                        ?>
+                        <tr>
+                        <td><?php echo $id_count; ?></td>
+                        <td style="text-align: center;"><?php echo $get_data_a['ass_name']; ?></td>
+                        <td style="text-align: center;"><?php echo $get_data_a['department']."<br>".$get_data['semester']; ?></td>
+                        <td style="text-align: center;"><?php echo "<i class='fas fa-clock'></i> ".$last_date; ?></td>
+                        <td style="text-align: center;">
+                          <?php 
+                            echo "<p><span class='badge badge-success'>Submitted on : $student_submitted_on_rjt</span></p>"; 
+                          
+                          ?>
+                            
+                        </td>
+                        <td align="center">
+                          <span class="badge badge-success">Completed</span>
+                        </td>
+                        <td class="float-right" style="width: 142px;">
+                          <a href="#" class="btn btn-secondary btn-block">Submitted</a>
+                        </td>
+                      </tr>                          
+                        <?php
+                      }
+
+                      else{
 
                         //if($end >= $current){
                       $diff= abs($current-$end);
@@ -495,6 +535,91 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     
 
                            }
+
+                    }else{
+                      //if($end >= $current){
+                      $diff= abs($current-$end);
+
+
+                      $a=abs($diff-$end);
+
+                      $compare_years = floor($a / (365*60*60*24));
+
+                    $compare_months = floor(($a - $compare_years * 365*60*60*24) 
+                                   / (30*60*60*24));
+
+                    $compare_days = floor(($a - $compare_years * 365*60*60*24 -  
+                            $compare_months*30*60*60*24)/ (60*60*24));
+
+                    $compare_hours = floor(($a - $compare_years * 365*60*60*24  
+                             - $compare_months*30*60*60*24 - $compare_days*60*60*24) 
+                                       / (60*60));
+
+                    $compare_minutes = floor(($a - $compare_years * 365*60*60*24  
+                              - $compare_months*30*60*60*24 - $compare_days*60*60*24  
+                              - $compare_hours*60*60)/ 60);
+
+                    $compare_seconds = floor(($a - $compare_years * 365*60*60*24  
+                              - $compare_months*30*60*60*24 - $compare_days*60*60*24 
+                              - $compare_hours*60*60 - $compare_minutes*60));
+
+
+                    //}
+                    $years = floor($diff / (365*60*60*24));
+
+                    $months = floor(($diff - $years * 365*60*60*24) 
+                                   / (30*60*60*24));
+
+                    $days = floor(($diff - $years * 365*60*60*24 -  
+                            $months*30*60*60*24)/ (60*60*24));
+
+                    $hours = floor(($diff - $years * 365*60*60*24  
+                             - $months*30*60*60*24 - $days*60*60*24) 
+                                       / (60*60));
+
+                    $minutes = floor(($diff - $years * 365*60*60*24  
+                              - $months*30*60*60*24 - $days*60*60*24  
+                              - $hours*60*60)/ 60);
+
+                    $seconds = floor(($diff - $years * 365*60*60*24  
+                              - $months*30*60*60*24 - $days*60*60*24 
+                              - $hours*60*60 - $minutes*60));
+
+                    $calc = (($days*24)+$hours)*(100)/(($compare_days*24)+$compare_hours); 
+
+                    //echo "<br>".$calc."<br>";
+                  ?>
+
+                <tr>
+                <td><?php echo $id_count; ?></td>
+                <td style="text-align: center;"><?php echo $get_data_a['ass_name']; ?></td>
+                <td style="text-align: center;"><?php echo $get_data_a['department']."<br>".$get_data_a['semester']; ?></td>
+                <td style="text-align: center;"><?php echo "<i class='fas fa-clock'></i> ".$last_date; ?></td>
+                <td style="text-align: center;"><?php if($end>$current){echo "<i class='fas fa-clock'></i> ".$days." days ".$hours." hourse ".$minutes." minutes Remaining";}else{echo "<span class='badge badge-maroon bg-danger'>Time Out</span>";} ?></td>
+                <?php if($end>$current){if($calc > 8.99){
+                  echo "<td style='text-align:center;'><span class='badge badge-primary'>in progress</span><br><br>
+                  <div class='progress progress-sm bg-secondary' style='height:3px;'>
+                        <div class='progress-bar bg-primary' style='width: $calc%;'></div>
+                      </div>
+                  </td>";
+                }else{echo "<td style='text-align:center;'><span class='badge badge-danger bg-maroon'>last some time left</span><br><br>
+                  <div class='progress progress-sm bg-default' style='height:3px;'>
+                        <div class='progress-bar bg-maroon' style='width: $calc%;'></div>
+                      </div>
+                  </td>";}}else{echo "<td style='text-align:center;'><span class='badge badge-danger'>Expired</span></td>";} ?>
+                <td class="float-right" style="width: 142px;">
+
+                  <?php if($current>=$end){
+                    ?><a href="#?get_id=<?php echo $get_data['id']; ?>" class="btn btn-danger btn-block">Can't submit</a><?php
+                  }else{
+                    ?>
+                    <a href="assigments_details.php?get_id=<?php echo $get_data_a['id']; ?>" class="btn btn-info">Details <i class="fas fa-angle-right"></i></a>
+                    <a href="submit_assigment.php?assigment_id=<?php echo $id; ?>" class="btn btn-success">Submit <i class="fas fa-angle-right"></i></a><?php
+                  } ?>
+                </td>
+              </tr>                          
+                <?php
+                    }
                         
                       }
 

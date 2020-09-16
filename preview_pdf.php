@@ -11,13 +11,22 @@
     $cn=db_connection();
     if(isset($_GET['get_pdf'])){
         $pdf = $_GET['get_pdf'];
-        if(file_exists($pdf)){
-        ?>
-        <embed src="<?php echo $pdf; ?>" width="800px" height="2100px" />
-        <?php
-        }else{
-            echo "<h1 align='center' style='color:red'>No Evidence Found !</h1>";
+        $sql="SELECT * FROM `creat_assigment_attachments` WHERE `fk`='$pdf'";
+        $run_pdf=mysqli_query($cn,$sql);
+        if(mysqli_num_rows($run_pdf)>0){
+            while ($get_file=mysqli_fetch_array($run_pdf)) {
+                $file = $get_file['attachments'];
+                if(file_exists($file)){
+                    ?>
+                    <embed src="<?php echo $file; ?>" />
+                        <hr>
+                    <?php
+                }else{
+                        echo "<h1 align='center' style='color:red'>No Evidence Found !</h1>";
+                }
+            }
         }
+        
         
     }elseif(isset($_GET['view_evidence_id'])){
                     $id=$_GET['view_evidence_id'];

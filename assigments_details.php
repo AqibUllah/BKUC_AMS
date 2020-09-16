@@ -276,10 +276,8 @@ if(isset($_GET['get_id'])){
       $duration = $get['time_duration'];
       $marks = $get['ass_marks'];
       $message = $get['message'];
-      $document = $get['document'];
       $created_on = $get['created_on'];
       $created_by = $get['created_by'];
-
       $start_date=substr($get['time_duration'],0,19);
       $last_date=substr($get['time_duration'], 22);
   }
@@ -370,7 +368,7 @@ if(isset($_GET['get_id'])){
                        <th>Created By</th><td><?php echo $created_by; ?></td>
                       </tr>
                       <tr>
-                       <th>Attachment</th><td><a href="preview_pdf.php?get_pdf=<?php echo $document; ?>" class="btn btn-info">Preview</a></td>
+                       <th>Attachment</th><td><a href="preview_pdf.php?get_pdf=<?php echo $ID; ?>" class="btn btn-info">Preview</a></td>
                       </tr>
                    </table>
                   </div>

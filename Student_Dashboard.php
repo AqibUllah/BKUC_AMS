@@ -37,7 +37,6 @@ if(mysqli_num_rows($run_a)>0){
         $fk_count+=1;
       }
     }
-}
 
     //get confirmation data
 
@@ -59,8 +58,13 @@ if(mysqli_num_rows($run_a)>0){
        while (mysqli_fetch_array($run_b)>0) {
         $total_count_a+=1;
       } 
-      $final_count=$fk_count+$total_count_r+$total_count_a;
+      
     }
+
+    $final_count=$fk_count+$total_count_r+$total_count_a;
+}
+
+    
 
 //$final_count=$fk_count+$total_count_r+$total_count_a;
 

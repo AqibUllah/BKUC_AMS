@@ -99,18 +99,9 @@ function SignUp_Lecturer($arg){
 function creat_assigment($arg){
 	$cn=db_connection();
 
-	$sql="INSERT INTO `creat_assigment`(`faculty`, `department`, `semester`, `batch`, `ass_name`, `ass_marks`, `session`, `time_duration`, `message`, `document`, `created_on`, `created_by`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+	$sql="INSERT INTO `creat_assigment`(`faculty`, `department`, `semester`, `batch`, `ass_name`, `ass_marks`, `session`, `time_duration`, `message`, `created_on`, `created_by`) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 	$stmt = mysqli_prepare($cn,$sql);
 	if($stmt){
-	$uploaded_dir = 'assigment_images_pdf/';
-	$filename	  = $_FILES["file"]["name"];
-	$uploaded_dir.= $filename;
-	$tmp_dir 	  =$_FILES["file"]["tmp_name"];
-	$size 		  =$_FILES["file"]["size"];
-	$file_type    =$_FILES['file']['type'];
-	$new_size = $size/1024;   // new size
-	$text		  =pathinfo($filename,PATHINFO_EXTENSION);
-
 		$_faculty=$arg["select_faculty"];
 		$_department=$arg["select_department"];
 		$_semester=$arg["select_semester"];
@@ -129,15 +120,54 @@ function creat_assigment($arg){
 				$_assigment_name=$get['ass_name'];
 				$_creater=$get['created_by'];
 				if($_created_by == $_creater and $_name == $_assigment_name){
-					return false;
+					return "already_created";
 				}
 			}
+	
+				$filename_count = count($_FILES["file"]["name"]);
+		                for($i = 0;$i<$filename_count;$i++){
+		                	$filename     = $_FILES['file']['name'][$i];
+		                	$text             =pathinfo($filename,PATHINFO_EXTENSION);
+		                	if($text == 'jpg' or $text == 'JPG' or $text == 'png' or $text == 'PNG' or
+				               $text == 'gif' or $text == 'GIF' or $text == 'jpeg' or $text == 'GPEG' or $text == 'pdf'
+				               or $text == 'PDF' or $text =='pptx' or $text=='PPTX' or $text == 'docx' or $text == 'DOCX' or $text == 'txt' or $text == 'TXT' or $text == 'doc' or $text == 'DOC' or $text =='csv' or $text == 'CSV' or $text =='xlsx' or $text == 'XLSX'){
+		                		continue;
+		                	}else{
+		                		return "extension_error";
+		                	}
+		                }
 
-	mysqli_stmt_bind_param($stmt, 'ssssssssssss', $_faculty,$_department,$_semester,$_batch,$_name,$_ass_marks,$_session,$_total_duration,$_message,$uploaded_dir,$_created_on,$_created_by);
+
+		mysqli_stmt_bind_param($stmt, 'sssssssssss', $_faculty,$_department,$_semester,$_batch,$_name,$_ass_marks,$_session,$_total_duration,$_message,$_created_on,$_created_by);
 
 		$status=mysqli_stmt_execute($stmt);
-		if($status){
+			if($status){
+				$sql="SELECT * FROM `creat_assigment` WHERE `ass_name`='$_name' and `created_by`='$_created_by'";
+				$get = mysqli_query($cn,$sql);
+				if(mysqli_num_rows($get)>0){
+					while ($get_id=mysqli_fetch_assoc($get)) {
+						$id_get=$get_id['id'];
+						$assigment_get=$get_id['ass_name'];
+					}
 
+					for($i = 0;$i<$filename_count;$i++){
+
+						$uploaded_dir = 'assigment_images_pdf/';
+						$filename     = $_FILES['file']['name'][$i];
+						$uploaded_dir.= $filename;
+						$tmp_dir      =$_FILES["file"]["tmp_name"][$i];
+						$sql="INSERT INTO `creat_assigment_attachments`(`fk`,`assigment`,`attachments`) VALUES ('$id_get','$assigment_get','$uploaded_dir')";
+						$done=mysqli_query($cn,$sql);
+						if($done){
+							$uploaded=move_uploaded_file($tmp_dir, $uploaded_dir);
+						}else{
+							if(file_exists($uploaded_dir)){
+							    unlink($uploaded_dir);
+							}
+							return "not_done";
+						}
+					}
+				}
 			mysqli_stmt_close($stmt);
 			mysqli_close($cn);
           	return true;
@@ -224,7 +254,6 @@ function submit_assigment_multiple(){
 				            $sql="INSERT INTO `attach_evidences`(`id`,`assigment`, `files`) VALUES ('$Submitter_ID','$_assigment','$uploaded_dir')";
 				            $done=mysqli_query($cn,$sql);
 				            if($done){
-				            	echo $uploaded_dir;
 				            	$uploaded=move_uploaded_file($tmp_dir, $uploaded_dir);
 				            }else{
 				            	if(file_exists($uploaded_dir)){

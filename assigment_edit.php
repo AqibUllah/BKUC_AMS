@@ -299,7 +299,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     $total_marks = $get['ass_marks'];
                                     $session = $get['session'];
                                     $message = $get['message'];
-                                    $document = $get['document'];
 
                                   }
                         

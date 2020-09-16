@@ -18,6 +18,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <title>New Assigment</title>
 
+   <link rel="stylesheet" href="uploading lib/css/bootstrap.min.css" crossorigin="anonymous">
+    <link href="uploading lib/css/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="uploading lib/css/all.css" crossorigin="anonymous">
+    <link href="uploading lib/themes/explorer-fas/theme.css" media="all" rel="stylesheet" type="text/css"/>
+
+
+    <script type="text/javascript" src="uploading lib/js/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="uploading lib/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+    <script src="uploading lib/js/plugins/piexif.js" type="text/javascript"></script>
+    <script src="uploading lib/js/plugins/sortable.js" type="text/javascript"></script>
+    <script src="uploading lib/js/fileinput.js" type="text/javascript"></script>
+    <script src="uploading lib/js/locales/fr.js" type="text/javascript"></script>
+    <script src="uploading lib/js/locales/es.js" type="text/javascript"></script>
+    <script src="uploading lib/themes/fas/theme.js" type="text/javascript"></script>
+    <script src="uploading lib/themes/explorer-fas/theme.js" type="text/javascript"></script>
+
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
     <!-- Ionicons -->
@@ -297,13 +314,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
-        <center>
+        <form method="post" enctype="multipart/form-data"
+                   action="<?php print $_SERVER['PHP_SELF']?>">
           <div class="card card-dark">
             <div class="card-header">
               <div class="row">
                 <div class="col-md-7">
-                  <form method="post" enctype="multipart/form-data"
-                   action="<?php print $_SERVER['PHP_SELF']?>">
+                  
                   <h4>Set Assigment duration</h4>
                   <div class="form-group">
                     <div class="input-group" name="txt_duration">
@@ -376,81 +393,42 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <input type="text" name="txt_session" placeholder="Academic Session" class="form-control">
                     </div>
                     <div class="row">
-                      <div class="col-sm-6">
+                      <div class="col-sm-12">
                         <div class="form-group">
                           <textarea class="form-control rounded-0" name="txt_message" id="exampleFormControlTextarea2" rows="3"
                           placeholder="Enter Some Message"></textarea>
                         </div>
                       </div>
+                    </div>
+                    <div class="row">
                       <div class="col-sm-6">
                         <div class="form-group">
                           <input type="submit" name="btn_reset" value="Reset" class="btn btn-danger btn-block">
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="form-group">
                           <input type="submit" name="btn_submit" value="Upload" class="btn btn-success btn-block">
                         </div>
                       </div>
                     </div>
                 </div>
                 <div class="col-lg-5 col-md-5">
-                  <card class="card-body">
-                    <div style="clear:both">
-                       <iframe id="viewer" frameborder="0" scrolling="no" onchange="readURL(this);" width="300" height="200"></iframe>
+                   <div class="file-loading">
+                      <input id="file-5" class="file" name="file[]" multiple type="file" data-preview-file-type="any" data-upload-url="#" data-theme="fas">
                     </div>
-                  </card>
-                  <div class="card-footer">
-                    <input type="file" id="upload_pdf" name="file" hidden onchange="readURL(this);" value="Document" class="btn btn-info" accept="application/pdf">
-                    <a href="#viewer" value="Preview" class="btn btn-secondary" onchange="readURL(this);" onclick="PreviewImage();">Preview</a>
-                    <label for="upload_pdf" id="selector">ANY  PDF FILE</label>
-                          <script type="text/javascript">
-                            var loader = function(e){
-                            let file = e.target.files;
-                            let show = "<span>Selected File : </span>"+file[0].name;
-                            let output = document.getElementById("selector");
-                            output.innerHTML=show;
-                            output.classList.add("active");
-                            };
-                            let fileinput = document.getElementById("upload_pdf");
-                            fileinput.addEventListener("change",loader);
-                          </script>
-                          <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-                  </div>
-                </div>
-              </form>
+                </div>             
               </div>
             </div>
           </div>
-        </center>
-      </div><!-- /.container-fluid -->
+        </form>
+
+      </div>
+      <!-- /.container-fluid -->
     </div>
-    <script type="text/javascript">
-      window.onload = function() {
-    var canvas = document.getElementById("myCanvas");
-    var ctx = canvas.getContext("2d");
-    var img = document.getElementById("scream");
-    ctx.drawImage(img, 10, 10);
-};
-function PreviewImage() {
-    pdffile=document.getElementById("upload_pdf").files[0];
-    pdffile_url=URL.createObjectURL(pdffile);
-    $('#viewer').attr('src',pdffile_url);
-}
-    </script>
-    <script type="text/javascript">
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                $('#viewer')
-                    .attr('src', e.target.result)
-                    .width(400)
-                    .height(200);
-            };
-
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-    </script>
     <!-- /.content-header -->
+
+
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
@@ -485,10 +463,10 @@ function PreviewImage() {
   <footer class="main-footer">
     <!-- To the right -->
     <div class="float-right d-none d-sm-inline">
-      Anything you want
+      <a href="http://www.bkuc.edu.pk">www.bkuc.edu.pk</a>
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+    <strong>BKUC AMS &copy; Developed by <a href="https://adminlte.io">Aqib Lodhi </a></strong> All rights reserved.
   </footer>
 </div>
 <!-- ./wrapper -->
@@ -603,6 +581,116 @@ function PreviewImage() {
   })
 </script>
 </body>
+
+<script>
+    $('#file-fr').fileinput({
+        theme: 'fas',
+        language: 'fr',
+        uploadUrl: '#',
+        allowedFileExtensions: ['jpg', 'png', 'gif']
+    });
+    $('#file-es').fileinput({
+        theme: 'fas',
+        language: 'es',
+        uploadUrl: '#',
+        allowedFileExtensions: ['jpg', 'png', 'gif']
+    });
+    $("#file-0").fileinput({
+        theme: 'fas',
+        uploadUrl: '#'
+    }).on('filepreupload', function(event, data, previewId, index) {
+        alert('The description entered is:\n\n' + ($('#description').val() || ' NULL'));
+    });
+    $("#file-1").fileinput({
+        theme: 'fas',
+        uploadUrl: '#', // you must set a valid URL here else you will get an error
+        allowedFileExtensions: ['jpg', 'png', 'gif'],
+        overwriteInitial: false,
+        maxFileSize: 1000,
+        maxFilesNum: 10,
+        //allowedFileTypes: ['image', 'video', 'flash'],
+        slugCallback: function (filename) {
+            return filename.replace('(', '_').replace(']', '_');
+        }
+    });
+    /*
+     $(".file").on('fileselect', function(event, n, l) {
+     alert('File Selected. Name: ' + l + ', Num: ' + n);
+     });
+     */
+    $("#file-3").fileinput({
+        theme: 'fas',
+        showUpload: false,
+        showCaption: false,
+        browseClass: "btn btn-primary btn-lg",
+        fileType: "any",
+        previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+        overwriteInitial: false,
+        initialPreviewAsData: true,
+        initialPreview: [
+            "http://lorempixel.com/1920/1080/transport/1",
+            "http://lorempixel.com/1920/1080/transport/2",
+            "http://lorempixel.com/1920/1080/transport/3"
+        ],
+        initialPreviewConfig: [
+            {caption: "transport-1.jpg", size: 329892, width: "120px", url: "{$url}", key: 1},
+            {caption: "transport-2.jpg", size: 872378, width: "120px", url: "{$url}", key: 2},
+            {caption: "transport-3.jpg", size: 632762, width: "120px", url: "{$url}", key: 3}
+        ]
+    });
+    $("#file-4").fileinput({
+        theme: 'fas',
+        uploadExtraData: {kvId: '10'}
+    });
+    $(".btn-warning").on('click', function () {
+        var $el = $("#file-4");
+        if ($el.attr('disabled')) {
+            $el.fileinput('enable');
+        } else {
+            $el.fileinput('disable');
+        }
+    });
+    $(".btn-info").on('click', function () {
+        $("#file-4").fileinput('refresh', {previewClass: 'bg-info'});
+    });
+    /*
+     $('#file-4').on('fileselectnone', function() {
+     alert('Huh! You selected no files.');
+     });
+     $('#file-4').on('filebrowse', function() {
+     alert('File browse clicked for #file-4');
+     });
+     */
+    $(document).ready(function () {
+        $("#test-upload").fileinput({
+            'theme': 'fas',
+            'showPreview': false,
+            'allowedFileExtensions': ['jpg', 'png', 'gif'],
+            'elErrorContainer': '#errorBlock'
+        });
+        $("#kv-explorer").fileinput({
+            'theme': 'explorer-fas',
+            'uploadUrl': '#',
+            overwriteInitial: false,
+            initialPreviewAsData: true,
+            initialPreview: [
+                "http://lorempixel.com/1920/1080/nature/1",
+                "http://lorempixel.com/1920/1080/nature/2",
+                "http://lorempixel.com/1920/1080/nature/3"
+            ],
+            initialPreviewConfig: [
+                {caption: "nature-1.jpg", size: 329892, width: "120px", url: "{$url}", key: 1},
+                {caption: "nature-2.jpg", size: 872378, width: "120px", url: "{$url}", key: 2},
+                {caption: "nature-3.jpg", size: 632762, width: "120px", url: "{$url}", key: 3}
+            ]
+        });
+        /*
+         $("#test-upload").on('fileloaded', function(event, file, previewId, index) {
+         alert('i = ' + index + ', id = ' + previewId + ', file = ' + file.name);
+         });
+         */
+    });
+</script>
 </html>
 
 <?php
@@ -611,19 +699,6 @@ if(isset($_POST['btn_submit'])){
     $status = input_recieved($_POST);
     if($status === true){
         include('db_page_2.php');
-          $uploaded_dir = 'assigment_images_pdf/';
-          $filename   = $_FILES["file"]["name"];
-          $uploaded_dir.= $filename;
-          $tmp_dir    =$_FILES["file"]["tmp_name"];
-          $size       =$_FILES["file"]["size"];
-          $file_type    =$_FILES['file']['type'];
-          $new_size = $size/1024;   // new size
-          $text     =pathinfo($filename,PATHINFO_EXTENSION);
-          $uploaded=move_uploaded_file($tmp_dir, $uploaded_dir);
-          if(pathinfo($filename, PATHINFO_EXTENSION)!=null){
-            if($text == 'jpg' or $text == 'JPG' or $text == 'png' or $text == 'PNG' or
-               $text == 'gif' or $text == 'GIF' or $text == 'jpeg' or $text == 'GPEG' or $text == 'pdf'
-               or $text == 'PDF' or $text == 'docx' or $text == 'DOCX' or $text == 'doc' or $text == 'DOC'){
                $status=creat_assigment($_POST);
                 if($status === true){
                   ?>
@@ -643,7 +718,8 @@ if(isset($_POST['btn_submit'])){
                       });
                     </script>
                   <?php
-                }else{
+                }elseif ($status == "already_created") {
+                  # code...
                    // if(file_exists($uploaded_directory)){
                    //    unlink($uploaded_directory);
                    //  }
@@ -664,9 +740,8 @@ if(isset($_POST['btn_submit'])){
                       });
                     </script>
                   <?php
-                }
-            }else{
-               ?>
+                }elseif ($status == "extension_error") {
+                  ?>
                     <script type="text/javascript">
                       $(document).ready(function(){
                             $('.toastsDefaultMaroon').ready(function() {
@@ -674,35 +749,54 @@ if(isset($_POST['btn_submit'])){
                                 position: 'topRight',
                                 class: 'bg-maroon', 
                                 autohide : true,
-                                delay    : 4000,
-                                title: 'Error',
+                                delay    : 5000,
+                                title: 'Extensio Error',
                                 subtitle: 'Not Done',
-                                body: 'Extension Error its not any pdf file change the file and then try.'
+                                body: 'The file extension error check your files'
                               })
                             });
                       });
                     </script>
                   <?php
-            }
-          }else{
-            ?>
+                }elseif ($status == "not_done") {
+                  ?>
                     <script type="text/javascript">
                       $(document).ready(function(){
-                            $('.toastsDefaultWarning').ready(function() {
+                            $('.toastsDefaultDanger').ready(function() {
                               $(document).Toasts('create', {
                                 position: 'topRight',
-                                class: 'bg-warning', 
+                                class: 'bg-danger', 
                                 autohide : true,
                                 delay    : 5000,
-                                title: 'Warning',
+                                title: 'Files Error',
                                 subtitle: 'Not Done',
-                                body: 'Pdf file not selected plz select any pdf file for the assigment.'
+                                body: 'Your files are not uploaed something went wrong.'
                               })
                             });
                       });
                     </script>
                   <?php
-          }
+                }else{
+                  ?>
+                    <script type="text/javascript">
+                      $(document).ready(function(){
+                            $('.toastsDefaultDanger').ready(function() {
+                              $(document).Toasts('create', {
+                                position: 'topRight',
+                                class: 'bg-danger', 
+                                autohide : true,
+                                delay    : 5000,
+                                title: 'Error',
+                                subtitle: 'Not Creat',
+                                body: 'Assigment can not created something went wrong.'
+                              })
+                            });
+                      });
+                    </script>
+                  <?php
+                }
+            
+          
     
     }else{
       ?>

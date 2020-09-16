@@ -372,7 +372,7 @@ if(isset($_GET["extension_error"])){
                     <div class="col-md-8">
                         
                           <div class="file-loading">
-                              <input id="file-5" class="file" name="btn_evidence[]" type="file" multiple data-preview-file-type="any" data-upload-url="#" data-theme="fas">
+                              <input id="file-4" class="file" name="btn_evidence[]" type="file" multiple data-preview-file-type="any" data-show-upload="false" data-show-cancel="false" data-upload-url="#" data-theme="fas">
                           </div>
                         
                       <!-- /.chart-responsive -->
@@ -591,7 +591,7 @@ if(isset($_GET["extension_error"])){
         $("#test-upload").fileinput({
             'theme': 'fas',
             'showPreview': false,
-            'allowedFileExtensions': ['jpg', 'png', 'gif'],
+            'allowedFileExtensions': ['jpg', 'png', 'gif','pptx','ppt','doc','docx'],
             'elErrorContainer': '#errorBlock'
         });
         $("#kv-explorer").fileinput({

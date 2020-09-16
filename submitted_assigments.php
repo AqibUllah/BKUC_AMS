@@ -7,7 +7,7 @@ session_start();
 ?>
 
 <?php
-include 'db_page.php';
+include 'db_page_2.php';
 $cn=db_connection();
 $sql="SELECT * FROM `creat_assigment`";
 $run=mysqli_query($cn,$sql);
@@ -351,6 +351,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   //get pending data
                   $sql3="SELECT * FROM `submit_assigments` WHERE `std_id`='$_id'";
                   $run3=mysqli_query($cn,$sql3);
+
+
                   $total_counts=0;
                   if(mysqli_num_rows($run)>0){
                     while ($get_data_b=mysqli_fetch_array($run)) {
@@ -426,7 +428,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <?php
 
                       }
-                  }else{
+                  }
                     if(mysqli_num_rows($run3)>0){
                       while($get_data_d=mysqli_fetch_array($run3)){
                       $submitted_id=$get_data_d['std_id'];
@@ -455,7 +457,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <?php
                       }
                     }
-                  }
+                  
                   
                   ?>
                 </tbody>
