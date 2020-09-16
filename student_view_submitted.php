@@ -517,6 +517,291 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                     <?php
 
+                  }elseif (isset($_GET['get_std_acpt_id'])) {
+                    $acpt=$_GET['get_std_acpt_id'];
+                    $sql="SELECT * FROM `students_assigment_accepted` WHERE `id`='$acpt'";
+                    $run_acp=mysqli_query($cn,$sql);
+                    if(mysqli_num_rows($run_acp)>0){
+                      while ($get_acpt_data=mysqli_fetch_array($run_acp)) {
+                        $id_a=$get_acpt_data['id'];
+                        $student_a=$get_acpt_data['std_name'];
+                        $student_assigment_a=$get_acpt_data['asssigment'];
+                        $student_assigment_title_a=$get_acpt_data['title'];
+                        $student_assigment_description_a=$get_acpt_data['description'];
+                        $student_email_a=$get_acpt_data['std_email'];
+                        $student_submitted_Dat_a=$get_acpt_data['submition_date'];
+                        $student_confirmation_a=$get_acpt_data['confirmation'];
+                        $student_marks_a=$get_acpt_data['marks'];
+                        $assigment_due_date_a=$get_acpt_data['due_date'];
+                        $by_a=$get_acpt_data['confirm_by'];
+                        $lec_email_a=$get_acpt_data['lec_email'];
+                      }
+
+                      //get assigment total marks
+                      $sql_lec="SELECT * FROM `creat_assigment` WHERE `created_by`='$by_a'";
+                      $run_lec=mysqli_query($cn,$sql_lec);
+                      if($run_lec){
+                        while ($get_lec=mysqli_fetch_array($run_lec)) {
+                          $total_marks_a=$get_lec['ass_marks'];
+                        }
+                      }
+
+                      ?>
+                    <div class="row">
+                      <div class="col-lg-12 col-md-12">
+                        <div class="card card-dark">
+                          <div class="card-header">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <?php //$user_submitted=$_SESSION['student_logged_in']['first_name']; ?>
+                                <?php echo "<h6 class='float-left'>$student_a</h6>"?>
+                                <div class="float-right">
+                                  <a href="student_assigment_details_print.php?id_a=<?php echo $id_a; ?>" class="btn btn-secondary btn-xs" target="_blank"><i class="fas fa-print"></i> Print</a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="card-body">
+                            <div class="row">
+                              <div class="col-md-6">
+                                <table>
+                                  <tr bgcolor="card-dark">
+                                  <td style="text-align: left;" id="td_titles">
+                                    Assigment  
+                                  </td>
+                                  <td>
+                                  <?php echo $student_assigment_a; ?>
+                                  </td>
+                                </tr>
+                                  <tr>
+                                  <td style="text-align: left;" id="td_titles">
+                                    Title  
+                                  </td>
+                                  <td>
+                                  <?php echo $student_assigment_title_a; ?>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td style="text-align: left;" id="td_titles">
+                                    Description  
+                                  </td>
+                                  <td>
+                                    <?php echo $student_assigment_description_a; ?>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td  style="text-align: left;" id="td_titles">
+                                    Status  
+                                  </td>
+                                  <td>
+                                    <?php echo "<span class='badge badge-success'>Completed</span>"; ?>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td  style="text-align: left;" id="td_titles">
+                                    Marks  
+                                  </td>
+                                  <td>
+                                    <?php 
+                                    if($student_marks_a > 0){
+                                      echo $student_marks_a." / ".$total_marks_a; 
+                                    }else{
+                                      echo "0 / ".$total_marks_a; 
+                                    }
+                                    ?>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td  style="text-align: left;" id="td_titles">
+                                    Due Date  
+                                  </td>
+                                  <td>
+                                    <?php echo $assigment_due_date_a; ?>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td  style="text-align: left;" id="td_titles">
+                                    Submitted On  
+                                  </td>
+                                  <td>
+                                    <?php echo $student_submitted_Dat_a; ?>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td  style="text-align: left;" id="td_titles">
+                                    Confirmation  
+                                  </td>
+                                  <td>
+                                    <?php echo "<span class='badge badge-success'>$student_confirmation_a</span>"; ?>
+                                  </td>
+                                </tr>
+                              </table>
+                            </div>
+                            <div class="col-md-6" style="text-align: center;">
+                              <div class="card">
+                                <div class="card-header bg-dark">
+                                  <div class="h5" style="color: lightgreen;">Accepted</div>
+                                </div>
+                                <div class="card-body">
+                                  <p class="small">Sorry! your assigment has been  Accepted by <?php echo $by_a; ?></p>
+                                  <p class="small">You can contact with <?php echo $by_a; ?> by 
+                                    <strong><?php echo $lec_email_a; ?></strong></p>
+                                </div>
+                              </div>
+                              
+        
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <?php
+
+                    }
+                    
+                  }elseif (isset($_GET['get_std_rjt_id'])) {
+                   $rjt=$_GET['get_std_rjt_id'];
+                    $sql="SELECT * FROM `students_assigment_rejected` WHERE `id`='$rjt'";
+                    $run_rjt=mysqli_query($cn,$sql);
+                    if(mysqli_num_rows($run_rjt)>0){
+                      while ($get_rjt_data=mysqli_fetch_array($run_rjt)) {
+                        $id_r=$get_rjt_data['id'];
+                        $student_r=$get_rjt_data['std_name'];
+                        $student_assigment_r=$get_rjt_data['asssigment'];
+                        $student_assigment_title_r=$get_rjt_data['title'];
+                        $student_assigment_description_r=$get_rjt_data['description'];
+                        $student_email_r=$get_rjt_data['std_email'];
+                        $student_submitted_Dat_r=$get_rjt_data['submition_date'];
+                        $student_confirmation_r=$get_rjt_data['confirmation'];
+                        $student_marks_r=$get_rjt_data['marks'];
+                        $assigment_due_date_r=$get_rjt_data['due_date'];
+                        $by_r=$get_rjt_data['confirm_by'];
+                        $lec_email_r=$get_rjt_data['lec_email'];
+                        
+                      }
+
+                      //get assigment total marks
+                      $sql_lec="SELECT * FROM `creat_assigment` WHERE `created_by`='$by_r'";
+                      $run_lec=mysqli_query($cn,$sql_lec);
+                      if($run_lec){
+                        while ($get_lec=mysqli_fetch_array($run_lec)) {
+                          $total_marks_r=$get_lec['ass_marks'];
+                        }
+                      }
+                      ?>
+                    <div class="row">
+                      <div class="col-lg-12 col-md-12">
+                        <div class="card card-dark">
+                          <div class="card-header">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <?php //$user_submitted=$_SESSION['student_logged_in']['first_name']; ?>
+                                <?php echo "<h6 class='float-left'>$student_r</h6>"?>
+                                <div class="float-right">
+                                  <a href="student_assigment_details_print.php?id_r=<?php echo $id_r; ?>" class="btn btn-secondary btn-xs" target="_blank"><i class="fas fa-print"></i> Print</a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="card-body">
+                            <div class="row">
+                              <div class="col-md-6">
+                                <table>
+                                  <tr bgcolor="card-dark">
+                                  <td style="text-align: left;" id="td_titles">
+                                    Assigment  
+                                  </td>
+                                  <td>
+                                  <?php echo $student_assigment_r; ?>
+                                  </td>
+                                </tr>
+                                  <tr>
+                                  <td style="text-align: left;" id="td_titles">
+                                    Title  
+                                  </td>
+                                  <td>
+                                  <?php echo $student_assigment_title_r; ?>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td style="text-align: left;" id="td_titles">
+                                    Description  
+                                  </td>
+                                  <td>
+                                    <?php echo $student_assigment_description_r; ?>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td  style="text-align: left;" id="td_titles">
+                                    Status  
+                                  </td>
+                                  <td>
+                                    <?php echo "<span class='badge badge-success'>Completed</span>"; ?>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td  style="text-align: left;" id="td_titles">
+                                    Marks  
+                                  </td>
+                                  <td>
+                                    <?php 
+                                    if($student_marks_r > 0){
+                                      echo $student_marks_r." / ".$total_marks_r; 
+                                    }else{
+                                      echo "0 / ".$total_marks_r; 
+                                    }
+                                    ?>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td  style="text-align: left;" id="td_titles">
+                                    Due Date  
+                                  </td>
+                                  <td>
+                                    <?php echo $assigment_due_date_r; ?>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td  style="text-align: left;" id="td_titles">
+                                    Submitted On  
+                                  </td>
+                                  <td>
+                                    <?php echo $student_submitted_Dat_r; ?>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td  style="text-align: left;" id="td_titles">
+                                    Confirmation  
+                                  </td>
+                                  <td>
+                                    <?php echo "<span class='badge badge-danger'>$student_confirmation_r</span>"; ?>
+                                  </td>
+                                </tr>
+                              </table>
+                            </div>
+                            <div class="col-md-6" style="text-align: center;">
+                              <div class="card">
+                                <div class="card-header bg-dark">
+                                  <div class="h5" style="color: yellow;">Rejected</div>
+                                </div>
+                                <div class="card-body">
+                                  <p class="small">Sorry! your assigment has been  rejected by <?php echo $by_r; ?></p>
+                                  <p class="small">You can contact with <?php echo $by_r; ?> by 
+                                    <strong><?php echo $lec_email_r; ?></strong></p>
+                                </div>
+                              </div>
+                              
+        
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <?php
+
+                    }
                   }
 
                   ?>

@@ -322,7 +322,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     $student_faculty=$get_data['faculty'];
                     $assigment_submitted_date=$get_data['submitted_date'];
                   }
-                  }
                   
                   
                 ?>
@@ -341,8 +340,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <tbody>
                   <?php
                   //get accepted data
-                  $sql="SELECT * FROM `students_assigment_accepted` WHERE `std_email`='$std_email'";
-                  $run=mysqli_query($cn,$sql);
+                  $sql1="SELECT * FROM `students_assigment_accepted` WHERE `std_email`='$std_email'";
+                  $run1=mysqli_query($cn,$sql1);
 
                   //get rejected data
                   $sql2="SELECT * FROM `students_assigment_rejected` WHERE `std_email`='$std_email'";
@@ -354,9 +353,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
                   $total_counts=0;
-                  if(mysqli_num_rows($run)>0){
-                    while ($get_data_b=mysqli_fetch_array($run)) {
-                        $id=$get_data_b['id'];
+                  if(mysqli_num_rows($run1)>0){
+                    while ($get_data_b=mysqli_fetch_array($run1)) {
+                        $id_a=$get_data_b['id'];
                         $std_name=$get_data_b['std_name'];
                         $std_email=$get_data_b['std_email'];
                         $std_mob=$get_data_b['std_mob'];
@@ -381,7 +380,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           <td><?php echo "<span class='badge badge-purple bg-purple'>$std_confirmation</span>";?></td>
                           <td class="text-center py-0 align-middle">
                             <div class="btn-group btn-group-sm">
-                              <a href="student_view_submitted.php?get_std_view_id=<?php echo $pk; ?>" class="btn btn-primary"><i class="fas fa-eye"></i></a>
+                              <a href="student_view_submitted.php?get_std_acpt_id=<?php echo $id_a; ?>" class="btn btn-primary"><i class="fas fa-eye"></i></a>
                               <a href="#" class="btn btn-warning"><i class="fas fa-edit"></i></a>
                               <a href="#" class="btn btn-danger"><i class="fas fa-times"></i></a>
                               
@@ -393,7 +392,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       }
                   }if (mysqli_num_rows($run2)>0) {
                     while ($get_data_c=mysqli_fetch_array($run2)) {
-                        $id=$get_data_c['id'];
+                        $id_r=$get_data_c['id'];
                         $std_name=$get_data_c['std_name'];
                         $std_email=$get_data_c['std_email'];
                         $std_mob=$get_data_c['std_mob'];
@@ -418,7 +417,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           <td><?php echo "<span class='badge badge-maroon bg-maroon'>$std_confirmation</span>";?></td>
                           <td class="text-center py-0 align-middle">
                             <div class="btn-group btn-group-sm">
-                              <a href="student_view_submitted.php?get_std_view_id=<?php echo $pk; ?>" class="btn btn-primary"><i class="fas fa-eye"></i></a>
+                              <a href="student_view_submitted.php?get_std_rjt_id=<?php echo $id_r; ?>" class="btn btn-primary"><i class="fas fa-eye"></i></a>
                               <a href="#" class="btn btn-warning"><i class="fas fa-edit"></i></a>
                               <a href="#" class="btn btn-danger"><i class="fas fa-times"></i></a>
                               
@@ -458,7 +457,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       }
                     }
                   
-                  
+                  }else{
+                    ?>
+                    <div class="callout callout-info">
+                        <h4 style="margin-top: 12px;">
+                            <i class="fas fa-info-circle"></i> You don't have any submitted assigments
+                            
+                          </h4>
+
+                        <!-- /.col -->
+                    </div>
+                    <?php
+                  }
                   ?>
                 </tbody>
           </table>

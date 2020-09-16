@@ -50,6 +50,15 @@
                         $confirm_on=$get_data['confirm_on'];
                         $count_accepted+=1;
                       }
+
+                      //get assigment total marks
+                      $sql_lec="SELECT * FROM `creat_assigment` WHERE `created_by`='$confirm_by'";
+                      $run_lec=mysqli_query($cn,$sql_lec);
+                      if($run_lec){
+                        while ($get_lec=mysqli_fetch_array($run_lec)) {
+                          $total_marks_acp=$get_lec['ass_marks'];
+                        }
+                      }
                       //getting std more info
                       $sql="SELECT * FROM `registred_students` WHERE `email`='$std_email'";
                       $getting=mysqli_query($cn,$sql);
@@ -99,6 +108,97 @@
                       }
 
                     }
+            }elseif (isset($_GET['id_r'])) {
+              $id_r=$_GET['id_r'];
+              include('db_page_2.php');
+              $cn=db_connection();
+                    $sql="SELECT * FROM `students_assigment_rejected` WHERE `id`='$id_r'";
+                    $run_a=mysqli_query($cn,$sql);
+                    if(mysqli_num_rows($run_a)>0){
+                      while ($get_data_b=mysqli_fetch_array($run_a)) {
+                        $id_r=$get_data_b['id'];
+                        $std_name_r=$get_data_b['std_name'];
+                        $std_email_r=$get_data_b['std_email'];
+                        $std_mob_r=$get_data_b['std_mob'];
+                        $std_img_r=$get_data_b['std_img'];
+                        $std_assigmen_rt=$get_data_b['asssigment'];
+                        $std_marks_r=$get_data_b['marks'];
+                        $std_title_r=$get_data_b['title'];
+                        $std_description_r=$get_data_b['description'];
+                        $ass_due_date_r=$get_data_b['due_date'];
+                        $ass_submit_date_r=$get_data_b['submition_date'];
+                        $std_confirmation_r=$get_data_b['confirmation'];
+                        $confirm_by_r=$get_data_b['confirm_by'];
+                        $lec_email_r=$get_data_b['lec_email'];
+                        $confirm_on_r=$get_data_b['confirm_on'];
+                      }
+
+                      //get assigment total marks
+                      $sql_lec="SELECT * FROM `creat_assigment` WHERE `created_by`='$confirm_by_r'";
+                      $run_lec=mysqli_query($cn,$sql_lec);
+                      if($run_lec){
+                        while ($get_lec=mysqli_fetch_array($run_lec)) {
+                          $total_marks_r=$get_lec['ass_marks'];
+                        }
+                      }
+                      //getting std more info
+                      $sql="SELECT * FROM `registred_students` WHERE `email`='$std_email_r'";
+                      $getting=mysqli_query($cn,$sql);
+                      if(mysqli_num_rows($getting)>0){
+                        while ($get_std_info=mysqli_fetch_assoc($getting)) {
+                          $std_department_r=$get_std_info['department'];
+                          $std_faculty_r=$get_std_info['faculty'];
+                          $std_semester_r=$get_std_info['semester'];
+                        }
+                      }
+
+                    }
+            }elseif (isset($_GET['id_a'])) {
+              $id_a=$_GET['id_a'];
+              include('db_page_2.php');
+              $cn=db_connection();
+                    $sql="SELECT * FROM `students_assigment_accepted` WHERE `id`='$id_a'";
+                    $run_a=mysqli_query($cn,$sql);
+                    if(mysqli_num_rows($run_a)>0){
+                      while ($get_data_b=mysqli_fetch_array($run_a)) {
+                        $id_a=$get_data_b['id'];
+                        $std_name_a=$get_data_b['std_name'];
+                        $std_email_a=$get_data_b['std_email'];
+                        $std_mob_a=$get_data_b['std_mob'];
+                        $std_img_a=$get_data_b['std_img'];
+                        $std_assigmen_a=$get_data_b['asssigment'];
+                        $std_marks_a=$get_data_b['marks'];
+                        $std_title_a=$get_data_b['title'];
+                        $std_description_a=$get_data_b['description'];
+                        $ass_due_date_a=$get_data_b['due_date'];
+                        $ass_submit_date_a=$get_data_b['submition_date'];
+                        $std_confirmation_a=$get_data_b['confirmation'];
+                        $confirm_by_a=$get_data_b['confirm_by'];
+                        $lec_email_a=$get_data_b['lec_email'];
+                        $confirm_on_a=$get_data_b['confirm_on'];
+                      }
+
+                      //get assigment total marks
+                      $sql_lec="SELECT * FROM `creat_assigment` WHERE `created_by`='$confirm_by_a'";
+                      $run_lec=mysqli_query($cn,$sql_lec);
+                      if($run_lec){
+                        while ($get_lec=mysqli_fetch_array($run_lec)) {
+                          $total_marks_a=$get_lec['ass_marks'];
+                        }
+                      }
+
+                      //getting std more info
+                      $sql="SELECT * FROM `registred_students` WHERE `email`='$std_email_a'";
+                      $getting=mysqli_query($cn,$sql);
+                      if(mysqli_num_rows($getting)>0){
+                        while ($get_std_info=mysqli_fetch_assoc($getting)) {
+                          $std_department_a=$get_std_info['department'];
+                          $std_faculty_a=$get_std_info['faculty'];
+                          $std_semester_a=$get_std_info['semester'];
+                        }
+                      }
+
+                    }
             }
             ?>
 <body>
@@ -138,6 +238,7 @@ if(isset($_GET['accepted_std_details_id'])){
                     Assigment : <?php echo "$std_assigment"; ?><br>
                     Title : <?php echo "$assigment_title"; ?><br>
                     Descriptionn : <?php echo "$assigment_description"; ?><br>
+                    Marks : <?php echo $std_marks." / ".$total_marks_acp; ?><br>
                   </address>
                 </div>
                 <!-- /.col -->
@@ -211,6 +312,7 @@ if(isset($_GET['rejected_std_details_id'])){
                     Assigment : <?php echo "$std_assigmen_rt"; ?><br>
                     Title : <?php echo "$std_title_r"; ?><br>
                     Descriptionn : <?php echo "$std_description_r"; ?><br>
+                    Marks : <?php echo " 0 / ".$total_marks_r; ?><br>
                   </address>
                 </div>
                 <!-- /.col -->
@@ -250,7 +352,154 @@ if(isset($_GET['rejected_std_details_id'])){
     <!-- /.row -->
 <?php
 }
+if(isset($_GET['id_r'])){
+  ?>
+  <!-- Main content -->
+  <section class="invoice">
+    <!-- title row -->
+    <div class="row">
+      
+      <!-- /.col -->
+    </div><br>
+     <!-- info row -->
+     <div class="col-12">
+        <h2 class="page-header text-center" style="color: green;"><i class="fas fa-globe"></i>
+          BKUC ASSIGMENT MANAGEMENT SYSTEM
+        </h2><small class="float-right"><?php echo "Date : ". date('m/d/Y'); ?></small>
+      </div><br><br>
+              <div class="row invoice-info">
+                <div class="col-sm-4 invoice-col">
+                  <i class="fas fa-user"></i> <b> Student Info</b><br><br>
+                  <address>
+                    Student : <?php echo $std_name_r; ?><br>
+                    Faculty : <?php echo "$std_faculty_r"; ?><br>
+                    Department : <?php echo "$std_department_r"; ?><br>
+                    Semester : <?php echo "$std_semester_r"; ?><br>
+                    Phone : <?php echo "$std_mob_r"; ?><br>
+                    Emil : <?php echo "$std_email_r"; ?>
+                  </address>
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4 invoice-col">
+                  <i class="fas fa-file"></i> <b> Assigment Info</b><br><br>
+                  <address>
+                    Assigment : <?php echo "$std_assigmen_rt"; ?><br>
+                    Title : <?php echo "$std_title_r"; ?><br>
+                    Descriptionn : <?php echo "$std_description_r"; ?><br>
+                    Marks : <?php echo " 0 / ".$total_marks_r; ?><br>
+                  </address>
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4 invoice-col">
+                  <i class="fas fa-clock"></i> <b> Submission Info</b><br><br>
+                    Due Date : <?php echo "$ass_due_date_r"; ?><br>
+                    Submitted On : <?php echo "$ass_submit_date_r"; ?><br><br>
+                    <div class="badge badge-info">
+                    Submitted To : <?php echo "$confirm_by_r"; ?><br>
+                    Email : <?php echo "$lec_email_r"; ?><br>
+                    </div>
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
 
+
+  </section>
+  <!-- /.content -->
+      <div class="row">
+      <div class="col-6">
+        
+      </div>
+      <div class="col-6">
+
+        <div class="table-responsive">
+          <table class="table">
+            <tr>
+              <th style="width:50%">Assigment Confirmation</th>
+              <td><strong><p style="color: red;"><i class="fas fa-times"></i> <?php echo $std_confirmation_r; ?></p></strong></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+<?php
+}
+if(isset($_GET['id_a'])){
+  ?>
+  <!-- Main content -->
+  <section class="invoice">
+    <!-- title row -->
+    <div class="row">
+      
+      <!-- /.col -->
+    </div><br>
+     <!-- info row -->
+     <div class="col-12">
+        <h2 class="page-header text-center" style="color: green;"><i class="fas fa-globe"></i>
+          BKUC ASSIGMENT MANAGEMENT SYSTEM
+        </h2><small class="float-right"><?php echo "Date : ". date('m/d/Y'); ?></small>
+      </div><br><br>
+              <div class="row invoice-info">
+                <div class="col-sm-4 invoice-col">
+                  <i class="fas fa-user"></i> <b> Student Info</b><br><br>
+                  <address>
+                    Student : <?php echo $std_name_a; ?><br>
+                    Faculty : <?php echo "$std_faculty_a"; ?><br>
+                    Department : <?php echo "$std_department_a"; ?><br>
+                    Semester : <?php echo "$std_semester_a"; ?><br>
+                    Phone : <?php echo "$std_mob_a"; ?><br>
+                    Emil : <?php echo "$std_email_a"; ?>
+                  </address>
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4 invoice-col">
+                  <i class="fas fa-file"></i> <b> Assigment Info</b><br><br>
+                  <address>
+                    Assigment : <?php echo "$std_assigmen_a"; ?><br>
+                    Title : <?php echo "$std_title_a"; ?><br>
+                    Descriptionn : <?php echo "$std_description_a"; ?><br>
+                    Marks : <?php echo $std_marks_a." / ".$total_marks_a; ?><br>
+                  </address>
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4 invoice-col">
+                  <i class="fas fa-clock"></i> <b> Submission Info</b><br><br>
+                    Due Date : <?php echo "$ass_due_date_a"; ?><br>
+                    Submitted On : <?php echo "$ass_submit_date_a"; ?><br><br>
+                    <div class="badge badge-info">
+                    Submitted To : <?php echo "$confirm_by_a"; ?><br>
+                    Email : <?php echo "$lec_email_a"; ?><br>
+                    </div>
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+
+
+  </section>
+  <!-- /.content -->
+      <div class="row">
+      <div class="col-6">
+        
+      </div>
+      <div class="col-6">
+
+        <div class="table-responsive">
+          <table class="table">
+            <tr>
+              <th style="width:50%">Assigment Confirmation</th>
+              <td><strong><p style="color: green;"><i class="fas fa-check"></i> <?php echo $std_confirmation_a; ?></p></strong></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+<?php
+}
   ?>
 </div>
 <!-- ./wrapper -->

@@ -566,10 +566,10 @@ if(isset($_GET['rejected_std_details_id'])){
   <footer class="main-footer">
     <!-- To the right -->
     <div class="float-right d-none d-sm-inline">
-      Anything you want
+      <a href="http://www.bkuc.edu.pk">www.bkuc.edu.pk</a>
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+    <strong>Developed by &copy; <a href="https://adminlte.io">AqibLodhi</a>.</strong> All rights reserved.
   </footer>
 </div>
 <!-- ./wrapper -->
