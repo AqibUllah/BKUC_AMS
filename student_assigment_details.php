@@ -383,6 +383,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         $confirm_on_r=$get_data_b['confirm_on'];
                         $count_rejected+=1;
                       }
+                      //get assigment total marks
+                      $sql_lec="SELECT * FROM `creat_assigment` WHERE `created_by`='$confirm_by_r' and `ass_name`='$std_assigmen_r'";
+                      $run_lec=mysqli_query($cn,$sql_lec);
+                      if($run_lec){
+                        while ($get_lec=mysqli_fetch_array($run_lec)) {
+                          $total_marks_r=$get_lec['ass_marks'];
+                        }
+                      }
                       //getting std more info
                       $sql="SELECT * FROM `registred_students` WHERE `email`='$std_email_r'";
                       $getting_a=mysqli_query($cn,$sql);
@@ -435,9 +443,16 @@ if(isset($_GET['accepted_std_details_id'])){
                 <div class="col-sm-4 invoice-col">
                   <i class="fas fa-info"></i> <b>Assigment Info</b><br><br>
                   <address>
-                    Assigment : <?php echo "$std_assigment"; ?><br>
+                    <div style="background: lightgreen;">
+                       Assigment : <?php echo "$std_assigment"; ?><br>
+                    </div>
+                   
                     Title : <?php echo "$assigment_title"; ?><br>
                     Descriptionn : <?php echo "$assigment_description"; ?><br>
+                    <div style="background: lightgreen;">
+                      Marks : <?php echo $std_marks; ?><br>
+                    </div>
+                    
                   </address>
                 </div>
                 <!-- /.col -->
@@ -457,7 +472,7 @@ if(isset($_GET['accepted_std_details_id'])){
               <!-- this row will not appear when printing -->
               <div class="row no-print">
                 <div class="col-12">
-                  <a href="student_assigment_details_print.php?accepted_std_details_id=<?php echo $id ?>" target="_blank" class="btn btn-success float-right"><i class="fas fa-print"></i> Print</a>
+                  <a href="student_assigment_details_print_lecturer.php?accepted_std_details_id=<?php echo $id ?>" target="_blank" class="btn btn-success float-right"><i class="fas fa-print"></i> Print</a>
                   <!-- <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
                     <i class="fas fa-download"></i> Generate PDF
                   </button> -->
@@ -510,6 +525,16 @@ if(isset($_GET['rejected_std_details_id'])){
                     Assigment : <?php echo "$std_assigmen_r"; ?><br>
                     Title : <?php echo "$std_title_r"; ?><br>
                     Descriptionn : <?php echo "$std_description_r"; ?><br>
+                    Marks : <?php 
+
+                   echo  $std_marks_r;
+                    // if($std_marks_r > 0){
+                    //   echo $std_marks_r." / ".$total_marks_r;
+                    // }else{
+                    //   echo "0 / ".$total_marks_r;
+                    // } 
+
+                    ?><br>
                   </address>
                 </div>
                 <!-- /.col -->
@@ -529,7 +554,7 @@ if(isset($_GET['rejected_std_details_id'])){
               <!-- this row will not appear when printing -->
               <div class="row no-print">
                 <div class="col-12">
-                  <a href="student_assigment_details_print.php?rejected_std_details_id=<?php echo $id_r ?>" target="_blank" class="btn btn-danger float-right"><i class="fas fa-print"></i> Print</a>
+                  <a href="student_assigment_details_print_lecturer.php?rejected_std_details_id=<?php echo $id_r ?>" target="_blank" class="btn btn-danger float-right"><i class="fas fa-print"></i> Print</a>
                   <!-- <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
                     <i class="fas fa-download"></i> Generate PDF
                   </button> -->

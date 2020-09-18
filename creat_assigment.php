@@ -415,7 +415,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </div>
                 <div class="col-lg-5 col-md-5">
                    <div class="file-loading">
-                      <input id="file-5" class="file" name="file[]" multiple type="file" data-preview-file-type="any" data-upload-url="#" data-theme="fas">
+                      <input id="file-5" class="file" name="file[]" multiple type="file" data-preview-file-type="any" data-show-cancel="false" data-show-upload="false" data-upload-url="#" data-theme="fas">
                     </div>
                 </div>             
               </div>

@@ -1,3 +1,10 @@
+<?php
+session_start();
+   if(isset($_SESSION["student_logged_in"])){
+          }else{
+            header("location:login_page.php");
+          }
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -112,6 +119,7 @@
               $id_r=$_GET['id_r'];
               include('db_page_2.php');
               $cn=db_connection();
+              $student_email_r=$_SESSION["student_logged_in"]["std_email"];
                     $sql="SELECT * FROM `students_assigment_rejected` WHERE `id`='$id_r'";
                     $run_a=mysqli_query($cn,$sql);
                     if(mysqli_num_rows($run_a)>0){
@@ -142,7 +150,7 @@
                         }
                       }
                       //getting std more info
-                      $sql="SELECT * FROM `registred_students` WHERE `email`='$std_email_r'";
+                      $sql="SELECT * FROM `registred_students` WHERE `email`='$student_email_r'";
                       $getting=mysqli_query($cn,$sql);
                       if(mysqli_num_rows($getting)>0){
                         while ($get_std_info=mysqli_fetch_assoc($getting)) {
@@ -157,6 +165,7 @@
               $id_a=$_GET['id_a'];
               include('db_page_2.php');
               $cn=db_connection();
+              $student_email=$_SESSION["student_logged_in"]["std_email"];
                     $sql="SELECT * FROM `students_assigment_accepted` WHERE `id`='$id_a'";
                     $run_a=mysqli_query($cn,$sql);
                     if(mysqli_num_rows($run_a)>0){
@@ -179,16 +188,17 @@
                       }
 
                       //get assigment total marks
-                      $sql_lec="SELECT * FROM `creat_assigment` WHERE `created_by`='$confirm_by_a'";
+                      $sql_lec="SELECT * FROM `creat_assigment` WHERE `ass_name`='$std_assigmen_a' and `created_by`='$confirm_by_a'";
                       $run_lec=mysqli_query($cn,$sql_lec);
                       if($run_lec){
                         while ($get_lec=mysqli_fetch_array($run_lec)) {
                           $total_marks_a=$get_lec['ass_marks'];
+
                         }
                       }
 
                       //getting std more info
-                      $sql="SELECT * FROM `registred_students` WHERE `email`='$std_email_a'";
+                      $sql="SELECT * FROM `registred_students` WHERE `email`='$student_email'";
                       $getting=mysqli_query($cn,$sql);
                       if(mysqli_num_rows($getting)>0){
                         while ($get_std_info=mysqli_fetch_assoc($getting)) {
@@ -446,11 +456,11 @@ if(isset($_GET['id_a'])){
                   <i class="fas fa-user"></i> <b> Student Info</b><br><br>
                   <address>
                     Student : <?php echo $std_name_a; ?><br>
-                    Faculty : <?php echo "$std_faculty_a"; ?><br>
-                    Department : <?php echo "$std_department_a"; ?><br>
-                    Semester : <?php echo "$std_semester_a"; ?><br>
-                    Phone : <?php echo "$std_mob_a"; ?><br>
-                    Emil : <?php echo "$std_email_a"; ?>
+                    Faculty : <?php echo $std_faculty_a; ?><br>
+                    Department : <?php echo $std_department_a; ?><br>
+                    Semester : <?php echo $std_semester_a; ?><br>
+                    Phone : <?php echo $std_mob_a; ?><br>
+                    Emil : <?php echo $std_email_a; ?>
                   </address>
                 </div>
                 <!-- /.col -->

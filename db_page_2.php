@@ -379,14 +379,41 @@ function submit_assigment_multiple(){
 
 function update_assigment(){
 	$cn=db_connection();
-	$uploaded_dir = 'assigment_images_pdf/';
-	$filename	  = $_FILES["file"]["name"];
-	$uploaded_dir.= $filename;
-	$tmp_dir 	  =$_FILES["file"]["tmp_name"];
-	$size 		  =$_FILES["file"]["size"];
-	$file_type    =$_FILES['file']['type'];
-	$new_size = $size/1024;   // new size
-	$text		  =pathinfo($filename,PATHINFO_EXTENSION);
+	$filename_count = count($_FILES["file"]["name"]);
+
+		for($i = 0;$i<$filename_count;$i++){
+		    $filename     = $_FILES['file']['name'][$i];
+		    $text             =pathinfo($filename,PATHINFO_EXTENSION);
+		    if($text == 'jpg' or $text == 'JPG' or $text == 'png' or $text == 'PNG' or
+				$text == 'gif' or $text == 'GIF' or $text == 'jpeg' or $text == 'GPEG' or $text == 'pdf'
+				or $text == 'PDF' or $text =='pptx' or $text=='PPTX' or $text == 'docx' 
+				or $text == 'DOCX' or $text == 'txt' or $text == 'TXT' or $text == 'doc' 
+				or $text == 'DOC' or $text =='csv' or $text == 'CSV' or $text =='xlsx' 
+				or $text == 'XLSX'){
+		                		continue;
+		                	}else{
+		                		// echo "<h1 style='color:red;'>extension error</h1>";
+		                		// return "error_extension";
+		                		?>
+                    <script type="text/javascript">
+                      $(document).ready(function(){
+                            $('.toastsDefaultDanger').ready(function() {
+                              $(document).Toasts('create', {
+                                position: 'topRight',
+                                class: 'bg-danger', 
+                                autohide : true,
+                                delay    : 6000,
+                                title: 'Error',
+                                subtitle: 'Extension error',
+                                body: '<strong>your file extension is not valid plz select the valid file.</strong>'
+                              })
+                            });
+                      });
+                    </script>
+                  <?php
+                  exit();
+		                	}
+		}
 
 		$id=$_GET["edit_id"];
 		$_faculty=$_POST["select_faculty"];
@@ -394,13 +421,34 @@ function update_assigment(){
 		$_semester=$_POST["select_semester"];
 		$_batch=$_POST["txt_batch"];
 		$_name=$_POST["txt_assgmnt_name"];
+		$_marks=$_POST["assimgent_marks"];
 		$_session=$_POST["txt_session"];
 		$_total_duration=$_POST["txt_duration"];
 		$_message=$_POST["txt_message"];
 		$_created_on=date('d/m/yy');
 		$_created_by=$_SESSION["lecturer_logged_in"]["username"];
-	$sql="UPDATE `creat_assigment` SET `faculty`='$_faculty',`department`='$_department',`semester`='$_semester',`batch`='$_batch',`ass_name`='$_name',`session`='$_session',`time_duration`='$_total_duration',`message`='$_message',`document`='$uploaded_dir',`created_on`='$_created_on',`created_by`='$_created_by' WHERE `id`='$id'";
+	$sql="UPDATE `creat_assigment` SET `faculty`='$_faculty',`department`='$_department',`semester`='$_semester',`batch`='$_batch',`ass_name`='$_name',`ass_marks`='$_marks',`session`='$_session',`time_duration`='$_total_duration',`message`='$_message',`created_on`='$_created_on',`created_by`='$_created_by' WHERE `id`='$id'";
 	$run=mysqli_query($cn,$sql);
+	$sql2="DELETE FROM `creat_assigment_attachments` WHERE `fk`='$id'";
+	$done=mysqli_query($cn,$sql2);
+	for($i = 0;$i<$filename_count;$i++){
+
+						$uploaded_dir = 'assigment_images_pdf/';
+						$filename     = $_FILES['file']['name'][$i];
+						$uploaded_dir.= $filename;
+						$tmp_dir      =$_FILES["file"]["tmp_name"][$i];
+						$sql="INSERT INTO `creat_assigment_attachments`(`fk`,`assigment`,`attachments`) VALUES ('$id','$_name','$uploaded_dir')";
+						$done=mysqli_query($cn,$sql);
+						if($done){
+							$uploaded=move_uploaded_file($tmp_dir, $uploaded_dir);
+						}else{
+							if(file_exists($uploaded_dir)){
+							    unlink($uploaded_dir);
+							}
+							return "not_done";
+						}
+					}
+		
 	if($run){
 		return true;
 	}else{
@@ -769,6 +817,7 @@ $std_marks=$_POST["std_marks"];
                 if(mysqli_num_rows($run_a)>0){
 
 	                while($get_data_b=mysqli_fetch_assoc($run_a)){
+	                	$total_marks=$get_data_b['ass_marks'];
 	                    $due_date=substr($get_data_b['time_duration'], 22);
 	                }
 	                
@@ -812,7 +861,7 @@ $std_marks=$_POST["std_marks"];
             		return "already_accepted";
 
             	}
-
+            	$std_marks=$std_marks." / ".$total_marks;
             	$sql="INSERT INTO `students_assigment_accepted`(`std_name`, `std_email`, `std_mob`, `std_img`, `asssigment`, `marks`, `title`, `description`, `due_date`, `submition_date`, `confirmation`, `confirm_by`, `lec_email`, `confirm_on`) VALUES ('$student_name','$student_email',
             		'$student_mob','$std_image','$submitted_assigment','$std_marks','$title','$description','$due_date','$submitted_on','Accepted','$lec_name','$lec_email','$on')";
             		$all_done=mysqli_query($cn,$sql);
@@ -868,6 +917,7 @@ $std_marks=$_POST["std_marks"];
                 if(mysqli_num_rows($run_a)>0){
 
 	                while($get_data_b=mysqli_fetch_assoc($run_a)){
+	                	$total_marks=$get_data_b['ass_marks'];
 	                    $due_date=substr($get_data_b['time_duration'], 22);
 	                }
 	                
@@ -911,7 +961,7 @@ $std_marks=$_POST["std_marks"];
             		return "already_accepted";
 
             	}
-
+            	$std_marks = "0 / ".$total_marks;
             	$sql="INSERT INTO `students_assigment_rejected`(`std_name`, `std_email`, `std_mob`, `std_img`,`asssigment`, `marks`, `title`, `description`, `due_date`, `submition_date`, `confirmation`, `confirm_by`, `lec_email`, `confirm_on`) VALUES ('$student_name','$student_email',
             		'$student_mob','$std_image','$submitted_assigment','$std_marks','$title','$description','$due_date','$submitted_on','Rejected','$lec_name','$lec_email','$on')";
             		$all_done=mysqli_query($cn,$sql);

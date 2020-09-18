@@ -362,13 +362,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                         <hr>
 
-                        <strong><i class="fas fa-map-marker-alt mr-1"></i> Department</strong>
+                        <strong><i class="fas fa-star mr-1"></i> Department</strong>
 
                         <p class="text-muted"><?php echo $student_department; ?></p>
 
                         <hr>
 
-                        <strong><i class="fas fa-phone mr-1"></i> Semester</strong>
+                        <strong><i class="fas fa-tachometer-alt mr-1"></i> Semester</strong>
 
                         <p class="text-muted">
                           <?php echo $student_semester; ?>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Admin SignUP | Page</title>
+	<title>Lecturer  | Sign Up</title>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <!-- Tell the browser to be responsive to screen width -->
@@ -44,19 +44,13 @@
 	
 <div class="login-box">
 	<div class="login-logo">
-			<a href="#"><b>Register</b> Admin</a>
+			<a href="#"><b>Register</b> Lecturer</a>
 		</div>
 		<div class="card" style="background: transparent;">
 			<div class="card-body login-card-body">
 				<form method="post" class="md-form" enctype="multipart/form-data">
           <div class="file-field">
-            <a class="btn-floating purple-gradient mt-0 float-left">
-              <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
               <input type="file" name="lecturer_image" class="upload-input">
-            </a>
-            <div class="file-path-wrapper">
-              <input class="file-path validate" type="text" placeholder="Upload your file">
-            </div>
           </div>
 					<div class="input-group mb-2">
 		                <input type="text" name="admin_username" placeholder="User Name" class="form-control">

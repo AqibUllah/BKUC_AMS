@@ -49,8 +49,9 @@
                         $(document).Toasts('create', {
                           class: 'bg-maroon', 
                           title: 'Error',
-                          subtitle: 'Not selected',
-                          body: 'Plz select the <strong>User</strong> type'
+                          subtitle: '',
+                          icon:'fas fa-exclamation-triangle',
+                          body: 'Plz select the <strong>User</strong> type to creat an account'
                         })
                       });
                 });

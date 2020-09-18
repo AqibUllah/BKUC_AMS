@@ -218,10 +218,11 @@ if(isset($_POST['btn_login_signIn'])){
                 $(document).Toasts('create', {
                   class: 'bg-maroon', 
                   autohide : true,
-                  delay    : 4000,
+                  delay    : 6000,
                   title: 'Error',
-                  subtitle: 'Not Found',
-                  body: 'User Not <strong>Exists</strong>.'
+                  subtitle: 'User Not Found',
+                  icon:'fas fa-exclamation-circle',
+                  body: 'This user can not exists in our <strong>BKUC AMS</strong>.'
                 })
               });
         });
@@ -240,8 +241,9 @@ if(isset($_POST['btn_login_signIn'])){
                   autohide : true,
                   delay    : 4000,
 					        title: 'Error',
-					        subtitle: 'Invalid Email',
-					        body: 'Invalid Email <strong>FORMATE</strong>.'
+					        subtitle: 'Email <strong>FORMATE</strong>',
+                  icon:'fas fa-times-circle',
+					        body: 'Invalid Email your email format was not correct.'
 					      })
 					    });
 				});
@@ -250,6 +252,9 @@ if(isset($_POST['btn_login_signIn'])){
 			}
 	}else{
 		?>
+    <!-- <div class="h4 text-center" style="color: grey;">
+      Enter your email & password !
+    </div> -->
 			<script type="text/javascript">
 				$(document).ready(function(){
 					    $('.toastsDefaultMaroon').ready(function() {
@@ -260,6 +265,7 @@ if(isset($_POST['btn_login_signIn'])){
                   delay    : 4000,
 					        title: 'Error',
 					        subtitle: 'Input Fields',
+                  icon:'fas fa-times-circle',
 					        body: 'Email & Password Should be <strong>REQUIRED</strong>.'
 					      })
 					    });
