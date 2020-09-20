@@ -554,7 +554,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <div class="row">
                               <div class="col-md-12">
                                 <?php //$user_submitted=$_SESSION['student_logged_in']['first_name']; ?>
-                                <?php echo "<h6 class='float-left'>$student_a</h6>"?>
+                                <?php echo "<h6 class='float-left' style='color:white;'>$student_a</h6>"?>
                                 <div class="float-right">
                                   <a href="student_assigment_details_print.php?id_a=<?php echo $id_a; ?>" class="btn btn-secondary btn-xs" target="_blank"><i class="fas fa-print"></i> Print</a>
                                 </div>
@@ -643,7 +643,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                   <div class="h5" style="color: lightgreen;">Accepted</div>
                                 </div>
                                 <div class="card-body">
-                                  <p class="small">Sorry! your assigment has been  Accepted by <?php echo $by_a; ?></p>
+                                  <p class="small">Congrates! your assigment has been  Accepted by <?php echo $by_a; ?></p>
                                   <p class="small">You can contact with <?php echo $by_a; ?> by 
                                     <strong><?php echo $lec_email_a; ?></strong></p>
                                 </div>
@@ -697,7 +697,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <div class="row">
                               <div class="col-md-12">
                                 <?php //$user_submitted=$_SESSION['student_logged_in']['first_name']; ?>
-                                <?php echo "<h6 class='float-left'>$student_r</h6>"?>
+                                <?php echo "<h6 class='float-left' style='color:white;'>$student_r</h6>"?>
                                 <div class="float-right">
                                   <a href="student_assigment_details_print.php?id_r=<?php echo $id_r; ?>" class="btn btn-secondary btn-xs" target="_blank"><i class="fas fa-print"></i> Print</a>
                                 </div>
@@ -786,7 +786,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                   <div class="h5" style="color: yellow;">Rejected</div>
                                 </div>
                                 <div class="card-body">
-                                  <p class="small">Sorry! your assigment has been  rejected by <?php echo $by_r; ?></p>
+                                  <p class="small">Sorry! your assigment has been rejected by <?php echo $by_r; ?></p>
                                   <p class="small">You can contact with <?php echo $by_r; ?> by 
                                     <strong><?php echo $lec_email_r; ?></strong></p>
                                 </div>

@@ -16,7 +16,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>Main | Page</title>
+  <title>Admin | Portal</title>
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
@@ -341,7 +341,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
           <li class="nav-item has-treeview menu-close">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-restroom"></i>
+              <i class="nav-icon fas fa-users"></i>
               <p>
                 Account Requests
                 <i class="right fas fa-angle-left"></i>
@@ -538,7 +538,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="col-12 col-sm-6 col-md-3">
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>0</h3>
+                <?php
+                $sql="SELECT * FROM `user_feedback`";
+                $get_feedback=mysqli_query($cn,$sql);
+                if(mysqli_num_rows($get_feedback)>0){
+                  $count_feedback=0;
+                  while ($get_count=mysqli_fetch_array($get_feedback)) {
+                    $count_feedback+=1;
+                  }
+                }
+                ?>
+                <h3><?php echo $count_feedback; ?></h3>
 
                 <p>Users Feedback</p>
               </div>
@@ -560,7 +570,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <div class="icon">
                 <i class="ion ion-ios-people"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="student_requests_page.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- /.col -->
@@ -577,14 +587,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <div class="icon">
                 <i class="ion ion-pull-request"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="student_password_requests_page.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <div class="col-12 col-sm-6 col-md-3">
             <!-- small box -->
             <div class="small-box bg-purple">
               <div class="inner">
-                <h3>123</h3>
+                <?php
+                $sql="SELECT * FROM `registred_students`";
+                $get_users=mysqli_query($cn,$sql);
+                if(mysqli_num_rows($get_users)>0){
+                  $count_users=0;
+                  while (mysqli_fetch_array($get_users)) {
+                    $count_users+=1;
+                  }
+                }
+                $sql="SELECT * FROM `registred_lecturers`";
+                $run_users_2=mysqli_query($cn,$sql);
+                if(mysqli_num_rows($run_users_2)>0){
+                  while (mysqli_fetch_array($run_users_2)) {
+                    $count_users+=1;
+                  }
+                }
+                ?>
+                <h3><?php echo $count_users; ?></h3>
 
                 <p>Total Users</p>
               </div>
@@ -618,7 +645,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       Anything you want
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+    <strong>Developed by &copy; <a href="https://adminlte.io">Aqib Lodhi</a>.</strong> All rights reserved.
   </footer>
 </div>
 <!-- ./wrapper -->

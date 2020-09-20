@@ -248,7 +248,7 @@ if(isset($_GET['accepted_std_details_id'])){
                     Assigment : <?php echo "$std_assigment"; ?><br>
                     Title : <?php echo "$assigment_title"; ?><br>
                     Descriptionn : <?php echo "$assigment_description"; ?><br>
-                    Marks : <?php echo $std_marks." / ".$total_marks_acp; ?><br>
+                    Marks : <?php echo $std_marks; ?><br>
                   </address>
                 </div>
                 <!-- /.col -->
@@ -470,7 +470,7 @@ if(isset($_GET['id_a'])){
                     Assigment : <?php echo "$std_assigmen_a"; ?><br>
                     Title : <?php echo "$std_title_a"; ?><br>
                     Descriptionn : <?php echo "$std_description_a"; ?><br>
-                    Marks : <?php echo $std_marks_a." / ".$total_marks_a; ?><br>
+                    Marks : <?php echo $std_marks_a; ?><br>
                   </address>
                 </div>
                 <!-- /.col -->

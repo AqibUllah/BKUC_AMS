@@ -246,7 +246,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
           <li class="nav-item has-treeview menu-close">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-wrench"></i>
               <p>
                 Account Requests
                 <i class="right fas fa-angle-left"></i>
@@ -299,7 +299,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-key"></i>
               <p>
                 Password Requests
                 <i class="right fas fa-angle-left"></i>
@@ -349,7 +349,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </ul>
             <li class="nav-item has-treeview menu-open">
             <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-wrench"></i>
               <p>
                 Account Settings
                 <i class="right fas fa-angle-left"></i>
@@ -481,10 +481,10 @@ if(isset($_POST['btn_check_pass'])){
                           </div>
                           <div class="card-body">
                             <div class="form-group">
-                              <input type="password" name="new_pass" class="form-control" placeholder="Old Password">
+                              <input type="password" name="new_pass" class="form-control" placeholder="new password">
                             </div>
                             <div class="form-group">
-                              <input type="password" name="confirm_pass" class="form-control" placeholder="Old Password">
+                              <input type="password" name="confirm_pass" class="form-control" placeholder="confirm password">
                             </div>
                             <div class="form-group">
                               <input type="submit" name="btn_change_pass" class="btn btn-info btn-block" value="Chage" style="font-size: 18px;">
@@ -561,7 +561,7 @@ if(isset($_POST['btn_check_pass'])){
       Anything you want
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+    <strong>Developed by &copy; <a href="https://adminlte.io">Aqib Lodhi</a>.</strong> All rights reserved.
   </footer>
 </div>
 <!-- ./wrapper -->

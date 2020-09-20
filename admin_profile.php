@@ -37,7 +37,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>Lecturer Profile</title>
+  <title>Admin Profile</title>
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
@@ -259,7 +259,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
           <li class="nav-item has-treeview menu-close">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-users"></i>
               <p>
                 Accounts Requests
                 <i class="right fas fa-angle-left"></i>
@@ -312,7 +312,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-key"></i>
               <p>
                 Password Requests
                 <i class="right fas fa-angle-left"></i>
@@ -362,7 +362,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </ul>
             <li class="nav-item has-treeview menu-open">
             <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-wrench"></i>
               <p>
                 Account Settings
                 <i class="right fas fa-angle-left"></i>
@@ -708,7 +708,7 @@ function PreviewImage() {
       Anything you want
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+    <strong>Developed by &copy; <a href="https://adminlte.io">Aqib Lodhi</a>.</strong> All rights reserved.
   </footer>
 </div>
 <!-- ./wrapper -->

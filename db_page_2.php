@@ -7,6 +7,34 @@
 		return $cn;
 	}
 
+	function insert_user_feedback($arg){
+	$cn=db_connection();
+	$UserName = $arg['name'];
+	$Useremail = $arg['email'];
+	$subject = $arg['subject'];
+	$message = $arg['message'];
+	$sql="SELECT * FROM `user_feedback` WHERE `username`='$UserName' and `user_email`='$Useremail' and `subject`='$subject' and `message`='$message'";
+	$run=mysqli_query($cn,$sql);
+		if(mysqli_num_rows($run) > 0){
+			return "exist";
+		}else{
+			$sql="INSERT INTO `user_feedback`(`username`, `user_email`, `subject`, `message`) VALUES (?,?,?,?)";
+			$stmt = mysqli_prepare($cn,$sql);
+			if($stmt){
+				mysqli_stmt_bind_param($stmt, 'ssss', $UserName,$Useremail,$subject,$message);
+				$status = mysqli_stmt_execute($stmt);
+				if($status){
+					mysqli_stmt_close($stmt);
+					mysqli_close($cn);
+					return true;
+				}else{
+					mysqli_stmt_close($stmt);
+					mysqli_close($cn);
+					return false;
+				}
+			}
+		}	
+	}
 	function Registration_Request_Student($arg){
 	$cn=db_connection();
 	$sql="INSERT INTO `tbl_students_requests`(`first_name`, `last_name`, `d_o_b`, `email`, `psswrd`, `phone`, `address`, `img`, `batch_no`, `session`, `faculty`, `department`, `message`, `entry_date_time`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -1101,12 +1129,12 @@ $std_marks=$_POST["std_marks"];
 					        $message.="<div style='max-width: 600px;min-width: 200px;background-color: #fff;padding: 20px;margin: auto';>
 							<center><img style='max-height: 75px;' src='https://www.bkuc.edu.pk/public/images/top_banner1.png'></a></center>
 							<h3>BKUC ASSIGMENT MANAGEMENT SYSTEM</h3>
-							<i>Congrates Sir! Your Approval Is Accepted</i>
+							<i>Dear Sir $username! Your Approval Is Accepted</i>
 							<p style='font-size: 8px;'>Assalam U Alikum Dear Sir $username. Your Approval has been accepted Now You may use Our website BKUC ASSIGMENT MANAGEMENT SYSTEM.ThankYou For Requesting!.</p>
 							<p style='font-size: 8px;'><i><strong>Do not forget to share with others.</strong></i></p>
 							</div>";
 					        $message.="</body></html>";
-							$headers="From: BKUC ASSIGMENT MANAGEMENT SYSTEM";
+							$headers  ="From: BKUC ASSIGMENT MANAGEMENT SYSTEM";
 							$headers .= "MIME-Version: 1.0"."\r\n";
 							$headers .= "MIME-Version: 1.0"."\r\n";
 							$headers .= "Content-Type: text/html; charset=ISO-8859-1"."\r\n";

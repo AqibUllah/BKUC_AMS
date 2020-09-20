@@ -361,10 +361,10 @@ if(isset($_POST['btn_check_pass'])){
                           </div>
                           <div class="card-body">
                             <div class="form-group">
-                              <input type="password" name="new_pass" class="form-control" placeholder="Old Password">
+                              <input type="password" name="new_pass" class="form-control" placeholder="new password">
                             </div>
                             <div class="form-group">
-                              <input type="password" name="confirm_pass" class="form-control" placeholder="Old Password">
+                              <input type="password" name="confirm_pass" class="form-control" placeholder="confirm password">
                             </div>
                             <div class="form-group">
                               <input type="submit" name="btn_change_pass" class="btn btn-info btn-block" value="Chage" style="font-size: 18px;">

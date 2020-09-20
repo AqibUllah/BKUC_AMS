@@ -269,7 +269,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a></li>
               <li class="nav-item">
                 <a href="students_new_assigments.php" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="fas fa-ad nav-icon"></i>
                   <p>New Assigments</p>
                   <span class="right badge badge-danger"><?php echo $count; ?></span>
                 </a>
@@ -292,7 +292,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
           <li class="nav-item has-treeview menu-close">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-user-circle"></i>
               <p>
                 Account Settings
                 <i class="right fas fa-angle-left"></i>
@@ -306,7 +306,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="change_password.php" class="nav-link">
                   <i class="fas fa-lock-open nav-icon"></i>
                   <p>Change Password</p>
                 </a>
@@ -352,7 +352,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <p>New Assigments</p>
               </div>
               <div class="icon">
-                <i class="ion ion-bag"></i>
+                <i class="ion ion-document"></i>
               </div>
               <a href="students_new_assigments.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
@@ -377,7 +377,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <p>Submitted Assigments</p>
               </div>
               <div class="icon">
-                <i class="ion ion-stats-bars"></i>
+                <i class="ion ion-android-cloud-done"></i>
               </div>
               <a href="submitted_assigments.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
@@ -387,12 +387,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>44</h3>
+                <h3>54</h3>
 
-                <p>User Registrations</p>
+                <p>Un Known</p>
               </div>
               <div class="icon">
-                <i class="ion ion-person-add"></i>
+                <i class="ion ion-funnel"></i>
               </div>
               <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
@@ -404,10 +404,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <div class="inner">
                 <h3>65</h3>
 
-                <p>Unique Visitors</p>
+                <p>Un Known</p>
               </div>
               <div class="icon">
-                <i class="ion ion-pie-graph"></i>
+                <i class="ion ion-briefcase"></i>
               </div>
               <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
