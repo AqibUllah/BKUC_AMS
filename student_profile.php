@@ -271,7 +271,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a></li>
               <li class="nav-item">
                 <a href="students_new_assigments.php" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="fas fa-ad nav-icon"></i>
                   <p>New Assigments</p>
                   <span class="right badge badge-danger"><?php echo $count; ?></span>
                 </a>
@@ -294,7 +294,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
           <li class="nav-item has-treeview menu-open">
             <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-user-circle"></i>
               <p>
                 Account Settings
                 <i class="right fas fa-angle-left"></i>
@@ -774,7 +774,7 @@ function PreviewImage() {
       Anything you want
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+    <strong>Developed by &copy; <a href="https://adminlte.io">Aqib Lodhi</a>.</strong> All rights reserved.
   </footer>
 </div>
 <!-- ./wrapper -->

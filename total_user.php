@@ -16,7 +16,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>Admin | Portal</title>
+  <title>Total | Users</title>
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
@@ -500,123 +500,58 @@ scratch. This page gets rid of all links and provides the needed markup only.
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
- <?php
-    $cn=db_connection();
-    $sql="SELECT * FROM `tbl_students_requests`";
-    $run=mysqli_query($cn,$sql);
-    $count=0;
-    while ($done=mysqli_fetch_array($run)) {
-      $count=$count+1;
-    }
-    $sql="SELECT * FROM `tbl_request_lectureres`";
-    $run=mysqli_query($cn,$sql);
-    while ($done=mysqli_fetch_array($run)) {
-      $count=$count+1;
-    }
-
-        //getting joining requests
-    $sql="SELECT * FROM `password_retrieve`";
-    $run=mysqli_query($cn,$sql);
-    $password_requests=0;
-    while ($done=mysqli_fetch_array($run)) {
-      $password_requests=$password_requests+1;
-    }
-
-    //geting password requests
-     $sql="SELECT * FROM `lecturer_password_retreive`";
-    $run=mysqli_query($cn,$sql);
-    while ($done=mysqli_fetch_array($run)) {
-      $password_requests=$password_requests+1;
-    }
-                      
-  ?>
 
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-12 col-sm-6 col-md-3">
+          <div class="col-12 col-sm-6 col-md-6">
             <div class="small-box bg-info">
               <div class="inner">
                 <?php
-                $sql="SELECT * FROM `user_feedback`";
-                $get_feedback=mysqli_query($cn,$sql);
-                $count_feedback=0;
-                if(mysqli_num_rows($get_feedback)>0){
-                  while ($get_count=mysqli_fetch_array($get_feedback)) {
-                    $count_feedback+=1;
+                $sql="SELECT * FROM `registred_lecturers`";
+                $get_lecturers=mysqli_query($cn,$sql);
+                $count_lecturers=0;
+                if(mysqli_num_rows($get_lecturers)>0){
+                  while ($get_count=mysqli_fetch_array($get_lecturers)) {
+                    $count_lecturers+=1;
                   }
                 }
                 ?>
-                <h3><?php echo $count_feedback; ?></h3>
+                <h3><?php echo $count_lecturers; ?></h3>
 
-                <p>Users Feedback</p>
+                <p>Lecturers</p>
               </div>
               <div class="icon">
-                <i class="ion ion-xbox"></i>
+                <i class="ion ion-android-people"></i>
               </div>
-              <a href="user_feedback.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- /.col -->
-          <div class="col-12 col-sm-6 col-md-3">
-            <!-- small box -->
-            <div class="small-box bg-success">
-              <div class="inner">
-                <h3><?php echo $count; ?></h3>
-
-                <p>Joining Requests</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-ios-people"></i>
-              </div>
-              <a href="student_requests_page.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="total_lecturers.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- /.col -->
            <!-- fix for small devices only -->
           <div class="clearfix hidden-md-up"></div>
-          <div class="col-12 col-sm-6 col-md-3">
-            <!-- small box -->
-            <div class="small-box bg-danger">
-              <div class="inner">
-                <h3><?php echo $password_requests; ?></h3>
-
-                <p>Password Requests</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-pull-request"></i>
-              </div>
-              <a href="student_password_requests_page.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <div class="col-12 col-sm-6 col-md-3">
+          <div class="col-12 col-sm-6 col-md-6">
             <!-- small box -->
             <div class="small-box bg-purple">
               <div class="inner">
                 <?php
                 $count_users=0;
                 $sql="SELECT * FROM `registred_students`";
-                $get_users=mysqli_query($cn,$sql);
-                if(mysqli_num_rows($get_users)>0){
-                  while (mysqli_fetch_array($get_users)) {
-                    $count_users+=1;
-                  }
-                }
-                $sql="SELECT * FROM `registred_lecturers`";
-                $run_users_2=mysqli_query($cn,$sql);
-                if(mysqli_num_rows($run_users_2)>0){
-                  while (mysqli_fetch_array($run_users_2)) {
-                    $count_users+=1;
+                $get_students=mysqli_query($cn,$sql);
+                $count_students=0;
+                if(mysqli_num_rows($get_students)>0){
+                  while (mysqli_fetch_array($get_students)) {
+                    $count_students+=1;
                   }
                 }
                 ?>
-                <h3><?php echo $count_users; ?></h3>
+                <h3><?php echo $count_students; ?></h3>
 
-                <p>Total Users</p>
+                <p>Students</p>
               </div>
               <div class="icon">
-                <i class="ion ion-ios-people-outline"></i>
+                <i class="ion ion-ios-people"></i>
               </div>
               <a href="total_user.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>

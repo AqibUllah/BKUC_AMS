@@ -13,15 +13,16 @@
 	$Useremail = $arg['email'];
 	$subject = $arg['subject'];
 	$message = $arg['message'];
+	$current_date=date('m/d/Y h:i A');
 	$sql="SELECT * FROM `user_feedback` WHERE `username`='$UserName' and `user_email`='$Useremail' and `subject`='$subject' and `message`='$message'";
 	$run=mysqli_query($cn,$sql);
 		if(mysqli_num_rows($run) > 0){
 			return "exist";
 		}else{
-			$sql="INSERT INTO `user_feedback`(`username`, `user_email`, `subject`, `message`) VALUES (?,?,?,?)";
+			$sql="INSERT INTO `user_feedback`(`username`, `user_email`, `subject`, `message`, `date`) VALUES (?,?,?,?,?)";
 			$stmt = mysqli_prepare($cn,$sql);
 			if($stmt){
-				mysqli_stmt_bind_param($stmt, 'ssss', $UserName,$Useremail,$subject,$message);
+				mysqli_stmt_bind_param($stmt, 'sssss', $UserName,$Useremail,$subject,$message,$current_date);
 				$status = mysqli_stmt_execute($stmt);
 				if($status){
 					mysqli_stmt_close($stmt);
@@ -58,7 +59,7 @@
 		$register_faculty=$arg['std_faculty'];
 		$register_department=$arg["std_department"];
 		$message="$register_first_name $register_last_name Would like to request an account";
-		$date_time=date('d-m-yy');
+		$date_time=date('m/d/Y h:i A');
 
 		mysqli_stmt_bind_param($stmt, 'ssssssssssssss', $register_first_name, $register_last_name, $register_dob,
 		$register_email,$register_psswrd,$register_mob,$register_address,$uploaded_dir,$register_batch,$register_session,
@@ -105,7 +106,7 @@ function SignUp_Lecturer($arg){
 		$_admin_password=$arg["admin_psswrd"];
 		$_admin_faculty=$arg["admin_faculty"];
 		$_admin_role=$arg["admin_role"];
-		$date=date('d-m-yy');
+		$date=date('D / d / F / Y , H:i:A');
 		mysqli_stmt_bind_param($stmt, 'sssssss', $_admin_UserName,$_admin_email,$_admin_password,$uploaded_dir,$_admin_role,$_admin_faculty,$date);
 		/*
 		mysqli_stmt_bind_param($stmt, 'sssssssssss', $arg["std_first_name"], $arg["std_last_name"], $arg["std_DOB"],$arg["std_email"],$arg["std_psswrd"],$arg["std_mob_no"],$arg["std_address"],$arg["std_batch_no"],$arg["std_session"],$arg["std_faculty"]
@@ -139,7 +140,7 @@ function creat_assigment($arg){
 		$_session=$arg["txt_session"];
 		$_total_duration=$arg["txt_duration"];
 		$_message=$arg["txt_message"];
-		$_created_on=date('d/m/yy');
+		$_created_on=date('m/d/Y h:i A');
 		$_created_by=$_SESSION["lecturer_logged_in"]["username"];
 
 	$sql="SELECT * FROM `creat_assigment`";
@@ -765,7 +766,7 @@ function delete_assigment(){
 						// $_SESSION["lecturer_logged_in"];
 						// header("location:Lecturer_Dashboard.php");
 						echo $db_admin_username;
-						return array("id"=>$db_admin_id,"username"=>$db_admin_username,"admin_image"=>$db_image);
+						return array("id"=>$db_admin_id,"username"=>$db_admin_username,"admin_image"=>$db_image,"admin_email"=>$db_admin_email);
 
 						 
 					}

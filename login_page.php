@@ -32,7 +32,7 @@ session_start();
 <body class="hold-transition login-page"> 
 	<div class="login-box">
 		<div class="login-logo">
-			<a href="#"><b>LOG IN</b>PAGE</a>
+			<a href="index.php"><b>BKUC </b> AMS</a>
 		</div>
 		<div class="card" style="background: transparent;">
 			<div class="card-body login-card-body">
@@ -66,14 +66,14 @@ session_start();
 						</div>
 						<div class="col-4">
 							<input type="submit" name="btn_login_signIn" class="btn btn-info btn-block" value="Sign In">
-              <i class="fas fa-sign-in"></i>
+              <i class="fas fa-go"></i>
 						</div>
 					</div>
 				</form>
 				<div class="social-auth-links text-center mb-3">
 					<p>- OR -</p>
 					<a href="select_type_page.php" class="btn btn-success btn-block">
-						<i class="fas fa-plus-square mr-2" aria-hidden="true"></i>
+						<i class="fas fa-plus-circle mr-2" aria-hidden="true"></i>
 						Creat an account
 					</a>
 				</div>

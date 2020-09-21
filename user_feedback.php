@@ -16,24 +16,37 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>Admin | Portal</title>
-
+  <title>Users feedback</title>
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
-    <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- DataTables -->
   <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <style type="text/css">
+      table{
+        overflow-x:auto;
+      }
+       td{
+        height: 5px;
+        font-size: 12px;
+      }
+      th {
+          height: 30px;
+        }
+        .btn{
+          border-radius: 30px;
+          font-size: 10px;
+        }
+    </style>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
 
-   <!-- Navbar -->
+  <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
@@ -294,7 +307,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   </nav>
   <!-- /.navbar -->
 
-  
+ 
     <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
@@ -332,7 +345,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="admin_main_dashboard.php" class="nav-link active">
+            <a href="admin_main_dashboard.php" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -341,9 +354,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
           <li class="nav-item has-treeview menu-close">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-users"></i>
+              <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                Account Requests
+                Accounts Requests
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -392,8 +405,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
             </ul>
           </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
+          <li class="nav-item has-treeview menu-open">
+            <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-key"></i>
               <p>
                 Password Requests
@@ -401,7 +414,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item"><a href="student_password_requests_page.php" class="nav-link"><i class="fas fa-graduation-cap"></i>
+              <li class="nav-item"><a href="student_password_requests_page.php" class="nav-link active"><i class="far fa-circle nav-icon"></i>
               <p>
                <?php
                       $cn=db_connection();
@@ -421,7 +434,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         
                       </p></a>
               </li>
-              <li class="nav-item"><a href="teacher_password_requests_page.php" class="nav-link"><i class="fas fa-user-md"></i>
+              <li class="nav-item"><a href="teacher_password_requests_page.php" class="nav-link"><i class="far fa-circle nav-icon"></i>
               <p>
                  <?php
                       $cn=db_connection();
@@ -444,7 +457,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </ul>
             <li class="nav-item has-treeview menu-close">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-wrench"></i>  <!-- fas fa-cogs -->
+              <i class="nav-icon fas fa-wrench"></i>
               <p>
                 Account Settings
                 <i class="right fas fa-angle-left"></i>
@@ -453,7 +466,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="admin_profile.php" class="nav-link">
-                  <i class="nav-icon fas fa-id-card nav-icon"></i>
+                  <i class="nav-icon far fa-user nav-icon"></i>
                   <p>Profile</p>
                 </a>
               </li>
@@ -484,150 +497,86 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-4">
-            <!-- right side header -->
-            
-          </div><!-- /.col -->
-          <div class="col-sm-4">
-            <!-- midle side header -->
 
-          </div><!-- /.col -->
-          <div class="col-sm-4">
-            <!-- left side header -->
-          </div><!-- /.col -->
-        </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
- <?php
-    $cn=db_connection();
-    $sql="SELECT * FROM `tbl_students_requests`";
-    $run=mysqli_query($cn,$sql);
-    $count=0;
-    while ($done=mysqli_fetch_array($run)) {
-      $count=$count+1;
+    <?php
+    if(isset($_GET['deleted'])){
+      ?>
+      <div class="alert alert-danger">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Deleted!</strong> One feedback has been deleted.
+      </div>
+      <?php
+      echo "<h1 style='text-align:center;'>One feedback deleted</h1>";
     }
-    $sql="SELECT * FROM `tbl_request_lectureres`";
-    $run=mysqli_query($cn,$sql);
-    while ($done=mysqli_fetch_array($run)) {
-      $count=$count+1;
-    }
-
-        //getting joining requests
-    $sql="SELECT * FROM `password_retrieve`";
-    $run=mysqli_query($cn,$sql);
-    $password_requests=0;
-    while ($done=mysqli_fetch_array($run)) {
-      $password_requests=$password_requests+1;
-    }
-
-    //geting password requests
-     $sql="SELECT * FROM `lecturer_password_retreive`";
-    $run=mysqli_query($cn,$sql);
-    while ($done=mysqli_fetch_array($run)) {
-      $password_requests=$password_requests+1;
-    }
-                      
-  ?>
-
+    ?>
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="small-box bg-info">
-              <div class="inner">
-                <?php
-                $sql="SELECT * FROM `user_feedback`";
-                $get_feedback=mysqli_query($cn,$sql);
-                $count_feedback=0;
-                if(mysqli_num_rows($get_feedback)>0){
-                  while ($get_count=mysqli_fetch_array($get_feedback)) {
-                    $count_feedback+=1;
-                  }
-                }
-                ?>
-                <h3><?php echo $count_feedback; ?></h3>
-
-                <p>Users Feedback</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-xbox"></i>
-              </div>
-              <a href="user_feedback.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
+          <div class="col-lg-12">
+                <!-- write or design something in 6 columns -->
+                <table id="example1" class="table table-bordere table-hover">
+                  <thead>
+                    <tr>
+                      <th>S.No</th>
+                      <th>User Name</th>
+                      <th>Email</th>
+                      <th style="text-align: center;">Action</th>
+                    </tr>
+                  </thead>
+                      <?php
+                      $cn=db_connection();
+                      $sql="SELECT * FROM `user_feedback`";
+                      $run=mysqli_query($cn,$sql);
+                      $count = 0;
+                      while($data=mysqli_fetch_array($run)){
+                        $count=$count+1;
+                        ?>
+                       <tr>
+                        <td><?php echo $count; ?></td>
+                        <td><?php echo $data['username']; ?></td>
+                        <td><?php echo $data['user_email']; ?></td>
+                        <td style="text-align: center;">
+                        <form method="get" action="#">
+                              <a href="?user_remove=<?php echo $data['id'];?>" class="btn btn-danger"><i class="fas fa-times"></i>&nbsp; Remove</a>
+                              <a href="user_details.php?user_id=<?php echo $data['id'];?>" class="btn btn-success">Response &nbsp;<i class="fas fa-envelope"></i></a>
+                              
+                          </form>
+                        
+                        </td>
+                        
+                      </tr>
+                        <?php
+                      }
+                      ?>
+                </table>
           </div>
-          <!-- /.col -->
-          <div class="col-12 col-sm-6 col-md-3">
-            <!-- small box -->
-            <div class="small-box bg-success">
-              <div class="inner">
-                <h3><?php echo $count; ?></h3>
-
-                <p>Joining Requests</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-ios-people"></i>
-              </div>
-              <a href="student_requests_page.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- /.col -->
-           <!-- fix for small devices only -->
-          <div class="clearfix hidden-md-up"></div>
-          <div class="col-12 col-sm-6 col-md-3">
-            <!-- small box -->
-            <div class="small-box bg-danger">
-              <div class="inner">
-                <h3><?php echo $password_requests; ?></h3>
-
-                <p>Password Requests</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-pull-request"></i>
-              </div>
-              <a href="student_password_requests_page.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <div class="col-12 col-sm-6 col-md-3">
-            <!-- small box -->
-            <div class="small-box bg-purple">
-              <div class="inner">
-                <?php
-                $count_users=0;
-                $sql="SELECT * FROM `registred_students`";
-                $get_users=mysqli_query($cn,$sql);
-                if(mysqli_num_rows($get_users)>0){
-                  while (mysqli_fetch_array($get_users)) {
-                    $count_users+=1;
-                  }
-                }
-                $sql="SELECT * FROM `registred_lecturers`";
-                $run_users_2=mysqli_query($cn,$sql);
-                if(mysqli_num_rows($run_users_2)>0){
-                  while (mysqli_fetch_array($run_users_2)) {
-                    $count_users+=1;
-                  }
-                }
-                ?>
-                <h3><?php echo $count_users; ?></h3>
-
-                <p>Total Users</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-ios-people-outline"></i>
-              </div>
-              <a href="total_user.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
+          <!-- /.col-lg-12 -->
         </div>
+        <!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-
+<?php
+if(isset($_GET['user_remove'])){
+  $id=$_GET['user_remove'];
+  $sql="DELETE FROM `user_feedback` WHERE `id`='$id'";
+  $del=mysqli_query($cn,$sql);
+  if($del){
+    ?>
+    <script type="text/javascript">
+      window.location="user_feedback.php?deleted";
+    </script>
+    <?php
+  }
+  // echo "<h1>hello</h1>";
+}
+?>
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
@@ -650,8 +599,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 </div>
 <!-- ./wrapper -->
 
-<!-- REQUIRED SCRIPTS -->
-
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
@@ -662,5 +609,180 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
+
+
+<script type="text/javascript">
+  $(function() {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    });
+
+    $('.swalDefaultSuccess').click(function() {
+      Toast.fire({
+        type: 'success',
+        title: '<strong>Success</strong>, Data inserted successfully.'
+      })
+    });
+    $('.swalDefaultInfo').click(function() {
+      Toast.fire({
+        type: 'info',
+        title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
+    });
+    $('.swalDefaultError').click(function() {
+      Toast.fire({
+        type: 'error',
+        title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
+    });
+    $('.swalDefaultWarning').click(function() {
+      Toast.fire({
+        type: 'warning',
+        title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
+    });
+    $('.swalDefaultQuestion').click(function() {
+      Toast.fire({
+        type: 'question',
+        title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
+    });
+
+    $('.toastrDefaultSuccess').click(function() {
+      toastr.success('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+    });
+    $('.toastrDefaultInfo').click(function() {
+      toastr.info('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+    });
+    $('.toastrDefaultError').click(function() {
+      toastr.error('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+    });
+    $('.toastrDefaultWarning').click(function() {
+      toastr.warning('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+    });
+
+    $('.toastsDefaultDefault').click(function() {
+      $(document).Toasts('create', {
+        title: 'Toast Title',
+        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
+    });
+    $('.toastsDefaultTopLeft').click(function() {
+      $(document).Toasts('create', {
+        title: 'Toast Title',
+        position: 'topLeft',
+        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
+    });
+    $('.toastsDefaultBottomRight').click(function() {
+      $(document).Toasts('create', {
+        title: 'Toast Title',
+        position: 'bottomRight',
+        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
+    });
+    $('.toastsDefaultBottomLeft').click(function() {
+      $(document).Toasts('create', {
+        title: 'Toast Title',
+        position: 'bottomLeft',
+        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
+    });
+    $('.toastsDefaultAutohide').click(function() {
+      $(document).Toasts('create', {
+        title: 'Toast Title',
+        autohide: true,
+        delay: 750,
+        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
+    });
+    $('.toastsDefaultNotFixed').click(function() {
+      $(document).Toasts('create', {
+        title: 'Toast Title',
+        fixed: false,
+        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
+    });
+    $('.toastsDefaultFull').click(function() {
+      $(document).Toasts('create', {
+        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.',
+        title: 'Toast Title',
+        subtitle: 'Subtitle',
+        icon: 'fas fa-envelope fa-lg',
+      })
+    });
+    $('.toastsDefaultFullImage').click(function() {
+      $(document).Toasts('create', {
+        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.',
+        title: 'Toast Title',
+        subtitle: 'Subtitle',
+        image: '../../dist/img/user3-128x128.jpg',
+        imageAlt: 'User Picture',
+      })
+    });
+    $('.toastsDefaultSuccess').click(function() {
+      $(document).Toasts('create', {
+        class: 'bg-success', 
+        title: 'Toast Title',
+        subtitle: 'Subtitle',
+        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
+    });
+    $('.toastsDefaultInfo').click(function() {
+      $(document).Toasts('create', {
+        class: 'bg-info', 
+        title: 'Toast Title',
+        subtitle: 'Subtitle',
+        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
+    });
+    $('.toastsDefaultWarning').click(function() {
+      $(document).Toasts('create', {
+        class: 'bg-warning', 
+        title: 'Toast Title',
+        subtitle: 'Subtitle',
+        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
+    });
+    $('.toastsDefaultDanger').click(function() {
+      $(document).Toasts('create', {
+        class: 'bg-danger', 
+        title: 'Toast Title',
+        subtitle: 'Subtitle',
+        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
+    });
+    $('.toastsDefaultMaroon').click(function() {
+      $(document).Toasts('create', {
+        class: 'bg-maroon', 
+        title: 'Toast Title',
+        subtitle: 'Subtitle',
+        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
+    });
+  });
+
+</script>
+
+
+<!-- page script -->
+<script>
+  $(function () {
+    $("#example1").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+    });
+  });
+</script>
 </body>
 </html>
+
+

@@ -16,7 +16,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>Admin | Portal</title>
+  <title>Total | Lecturers</title>
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
@@ -29,6 +29,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="css/style.css">
+  <style type="text/css">
+      table{
+        overflow-x:auto;
+      }
+       td{
+        height: 5px;
+        font-size: 12px;
+      }
+      th {
+          height: 30px;
+        }
+        .btn{
+          border-radius: 50px;
+          font-size: 10px;
+        }
+    </style>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -485,142 +501,68 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-4">
-            <!-- right side header -->
+          <div class="col-lg-12 col-md-12 col-sm-12">
             
-          </div><!-- /.col -->
-          <div class="col-sm-4">
-            <!-- midle side header -->
-
-          </div><!-- /.col -->
-          <div class="col-sm-4">
-            <!-- left side header -->
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
- <?php
-    $cn=db_connection();
-    $sql="SELECT * FROM `tbl_students_requests`";
-    $run=mysqli_query($cn,$sql);
-    $count=0;
-    while ($done=mysqli_fetch_array($run)) {
-      $count=$count+1;
-    }
-    $sql="SELECT * FROM `tbl_request_lectureres`";
-    $run=mysqli_query($cn,$sql);
-    while ($done=mysqli_fetch_array($run)) {
-      $count=$count+1;
-    }
-
-        //getting joining requests
-    $sql="SELECT * FROM `password_retrieve`";
-    $run=mysqli_query($cn,$sql);
-    $password_requests=0;
-    while ($done=mysqli_fetch_array($run)) {
-      $password_requests=$password_requests+1;
-    }
-
-    //geting password requests
-     $sql="SELECT * FROM `lecturer_password_retreive`";
-    $run=mysqli_query($cn,$sql);
-    while ($done=mysqli_fetch_array($run)) {
-      $password_requests=$password_requests+1;
-    }
-                      
-  ?>
 
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="small-box bg-info">
-              <div class="inner">
-                <?php
-                $sql="SELECT * FROM `user_feedback`";
-                $get_feedback=mysqli_query($cn,$sql);
-                $count_feedback=0;
-                if(mysqli_num_rows($get_feedback)>0){
-                  while ($get_count=mysqli_fetch_array($get_feedback)) {
-                    $count_feedback+=1;
-                  }
-                }
-                ?>
-                <h3><?php echo $count_feedback; ?></h3>
+          <div class="col-12 col-sm-12 col-md-12">
+            <table id="example1" class="table table-bordere table-hover">
+                  <thead>
+                    <tr>
+                      <th>S.No</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th style="text-align: center;">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <?php
+                      $sql="SELECT * FROM `registred_lecturers`";
+                      $get_lecturers=mysqli_query($cn,$sql);
+                      $count_lecturers=0;
+                      if(mysqli_num_rows($get_lecturers)>0){
+                        while ($get_lecturer=mysqli_fetch_array($get_lecturers)) {
+                          $count_lecturers+=1;
+                          $lec_id=$get_lecturer['id'];
+                          $lec_name=$get_lecturer['username'];
+                          $lec_email=$get_lecturer['email'];
+                          $lec_address=$get_lecturer['address'];
+                          $lec_phone=$get_lecturer['phone'];
+                          $lec_dob=$get_lecturer['dob'];
+                          $lec_image=$get_lecturer['image'];
+                          $lec_gender=$get_lecturer['gender'];
+                          $lec_role=$get_lecturer['role'];
+                          $lec_skill=$get_lecturer['skills'];
+                          $lec_faculty=$get_lecturer['faculty'];
+                          $lec_department=$get_lecturer['department'];
+                          $lec_entry=$get_lecturer['entry_date'];
+                          ?>
+                          
+                            <tr>
+                              <td><?php echo $count_lecturers; ?></td>
+                              <td><?php echo $lec_name; ?></td>
+                              <td><?php echo $lec_email; ?></td>
+                              <td style="text-align: center;"><a href="lec_details.php?lec_id=<?php echo $lec_id; ?>" class="btn bg-purple">Details <i class="fas fa-eye"></i></a></td>
+                            </tr>
+                          <?php
+                        }
+                      }
+                  ?>
 
-                <p>Users Feedback</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-xbox"></i>
-              </div>
-              <a href="user_feedback.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- /.col -->
-          <div class="col-12 col-sm-6 col-md-3">
-            <!-- small box -->
-            <div class="small-box bg-success">
-              <div class="inner">
-                <h3><?php echo $count; ?></h3>
-
-                <p>Joining Requests</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-ios-people"></i>
-              </div>
-              <a href="student_requests_page.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
+              </tbody>
+            </table>
           </div>
           <!-- /.col -->
            <!-- fix for small devices only -->
           <div class="clearfix hidden-md-up"></div>
-          <div class="col-12 col-sm-6 col-md-3">
-            <!-- small box -->
-            <div class="small-box bg-danger">
-              <div class="inner">
-                <h3><?php echo $password_requests; ?></h3>
-
-                <p>Password Requests</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-pull-request"></i>
-              </div>
-              <a href="student_password_requests_page.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <div class="col-12 col-sm-6 col-md-3">
-            <!-- small box -->
-            <div class="small-box bg-purple">
-              <div class="inner">
-                <?php
-                $count_users=0;
-                $sql="SELECT * FROM `registred_students`";
-                $get_users=mysqli_query($cn,$sql);
-                if(mysqli_num_rows($get_users)>0){
-                  while (mysqli_fetch_array($get_users)) {
-                    $count_users+=1;
-                  }
-                }
-                $sql="SELECT * FROM `registred_lecturers`";
-                $run_users_2=mysqli_query($cn,$sql);
-                if(mysqli_num_rows($run_users_2)>0){
-                  while (mysqli_fetch_array($run_users_2)) {
-                    $count_users+=1;
-                  }
-                }
-                ?>
-                <h3><?php echo $count_users; ?></h3>
-
-                <p>Total Users</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-ios-people-outline"></i>
-              </div>
-              <a href="total_user.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
         </div>
       </div><!-- /.container-fluid -->
     </div>
@@ -662,5 +604,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
+
+<!-- page script -->
+<script>
+  $(function () {
+    $("#example1").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+    });
+  });
+</script>
+
 </body>
 </html>
