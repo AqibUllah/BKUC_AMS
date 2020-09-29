@@ -219,7 +219,6 @@ function submit_assigment_multiple(){
               $_assigment=$_POST["txt_assigment_name"];
               $assigment_title=$_POST["txt_title"];
               $assigment_discription=$_POST["txt_description"];
-
               $sql="SELECT * FROM `student_whose_submitted` WHERE `email`='$user_email'";
               $done=mysqli_query($cn,$sql);
               if(mysqli_num_rows($done)>0){
@@ -247,7 +246,8 @@ function submit_assigment_multiple(){
 		                }
 	                	return false;
 	                  }else{
-
+	                  	$_assigment=$_POST["txt_assigment_name"];
+	                  	echo $_assigment;
 	                    $sql="SELECT * FROM `creat_assigment` WHERE `ass_name`='$_assigment'";
 		                $getting=mysqli_query($cn,$sql);
 		                if(mysqli_num_rows($getting)>0){
@@ -296,7 +296,9 @@ function submit_assigment_multiple(){
                 
 
               }else{
+              	$_assigment=$_POST["txt_assigment_name"];
 
+              	//getting student department faculty semester info
                 $sql="SELECT * FROM `registred_students` WHERE `id`='$id'";
                 $getting=mysqli_query($cn,$sql);
                 if(mysqli_num_rows($getting)>0){
@@ -307,14 +309,15 @@ function submit_assigment_multiple(){
                   }
                 }
 
+                //getting lec info whose created this assigment
                 $sql="SELECT * FROM `creat_assigment` WHERE `ass_name`='$_assigment'";
-                $getting=mysqli_query($cn,$sql);
-                if(mysqli_num_rows($getting)>0){
-                  while ($get_std_info=mysqli_fetch_assoc($getting)) {
-                    $lecturer_name=$get_std_info['created_by'];
+                $aa=mysqli_query($cn,$sql);
+                if(mysqli_num_rows($aa)>0){
+                  while ($get_lec_info=mysqli_fetch_assoc($aa)) {
+                    $lecturer_name=$get_lec_info['created_by'];
                   }
                 }
-
+                //echo $lecturer_name;
                 		$filename_count  	  = count($_FILES["btn_evidence"]["name"]);
 		                for($i = 0;$i<$filename_count;$i++){
 		                	$filename     = $_FILES['btn_evidence']['name'][$i];
@@ -333,7 +336,6 @@ function submit_assigment_multiple(){
                                      `submitted_date`, `assigment_created_by`) VALUES (?,?,?,?,?,?,?,?)";
                   $stmt=mysqli_prepare($cn,$sql);
                   if($stmt){
-
                     $user_name=$_SESSION['student_logged_in']['first_name'];
                     $user_email=$_SESSION['student_logged_in']['std_email'];
                     $login_student_image=$_SESSION['student_logged_in']['student_image'];
@@ -345,8 +347,15 @@ function submit_assigment_multiple(){
                     $submitted_date=date('m/d/Y h:i A');
                     mysqli_stmt_bind_param($stmt, 'ssssssss',$user_name,$user_email,$_loggedIn_std_department,$_loggedIn_std_semester,$_loggedIn_std_faculty,$login_student_image,$submitted_date,$lecturer_name);
                     $status_a = mysqli_stmt_execute($stmt);
-
+                    // echo $user_name."<br>";
+                    // echo $user_email."<br>";
+                    // echo $_loggedIn_std_department."<br>";
+                    // echo $_loggedIn_std_semester."<br>";
+                    // echo $_loggedIn_std_faculty."<br>";
+                    // echo $login_student_image."<br>";
+                    // echo $lecturer_name."<br>";
                     if($status_a){
+                    	//echo "<h1>almost done</h1>";
 
               $sql="SELECT * FROM `student_whose_submitted` WHERE `email`='$user_email'";
               $done=mysqli_query($cn,$sql);
@@ -862,12 +871,23 @@ $std_marks=$_POST["std_marks"];
                     $student_email=$get_data_c['email'];
                     $student_department=$get_data_c['department'];
                     $student_semester=$get_data_c['semester'];
-                    $student_img=$get_data_a['std_img'];
+                    $student_img=$get_data_c['std_img'];
                     $student_faculty=$get_data_c['faculty'];
                     //$assigment_submitted_date=$get_data_a['submitted_date'];
 	                }
 	                
             	}
+
+            	//cout attachements 
+            	$sql="SELECT * FROM `attach_evidences` WHERE `id`='$submitted_id'";
+            	$run_e=mysqli_query($cn,$sql);
+            	$count_attach=0;
+            	if(mysqli_num_rows($run_e)>0){
+            		while ($get_attaches=(mysqli_fetch_assoc($run_e))) {
+            			$count_attach+=1;
+            		}
+            	}
+
             	//get student more info from registred students table
             	$sql="SELECT * FROM `registred_students` WHERE 
                         `email`='$student_email'";
@@ -890,11 +910,147 @@ $std_marks=$_POST["std_marks"];
             		return "already_accepted";
 
             	}
-            	$std_marks=$std_marks." / ".$total_marks;
             	$sql="INSERT INTO `students_assigment_accepted`(`std_name`, `std_email`, `std_mob`, `std_img`, `asssigment`, `marks`, `title`, `description`, `due_date`, `submition_date`, `confirmation`, `confirm_by`, `lec_email`, `confirm_on`) VALUES ('$student_name','$student_email',
             		'$student_mob','$std_image','$submitted_assigment','$std_marks','$title','$description','$due_date','$submitted_on','Accepted','$lec_name','$lec_email','$on')";
             		$all_done=mysqli_query($cn,$sql);
             		if($all_done){
+
+            			//now sending mail to student for confirmation
+            			//$template_file=("student_approve_style.php");
+							$to = $student_email;
+							$subject = "REGARDING : Assigment Accepted";
+							$headers="From: BKUC AMS". "\r\n";
+							$message="<html><body>";
+					        $message.="<div class='content'>
+							<section class='content-header'>
+						      <div class='container-fluid'>
+						        <div class='row mb-2'>
+						          <div class='col-lg-12 col-md-12'>
+						          	<center>
+						            <h2><i class='fas fa-globe'> </i> BKUC ASSIGMENT MANAGEMENT SYSTEM</h2>
+						        	</center>
+						          </div>
+						        </div>
+						      </div><!-- /.container-fluid -->
+						    </section>
+							<section class='content'>
+						      <div class='container-fluid'>
+						        <div class='row'>
+						          <div class='col-12'>
+						            <div class='callout callout-info bg-info'>
+						              <p class='h5'><i class='fas fa-user'></i> &nbsp;<strong>$student_name</strong></p>
+						            </div>
+						            <div class='callout callout-success bg-success'>
+						              <p class='h5'><i class='fas fa-info-circle'></i> &nbsp;Your assigment has been <b> Accepted</b>&nbsp; <i class='fas fa-check-circle'></i></p>
+						            </div>
+						            
+
+						            <!-- Main content -->
+						            <div class='invoice p-3 mb-3'>
+						              <!-- title row -->
+						              <div class='row'>
+						                <div class='col-12'>
+						                  <h4>
+						                    <i class='fas fa-globe'></i> BKUC, AMS.
+						                    <small class='float-right'>Date: ".date('m/d/Y')."</small>
+						                  </h4>
+						                </div>
+						                <!-- /.col -->
+						              </div><br>
+						              <!-- info row -->
+						              <div class='row invoice-info'>
+						                <div class='col-sm-4 invoice-col'>
+						                  From<br>
+						                  <address>
+						                    <strong>BKUC, ADMINISTRATOR.</strong><br>
+						                    <strong>Phone:</strong> 192 343923<br>
+						                    <strong>Email:</strong> administrator@gmail.com
+						                  </address>
+						                </div>
+						                <!-- /.col -->
+						                <div class='col-sm-4 invoice-col'>
+						                  Accepted From<br>
+						                  <address>
+						                    <strong>$lec_name</strong><br>
+						                    <strong>Email:</strong> $lec_email
+						                  </address>
+						                </div>
+						              </div>
+						              <!-- /.row -->
+
+						              <!-- Table row -->
+						              <div class='row'>
+						                <div class='col-12 table-responsive'>
+						                  <table class='table table-striped'>
+						                    <thead>
+						                    <tr>
+						                      <th>Assigment</th>
+						                      <th>Title</th>
+						                      <th>Description</th>
+						                      <th style='text-align: center;'>Submitted On</th>
+						                      <th style='text-align: center;'>Attachments</th>
+						                    </tr>
+						                    </thead>
+						                    <tbody>
+						                    <tr>
+						                      <td>$submitted_assigment</td>
+						                      <td>$title</td>
+						                      <td>$description</td>
+						                      <td style='text-align: center;'>$submitted_on</td>
+						                      <td style='text-align: center;'>$count_attach</td>
+						                    </tr>
+						                    </tbody>
+						                  </table>
+						                </div>
+						                <!-- /.col -->
+						              </div><br>
+						              <!-- /.row -->
+
+						              <div class='row'>
+						                <!-- accepted payments column -->
+						                <div class='col-6'>
+
+						                </div>
+						                <!-- /.col -->
+						                <div class='col-6'>
+						                  <p class='lead text-center text-muted'>Accepted ON : $on</p>
+
+						                  <div class='table-responsive'>
+						                    <table class='table'>
+						                      <tr>
+						                        <th style='width:50%'>Assigment Marks</th>
+						                        <td>$total_marks</td>
+						                      </tr>
+						                      <tr>
+						                        <th>Getting Marks</th>
+						                        <td>$std_marks</td>
+						                      </tr>
+						                      <tr>
+						                        <th>Confirmation</th>
+						                        <td style='color: green;'><strong>Accepted</strong> <i fas fa-check></i></td>
+						                      </tr>
+						                    </table>
+						                  </div>
+						                </div>
+						                <!-- /.col -->
+						              </div>
+						              <!-- /.row -->
+						            </div>
+						            <!-- /.invoice -->
+						          </div><!-- /.col -->
+						        </div><!-- /.row -->
+						      </div><!-- /.container-fluid -->
+						    </section>
+						    <!-- /.content -->
+						</div>";
+
+					        $message.="</body></html>";
+							$headers .= "Reply-To: aqibullah3312@gmail.com" . "\r\n";
+							$headers .= "MIME-Version: 1.0"."\r\n";
+							$headers .= "MIME-Version: 1.0"."\r\n";
+							$headers .= "Content-Type: text/html; charset=ISO-8859-1"."\r\n";
+							mail($to, $subject, $message,$headers);
+
             			$sql2="DELETE FROM `submit_assigments` WHERE `primary_key`='$_PK'";
             			$all_done2=mysqli_query($cn,$sql2);
             			if($all_done2){
@@ -920,7 +1076,7 @@ $std_marks=$_POST["std_marks"];
 function student_reject_assigment(){
 $cn=db_connection();
 $_PK=$_GET['student_reject_id'];
-$std_marks=$_POST["std_marks"];
+//$std_marks=$_POST["std_marks"];
 				$lec_name=$_SESSION["lecturer_logged_in"]["username"];
 				$lec_email=$_SESSION["lecturer_logged_in"]["lec_email"];
 				//get assigment info
@@ -939,6 +1095,17 @@ $std_marks=$_POST["std_marks"];
 	                }
 	                
             	}
+
+            	//cout attachements 
+            	$sql="SELECT * FROM `attach_evidences` WHERE `id`='$submitted_id'";
+            	$run_e=mysqli_query($cn,$sql);
+            	$count_attach=0;
+            	if(mysqli_num_rows($run_e)>0){
+            		while ($get_attaches=(mysqli_fetch_assoc($run_e))) {
+            			$count_attach+=1;
+            		}
+            	}
+
             	//get lec assigment more info
                 $sql="SELECT * FROM `creat_assigment` WHERE 
                         `ass_name`='$submitted_assigment' and `created_by`='$lec_name'";
@@ -962,7 +1129,7 @@ $std_marks=$_POST["std_marks"];
                     $student_email=$get_data_c['email'];
                     $student_department=$get_data_c['department'];
                     $student_semester=$get_data_c['semester'];
-                    $student_img=$get_data_a['std_img'];
+                    $student_img=$get_data_c['std_img'];
                     $student_faculty=$get_data_c['faculty'];
                     //$assigment_submitted_date=$get_data_a['submitted_date'];
 	                }
@@ -990,11 +1157,150 @@ $std_marks=$_POST["std_marks"];
             		return "already_accepted";
 
             	}
-            	$std_marks = "0 / ".$total_marks;
             	$sql="INSERT INTO `students_assigment_rejected`(`std_name`, `std_email`, `std_mob`, `std_img`,`asssigment`, `marks`, `title`, `description`, `due_date`, `submition_date`, `confirmation`, `confirm_by`, `lec_email`, `confirm_on`) VALUES ('$student_name','$student_email',
             		'$student_mob','$std_image','$submitted_assigment','$std_marks','$title','$description','$due_date','$submitted_on','Rejected','$lec_name','$lec_email','$on')";
             		$all_done=mysqli_query($cn,$sql);
             		if($all_done){
+
+            			//now sending email to student for confirmation
+            			//$template_file=("student_approve_style.php");
+							$to = $student_email;
+							$subject = "REGARDING : Assigment Rejected";
+							$headers="From: BKUC AMS". "\r\n";
+							$message="<html><body>";
+					        $message.="<div class='content'>
+							<section class='content-header'>
+						      <div class='container-fluid'>
+						        <div class='row mb-2'>
+						          <div class='col-lg-12 col-md-12'>
+						          	<center>
+						            <h2><i class='fas fa-globe'> </i> BKUC ASSIGMENT MANAGEMENT SYSTEM</h2>
+						        	</center>
+						          </div>
+						        </div>
+						      </div><!-- /.container-fluid -->
+						    </section>
+							<section class='content'>
+						      <div class='container-fluid'>
+						        <div class='row'>
+						          <div class='col-12'>
+						            <div class='callout callout-info bg-info'>
+						              <p class='h5'><i class='fas fa-user'></i> &nbsp;<strong>$student_name</strong></p>
+						            </div>
+						            <div class='callout callout-danger bg-danger'>
+						              <p class='h5'><i class='fas fa-info-circle'></i> &nbsp;Your assigment has been <b> Rejected</b>&nbsp; <i class='fas fa-times-circle'></i></p>
+						            </div>
+						            
+
+						            <!-- Main content -->
+						            <div class='invoice p-3 mb-3'>
+						              <!-- title row -->
+						              <div class='row'>
+						                <div class='col-12'>
+						                  <h4>
+						                    <i class='fas fa-globe'></i> BKUC, AMS.
+						                    <small class='float-right'>Date: date('m/d/Y')</small>
+						                  </h4>
+						                </div>
+						                <!-- /.col -->
+						              </div><br>
+						              <!-- info row -->
+						              <div class='row invoice-info'>
+						                <div class='col-sm-4 invoice-col'>
+						                  From<br>
+						                  <address>
+						                    <strong>BKUC, ADMINISTRATOR.</strong><br>
+						                    <strong>Phone:</strong> 192 343923<br>
+						                    <strong>Email:</strong> administrator@gmail.com
+						                  </address>
+						                </div>
+						                <!-- /.col -->
+						                <div class='col-sm-4 invoice-col'>
+						                  Rejected From<br>
+						                  <address>
+						                    <strong>$lec_name</strong><br>
+						                    <strong>Email:</strong> $lec_email
+						                  </address>
+						                </div>
+						              </div>
+						              <!-- /.row -->
+
+						              <!-- Table row -->
+						              <div class='row'>
+						                <div class='col-12 table-responsive'>
+						                  <table class='table table-striped'>
+						                    <thead>
+						                    <tr>
+						                      <th>Assigment</th>
+						                      <th>Title</th>
+						                      <th>Description</th>
+						                      <th style='text-align: center;'>Submitted On</th>
+						                      <th style='text-align: center;'>Attachments</th>
+						                    </tr>
+						                    </thead>
+						                    <tbody>
+						                    <tr>
+						                      <td>$submitted_assigment</td>
+						                      <td>$title</td>
+						                      <td>$description</td>
+						                      <td style='text-align: center;'>$submitted_on</td>
+						                      <td style='text-align: center;'>$count_attach</td>
+						                    </tr>
+						                    </tbody>
+						                  </table>
+						                </div>
+						                <!-- /.col -->
+						              </div><br>
+						              <!-- /.row -->
+
+						              <div class='row'>
+						                <!-- accepted payments column -->
+						                <div class='col-6'>
+
+						                </div>
+						                <!-- /.col -->
+						                <div class='col-6'>
+						                  <p class='lead text-center text-muted'>Accepted ON : $on</p>
+
+						                  <div class='table-responsive'>
+						                    <table class='table'>
+						                      <tr>
+						                        <th style='width:50%'>Assigment Marks</th>
+						                        <td>$total_marks</td>
+						                      </tr>
+						                      <tr>
+						                        <th>Getting Marks</th>
+						                        <td>$std_marks</td>
+						                      </tr>
+						                      <tr>
+						                        <th>Confirmation</th>
+						                        <td style='color: red;'><strong>Rejected</strong> &nbsp;<i fas fa-times-circle></i></td>
+						                      </tr>
+						                    </table>
+						                  </div>
+						                </div>
+						                <!-- /.col -->
+						              </div>
+						              <!-- /.row -->
+						            </div>
+						            <!-- /.invoice -->
+						          </div><!-- /.col -->
+						        </div><!-- /.row -->
+						      </div><!-- /.container-fluid -->
+						    </section>
+						    <!-- /.content -->
+						</div>";
+
+					        $message.="</body></html>";
+							$headers .= "Reply-To: aqibullah3312@gmail.com" . "\r\n";
+							$headers .= "MIME-Version: 1.0"."\r\n";
+							$headers .= "MIME-Version: 1.0"."\r\n";
+							$headers .= "Content-Type: text/html; charset=ISO-8859-1"."\r\n";
+							mail($to, $subject, $message,$headers);
+
+
+
+
             			$sql2="DELETE FROM `submit_assigments` WHERE `primary_key`='$_PK'";
             			$all_done2=mysqli_query($cn,$sql2);
             			if($all_done2){
@@ -1055,6 +1361,7 @@ $std_marks=$_POST["std_marks"];
 						$status=mysqli_stmt_execute($stmt);
 						if($status){
 							//$template_file=("student_approve_style.php");
+							include('php mailer/PHPMailerAutoload.php');
 							$to = $Email;
 							$subject = "REGARDING : Approval";
 							$headers="From: Bkuc Assigment Management System";

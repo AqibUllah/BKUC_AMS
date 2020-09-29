@@ -46,6 +46,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
         width: auto;
         height: auto;
       }
+      img{
+        width: 150px;
+        height: 150px;
+      }
     </style>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -548,7 +552,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       </ul>
                     </div>
                     <div class="col-5 text-center">
-                      <img src="<?php echo $std_image; ?>" alt="student profile" class="img-circle img-fluid">
+                      <img src="<?php echo $std_image; ?>" width="100%" height="100%" alt="student profile" class="img-circle img-fluid">
                     </div>
                   </div>
                 </div>

@@ -134,7 +134,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
                      <?php
-                      include('db_page.php');
+                      include('db_page_2.php');
                       $cn=db_connection();
                       $sql="SELECT * FROM `tbl_students_requests`";
                       $run=mysqli_query($cn,$sql);

@@ -115,13 +115,13 @@ if(isset($_GET['success'])){
   ============================-->
   <section id="intro">
     <div class="intro-container wow fadeIn">
-      <h1 class="mb-4 pb-0">The BKUC<br><span>Assigment </span>Management System</h1>
+      <h1 class="mb-4 pb-0">The BKUC<br><span>Assignment </span>Management System</h1>
       <p class="mb-4 pb-0">Bacha Khan University Palosa, Charsadda Khyber Pakhtunkhwa Pakistan.</p>
       <div class="row">
         <div class="col-12">
           <div class="callout callout-default bg-danger">
                 <strong class="h2 float-left"><i class="fas fa-info-circle"></i> Note</strong><br><br>
-                <small  style="color: white;">When you want to submitte your assigment using bkuc ams so first check your assigment,evidences etc.. then go to submit. Becuse once you have submitted your assigment then it will not recover</small>
+                <small  style="color: white;">When you want to submitte your assigment using BKUC AMS so first check your assignment,evidences etc.. then go to submit. Because once you have submitted your assignment then it will not recover</small>
                 <!-- /.col -->
             </div>
         </div>

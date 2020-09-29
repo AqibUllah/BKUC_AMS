@@ -16,7 +16,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>AMS USERS</title>
+  <title>Registerd Students</title>
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
@@ -29,6 +29,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="css/style.css">
+  <style type="text/css">
+      table{
+        overflow-x:auto;
+      }
+       td{
+        height: 5px;
+        font-size: 12px;
+      }
+      th {
+          height: 30px;
+        }
+        .btn{
+          border-radius: 50px;
+          font-size: 10px;
+        }
+    </style>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -485,16 +501,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-4">
-            <!-- right side header -->
+          <div class="col-lg-12 col-md-12 col-sm-12">
             
-          </div><!-- /.col -->
-          <div class="col-sm-4">
-            <!-- midle side header -->
-
-          </div><!-- /.col -->
-          <div class="col-sm-4">
-            <!-- left side header -->
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -505,57 +513,58 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-12 col-sm-6 col-md-6">
-            <div class="small-box bg-info">
-              <div class="inner">
-                <?php
-                $sql="SELECT * FROM `registred_lecturers`";
-                $get_lecturers=mysqli_query($cn,$sql);
-                $count_lecturers=0;
-                if(mysqli_num_rows($get_lecturers)>0){
-                  while ($get_count=mysqli_fetch_array($get_lecturers)) {
-                    $count_lecturers+=1;
-                  }
-                }
-                ?>
-                <h3><?php echo $count_lecturers; ?></h3>
+          <div class="col-12 col-sm-12 col-md-12">
+            <table id="example1" class="table table-bordere table-hover">
+                  <thead>
+                    <tr>
+                      <th>S.No</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th style="text-align: center;">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <?php
+                      $sql="SELECT * FROM `registred_students`";
+                      $get_students=mysqli_query($cn,$sql);
+                      $count_students=0;
+                      if(mysqli_num_rows($get_students)>0){
+                        while ($get_student=mysqli_fetch_array($get_students)) {
+                          $count_students+=1;
+                          $std_id=$get_student['id'];
+                          $std_fname=$get_student['first_name'];
+                          $std_lname=$get_student['last_name'];
+                          $std_dob=$get_student['d_o_b'];
+                          $std_email=$get_student['email'];
+                          $std_role=$get_student['type'];
+                          $std_phone=$get_student['phone'];
+                          $std_address=$get_student['address'];
+                          $std_image=$get_student['img'];
+                          $std_batch=$get_student['batch_no'];
+                          $std_session=$get_student['session'];
+                          $std_faculty=$get_student['faculty'];
+                          $std_department=$get_student['department'];
+                          $std_semester=$get_student['semester'];
+                          $std_entry=$get_student['registry_date'];
+                          ?>
+                          
+                            <tr>
+                              <td><?php echo $count_students; ?></td>
+                              <td><?php echo $std_fname." ".$std_lname; ?></td>
+                              <td><?php echo $std_email; ?></td>
+                              <td style="text-align: center;"><a href="std_details.php?std_id=<?php echo $std_id; ?>" class="btn bg-purple">Details <i class="fas fa-eye"></i></a></td>
+                            </tr>
+                          <?php
+                        }
+                      }
+                  ?>
 
-                <p>Lecturers</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-android-people"></i>
-              </div>
-              <a href="total_lecturers.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
+              </tbody>
+            </table>
           </div>
           <!-- /.col -->
            <!-- fix for small devices only -->
           <div class="clearfix hidden-md-up"></div>
-          <div class="col-12 col-sm-6 col-md-6">
-            <!-- small box -->
-            <div class="small-box bg-purple">
-              <div class="inner">
-                <?php
-                $count_users=0;
-                $sql="SELECT * FROM `registred_students`";
-                $get_students=mysqli_query($cn,$sql);
-                $count_students=0;
-                if(mysqli_num_rows($get_students)>0){
-                  while (mysqli_fetch_array($get_students)) {
-                    $count_students+=1;
-                  }
-                }
-                ?>
-                <h3><?php echo $count_students; ?></h3>
-
-                <p>Students</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-ios-people"></i>
-              </div>
-              <a href="total_students.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
         </div>
       </div><!-- /.container-fluid -->
     </div>
@@ -597,5 +606,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
+
+<!-- page script -->
+<script>
+  $(function () {
+    $("#example1").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+    });
+  });
+</script>
+
 </body>
 </html>

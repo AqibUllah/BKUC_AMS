@@ -16,7 +16,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>AMS USERS</title>
+  <title>About Student</title>
+  <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="lib/lightbox/css/lightbox.css" type="text/css" media="screen" />
+  <script type="text/javascript" src="lib/lightbox/js/lightbox.js"></script>
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
@@ -29,6 +32,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="css/style.css">
+  <style type="text/css">
+      table{
+        overflow-x:auto;
+      }
+       td{
+        height: 5px;
+        font-size: 12px;
+      }
+      th {
+          height: 30px;
+        }
+        .btn{
+          border-radius: 50px;
+          font-size: 10px;
+        }
+        img{
+          width: 100px;
+          height: 100px;
+        }
+    </style>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -277,11 +300,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-header">Account Settings</span>
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-lock mr-2"></i>Profile
+          <a href="admin_profile.php" class="dropdown-item">
+            <i class="fas fa-user-circle mr-2"></i>Profile
           </a>
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
+          <a href="amdin_change_password.php" class="dropdown-item">
             <i class="fas fa-lock-open mr-2"></i>Change Password
           </a>
           <div class="dropdown-divider"></div>
@@ -485,16 +508,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-4">
-            <!-- right side header -->
+          <div class="col-lg-12 col-md-12 col-sm-12">
             
-          </div><!-- /.col -->
-          <div class="col-sm-4">
-            <!-- midle side header -->
-
-          </div><!-- /.col -->
-          <div class="col-sm-4">
-            <!-- left side header -->
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -505,56 +520,183 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-12 col-sm-6 col-md-6">
-            <div class="small-box bg-info">
-              <div class="inner">
-                <?php
-                $sql="SELECT * FROM `registred_lecturers`";
-                $get_lecturers=mysqli_query($cn,$sql);
-                $count_lecturers=0;
-                if(mysqli_num_rows($get_lecturers)>0){
-                  while ($get_count=mysqli_fetch_array($get_lecturers)) {
-                    $count_lecturers+=1;
+          <div class="col-12 col-sm-12 col-md-12">
+                  <?php
+                  if(isset($_GET['std_id'])){
+                    $id=$_GET['std_id'];
+                    $sql="SELECT * FROM `registred_students` WHERE `id`='$id'";
+                      $get_data=mysqli_query($cn,$sql);
+                      if(mysqli_num_rows($get_data)>0){
+                        while ($get_student=mysqli_fetch_array($get_data)) {
+                          $std_id=$get_student['id'];
+                          $std_fname=$get_student['first_name'];
+                          $std_lname=$get_student['last_name'];
+                          $std_dob=$get_student['d_o_b'];
+                          $std_email=$get_student['email'];
+                          $std_role=$get_student['type'];
+                          $std_phone=$get_student['phone'];
+                          $std_address=$get_student['address'];
+                          $std_image=$get_student['img'];
+                          $std_batch=$get_student['batch_no'];
+                          $std_session=$get_student['session'];
+                          $std_faculty=$get_student['faculty'];
+                          $std_department=$get_student['department'];
+                          $std_semester=$get_student['semester'];
+                          $std_entry=$get_student['registry_date'];
+                          }
+                      }
                   }
-                }
-                ?>
-                <h3><?php echo $count_lecturers; ?></h3>
-
-                <p>Lecturers</p>
+                      
+                  ?>
+                  <div class="col-12 col-sm-12 col-md-12 align-items-stretch">
+                    <div class="card bg-light">
+                      <div class="card-header text-muted border-bottom-0">
+                        Student Personal Profile<br>
+                        <!-- <?php //echo date('l d F H:i:A'); ?><br>
+                        <?php //echo date('D / d / F / Y ,N H:i:A'); ?> -->
+                      </div>
+                      <div class="card-body pt-0">
+                        <div class="row">
+                          <div class="col-7">
+                            <h2 class="lead"><b><?php echo $std_fname." ".$std_lname; ?></b></h2>
+                            <p class="text-muted text-sm"><b>Email: </b> <?php echo $std_email; ?> </p>
+                            <p class="text-muted text-sm"><b>About: </b> <?php echo $std_role;  ?> OF <?php echo $std_faculty; ?></p>
+                            <p class="text-muted text-sm"><b>Department: </b><?php echo $std_department; ?></p>
+                            <p class="text-muted text-sm"><b>Semester: </b><?php echo $std_semester; ?></p>
+                            <ul class="ml-4 mb-0 fa-ul text-muted">
+                              <li class="small"><span class="fa-li"><i class="fas fa-lg fa-building"></i></span><b> Address :</b> <?php echo $std_address; ?></li><br>
+                              <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span><b> Phone # :</b> <?php echo $std_phone; ?></li><br>
+                              <li class="small"><span class="fa-li"><i class="fas fa-clock"></i></span><b> Registerd ON # :</b> <?php echo $std_entry; ?></li>
+                            </ul>
+                          </div>
+                          <div class="col-5 text-center">
+                            <a href="<?php echo $std_image; ?>" data-toggle="lightbox" rel="lightbox" data-gallery="gallery" class="col-md-12">
+                            <img src="<?php echo $std_image; ?>" width="100%" height="100%" alt="" class="img-circle img-fluid">
+                          </a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-footer">
+                        <div class="text-right">
+                          <a href="#" class="btn btn-sm btn-primary">
+                            <i class="fas fa-comments"></i>&nbsp; send message
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                </div>
               </div>
-              <div class="icon">
-                <i class="ion ion-android-people"></i>
-              </div>
-              <a href="total_lecturers.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
           <!-- /.col -->
            <!-- fix for small devices only -->
           <div class="clearfix hidden-md-up"></div>
-          <div class="col-12 col-sm-6 col-md-6">
-            <!-- small box -->
-            <div class="small-box bg-purple">
-              <div class="inner">
-                <?php
-                $count_users=0;
-                $sql="SELECT * FROM `registred_students`";
-                $get_students=mysqli_query($cn,$sql);
-                $count_students=0;
-                if(mysqli_num_rows($get_students)>0){
-                  while (mysqli_fetch_array($get_students)) {
-                    $count_students+=1;
-                  }
-                }
-                ?>
-                <h3><?php echo $count_students; ?></h3>
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="col-md-12">
+            <!-- Widget: user widget style 1 -->
+            <div class="card card-widget widget-user">
+              <!-- Add the bg color to the header using any of the bg-* classes -->
+              <div class="widget-user-header text-white"
+                   style="background: url('dist/img/photo1.png') center center;">
+                <h3 class="widget-user-username text-center" style="color: white;"><?php echo $std_fname." ".$std_lname; ?></h3>
+                <h5 class="widget-user-desc text-center" style="color: white;"><?php echo $std_role; ?></h5>
+              </div>
+              <div class="widget-user-image">
+                <img class="img-circle" src="<?php echo $std_image; ?>" width="100" height="100" alt="User Avatar">
+              </div>
+              <div class="card-footer">
+                <div class="row">
+                  <!-- get all submitted assigments -->
+                  <?php
+                  //first getting from pending
+                  $sql="SELECT * FROM `student_whose_submitted` WHERE `email`='$std_email'";
+                  $run_a=mysqli_query($cn,$sql);
+                  if(mysqli_num_rows($run_a)>0){
+                      while($get_data=mysqli_fetch_array($run_a)){
+                      $student_email=$get_data['email'];
+                      $student_id=$get_data['id'];
+                      //$assigment_count+=1;
 
-                <p>Students</p>
+                    }
+
+                    $sql="SELECT * FROM `submit_assigments` WHERE `std_id`='$student_id'";
+                    $run=mysqli_query($cn,$sql);
+                    $fk_count = 0;
+                    if(mysqli_num_rows($run)>0){
+                      while ($get_submitter_confirmation=mysqli_fetch_array($run)) {
+                        $fk_count+=1;
+                      }
+                    }
+                  
+                  }
+
+                  // get and count rejected assigments
+                  $sql="SELECT * FROM `students_assigment_rejected` WHERE
+                   `std_email`='$std_email'";
+                  $chk=mysqli_query($cn,$sql);
+                  $count_reject=0;
+                  if(mysqli_num_rows($chk)>0){
+                    while (mysqli_fetch_array($chk)) {
+                      $count_reject+=1;
+                    }
+                  }
+
+                  // get and count accepted assigments
+                  $sql="SELECT * FROM `students_assigment_accepted` WHERE
+                   `std_email`='$std_email'";
+                  $check=mysqli_query($cn,$sql);
+                  $count_submit=0;
+                  if(mysqli_num_rows($check)>0){
+                    while (mysqli_fetch_array($check)) {
+                      $count_submit+=1;
+                    }
+                  }
+                  if(isset($fk_count)){
+                    $total_submitted=$fk_count+$count_reject+$count_submit;
+                  }else{
+                    $total_submitted=$count_reject+$count_submit;
+                  }
+                  
+                ?>
+
+                  
+                  <?php
+                  
+                  ?>
+                  <div class="col-sm-4 border-right">
+                    <div class="description-block">
+                      <h5 class="h3" style="color: red;"><?php echo $count_reject; ?></h5>
+                      <span class="h5">Rejected</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-4 border-right">
+                    <div class="description-block">
+                      <h5 class="h3"><?php echo $total_submitted; ?></h5>
+                      <span class="h5">Assigments Submitted</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+
+                  <!--  -->
+                  <?php
+                  
+                  ?>
+                  <div class="col-sm-4">
+                    <div class="description-block">
+                      <h5 class="h3" style="color: green;"><?php echo $count_submit; ?></h5>
+                      <span class="h5">Accepted</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                </div>
+                <!-- /.row -->
               </div>
-              <div class="icon">
-                <i class="ion ion-ios-people"></i>
-              </div>
-              <a href="total_students.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
+            <!-- /.widget-user -->
+          </div>
+          <!-- /.col -->
           </div>
         </div>
       </div><!-- /.container-fluid -->
@@ -589,6 +731,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
+<script src="lib/lightbox/js/lightbox.min.js"></script>
+<link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
 <!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- REQUIRED SCRIPTS -->
@@ -597,5 +741,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
+
+<!-- page script -->
+<script>
+  $(function () {
+    $("#example1").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+    });
+  });
+</script>
+
 </body>
 </html>
