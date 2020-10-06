@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
    if(isset($_SESSION["admin_logged_in"])){
           }else{
@@ -442,6 +443,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p></a>
               </li>
             </ul>
+            <li class="nav-item">
+            <a href="user_feedback.php" class="nav-link">
+              <i class="nav-icon fas fa-globe"></i>
+              <p>
+                Users Feedback
+              </p>
+            </a>
+          </li>
             <li class="nav-item has-treeview menu-close">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-wrench"></i>  <!-- fas fa-cogs -->
@@ -586,7 +595,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- ./wrapper -->
 
 <!-- REQUIRED SCRIPTS -->
-
+<?php
+ob_end_flush();
+?>
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->

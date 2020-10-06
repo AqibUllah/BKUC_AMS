@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
    if(isset($_SESSION["student_logged_in"])){
           }else{
@@ -91,6 +92,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
         color: black;
       }label span{
         font-weight: normal;
+      }
+      h3{
+        color: white;
       }
     </style>
 </head>
@@ -434,7 +438,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           } ?>
                           <hr><br>
                           <center>
-                          <button type="submit" class="btn btn-danger btn-block">Add more info</button>
+                          <center>
+                          <span class="h3 text-center">AMS USER</span>
+                          </center>
                           </center>
                         </div>
                         <!-- /.card-body -->
@@ -612,9 +618,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </div>
                                     
                                   </div>
-                          <center>
-                          <input type="submit" name="btn_update" class="btn btn-danger btn-block" value="Done">
-                          </center>
                         </div>
                         <!-- /.card-body -->
                             <script type="text/javascript">
@@ -1032,4 +1035,5 @@ if(isset($_POST['btn_update'])){
     <?php
     }
 }
+ob_end_flush();
 ?>

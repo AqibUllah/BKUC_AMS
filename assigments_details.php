@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
    if(isset($_SESSION["student_logged_in"])){
           }else{
@@ -27,7 +28,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>Dashboard</title>
+  <title>Assignment Details</title>
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
@@ -155,9 +156,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
         </div>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#"><i
-            class="fas fa-th-large"></i></a>
+      <!-- account dropdown -->
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="far fa-user"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <span class="dropdown-header">Account Settings</span>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-lock mr-2"></i>Profile
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-lock-open mr-2"></i>Change Password
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="LogOff_page.php" class="dropdown-item bg-dark" style="text-align: center;">
+            Log Out <i class="fas fa-arrow-right mr-2"></i>
+          </a>
+        </div>
       </li>
     </ul>
   </nav>
@@ -188,12 +206,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
             } ?>
         </div>
         <div class="info">
+          <a href="student_profile.php">
           <?php
             if(isset($_SESSION["student_logged_in"])){
               echo $_SESSION["student_logged_in"]["first_name"];
             }
-          ?><br>
-          <span class="right badge badge-danger"><a href="LogOff_page.php">Log Out</a></span>
+          ?>
+          </a>
         </div>
       </div>
 
@@ -211,22 +230,30 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a></li>
               <li class="nav-item">
                 <a href="students_new_assigments.php" class="nav-link active">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="fas fa-ad nav-icon"></i>
                   <p>New Assigments</p>
                   <span class="right badge badge-danger"><?php echo $count; ?></span>
                 </a>
               </li>
           <li class="nav-item">
             <a href="submit_assigment.php" class="nav-link">
-              <i class="nav-icon fas fa-envelope"></i>
+              <i class="nav-icon fas fa-file"></i>
               <p>
                 Submit Assigment
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="submitted_assigments.php" class="nav-link">
+              <i class="nav-icon fas fa-check"></i>
+              <p>
+                Total Submitted
+              </p>
+            </a>
+          </li>
           <li class="nav-item has-treeview menu-close">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-user-circle"></i>
               <p>
                 Account Settings
                 <i class="right fas fa-angle-left"></i>
@@ -299,6 +326,9 @@ if(isset($_GET['get_id'])){
         <div class="row">
           <div class="col-lg-12">
                 <!-- write or design something in 12 columns -->
+                <?php
+                if(isset($_GET['get_id'])){
+                ?>
                 <div class="card">
                   <div class="card-header bg-dark">
                     <div class="row">
@@ -376,6 +406,12 @@ if(isset($_GET['get_id'])){
                     
                   </div>
                 </div>
+
+                <?php
+              }else{
+                echo "<div class='h1 text-muted text-center'>Oops! Assignment Not Found!</div>";
+              }
+                ?>
           </div>
           <!-- /.col-md-6 -->
         </div>
@@ -385,7 +421,10 @@ if(isset($_GET['get_id'])){
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+<?php
 
+ob_end_flush();
+?>
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->

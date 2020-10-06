@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
    if(isset($_SESSION["student_logged_in"])){
           }else{
@@ -469,6 +470,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                     <?php
                   }
+                  ob_end_flush();
                   ?>
                 </tbody>
           </table>

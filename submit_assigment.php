@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
    if(isset($_SESSION["student_logged_in"])){
           }else{
@@ -764,5 +765,5 @@ if(isset($_POST['btn_submit_assigment'])){
     <?php        
   }
 }
-
+ob_end_flush();
 ?>

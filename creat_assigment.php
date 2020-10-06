@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
    if(isset($_SESSION["lecturer_logged_in"])){
           }else{
@@ -396,7 +397,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="col-sm-12">
                         <div class="form-group">
                           <textarea class="form-control rounded-0" name="txt_message" id="exampleFormControlTextarea2" rows="3"
-                          placeholder="Enter Some Message"></textarea>
+                          placeholder="Assignment Description"></textarea>
                         </div>
                       </div>
                     </div>

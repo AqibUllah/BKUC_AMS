@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
    if(isset($_SESSION["student_logged_in"])){
           }else{
@@ -27,7 +28,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>Submitted Assigments</title>
+  <title>My Assigment</title>
   <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
   <link rel="stylesheet" href="lib/lightbox/css/lightbox.css" type="text/css" media="screen" />
   <script type="text/javascript" src="lib/lightbox/js/lightbox.js"></script>
@@ -803,7 +804,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                     }
                   }
-
+                  ob_end_flush();
                   ?>
           </div>
           <!-- /.col-md-6 -->

@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
    if(isset($_SESSION["admin_logged_in"])){
           }else{
@@ -549,7 +550,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="col-lg-12">
                 <!-- write or design something in 6 columns -->
                 <div id="#show">
-                <table id="example2" class="table table-bordere table-hover table-dark">
+                <table id="example2" class="table table-bordere table-hover">
                   <thead>
                     <tr>
                       <th>S.No</th>
@@ -671,4 +672,5 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
       }
    }
+   ob_end_flush();
 ?>

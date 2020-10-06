@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>TheEvent - Bootstrap Event Template</title>
+  <title>THE BKUC AMS</title>
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta content="" name="keywords">
   <meta content="" name="description">
@@ -45,6 +45,7 @@
 
 <body>
 <?php
+ob_start();
 if(isset($_GET['success'])){
    ?>
       <script type="text/javascript">
@@ -92,7 +93,7 @@ if(isset($_GET['success'])){
       <div id="logo" class="pull-left">
         <!-- Uncomment below if you prefer to use a text logo -->
         <!-- <h1><a href="#main">C<span>o</span>nf</a></h1>-->
-        <a href="#intro" class="scrollto"><img src="img/logo.png" alt="" title=""></a>
+        <a href="#intro" class="scrollto"><img src="img/university.png" alt="logo" title=""></a>
       </div>
 
       <nav id="nav-menu-container">
@@ -103,8 +104,7 @@ if(isset($_GET['success'])){
           <li><a href="#faq">FAQ</a></li>
           <li><a href="#contact">Contact</a></li>
           <li><a href="login_page.php">Sign In</a></li>
-          <li><a href="select_type_page.php">Sign Up</a></li>
-          <li class="buy-tickets"><a href="#buy-tickets">Buy Tickets</a></li>
+          <li class="buy-tickets"><a href="select_type_page.php">Sign Up</a></li>
         </ul>
       </nav><!-- #nav-menu-container -->
     </div>
@@ -121,7 +121,7 @@ if(isset($_GET['success'])){
         <div class="col-12">
           <div class="callout callout-default bg-danger">
                 <strong class="h2 float-left"><i class="fas fa-info-circle"></i> Note</strong><br><br>
-                <small  style="color: white;">When you want to submitte your assigment using BKUC AMS so first check your assignment,evidences etc.. then go to submit. Because once you have submitted your assignment then it will not recover</small>
+                <small  style="color: white;">When you want to submitte your assignment using BKUC AMS so first check your assignment,evidences etc.. then go to submit. Because once you have submitted your assignment then it will not recover</small>
                 <!-- /.col -->
             </div>
         </div>
@@ -413,29 +413,26 @@ if(isset($_GET['success'])){
         <div class="row">
 
           <div class="col-lg-3 col-md-6 footer-info">
-            <img src="img/logo.png" alt="TheBKUCAMS">
-            <p>In alias aperiam. Placeat tempore facere. Officiis voluptate ipsam vel eveniet est dolor et totam porro. Perspiciatis ad omnis fugit molestiae recusandae possimus. Aut consectetur id quis. In inventore consequatur ad voluptate cupiditate debitis accusamus repellat cumque.</p>
+            <img src="img/university.png" alt="TheBKUCAMS">
+            <p>Assignment Management System is a web-based application developed using php at front end and SQL server at back end. Through this system user can assign job to any employee online and admin can also check the status of the assigned work. Using this system management team can take decision on time after checking the current status of the assigned work. This system helps the user to complete work on time as user can check the status of assigned work any time.</p>
           </div>
 
           <div class="col-lg-3 col-md-6 footer-links">
             <h4>Useful Links</h4>
             <ul>
               <li><i class="fa fa-angle-right"></i> <a href="#">Home</a></li>
-              <li><i class="fa fa-angle-right"></i> <a href="#">About us</a></li>
-              <li><i class="fa fa-angle-right"></i> <a href="#">Services</a></li>
-              <li><i class="fa fa-angle-right"></i> <a href="#">Terms of service</a></li>
-              <li><i class="fa fa-angle-right"></i> <a href="#">Privacy policy</a></li>
+              <li><i class="fa fa-angle-right"></i> <a href="#about">About us</a></li>
+              <li><i class="fa fa-angle-right"></i> <a href="#gallery">Gallery</a></li>
+              <li><i class="fa fa-angle-right"></i> <a href="#faq">FAQ</a></li>
+              <li><i class="fa fa-angle-right"></i> <a href="#contact">Contact</a></li>
             </ul>
           </div>
 
           <div class="col-lg-3 col-md-6 footer-links">
             <h4>Useful Links</h4>
             <ul>
-              <li><i class="fa fa-angle-right"></i> <a href="#">Home</a></li>
-              <li><i class="fa fa-angle-right"></i> <a href="#">About us</a></li>
-              <li><i class="fa fa-angle-right"></i> <a href="#">Services</a></li>
-              <li><i class="fa fa-angle-right"></i> <a href="#">Terms of service</a></li>
-              <li><i class="fa fa-angle-right"></i> <a href="#">Privacy policy</a></li>
+              <li><i class="fa fa-angle-right"></i> <a href="login_page.php">Sign In</a></li>
+              <li><i class="fa fa-angle-right"></i> <a href="select_type_page.php">Sign Up</a></li>
             </ul>
           </div>
 
@@ -536,4 +533,5 @@ if(isset($_POST['btn_send'])){
 
     }
 }
+ob_end_flush();
 ?>

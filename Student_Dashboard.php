@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
    if(isset($_SESSION["student_logged_in"])){
           }else{
@@ -80,7 +81,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>Dashboard</title>
+  <title>Student Portal</title>
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
@@ -372,6 +373,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   else{
                     echo "0";
                   }
+                  ob_end_flush();
                   ?></h3>
 
                 <p>Submitted Assigments</p>
