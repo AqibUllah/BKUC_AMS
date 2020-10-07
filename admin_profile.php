@@ -7,7 +7,7 @@ session_start();
 ?>
 
 <?php
-include 'db_page.php';
+include 'db_page_2.php';
 $cn=db_connection();
 $_admin_id=$_SESSION["admin_logged_in"]["id"];
 $sql="SELECT * FROM `tbl_super_admin` WHERE `id`='$_admin_id'";
@@ -81,109 +81,186 @@ scratch. This page gets rid of all links and provides the needed markup only.
       }
     </style>
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini sidebar-collapse layout-footer-fixed layout-navbar-fixed layout-fixed">
 <div class="wrapper">
 
-  <!-- Navbar -->
+   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <span class="logo-dec">Welcome to<b>&nbsp;</b></span><b class="login-logo">BKUC Assigment Management System</b>
+        <span class="logo-dec" style="color: red;">Welcome to<b>&nbsp;</b></span><b class="login-logo" style="color: green;">BKUC Assignment Management System</b>
       </li>
     </ul>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-      <!-- Messages Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-comments"></i>
-          <span class="badge badge-danger navbar-badge">3</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Brad Diesel
-                  <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">Call me whenever you can...</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  John Pierce
-                  <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">I got your message bro</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Nora Silvester
-                  <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">The subject goes here</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-        </div>
-      </li>
+     
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">15</span>
+                     <?php
+                      $cn=db_connection();
+                      $sql="SELECT * FROM `tbl_students_requests`";
+                      $run=mysqli_query($cn,$sql);
+                      $count=0;
+                      while ($done=mysqli_fetch_array($run)) {
+                        $count=$count+1;
+                      }
+                      $sql="SELECT * FROM `tbl_request_lectureres`";
+                      $run=mysqli_query($cn,$sql);
+                      while ($done=mysqli_fetch_array($run)) {
+                      $count=$count+1;
+                      }
+                        $sql="SELECT * FROM `lecturer_password_retreive`";
+                      $run=mysqli_query($cn,$sql);
+                      while ($done=mysqli_fetch_array($run)) {
+                        $count=$count+1;
+                      }
+                       $sql="SELECT * FROM `password_retrieve`";
+                      $run=mysqli_query($cn,$sql);
+                      while ($done=mysqli_fetch_array($run)) {
+                      $count=$count+1;
+                      }
+                      if($count>0){
+                        echo "<span class='right badge badge-warning' style='font-size: 10px;'>$count</span>";
+                      }
+                      
+                      ?>
+          
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-header">15 Notifications</span>
+          <span class="dropdown-header">
+            <?php
+                     $cn=db_connection();
+                      $sql="SELECT * FROM `tbl_students_requests`";
+                      $run=mysqli_query($cn,$sql);
+                      $count=0;
+                      while ($done=mysqli_fetch_array($run)) {
+                        $count=$count+1;
+                      }
+                      $sql="SELECT * FROM `tbl_request_lectureres`";
+                      $run=mysqli_query($cn,$sql);
+                      while ($done=mysqli_fetch_array($run)) {
+                      $count=$count+1;
+                      }
+                      if($count>0){
+                        echo "<span class='right badge badge-warning' style='font-size: 10px;text-align:center;'>$count Joining Requests</span>";
+                      }else{
+                        echo "No Joining Requests";
+                      }
+                      
+                      ?></span>
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> 4 new messages
-            <span class="float-right text-muted text-sm">3 mins</span>
+          <a href="teacher_requests_page.php" class="dropdown-item">
+            <i class="fas fa-users mr-2"></i> 
+                  <?php
+                      $cn=db_connection();
+                      $sql="SELECT * FROM `tbl_request_lectureres`";
+                      $run=mysqli_query($cn,$sql);
+                      $count=0;
+                      while ($done=mysqli_fetch_array($run)) {
+                        $count=$count+1;
+                      }
+                      if($count>0){
+                        echo "<span class='right badge badge-warning' style='font-size: 10px;'>$count </span> From Lecturer";
+                      }else{
+                        echo "No Requests";
+                      }
+                      
+                      ?>
           </a>
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i> 8 friend requests
-            <span class="float-right text-muted text-sm">12 hours</span>
+          <a href="student_requests_page.php" class="dropdown-item">
+            <i class="fas fa-users mr-2"></i>
+ <?php
+                      $cn=db_connection();
+                      $sql="SELECT * FROM `tbl_students_requests`";
+                      $run=mysqli_query($cn,$sql);
+                      $count=0;
+                      while ($done=mysqli_fetch_array($run)) {
+                        $count=$count+1;
+                      }
+                      if($count>0){
+                        echo "<span class='right badge badge-warning' style='font-size: 10px;'>$count </span> From Student";
+                      }else{
+                        echo "No Requests";
+                      }
+                      
+                      ?>
+
           </a>
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-file mr-2"></i> 3 new reports
-            <span class="float-right text-muted text-sm">2 days</span>
+          <a href="" class="dropdown-item text-center">
+            <?php
+                     $cn=db_connection();
+                      $sql="SELECT * FROM `lecturer_password_retreive`";
+                      $run=mysqli_query($cn,$sql);
+                      $count=0;
+                      while ($done=mysqli_fetch_array($run)) {
+                        $count=$count+1;
+                      }
+                      $sql="SELECT * FROM `password_retrieve`";
+                      $run=mysqli_query($cn,$sql);
+                      while ($done=mysqli_fetch_array($run)) {
+                      $count=$count+1;
+                      }
+                      if($count>0){
+                        echo "<span class='right badge badge-warning' style='font-size: 10px;text-align:center;'>$count Password Requests</span>";
+                      }else{
+                        echo "<strong>No Password Requests</strong>";
+                      }
+                      
+                      ?>
+            <span class="float-right text-muted text-sm"></span>
           </a>
           <div class="dropdown-divider"></div>
+           <div class="dropdown-divider"></div>
+          <a href="student_password_requests_page.php" class="dropdown-item">
+            <i class="fas fa-users mr-2"></i> 
+                  <?php
+                      $cn=db_connection();
+                      $sql="SELECT * FROM `password_retrieve`";
+                      $run=mysqli_query($cn,$sql);
+                      $count=0;
+                      while ($done=mysqli_fetch_array($run)) {
+                        $count=$count+1;
+                      }
+                      if($count>0){
+                        echo "<span class='right badge badge-warning' style='font-size: 10px;'>$count </span> From Students";
+                      }else{
+                        echo "No Requests";
+                      }
+                      
+                      ?>
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="teacher_password_requests_page.php" class="dropdown-item">
+            <i class="fas fa-users mr-2"></i>
+ <?php
+                      $cn=db_connection();
+                      $sql="SELECT * FROM `lecturer_password_retreive`";
+                      $run=mysqli_query($cn,$sql);
+                      $count=0;
+                      while ($done=mysqli_fetch_array($run)) {
+                        $count=$count+1;
+                      }
+                      if($count>0){
+                        echo "<span class='right badge badge-warning' style='font-size: 10px;'>$count </span> From Lecturers";
+                      }else{
+                        echo "No Requests";
+                      }
+                      
+                      ?>
+
+          </a>
           <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
         </div>
       </li>
-
       <!-- account dropdown -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
@@ -193,15 +270,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <span class="dropdown-header">Account Settings</span>
           <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item">
-            <i class="fas fa-lock mr-2"></i>Profile
+            <i class="fas fa-user-circle mr-2"></i>Profile
           </a>
           <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item">
             <i class="fas fa-lock-open mr-2"></i>Change Password
           </a>
           <div class="dropdown-divider"></div>
-          <a href="LogOff_page.php" class="dropdown-item bg-dark" style="text-align: center;">
-            Log Out <i class="fas fa-arrow-right mr-2"></i>
+          <a href="LogOff_page.php" class="dropdown-item bg-danger text-center" style="text-align: center;">
+            Log Out &nbsp;<i class="fas fa-arrow-right mr-2 float-right"></i>
           </a>
         </div>
       </li>
@@ -209,7 +286,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   </nav>
   <!-- /.navbar -->
 
-  <!-- Main Sidebar Container -->
+  
+    <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="#" class="brand-link">
@@ -223,15 +301,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-            <?php if(file_exists($_SESSION["admin_logged_in"]["admin_image"])){
-              ?>
-              <img src="<?php echo $_SESSION["admin_logged_in"]["admin_image"]; ?>" class="img-circle elevation-2" alt="User Image">
-              <?php
-            }else{
-              ?>
-              <img src="admin image/no_image.jpg">
-              <?php
-            } ?>
+          <img src="<?php
+            if(isset($_SESSION['admin_logged_in'])){
+              echo $_SESSION['admin_logged_in']['admin_image'];
+            }
+          ?>" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="admin_profile.php">
@@ -240,17 +314,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
               echo $_SESSION["admin_logged_in"]["username"];
             }
           ?>
-          </a>
+        </a>
         </div>
       </div>
 
-     <!-- Sidebar Menu -->
+      <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="admin_main_dashboard.php" class="nav-link">
+            <a href="admin_main_dashboard.php" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -261,7 +335,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
               <p>
-                Accounts Requests
+                Account Requests
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -319,7 +393,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item"><a href="student_password_requests_page.php" class="nav-link"><i class="far fa-circle nav-icon"></i>
+              <li class="nav-item"><a href="student_password_requests_page.php" class="nav-link"><i class="fas fa-graduation-cap"></i>
               <p>
                <?php
                       $cn=db_connection();
@@ -339,7 +413,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         
                       </p></a>
               </li>
-              <li class="nav-item"><a href="teacher_password_requests_page.php" class="nav-link"><i class="far fa-circle nav-icon"></i>
+              <li class="nav-item"><a href="teacher_password_requests_page.php" class="nav-link"><i class="fas fa-user-md"></i>
               <p>
                  <?php
                       $cn=db_connection();
@@ -360,9 +434,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p></a>
               </li>
             </ul>
-            <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-wrench"></i>
+            <li class="nav-item">
+            <a href="user_feedback.php" class="nav-link">
+              <i class="nav-icon fas fa-globe"></i>
+              <p>
+                Users Feedback
+              </p>
+            </a>
+          </li>
+            <li class="nav-item has-treeview menu-close">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-wrench"></i>  <!-- fas fa-cogs -->
               <p>
                 Account Settings
                 <i class="right fas fa-angle-left"></i>
@@ -370,8 +452,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="admin_profile.php" class="nav-link active">
-                  <i class="nav-icon far fa-user nav-icon"></i>
+                <a href="admin_profile.php" class="nav-link">
+                  <i class="nav-icon fas fa-id-card nav-icon"></i>
                   <p>Profile</p>
                 </a>
               </li>
@@ -433,7 +515,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               <!-- About Me Box -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Contactual Information</h3>
+                <h3 class="card-title text-white">Contactual Information</h3>
                 <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                             <i class="fas fa-minus"></i>
@@ -480,7 +562,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <!-- Profile Image -->
                       <div class="card card-danger">
                         <div class="card-header">
-                          <h3 class="card-title">Profile</h3>
+                          <h3 class="card-title text-white">Profile</h3>
                           <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                               <i class="fas fa-minus"></i>
@@ -508,7 +590,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               <!-- About Me Box -->
             <div class="card card-success">
               <div class="card-header">
-                <h3 class="card-title">Facilities</h3>
+                <h3 class="card-title text-white">Facilities</h3>
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse">
                     <i class="fas fa-minus"></i>
@@ -541,7 +623,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               <!-- About Me Box -->
                               <div class="card card-primary">
                                 <div class="card-header">
-                                  <h3 class="card-title">Contactual Information</h3>
+                                  <h3 class="card-title text-white">Contactual Information</h3>
                                   <div class="card-tools">
                                   <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                               <i class="fas fa-minus"></i>
@@ -585,7 +667,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <!-- Profile Image -->
                       <div class="card card-danger">
                         <div class="card-header">
-                          <h3 class="card-title">Profile</h3>
+                          <h3 class="card-title text-white">Profile</h3>
                           <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                               <i class="fas fa-minus"></i>
@@ -705,7 +787,7 @@ function PreviewImage() {
   <footer class="main-footer">
     <!-- To the right -->
     <div class="float-right d-none d-sm-inline">
-      Anything you want
+      <a href="http://www.bkucams.000webhostapp.com">www.bkucams.000webhostapp.com</a>
     </div>
     <!-- Default to the left -->
     <strong>Developed by &copy; <a href="https://adminlte.io">Aqib Lodhi</a>.</strong> All rights reserved.

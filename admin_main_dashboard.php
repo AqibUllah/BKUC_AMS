@@ -16,13 +16,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-
   <title>Admin Portal</title>
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
     <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <link href="main.css" rel="stylesheet">
     <!-- DataTables -->
   <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.css">
   <!-- Theme style -->
@@ -31,7 +31,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini sidebar-collapse layout-footer-fixed layout-navbar-fixed layout-fixed">
 <div class="wrapper">
 
    <!-- Navbar -->
@@ -39,79 +39,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <span class="logo-dec">Welcome to<b>&nbsp;</b></span><b class="login-logo">BKUC Assigment Management System</b>
+        <span class="logo-dec" style="color: red;">Welcome to<b>&nbsp;</b></span><b class="login-logo" style="color: green;">BKUC Assignment Management System</b>
       </li>
     </ul>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-      <!-- Messages Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-comments"></i>
-          <span class="badge badge-danger navbar-badge">3</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Brad Diesel
-                  <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">Call me whenever you can...</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  John Pierce
-                  <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">I got your message bro</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Nora Silvester
-                  <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">The subject goes here</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-        </div>
-      </li>
+     
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
                      <?php
-                      include('db_page.php');
+                      include('db_page_2.php');
                       $cn=db_connection();
                       $sql="SELECT * FROM `tbl_students_requests`";
                       $run=mysqli_query($cn,$sql);
@@ -142,7 +85,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-header  badge-dark"><i class="fas fa-key mr-2"></i>
+          <span class="dropdown-header">
             <?php
                      $cn=db_connection();
                       $sql="SELECT * FROM `tbl_students_requests`";
@@ -203,8 +146,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
           </a>
           <div class="dropdown-divider"></div>
-          <a href="" class="dropdown-item badge-dark" style="text-align: center;">
-            <i class="fas fa-lock-open mr-2"></i>
+          <a href="" class="dropdown-item text-center">
             <?php
                      $cn=db_connection();
                       $sql="SELECT * FROM `lecturer_password_retreive`";
@@ -221,7 +163,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       if($count>0){
                         echo "<span class='right badge badge-warning' style='font-size: 10px;text-align:center;'>$count Password Requests</span>";
                       }else{
-                        echo "No Password Requests";
+                        echo "<strong>No Password Requests</strong>";
                       }
                       
                       ?>
@@ -279,15 +221,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <span class="dropdown-header">Account Settings</span>
           <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item">
-            <i class="fas fa-lock mr-2"></i>Profile
+            <i class="fas fa-user-circle mr-2"></i>Profile
           </a>
           <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item">
             <i class="fas fa-lock-open mr-2"></i>Change Password
           </a>
           <div class="dropdown-divider"></div>
-          <a href="LogOff_page.php" class="dropdown-item bg-dark" style="text-align: center;">
-            Log Out <i class="fas fa-arrow-right mr-2"></i>
+          <a href="LogOff_page.php" class="dropdown-item bg-danger text-center" style="text-align: center;">
+            Log Out &nbsp;<i class="fas fa-arrow-right mr-2 float-right"></i>
           </a>
         </div>
       </li>
@@ -539,14 +481,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
     }
                       
   ?>
-
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
         <div class="row">
           <div class="col-12 col-sm-6 col-md-3">
-            <div class="small-box bg-info">
-              <div class="inner">
+            <div class="small-box bg-arielle-smile">
+              <div class="inner text-white">
                 <?php
                 $sql="SELECT * FROM `user_feedback`";
                 $get_feedback=mysqli_query($cn,$sql);
@@ -557,7 +498,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   }
                 }
                 ?>
-                <h3><?php echo $count_feedback; ?></h3>
+                <h3 class="text-white"><?php echo $count_feedback; ?></h3>
 
                 <p>Users Feedback</p>
               </div>
@@ -570,9 +511,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- /.col -->
           <div class="col-12 col-sm-6 col-md-3">
             <!-- small box -->
-            <div class="small-box bg-success">
-              <div class="inner">
-                <h3><?php echo $count; ?></h3>
+            <div class="small-box bg-grow-early">
+              <div class="inner text-white">
+                <h3 class="text-white"><?php echo $count; ?></h3>
 
                 <p>Joining Requests</p>
               </div>
@@ -589,14 +530,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3><?php echo $password_requests; ?></h3>
+                <h3 class="text-white"><?php echo $password_requests; ?></h3>
 
                 <p>Password Requests</p>
               </div>
               <div class="icon">
                 <i class="ion ion-pull-request"></i>
               </div>
-              <a href="student_password_requests_page.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="users_passwords_requests.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <div class="col-12 col-sm-6 col-md-3">
@@ -605,24 +546,38 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <div class="inner">
                 <?php
                 $count_users=0;
+                $std_counts=0;
                 $sql="SELECT * FROM `registred_students`";
                 $get_users=mysqli_query($cn,$sql);
                 if(mysqli_num_rows($get_users)>0){
                   while (mysqli_fetch_array($get_users)) {
+                    $std_counts+=1;
                     $count_users+=1;
                   }
                 }
                 $sql="SELECT * FROM `registred_lecturers`";
+                $lec_counts=0;
                 $run_users_2=mysqli_query($cn,$sql);
                 if(mysqli_num_rows($run_users_2)>0){
                   while (mysqli_fetch_array($run_users_2)) {
+                    $lec_counts+=1;
                     $count_users+=1;
+                  }
+                }
+
+                //getting counts from created assignments
+                $sql="SELECT * FROM `creat_assigment`";
+                $total_assig=0;
+                $run_assig_2=mysqli_query($cn,$sql);
+                if(mysqli_num_rows($run_assig_2)>0){
+                  while (mysqli_fetch_array($run_assig_2)) {
+                    $total_assig+=1;
                   }
                 }
 
                 ob_end_flush();
                 ?>
-                <h3><?php echo $count_users; ?></h3>
+                <h3 class="text-white"><?php echo $count_users; ?></h3>
 
                 <p>Total Users</p>
               </div>
@@ -633,19 +588,60 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div>
           </div>
         </div>
+        <div class="row">
+                            <div class="col-md-6 col-xl-4">
+                                <div class="card mb-3 widget-content bg-arielle-smile">
+                                    <div class="widget-content-wrapper text-white">
+                                        <div class="widget-content">
+                                            <div class="widget-heading">Students</div>
+                                           
+                                        </div>
+                                        <div class="widget-content">
+                                            <div class="widget-numbers text-white"><span> <?php  echo $std_counts; ?></span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 col-xl-4">
+                                <div class="card mb-3 widget-content bg-grow-early">
+                                    <div class="widget-content-wrapper text-white">
+                                        <div class="widget-content">
+                                            <div class="widget-heading">Teachers</div>
+                                            
+                                        </div>
+                                        <div class="widget-content">
+                                            <div class="widget-numbers text-white float-right"><span> <?php  echo $lec_counts; ?></span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-xl-4">
+                                <div class="card mb-3 widget-content bg-midnight-bloom">
+                                    <div class="widget-content-wrapper text-white">
+                                        <div class="widget-content">
+                                            <div class="widget-heading">Total Assignments</div>
+                                            
+                                        </div>
+                                        <div class="widget-content">
+                                            <div class="widget-numbers text-white float-right"><span> <?php echo $total_assig; ?></span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
+
   </div>
   <!-- /.content-wrapper -->
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
-    <div class="p-3">
-      <h5>Title</h5>
-      <p>Sidebar content</p>
-    </div>
+    
   </aside>
   <!-- /.control-sidebar -->
 
@@ -653,7 +649,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <footer class="main-footer">
     <!-- To the right -->
     <div class="float-right d-none d-sm-inline">
-      Anything you want
+      <a href="http://www.bkucams.000webhostapp.com">www.bkucams.000webhostapp.com</a>
     </div>
     <!-- Default to the left -->
     <strong>Developed by &copy; <a href="https://adminlte.io">Aqib Lodhi</a>.</strong> All rights reserved.

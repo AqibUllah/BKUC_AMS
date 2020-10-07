@@ -17,43 +17,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>Students Requests</title>
+  <title>Account Requests</title>
+
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- DataTables -->
   <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <style type="text/css">
-      table{
-        overflow-x:auto;
-      }
-       td{
-        height: 5px;
-        font-size: 12px;
-      }
-      th {
-          height: 30px;
-        }
-        table td{
-        font-size: 12px;
-        height: auto;
-        width: auto;
-        text-align: center;
-      }
-      table th{
-        text-align: center;
-      }
-      .btn{
-        font-size: 10px;
-        width: auto;
-        height: auto;
-      }
-    </style>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body class="hold-transition sidebar-mini sidebar-collapse layout-footer-fixed layout-navbar-fixed layout-fixed">
 <div class="wrapper">
@@ -261,7 +237,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   </nav>
   <!-- /.navbar -->
 
-  <!-- Main Sidebar Container -->
+  
+    <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="#" class="brand-link">
@@ -305,8 +282,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
           </li>
-          <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
+          <li class="nav-item has-treeview menu-close">
+            <a href="#" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Account Requests
@@ -315,7 +292,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="student_requests_page.php" class="nav-link active">
+                <a href="student_requests_page.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Student Requests</p>
                       <?php
@@ -358,8 +335,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
             </ul>
           </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
+          <li class="nav-item has-treeview menu-open">
+            <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-key"></i>
               <p>
                 Password Requests
@@ -367,7 +344,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item"><a href="student_password_requests_page.php" class="nav-link"><i class="far fa-circle nav-icon"></i>
+              <li class="nav-item"><a href="student_password_requests_page.php" class="nav-link"><i class="fas fa-circle"></i>
               <p>
                <?php
                       $cn=db_connection();
@@ -380,14 +357,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       if($count>0){
                         echo "<span class='right badge badge-danger' style='font-size: 10px;'>$count </span> From Students";
                       }else{
-                        echo "No Requests";
+                        echo "From Students";
                       }
                       
                       ?>
                         
                       </p></a>
               </li>
-              <li class="nav-item"><a href="teacher_password_requests_page.php" class="nav-link"><i class="far fa-circle nav-icon"></i>
+              <li class="nav-item"><a href="teacher_password_requests_page.php" class="nav-link"><i class="fas fa-circle"></i>
               <p>
                  <?php
                       $cn=db_connection();
@@ -400,7 +377,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       if($count>0){
                         echo "<span class='right badge badge-danger' style='font-size: 10px;'>$count </span> From Lecturers";
                       }else{
-                        echo "No Requests";
+                        echo "From Teachers";
                       }
                       
                       ?>
@@ -418,7 +395,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
             <li class="nav-item has-treeview menu-close">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-wrench"></i>
+              <i class="nav-icon fas fa-wrench"></i>  <!-- fas fa-cogs -->
               <p>
                 Account Settings
                 <i class="right fas fa-angle-left"></i>
@@ -427,7 +404,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="admin_profile.php" class="nav-link">
-                  <i class="nav-icon far fa-user nav-icon"></i>
+                  <i class="nav-icon fas fa-id-card nav-icon"></i>
                   <p>Profile</p>
                 </a>
               </li>
@@ -460,33 +437,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-4">
-
-            <!-- write somthing for Right page header -->
+            <!-- right side header -->
+            
+          </div><!-- /.col -->
+          <div class="col-sm-4">
+            <!-- midle side header -->
 
           </div><!-- /.col -->
           <div class="col-sm-4">
-            <!-- write somthing for Midle page header -->
-                        <?php
-                      //include('db_page.php');
-                      $cn=db_connection();
-                      $sql="SELECT * FROM `tbl_students_requests`";
-                      $run=mysqli_query($cn,$sql);
-                      $count=0;
-                      while ($done=mysqli_fetch_array($run)) {
-                        $count=$count+1;
-                      }
-                      if($count>0){
-                        echo "<center><span class='right badge badge-dark'>".$count."</span>"." <span class='right badge badge-danger'> PENDING REQUESTS</span>"."</center>";
-                      }else{
-                        echo "<div style='color:red;'><span class='right badge badge-primary'>NO PENDING REQUESTS</span></div>";
-                      }
-                      
-            ?>
-          </div>
-          <div class="col-sm-4">
-
-            <!-- write somthing for Left page header -->
-
+            <!-- left side header -->
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -497,55 +456,58 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-lg-12">
-                <!-- write or design something in 6 columns -->
-                <div id="#show">
-              <div class="table-responsive">
-                <table id="example2" class="table table-bordere table-hover">
-                  <thead>
-                    <tr>
-                      <th>S.No</th>
-                      <th>User Name</th>
-                      <th>Email</th>
-                      <th>Request Date</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                      <?php
-                      $cn=db_connection();
-                      $sql="SELECT * FROM `tbl_students_requests`";
-                      $run=mysqli_query($cn,$sql);
-                      $count = 0;
-                      while($data=mysqli_fetch_array($run)){
-                        $count=$count+1;
-                        ?>
-                       <tr id="data_id">
-                        <td><?php echo /*$data['id']*/$count; ?></td>
-                        <td><?php echo $data['first_name']." ".$data['last_name']; ?></td>
-                        <td><?php echo $data['email']; ?></td>
-                        <td><?php echo $data['entry_date_time']; ?></td>
-                        <td>
-                          <a href="student_details_page.php?details_id=<?php echo $data['id'];?>"  class="btn btn-info">Details</a>
-                          <a href="?reject_id=<?php echo $data['id'];?>"  class="btn btn-danger">Reject</a>
-                          <a href="?approve_id=<?php echo $data['id'];?>"  class="btn btn-success">Accept</a>
-                        
-                        
-                        </td>
-                      </tr>
-                        <?php
-                      }
-                      ?>
-                </table>
+          <div class="col-12 col-sm-6 col-md-6">
+            <div class="small-box bg-info">
+              <div class="inner">
+                <?php
+                $sql="SELECT * FROM `lecturer_password_retreive`";
+                $get_lecturers=mysqli_query($cn,$sql);
+                $count_lecturers=0;
+                if(mysqli_num_rows($get_lecturers)>0){
+                  while ($get_count=mysqli_fetch_array($get_lecturers)) {
+                    $count_lecturers+=1;
+                  }
+                }
+                ?>
+                <h3><?php echo $count_lecturers; ?></h3>
+
+                <p>From Lecturers</p>
               </div>
-                </div>
+              <div class="icon">
+                <i class="ion ion-android-people"></i>
+              </div>
+              <a href="teacher_password_requests_page.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
           </div>
-          <!-- /.col-md-6 -->
-          <div class="col-lg-6">
-            <!-- write or design something in 6 columns -->
+          <!-- /.col -->
+           <!-- fix for small devices only -->
+          <div class="clearfix hidden-md-up"></div>
+          <div class="col-12 col-sm-6 col-md-6">
+            <!-- small box -->
+            <div class="small-box bg-purple">
+              <div class="inner">
+                <?php
+                $count_users=0;
+                $sql="SELECT * FROM `password_retrieve`";
+                $get_students=mysqli_query($cn,$sql);
+                $count_students=0;
+                if(mysqli_num_rows($get_students)>0){
+                  while (mysqli_fetch_array($get_students)) {
+                    $count_students+=1;
+                  }
+                }
+                ?>
+                <h3><?php echo $count_students; ?></h3>
+
+                <p>From Students</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-ios-people"></i>
+              </div>
+              <a href="student_password_requests_page.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
           </div>
-          <!-- /.col-md-6 -->
         </div>
-        <!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
@@ -574,6 +536,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 </div>
 <!-- ./wrapper -->
 
+<!-- REQUIRED SCRIPTS -->
+<?php
+ob_end_flush();
+?>
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
@@ -584,45 +550,5 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
-
-<!-- page script -->
-<script>
-  $(function () {
-    $("#example1").DataTable();
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": true,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-    });
-  });
-</script>
 </body>
 </html>
-
-
-<?php
- if(isset($_GET['approve_id'])){
-    $status=approve_students();
-    if($status){
-      
-    }else{
-      echo "Error in Approving";
-    }
- }
-   if(isset($_GET['reject_id'])){
-    $status=reject_student();
-      if($status){
-        ?>
-          <script type="text/javascript">
-            window.location='student_requests_page.php';
-          </script>
-          <?php
-      }else{
-
-      }
-   }
-   ob_end_flush();
-?>

@@ -326,6 +326,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   
                   
                 ?>
+            <div class="table-responsive">
             <table id="example2" class="table table-bordere table-hover table-dark">
               <thead>
                 <tr>
@@ -474,6 +475,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   ?>
                 </tbody>
           </table>
+        </div>
           </div>
           <!-- /.col-md-6 -->
         </div>

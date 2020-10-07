@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
    if(isset($_SESSION["admin_logged_in"])){
           }else{
@@ -21,6 +22,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
     <!-- DataTables -->
   <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.css">
+  <link href="main.css" rel="stylesheet">
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
@@ -39,87 +41,30 @@ scratch. This page gets rid of all links and provides the needed markup only.
         }
     </style>
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini sidebar-collapse layout-footer-fixed layout-navbar-fixed layout-fixed">
 <div class="wrapper">
 
-  <!-- Navbar -->
+   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <span class="logo-dec">Welcome to<b>&nbsp;</b></span><b class="login-logo">BKUC Assigment Management System</b>
+        <span class="logo-dec" style="color: red;">Welcome to<b>&nbsp;</b></span><b class="login-logo" style="color: green;">BKUC Assignment Management System</b>
       </li>
     </ul>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-      <!-- Messages Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-comments"></i>
-          <span class="badge badge-danger navbar-badge">3</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Brad Diesel
-                  <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">Call me whenever you can...</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  John Pierce
-                  <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">I got your message bro</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Nora Silvester
-                  <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">The subject goes here</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-        </div>
-      </li>
+     
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
                      <?php
-                      include('db_page.php');
+                      include('db_page_2.php');
                       $cn=db_connection();
                       $sql="SELECT * FROM `tbl_students_requests`";
                       $run=mysqli_query($cn,$sql);
@@ -150,7 +95,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-header  badge-dark"><i class="fas fa-key mr-2"></i>
+          <span class="dropdown-header">
             <?php
                      $cn=db_connection();
                       $sql="SELECT * FROM `tbl_students_requests`";
@@ -211,8 +156,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
           </a>
           <div class="dropdown-divider"></div>
-          <a href="" class="dropdown-item badge-dark" style="text-align: center;">
-            <i class="fas fa-lock-open mr-2"></i>
+          <a href="" class="dropdown-item text-center">
             <?php
                      $cn=db_connection();
                       $sql="SELECT * FROM `lecturer_password_retreive`";
@@ -229,7 +173,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       if($count>0){
                         echo "<span class='right badge badge-warning' style='font-size: 10px;text-align:center;'>$count Password Requests</span>";
                       }else{
-                        echo "No Password Requests";
+                        echo "<strong>No Password Requests</strong>";
                       }
                       
                       ?>
@@ -287,15 +231,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <span class="dropdown-header">Account Settings</span>
           <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item">
-            <i class="fas fa-lock mr-2"></i>Profile
+            <i class="fas fa-user-circle mr-2"></i>Profile
           </a>
           <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item">
             <i class="fas fa-lock-open mr-2"></i>Change Password
           </a>
           <div class="dropdown-divider"></div>
-          <a href="LogOff_page.php" class="dropdown-item bg-dark" style="text-align: center;">
-            Log Out <i class="fas fa-arrow-right mr-2"></i>
+          <a href="LogOff_page.php" class="dropdown-item bg-danger text-center" style="text-align: center;">
+            Log Out &nbsp;<i class="fas fa-arrow-right mr-2 float-right"></i>
           </a>
         </div>
       </li>
@@ -350,7 +294,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
           <li class="nav-item has-treeview menu-close">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-users"></i>
               <p>
                 Accounts Requests
                 <i class="right fas fa-angle-left"></i>
@@ -451,6 +395,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p></a>
               </li>
             </ul>
+            <li class="nav-item">
+            <a href="user_feedback.php" class="nav-link">
+              <i class="nav-icon fas fa-globe"></i>
+              <p>
+                Users Feedback
+              </p>
+            </a>
+          </li>
             <li class="nav-item has-treeview menu-close">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-wrench"></i>
@@ -495,7 +447,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-4">
-
             <!-- write somthing for Right page header -->
 
           </div><!-- /.col -->
@@ -519,7 +470,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             ?>
           </div>
           <div class="col-sm-4">
-
             <!-- write somthing for Left page header -->
 
           </div><!-- /.col -->
@@ -534,13 +484,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="row">
           <div class="col-lg-12">
                 <!-- write or design something in 6 columns -->
-                <table id="example2" class="table table-bordere table-hover table-dark">
+                <div class="table-responsive">
+                <table id="example2" class="table table-bordere table-hover">
                   <thead>
                     <tr>
                       <th>S.No</th>
                       <th>User Name</th>
                       <th>Email</th>
-                      <<th>User Type</th>
+                      <th>User Type</th>
                       <th>Confirmation</th>
                       <th>New Password</th>
                       <th>Action</th>
@@ -581,6 +532,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       }
                       ?>
                 </table>
+              </div>
           </div>
 
           <?php
@@ -646,7 +598,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <footer class="main-footer">
     <!-- To the right -->
     <div class="float-right d-none d-sm-inline">
-      Anything you want
+      <a href="http://www.bkucams.000webhostapp.com">www.bkucams.000webhostapp.com</a>
     </div>
     <!-- Default to the left -->
     <strong>Developed by &copy; <a href="https://adminlte.io">Aqib Lodhi</a>.</strong> All rights reserved.
