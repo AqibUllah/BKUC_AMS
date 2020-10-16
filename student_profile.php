@@ -52,7 +52,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
   <title>Student Profile</title>
-
+  <link href="main.css" rel="stylesheet">
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
     <!-- DataTables -->
@@ -98,7 +98,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       }
     </style>
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini sidebar-collapse layout-footer-fixed layout-navbar-fixed layout-fixed">
 <div class="wrapper">
 
   <!-- Navbar -->
@@ -115,92 +115,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-      <!-- Messages Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-comments"></i>
-          <span class="badge badge-danger navbar-badge">3</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Brad Diesel
-                  <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">Call me whenever you can...</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  John Pierce
-                  <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">I got your message bro</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Nora Silvester
-                  <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">The subject goes here</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-        </div>
-      </li>
-      <!-- Notifications Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">15</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-header">15 Notifications</span>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> 4 new messages
-            <span class="float-right text-muted text-sm">3 mins</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i> 8 friend requests
-            <span class="float-right text-muted text-sm">12 hours</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-file mr-2"></i> 3 new reports
-            <span class="float-right text-muted text-sm">2 days</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-        </div>
-      </li>
-
       <!-- account dropdown -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
@@ -217,8 +131,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <i class="fas fa-lock-open mr-2"></i>Change Password
           </a>
           <div class="dropdown-divider"></div>
-          <a href="LogOff_page.php" class="dropdown-item bg-dark" style="text-align: center;">
-            Log Out <i class="fas fa-arrow-right mr-2"></i>
+          <a href="LogOff_page.php" class="dropdown-item bg-danger" style="text-align: center;">
+            Log Out &nbsp;&nbsp;<i class="fas fa-arrow-right mr-2"></i>
           </a>
         </div>
       </li>
@@ -355,8 +269,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </button>
                 </div>
                 <ul class="nav nav-pills nav-justified">
-                  <li class="nav-item"><a class="nav-link active" href="#profile" data-toggle="tab">Student Profile</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#edit" data-toggle="tab">Add -OR- Update Profile</a></li>
+                  <li class="nav-item"><a class="nav-link active" href="#profile" data-toggle="tab"><strong>Student Profile</strong></a></li>
+                  <li class="nav-item"><a class="nav-link" href="#edit" data-toggle="tab"><strong>Add -OR- Update Profile</strong></a></li>
                   
                 </ul>
               </div><!-- /.card-header -->
@@ -368,7 +282,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               <!-- About Me Box -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Contactual Information</h3>
+                <h3 class="card-title text-white">Contactual Information</h3>
                 <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                             <i class="fas fa-minus"></i>
@@ -412,7 +326,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <!-- Profile Image -->
                       <div class="card card-danger">
                         <div class="card-header">
-                          <h3 class="card-title">Profile</h3>
+                          <h3 class="card-title text-white">Profile</h3>
                           <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                               <i class="fas fa-minus"></i>
@@ -451,7 +365,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               <!-- About Me Box -->
             <div class="card card-success">
               <div class="card-header">
-                <h3 class="card-title">Education</h3>
+                <h3 class="card-title text-white">Education</h3>
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse">
                     <i class="fas fa-minus"></i>
@@ -502,7 +416,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               <!-- About Me Box -->
                               <div class="card card-primary">
                                 <div class="card-header">
-                                  <h3 class="card-title">Contactual Information</h3>
+                                  <h3 class="card-title text-white">Contactual Information</h3>
                                   <div class="card-tools">
                                   <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                               <i class="fas fa-minus"></i>
@@ -555,7 +469,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <!-- Profile Image -->
                       <div class="card card-danger">
                         <div class="card-header">
-                          <h3 class="card-title">Profile</h3>
+                          <h3 class="card-title text-white">Profile</h3>
                           <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                               <i class="fas fa-minus"></i>
@@ -618,6 +532,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </div>
                                     
                                   </div>
+                                  <input type="submit" name="btn_update" value="Update" style="font-family: verdana;font-size: 15px;" class="btn btn-purple bg-purple btn-block">
                         </div>
                         <!-- /.card-body -->
                             <script type="text/javascript">
@@ -656,7 +571,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               <!-- About Me Box -->
             <div class="card card-success">
               <div class="card-header">
-                <h3 class="card-title">Education</h3>
+                <h3 class="card-title text-white">Education</h3>
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse">
                     <i class="fas fa-minus"></i>
@@ -774,7 +689,7 @@ function PreviewImage() {
   <footer class="main-footer">
     <!-- To the right -->
     <div class="float-right d-none d-sm-inline">
-      Anything you want
+      <a href="http://www.bkucams.000webhostapp.com">www.bkucams.000webhostapp.com</a>
     </div>
     <!-- Default to the left -->
     <strong>Developed by &copy; <a href="https://adminlte.io">Aqib Lodhi</a>.</strong> All rights reserved.

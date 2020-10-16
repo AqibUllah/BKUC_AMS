@@ -269,11 +269,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-header">Account Settings</span>
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
+          <a href="admin_profile.php" class="dropdown-item">
             <i class="fas fa-user-circle mr-2"></i>Profile
           </a>
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
+          <a href="amdin_change_password.php" class="dropdown-item">
             <i class="fas fa-lock-open mr-2"></i>Change Password
           </a>
           <div class="dropdown-divider"></div>
@@ -324,7 +324,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="admin_main_dashboard.php" class="nav-link active">
+            <a href="admin_main_dashboard.php" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -442,8 +442,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
           </li>
-            <li class="nav-item has-treeview menu-close">
-            <a href="#" class="nav-link">
+            <li class="nav-item has-treeview menu-open">
+            <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-wrench"></i>  <!-- fas fa-cogs -->
               <p>
                 Account Settings
@@ -452,7 +452,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="admin_profile.php" class="nav-link">
+                <a href="admin_profile.php" class="nav-link active">
                   <i class="nav-icon fas fa-id-card nav-icon"></i>
                   <p>Profile</p>
                 </a>

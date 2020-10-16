@@ -155,6 +155,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
           <li class="nav-item">
+            <a href="show_assigment_submitted_list_to_lecturer.php" class="nav-link">
+              <i class="nav-icon fas fa-users"></i>
+              <p>
+                Students Submitted
+                
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="assigment_category.php" class="nav-link">
               <i class="nav-icon fas fa-globe"></i>
               <p>

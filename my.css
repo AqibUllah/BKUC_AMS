@@ -1,0 +1,53 @@
+.Mune_app
+{
+	background:white;
+	padding:10px;
+float:left;
+text-align: center;
+}
+#nvv
+
+{
+	background:red;
+	padding:10px;
+
+	float:left;
+	font-weight: bold;
+	font-size: 15;
+background-repeat:repeat-x; 
+border-style:double;
+color:white;
+width: 100px;
+
+
+
+
+}
+a{
+	color:white;
+}
+#nvv1
+
+{
+	background:red;
+	padding:10px;
+
+	float:left;
+	font-weight: bold;
+	font-size: 15;
+background-repeat:repeat-x; 
+border-style:double;
+color:white;
+width: 140px;
+
+
+
+
+}
+#n{
+	background: red;
+}
+td{
+	font-weight: bold;
+
+}

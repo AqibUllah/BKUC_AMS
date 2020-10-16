@@ -348,7 +348,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <a href="assigment_edit.php?edit_id=<?php echo $get_data['id']; ?>" class="btn btn-warning">
                   <i class="fas fa-edit"></i></a>
                 <a href="?remove_id=<?php echo $get_data['id']; ?>" class="btn btn-danger">
-                  <i class="fas fa-times"></i></a>
+                  <i class="fas fa-trash"></i></a>
                 </div>
               </td>
                 </form>

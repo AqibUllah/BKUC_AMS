@@ -220,11 +220,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-header">Account Settings</span>
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
+          <a href="admin_profile.php" class="dropdown-item">
             <i class="fas fa-user-circle mr-2"></i>Profile
           </a>
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
+          <a href="amdin_change_password.php" class="dropdown-item">
             <i class="fas fa-lock-open mr-2"></i>Change Password
           </a>
           <div class="dropdown-divider"></div>

@@ -29,6 +29,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
   <title>My Assigment</title>
+  <link href="main.css" rel="stylesheet">
   <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
   <link rel="stylesheet" href="lib/lightbox/css/lightbox.css" type="text/css" media="screen" />
   <script type="text/javascript" src="lib/lightbox/js/lightbox.js"></script>
@@ -66,11 +67,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
         transform: scale(2.0);
       }#docx_id{
 
+      }h3,h6{
+        color: white;
       }
     </style>
 
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini sidebar-collapse layout-footer-fixed layout-navbar-fixed layout-fixed">
 <div class="wrapper">
 
   <!-- Navbar -->
@@ -87,91 +90,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-      <!-- Messages Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-comments"></i>
-          <span class="badge badge-danger navbar-badge">3</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Brad Diesel
-                  <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">Call me whenever you can...</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  John Pierce
-                  <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">I got your message bro</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Nora Silvester
-                  <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">The subject goes here</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-        </div>
-      </li>
-      <!-- Notifications Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">15</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-header">15 Notifications</span>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> 4 new messages
-            <span class="float-right text-muted text-sm">3 mins</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i> 8 friend requests
-            <span class="float-right text-muted text-sm">12 hours</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-file mr-2"></i> 3 new reports
-            <span class="float-right text-muted text-sm">2 days</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-        </div>
-      </li>
+      
       <!-- account dropdown -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
@@ -184,12 +103,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <i class="fas fa-lock mr-2"></i>Profile
           </a>
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
+          <a href="change_password.php" class="dropdown-item">
             <i class="fas fa-lock-open mr-2"></i>Change Password
           </a>
           <div class="dropdown-divider"></div>
-          <a href="LogOff_page.php" class="dropdown-item bg-dark" style="text-align: center;">
-            Log Out <i class="fas fa-arrow-right mr-2"></i>
+          <a href="LogOff_page.php" class="dropdown-item bg-danger" style="text-align: center;">
+            Log Out &nbsp;&nbsp;<i class="fas fa-arrow-right mr-2"></i>
           </a>
         </div>
       </li>
@@ -355,15 +274,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <div class="card card-dark">
                           <div class="card-header">
                             <h3 class="text-center"><?php echo $submitted_assigment; ?></h3>
-                            <div class="row">
-                              <div class="col-md-8">
-                                <?php $user_submitted=$_SESSION['student_logged_in']['first_name']; ?>
-                                <?php echo "<h6 class='float-left'>Submitted By: $user_submitted</h6>"?>
-                              </div>
-                              <div class="col-md-4">
-                                <?php echo "<h6 class='float-right'>Submitted On : $submitted_on</h6>"; ?>
-                              </div>
-                            </div>
+                            <?php $user_submitted=$_SESSION['student_logged_in']['first_name']; ?>
                           </div>
                           <div class="card-body">
                             <div class="row">
@@ -390,7 +301,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     Status  
                                   </td>
                                   <td>
-                                    <?php echo "<span class='badge badge-success'>Completed</span>"; ?>
+                                    <?php echo "<span class='badge badge-success' style='font-family:verdana;'>Completed</span>"; ?>
                                   </td>
                                 </tr>
                                 <tr>
@@ -398,7 +309,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     Confirmation  
                                   </td>
                                   <td>
-                                    <?php echo "<span class='badge badge-info'>pending</span>"; ?>
+                                    <?php echo "<span style='font-family:verdana;' class='badge badge-primary'>pending</span>"; ?>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td style="text-align: left;" id="td_titles">
+                                    Submitted On
+                                  </td>
+                                  <td>
+                                    <?php
+                                    echo "<span style='font-family:verdana;' class='badge badge-purple bg-purple'>$submitted_on</span>";
+                                    ?>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td style="text-align: left;" id="td_titles">
+                                    Submitted By
+                                  </td>
+                                  <td>
+                                    <?php
+                                    echo "<span style='font-family:verdana;' class='badge badge-purple bg-purple'>$user_submitted</span>";
+                                    ?>
                                   </td>
                                 </tr>
                               </table>
@@ -548,6 +479,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       }
 
                       ?>
+                      <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                          <a href="submitted_assigments.php" class="btn btn-secondary text-white">Go back</a>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                          <div class="float-right">
+                                  <a href="student_assigment_details_print.php?id_a=<?php echo $id_a; ?>" class="btn btn-secondary text-white" target="_blank"><i class="fas fa-print"></i> Print</a>
+                                </div>
+                        </div>
+                      </div><br>
                     <div class="row">
                       <div class="col-lg-12 col-md-12">
                         <div class="card card-dark">
@@ -556,9 +497,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               <div class="col-md-12">
                                 <?php //$user_submitted=$_SESSION['student_logged_in']['first_name']; ?>
                                 <?php echo "<h6 class='float-left' style='color:white;'>$student_a</h6>"?>
-                                <div class="float-right">
-                                  <a href="student_assigment_details_print.php?id_a=<?php echo $id_a; ?>" class="btn btn-secondary btn-xs" target="_blank"><i class="fas fa-print"></i> Print</a>
-                                </div>
                               </div>
                             </div>
                           </div>
@@ -691,6 +629,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         }
                       }
                       ?>
+                      <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                          <a href="submitted_assigments.php" class="btn btn-secondary text-white">Go back</a>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                          <div class="float-right">
+                                  <a href="student_assigment_details_print.php?id_r=<?php echo $id_r; ?>" class="btn btn-secondary" target="_blank"><i class="fas fa-print"></i> Print</a>
+                            </div>
+                        </div>
+                      </div><br>
                     <div class="row">
                       <div class="col-lg-12 col-md-12">
                         <div class="card card-dark">
@@ -708,8 +656,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           <div class="card-body">
                             <div class="row">
                               <div class="col-md-6">
+                                <div class="table-responsive">
                                 <table>
-                                  <tr bgcolor="card-dark">
+                                  <tr>
                                   <td style="text-align: left;" id="td_titles">
                                     Assigment  
                                   </td>
@@ -781,6 +730,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </tr>
                               </table>
                             </div>
+                            </div>
                             <div class="col-md-6" style="text-align: center;">
                               <div class="card">
                                 <div class="card-header bg-dark">
@@ -829,8 +779,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Main Footer -->
   <footer class="main-footer">
     <!-- To the right -->
-    <div class="float-right d-none d-sm-inline">
-      Anything you want
+  <div class="float-right d-none d-sm-inline">
+      <a href="http://www.bkucams.000webhostapp.com">www.bkucams.000webhostapp.com</a>
     </div>
     <!-- Default to the left -->
     <strong>Developed by &copy; <a href="https://adminlte.io">Aqib Lodhi</a>.</strong> All rights reserved.

@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
 ?>
 <!DOCTYPE html>
@@ -275,6 +276,8 @@ if(isset($_POST['btn_login_signIn'])){
 	}
 }
 
+
+ob_end_flush();
 ?>
 
 
