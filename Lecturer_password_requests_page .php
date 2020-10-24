@@ -436,14 +436,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <td><?php echo $data['user_name']; ?></td>
                         <td><?php echo $data['email']; ?></td>
                         <td><?php echo $data['confirmation']; ?></td>
-                        <form method="post" action="student_password_requests_page.php">
+                        <form method="post" action="lecturer_password_requests_page.php">
                         <td>
                         <input type="text" placeholder="New Password" name="new_password"class="form-control">
                         </td> 
                         
                         <!--<td><?php //echo $data['entry_date_time']; ?></td>-->
                         <td>
-                          <!--<a href="?new_password_id=<?php echo $data['id'];?>" class="btn btn-primary">Send</a>-->
+                          <!--<a href="?new_password_id=<?php //echo $data['id'];?>" class="btn btn-primary">Send</a>-->
                           <input type="hidden" name="h_value" id="h_value" value="<?php echo $data['id']; ?>">
                           <input type="submit" name="btn_submit" id="btn_submit">
                           </td>

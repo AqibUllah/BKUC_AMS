@@ -9,15 +9,27 @@
   <meta content="" name="description">
 
   <!-- Favicons -->
-  <link href="img/favicon.png" rel="icon">
+  <link href="img/university.png" rel="icon">
   <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Raleway:300,400,500,700,800" rel="stylesheet">
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <!-- Tempusdominus Bootstrap 4 -->
+  <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+  <!-- Bootstrap4 Duallistbox -->
+  <link rel="stylesheet" href="plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+  <!-- BS Stepper -->
+  <link rel="stylesheet" href="plugins/bs-stepper/css/bs-stepper.min.css">
+  <!-- dropzonejs -->
+  <link rel="stylesheet" href="plugins/dropzone/min/dropzone.min.css">
     <!-- DataTables -->
-  <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.css">
+  <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
@@ -102,6 +114,7 @@ if(isset($_GET['success'])){
           <li><a href="#about">About</a></li>
           <li><a href="#gallery">Gallery</a></li>
           <li><a href="#faq">FAQ</a></li>
+          <li><a href="#assignments">Assignments</a></li>
           <li><a href="#contact">Contact</a></li>
           <li><a href="login_page.php">Sign In</a></li>
           <li class="buy-tickets"><a href="select_type_page.php">Sign Up</a></li>
@@ -317,9 +330,258 @@ if(isset($_GET['success'])){
     </section>
 
     <!--==========================
-      Subscribe Section
+      Assigments Section
     ============================-->
+    <?php
+                include('db_page_2.php');
+                $cn=db_connection();
+                $sql="select * from `creat_assigment`";
+                $run=mysqli_query($cn,$sql);
+                $assignment_count=0;
+                ?>
+    <section id="assignments" class="wow fadeInUp">
+      <div class="container">
+        <div class="section-header">
+          <h2>Assignments</h2>
+          <p>New Assignments</p>
+        </div>
+        <div class="container-fluid">
+            <h3 class="text-center display-4">Search</h3>
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <form action="#" method="post">
+                        <div class="input-group">
+                          <!-- <select class="select2" multiple="multiple" data-placeholder="Search Your Assignment" style="width: 100%;">
+                              <option>Alabama</option>
+                              <option>Alaska</option>
+                              <option>California</option>
+                              <option>Delaware</option>
+                              <option>Tennessee</option>
+                              <option>Texas</option>
+                              <option>Washington</option>
+                            </select> -->
 
+
+                            <!-- search   -->          
+                            <!-- <select class="form-control form-control-lg select2" data-dropdown-css-class="select2-info" name="search_assigment" data-placeholder="Search your assignment">
+                              <option disabled selected>Search your assignment here</option>
+                              <?php
+                                if(mysqli_num_rows($run)>0){
+                                    while ($get=mysqli_fetch_assoc($run)) {
+                                      $id=$get['id'];
+                                      $assignment=$get['ass_name'];
+                                      ?>
+                                      <option value="<?php echo $assignment ?>" name="search_assigment">
+                                        <?php echo $assignment ?>
+                                      </option>
+                                      <?php
+                                    }
+                                }
+                              ?>
+                            </select>
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-info">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div> -->
+                            <?php
+                            if(isset($_POST['search_assigment'])){
+
+                            }
+                            ?>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered" id="example2">
+            <thead>
+              <tr>
+                <th>S.No</th>
+                <th>Assigment</th>
+                <th>Deadline</th>
+                <th style="text-align: center;">More Info</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+              $sql="select * from `creat_assigment`";
+                $run=mysqli_query($cn,$sql);
+                $assignment_count=0;
+              if(mysqli_num_rows($run)>0){
+                  while ($get=mysqli_fetch_assoc($run)) {
+                    $id=$get['id'];
+                    $assignment_count+=1;
+                    $assignment=$get['ass_name'];
+                    $ass_marks=$get['ass_marks'];
+                    $faculty=$get['faculty'];
+                    $department=$get['department'];
+                    $semester=$get['semester'];
+                    $batch=$get['batch'];
+                    $session=$get['session'];
+                    $total_deadline=$get['time_duration'];
+                    $message=$get['message'];
+                    $created_on=$get['created_on'];
+                    $created_by=$get['created_by'];
+
+                    $last_data=substr($total_deadline, 22);
+                    $comp_lastdate=strtotime($last_data);
+                    $current=date("m/d/Y h:i:s A");
+                    $current=strtotime($current);
+
+                    //calculate remaining time
+                    $diff= abs($current-$comp_lastdate);
+
+
+                      $a=abs($diff-$comp_lastdate);
+
+                      $compare_years = floor($a / (365*60*60*24));
+
+                    $compare_months = floor(($a - $compare_years * 365*60*60*24) 
+                                   / (30*60*60*24));
+
+                    $compare_days = floor(($a - $compare_years * 365*60*60*24 -  
+                            $compare_months*30*60*60*24)/ (60*60*24));
+
+                    $compare_hours = floor(($a - $compare_years * 365*60*60*24  
+                             - $compare_months*30*60*60*24 - $compare_days*60*60*24) 
+                                       / (60*60));
+
+                    $compare_minutes = floor(($a - $compare_years * 365*60*60*24  
+                              - $compare_months*30*60*60*24 - $compare_days*60*60*24  
+                              - $compare_hours*60*60)/ 60);
+
+                    $compare_seconds = floor(($a - $compare_years * 365*60*60*24  
+                              - $compare_months*30*60*60*24 - $compare_days*60*60*24 
+                              - $compare_hours*60*60 - $compare_minutes*60));
+
+
+                    //}
+                    $years = floor($diff / (365*60*60*24));
+
+                    $months = floor(($diff - $years * 365*60*60*24) 
+                                   / (30*60*60*24));
+
+                    $days = floor(($diff - $years * 365*60*60*24 -  
+                            $months*30*60*60*24)/ (60*60*24));
+
+                    $hours = floor(($diff - $years * 365*60*60*24  
+                             - $months*30*60*60*24 - $days*60*60*24) 
+                                       / (60*60));
+
+                    $minutes = floor(($diff - $years * 365*60*60*24  
+                              - $months*30*60*60*24 - $days*60*60*24  
+                              - $hours*60*60)/ 60);
+
+                    $seconds = floor(($diff - $years * 365*60*60*24  
+                              - $months*30*60*60*24 - $days*60*60*24 
+                              - $hours*60*60 - $minutes*60));
+
+                    $calc = (($days*24)+$hours)*(100)/(($compare_days*24)+$compare_hours); 
+
+                    ?>
+  
+                    <tr id="<?php echo $get["id"]; ?>">
+                          <td><?php echo $assignment_count; ?></td>
+                          <td><?php echo $assignment; ?></td>
+                          <td><?php echo $last_data; ?></td>
+                          <td style="text-align: center;">
+                          <a href="#view_assigment_model" class="edit" data-toggle="modal">
+                            <i class="fas fa-eye view" data-toggle="tooltip" 
+                            ass-id="<?php echo $get["id"]; ?>"
+                            ass-name="<?php echo $get["ass_name"]; ?>"
+                            ass-marks="<?php echo $get["ass_marks"]; ?>"
+                            ass-faculty="<?php echo $get["faculty"]; ?>"
+                            ass-department="<?php echo $get["department"]; ?>"
+                            ass-semester="<?php echo $get["semester"]; ?>"
+                            ass-batch="<?php echo $get["batch"]; ?>"
+                            ass-session="<?php echo $get["session"]; ?>"
+                            ass-timeduration="<?php echo $get["time_duration"]; ?>"
+                            ass-message="<?php echo $get["message"]; ?>"
+                            ass-createdon="<?php echo $get["created_on"]; ?>"
+                            ass-createdby="<?php echo $get["created_by"]; ?>"
+                            ass-lastdate="<?php echo $last_data; ?>"
+                            ass-calc="<?php echo $calc; ?>"
+                            ass-remaining="<?php if($comp_lastdate > $current){
+                             echo $days." days ".$hours." hourse ".$minutes." minutes remaining ";
+                            } else{ echo "Expired";}  ?>"
+                            title="More Info">&#xE254;</i>
+                          </a>         
+                      </td>
+                    </tr>             
+                    <?php
+                  }
+                }
+
+              ?>
+            </tbody>      
+          </table>
+        </div>
+      </div>
+    </section>
+
+                      <!-- model assigment information -->
+                      <div class="modal fade" id="view_assigment_model" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <form method="post">
+                              <div class="modal-header bg-info">
+                                <p class="modal-title" id="exampleModalLabel">Assignment Info</p>
+                                <button type="button" class="close btn-danger" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              
+                              <div class="modal-body">
+                                <input type="hidden" name="ass_id" id="id_v" class="form-control">
+                                <div class="form-group">
+                                  <p style="font-weight: bold;">Assignment<br><input type="text" name="view_ass_name" id="name_v" style="width: 400px;border:none;font-size: 15px;"></p>
+                                  
+                                </div>
+                                <div class="form-group">
+                                  <p style="font-weight: bold;">Message<br><input type="text" name="vew_message" id="message_v" style="width: 400px;border:none;font-size: 15px;"></p>
+                                  
+                                </div>
+                                <div class="form-group">
+
+                                  <p style="font-weight: bold;">Assignment For<br><input type="text" name="vew_department" class="bg-danger" id="department_v" style="border:none;font-size: 15px;" id="semester_v"><input type="text" class="bg-info" name="vew_semester" id="semester_v" style="border:none;font-size: 15px;color: white;"></p>
+                                  
+                                </div>
+                                <div class="form-group">
+
+                                  <p style="font-weight: bold;">Total Duration<br><input type="text" name="view_duration" style="width: 400px;border:none;font-size: 15px;" id="time_duration_v">
+                                  </p>
+                                </div>
+                                <div class="form-group">
+
+                                  <p style="font-weight: bold;">Last Date<br><input type="text" name="view_duration" class="bg-maroon" style="width: 400px;border:none;font-size: 15px;" id="last_date_v">
+                                  </p>
+                                </div>
+                                <div class="form-group">
+                                  <p style="font-weight: bold;">Remaining Time<br><input type="text" name="view_duration" class="bg-purple" style="width: 400px;border:none;font-size: 15px;" id="remaining_v">
+                                  </p>
+                                </div>
+                                <div class="form-group">
+
+                                  <p style="font-weight: bold;">Created On<br><input type="text" name="vew_duration" style="border:none;font-size: 15px;" id="created_on_v">
+                                  </p>
+                                  
+                                </div>
+                                <div class="form-group">
+
+                                  <p style="font-weight: bold;">Created By<br><input type="text" name="vew_duration" style="border:none;font-size: 15px;" id="created_by_v">
+                                  </p>
+                                  
+                                </div>
+                              </div>
+                              <div class="modal-footer bg-light">
+                                <button type="button" class="btn btn-danger btn-float" data-dismiss="modal">Close</button>
+                              </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
 
     <!--==========================
       Buy Ticket Section
@@ -485,6 +747,7 @@ if(isset($_GET['success'])){
   <script src="lib/jquery/jquery.min.js"></script>
   <script src="lib/jquery/jquery-migrate.min.js"></script>
   <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/core/popper.min.js"></script>
   <script src="lib/easing/easing.min.js"></script>
   <script src="lib/superfish/hoverIntent.js"></script>
   <script src="lib/superfish/superfish.min.js"></script>
@@ -492,11 +755,93 @@ if(isset($_GET['success'])){
   <script src="lib/venobox/venobox.min.js"></script>
   <script src="lib/owlcarousel/owl.carousel.min.js"></script>
 
+<!-- Select2 -->
+<script src="plugins/select2/js/select2.full.min.js"></script>
+
+<!-- DataTables  & Plugins -->
+<script src="plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="plugins/jszip/jszip.min.js"></script>
+<script src="plugins/pdfmake/pdfmake.min.js"></script>
+<script src="plugins/pdfmake/vfs_fonts.js"></script>
+<script src="plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
   <!-- Contact Form JavaScript File -->
   <script src="contactform/contactform.js"></script>
 
   <!-- Template Main Javascript File -->
   <script src="js/main.js"></script>
+  <!-- AdminLTE App -->
+<script src="dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="dist/js/demo.js"></script>
+
+    <script>
+    $(document).on('click','.view',function(e) {
+    var ass_id=$(this).attr("ass-id");
+    var ass_name=$(this).attr("ass-name");
+    var ass_marks=$(this).attr("ass-marks");
+    var ass_faculty=$(this).attr("ass-faculty");
+    var ass_department=$(this).attr("ass-department");
+    var ass_semester=$(this).attr("ass-semester");
+    var ass_batch=$(this).attr("ass-batch");
+    var ass_session=$(this).attr("ass-session");
+    var ass_time_duration=$(this).attr("ass-timeduration");
+    var ass_message=$(this).attr("ass-message");
+    var ass_created_on=$(this).attr("ass-createdon");
+    var ass_created_by=$(this).attr("ass-createdby");
+    var ass_lastdate=$(this).attr("ass-lastdate");
+    var ass_calculation=$(this).attr("ass-calc");
+    var ass_total_remaining=$(this).attr("ass-remaining");
+    $('#id_v').val(ass_id);
+    $('#name_v').val(ass_name);
+    $('#marks_v').val(ass_marks);
+    $('#faculty_v').val(ass_faculty);
+    $('#department_v').val(ass_department);
+    $('#semester_v').val(ass_semester);
+    $('#batch_v').val(ass_batch);
+    $('#session_v').val(ass_session);
+    $('#time_duration_v').val(ass_time_duration);
+    $('#message_v').val(ass_message);
+    $('#created_on_v').val(ass_created_on);
+    $('#created_by_v').val(ass_created_by);
+    $('#last_date_v').val(ass_lastdate);
+    $('#calc_v').val(ass_calculation);
+    $('#remaining_v').val(ass_total_remaining);
+  });
+    </script>
+
+<script>
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+    $("#example1").DataTable({
+      "responsive": true, "lengthChange": true, "autoWidth": true,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
+
 </body>
 
 </html>

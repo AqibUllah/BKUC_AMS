@@ -100,16 +100,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-header">Account Settings</span>
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
+          <a href="student_profile.php" class="dropdown-item">
             <i class="fas fa-lock mr-2"></i>Profile
           </a>
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
+          <a href="change_password.php" class="dropdown-item">
             <i class="fas fa-lock-open mr-2"></i>Change Password
           </a>
           <div class="dropdown-divider"></div>
-          <a href="LogOff_page.php" class="dropdown-item bg-dark" style="text-align: center;">
-            Log Out <i class="fas fa-arrow-right mr-2"></i>
+          <a href="LogOff_page.php" class="dropdown-item bg-danger" style="text-align: center;">
+            Log Out &nbsp;&nbsp;<i class="fas fa-arrow-right mr-2"></i>
           </a>
         </div>
       </li>
