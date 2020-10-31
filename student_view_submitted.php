@@ -10,11 +10,15 @@ session_start();
 
 include 'db_page_2.php';
 $cn=db_connection();
-$sql="SELECT * FROM `creat_assigment`";
-$run=mysqli_query($cn,$sql);
+$std_class=$_SESSION["student_logged_in"]["student_class"];
+$std_semester=$_SESSION["student_logged_in"]["student_semester"];
+$sql="SELECT * FROM `creat_assigment` WHERE `class`='$std_class' and `semester`='$std_semester'";
 $count = 0;
+$run=mysqli_query($cn,$sql);
+if(mysqli_num_rows($run)>0){
 while($get_data=mysqli_fetch_array($run)){
   $count+=1;
+}
 }
 ?>
 <!DOCTYPE html>
@@ -32,6 +36,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link href="main.css" rel="stylesheet">
   <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
   <link rel="stylesheet" href="lib/lightbox/css/lightbox.css" type="text/css" media="screen" />
+
+  <script type="text/javascript" src="uploading lib/js/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="uploading lib/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+  <script src="uploading lib/js/plugins/piexif.js" type="text/javascript"></script>
+    <script src="uploading lib/js/plugins/sortable.js" type="text/javascript"></script>
+    <script src="uploading lib/js/fileinput.js" type="text/javascript"></script>
+    <script src="uploading lib/js/locales/fr.js" type="text/javascript"></script>
+    <script src="uploading lib/js/locales/es.js" type="text/javascript"></script>
+    <script src="uploading lib/themes/fas/theme.js" type="text/javascript"></script>
+    <script src="uploading lib/themes/explorer-fas/theme.js" type="text/javascript"></script>
+
+  <link rel="stylesheet" href="uploading lib/css/bootstrap.min.css" crossorigin="anonymous">
+  <link href="uploading lib/css/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
+  <link rel="stylesheet" href="uploading lib/css/all.css" crossorigin="anonymous">
+  <link href="uploading lib/themes/explorer-fas/theme.css" media="all" rel="stylesheet" type="text/css"/>
+
   <script type="text/javascript" src="lib/lightbox/js/lightbox.js"></script>
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -167,7 +188,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <a href="students_new_assigments.php" class="nav-link">
                   <i class="fas fa-ad nav-icon"></i>
                   <p>New Assigments</p>
-                  <span class="right badge badge-danger"><?php echo $count; ?></span>
                 </a>
               </li>
           <li class="nav-item">
@@ -449,6 +469,235 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                     <?php
 
+                  }elseif(isset($_GET['get_std_resubmit_id'])){
+                    $view_id=$_GET['get_std_resubmit_id'];
+                    $sql="SELECT * FROM `re_submit_assignments` WHERE `f_k`='$view_id'";
+                    $run=mysqli_query($cn,$sql);
+                    while($get_data=mysqli_fetch_array($run)){
+                      $submitted_id=$get_data['f_k'];
+                      $submitted_assigment=$get_data['assignment'];
+                      $submitted_on=$get_data['re_submiited_on'];
+                      $std_assigment_title=$get_data['title'];
+                      $std_assigment_description=$get_data['descr'];
+                      $pk=$get_data['p_k'];
+                      $created_by=$get_data['submitted_to'];
+                    }
+
+                    $sql="SELECT * FROM `student_whose_submitted` WHERE `id`='$submitted_id'";
+                    $run_b=mysqli_query($cn,$sql);
+                    if(mysqli_num_rows($run_b)>0){
+                      while($get_data=mysqli_fetch_array($run_b)){
+                        $_id=$get_data['id'];
+                        //$assigment_name=$get_data['sibmitted_assigment'];
+                        $student_name=$get_data['std_name'];
+                        $student_email=$get_data['email'];
+                        $student_department=$get_data['department'];
+                        $student_semester=$get_data['semester'];
+                        $student_submitted_Date=$get_data['submitted_date'];
+                        $student_faculty=$get_data['faculty'];
+                        $assigment_submitted_date=$get_data['submitted_date'];
+                      }
+                    }
+
+                    ?>
+                    <div class="row">
+                      <div class="col-lg-12 col-md-12">
+                        <div class="card card-dark">
+                          <div class="card-header">
+                            <h3 class="text-center"><?php echo $submitted_assigment; ?></h3>
+                            <?php $user_submitted=$_SESSION['student_logged_in']['first_name']; ?>
+                          </div>
+                          <div class="card-body">
+                            <div class="row">
+                              <div class="col-md-6">
+                                <table>
+                                <tr class="bg-dark">
+                                  <td style="text-align: left;" id="td_titles">
+                                    Assignment  
+                                  </td>
+                                  <td>
+                                  <?php echo $submitted_assigment; ?>
+                                  </td>
+                                </tr>
+                                  <tr class="bg-gray">
+                                  <td style="text-align: left;" id="td_titles">
+                                    Title  
+                                  </td>
+                                  <td>
+                                  <?php echo $std_assigment_title; ?>
+                                  </td>
+                                </tr>
+                                <tr class="bg-red">
+                                  <td style="text-align: left;" id="td_titles">
+                                    Description  
+                                  </td>
+                                  <td>
+                                    <?php echo $std_assigment_description; ?>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td  style="text-align: left;" id="td_titles">
+                                    Status  
+                                  </td>
+                                  <td>
+                                    <?php echo "<span class='badge badge-success' style='font-family:verdana;'>Completed</span>"; ?>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td  style="text-align: left;" id="td_titles">
+                                    Confirmation  
+                                  </td>
+                                  <td>
+                                    <?php echo "<span style='font-family:verdana;' class='badge badge-primary'>pending</span>"; ?>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td style="text-align: left;" id="td_titles">
+                                    Re Submitted On&nbsp;
+                                  </td>
+                                  <td>
+                                    <?php
+                                    echo "<span style='font-family:verdana;' class='badge badge-purple bg-purple'>$submitted_on</span>";
+                                    ?>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td style="text-align: left;" id="td_titles">
+                                    Submitted By
+                                  </td>
+                                  <td>
+                                    <?php
+                                    echo "<span style='font-family:verdana;' class='badge badge-purple bg-purple'>$user_submitted</span>";
+                                    ?>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td style="text-align: left;" id="td_titles">
+                                    Submitted To
+                                  </td>
+                                  <td>
+                                    <?php
+                                    echo "<span style='font-family:verdana;' class='badge badge-secondary bg-danger'>$created_by</span>";
+                                    ?>
+                                  </td>
+                                </tr>
+                              </table>
+                            </div>
+                            <div class="col-md-6" style="text-align: center;">
+                              <div class="card">
+                                <div class="card-header bg-dark">
+                                  <?php
+                                  $sql="SELECT * FROM `re_submitted_attachments` WHERE `f_k`='$submitted_id' and `assignment`='$submitted_assigment'";
+                                    $run_b=mysqli_query($cn,$sql);
+                                    if(mysqli_num_rows($run_b)>0){
+                                      $count_b=0;
+                                      while ($get_data_b=mysqli_fetch_array($run_b)) {
+                                        $count_b+=1;
+                                      }
+                                      
+                                     echo "<h6>".$count_b." Attachements</h6>"; 
+                                    
+                                    }
+                                  ?>
+                                </div>
+                                <div class="card-body">
+                                  <?php
+                              
+
+                              
+                              $sql="SELECT * FROM `re_submitted_attachments` WHERE `f_k`='$submitted_id' and `assignment`='$submitted_assigment'";
+                              $run_a=mysqli_query($cn,$sql);
+                              if(mysqli_num_rows($run_a)>0){
+                                while ($get_data_b=mysqli_fetch_array($run_a)) {
+                                  $attach_id=$get_data_b['f_k'];
+                                  $attach_assigment=$get_data_b['assignment'];
+                                  $attach_file=$get_data_b['files'];
+                                  $text             =pathinfo($attach_file,PATHINFO_EXTENSION);
+                                  if($text === 'pptx' or $text === 'PPTX'){
+                                    
+                                     //$attach_file=read_file_docx($attach_file);
+                                          // or /var/www/html/file.docx
+                                          ?>
+                                          <tr>
+                                            <td>ppt file
+                                              <a href="preview_pdf.php?doc_id=<?php echo $attach_file; ?>" href="">
+                                                <span class="badge badge-danger">click to open</span>
+                                              </a>
+                                            </td>
+                                          </tr>
+                                          
+                                          <?php   
+
+                                   
+                                  }elseif($text === 'docx' or $text === 'DOCX'){
+                                    
+                                     //$attach_file=read_file_docx($attach_file);
+                                          // or /var/www/html/file.docx
+                                          ?>
+                                          <tr>
+                                            <td>word file
+                                              <a href="preview_pdf.php?doc_id=<?php echo $attach_file; ?>" href="">
+                                                <span class="badge badge-info">click to open</span>
+                                              </a>
+                                            </td>
+                                          </tr>
+                                          
+                                          
+                                          <?php   
+
+                                   
+                                  }elseif ($text == 'pdf' or $text=='PDF') { 
+                                    ?><tr>
+                                      <td>pdf file
+                                        <a href="preview_pdf.php?get_pdf=<?php echo $attach_file; ?>" href="">
+                                            <span class="badge bg-maroon">click to open</span>
+                                          </a>
+                                      </td>
+                                    </tr>
+                                          
+                                          
+                                          <?php
+                                  }elseif ($text == 'txt' or $text=='TXT') {
+                                    ?><tr>
+                                      <td>text file
+                                        <a href="preview_pdf.php?get_pdf=<?php echo $attach_file; ?>" href="">
+                                            <span class="badge badge-info">click to open</span>
+                                          </a>
+                                      </td>
+                                    </tr>
+                                    <?php
+                                  }
+                                  else{
+                                    ?>
+                                   <a href="<?php echo $attach_file; ?>" rel="lightbox" data-toggle="lightbox" data-gallery="example-gallery" class="col-sm-4">
+                                      
+                                      <embed src="<?php echo $attach_file; ?>" rel="lightbox"></embed>
+                                  </a>                                    
+                                    <?php
+                                  }
+                                  ?> 
+                                  
+
+
+ 
+                                     
+                                    
+                                  <?php
+                                }
+                              }
+                              ?>
+                                </div>
+                              </div>
+                              
+        
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <?php
+
                   }elseif (isset($_GET['get_std_acpt_id'])) {
                     $acpt=$_GET['get_std_acpt_id'];
                     $sql="SELECT * FROM `students_assigment_accepted` WHERE `id`='$acpt'";
@@ -613,10 +862,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         $student_email_r=$get_rjt_data['std_email'];
                         $student_submitted_Dat_r=$get_rjt_data['submition_date'];
                         $student_confirmation_r=$get_rjt_data['confirmation'];
+                        $reason_r=$get_rjt_data['reject_reason'];
                         $student_marks_r=$get_rjt_data['marks'];
                         $assigment_due_date_r=$get_rjt_data['due_date'];
                         $by_r=$get_rjt_data['confirm_by'];
                         $lec_email_r=$get_rjt_data['lec_email'];
+                        $rejected_on=$get_rjt_data['confirm_on'];
                         
                       }
 
@@ -647,9 +898,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               <div class="col-md-12">
                                 <?php //$user_submitted=$_SESSION['student_logged_in']['first_name']; ?>
                                 <?php echo "<h6 class='float-left' style='color:white;'>$student_r</h6>"?>
-                                <div class="float-right">
-                                  <a href="student_assigment_details_print.php?id_r=<?php echo $id_r; ?>" class="btn btn-secondary btn-xs" target="_blank"><i class="fas fa-print"></i> Print</a>
-                                </div>
                               </div>
                             </div>
                           </div>
@@ -728,22 +976,239 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <?php echo "<span class='badge badge-danger'>$student_confirmation_r</span>"; ?>
                                   </td>
                                 </tr>
+                                <tr>
+                                  <td  style="text-align: left;" id="td_titles">
+                                    Rejected On  
+                                  </td>
+                                  <td>
+                                    <?php echo "$rejected_on"; ?>
+                                  </td>
+                                </tr>
                               </table>
                             </div>
                             </div>
                             <div class="col-md-6" style="text-align: center;">
                               <div class="card">
                                 <div class="card-header bg-dark">
-                                  <div class="h5" style="color: yellow;">Rejected</div>
+                                  <div class="h5 danger" style="color: red;">Rejected</div>
                                 </div>
                                 <div class="card-body">
-                                  <p class="small">Sorry! your assigment has been rejected by <?php echo $by_r; ?></p>
-                                  <p class="small">You can contact with <?php echo $by_r; ?> by 
-                                    <strong><?php echo $lec_email_r; ?></strong></p>
+                                  <div class="h6">Sorry! your assigment has been rejected by <?php echo $by_r ." You can contact with him using ";?>
+                                    <strong class="badge badge-primary" style="font-family: verdana;font-size: 10px;padding:5px;margin: 5px;"><?php echo $lec_email_r; ?></strong></div>
+                                  <span class="badge badge-warning"></span>
+                                  <label for="txt_reject_reason" class="float-left badge badge-danger">Reason:</label>
+                                  <textarea class="form-control" readonly rows="3" name="txt_reject_reason"><?php echo $reason_r; ?></textarea><br>
+                                  <a href="#re_submit_model" data-toggle="modal" class="btn btn-maroon btn-float bg-maroon">
+                                    <i class="submit" style="font-family: candara;" data-toggle="tooltip" 
+                                  ass-id="<?php echo $id_r; ?>"
+                                  ass-name="<?php echo $student_assigment_r; ?>"
+                                  lec-name="<?php echo $by_r; ?>"
+                                  title="Re submit Assignment">Re - Submit</i>
+                                  </a>
                                 </div>
                               </div>
-                              
-        
+                              <!-- model assigment information -->
+                              <div class="modal fade" id="re_submit_model" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                      <form method="post" enctype="multipart/form-data">
+                                      <div class="modal-header bg-danger">
+                                        <p class="modal-title" id="exampleModalLabel">Assignment Info</p>
+                                        <button type="button" class="close btn-danger" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+                                      
+                                      <div class="modal-body">
+                                        <input type="hidden" name="ass_id" id="id_v">
+                                        <input type="hidden" name="lec_name" id="lec_name_v">
+                                        <label class="label float-left">Assigment</label>
+                                        <div class="form-group">
+                                          <input type="text" name="text_assignment" readonly class="form-control" id="ass_name_v">
+                                        </div>
+                                        <div class="form-group">
+                                          <label class="label float-left">Title</label>
+                                          <input type="text" name="text_title" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                          <label class="label float-left">Description</label>
+                                          <input type="text" name="text_description" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                          <div class="file-loading">
+                                      <input id="file-4" class="file" name="btn_evidence[]" type="file" multiple data-preview-file-type="any" data-show-upload="false" data-show-cancel="false" data-upload-url="#" data-theme="fas">
+                                  </div>
+                                        </div>
+                                      </div>
+                                      <div class="modal-footer bg-light">
+                                        <button type="button" class="btn btn-danger btn-float" data-dismiss="modal">Close</button>
+                                        <button type="submit" name="btn_resubmit" class="btn btn-success btn-float">Submit</button>
+                                      </div>
+                                      </form>
+                                    </div>
+                                  </div>
+                                </div><!-- end model-->
+                                <?php
+                                if(isset($_POST['btn_resubmit'])){
+                                  $count          =  count($_FILES["btn_evidence"]["name"]);
+                                  $tmp_dir        =$_FILES["btn_evidence"]["tmp_name"];
+                                  for($i=0;$i<$count;$i++){
+                                    $filename     = $_FILES["btn_evidence"]["name"][$i];
+                                    $text         = pathinfo($filename,PATHINFO_EXTENSION);
+                                  }
+                                  if($_POST['text_title']!= null and  $_POST['text_description']!= null){
+                                    if($text != null){
+                                    $status=re_submit_assignment();
+                                    if($status == true){
+                                      ?>
+                                      <script type="text/javascript">
+                                        $(document).ready(function(){
+                                          $('.toastsDefaultSuccess').ready(function() {
+                                            $(document).Toasts('create', {
+                                              class: 'bg-success', 
+                                              title: 'Re-Submitted',
+                                              autohide:true,
+                                              delay:10000,
+                                              subtitle: 'Done',
+                                              icon    : 'fas fa-check-circle fa-lg',
+                                              body: 'Your assigment has been <b>Re-Submitted</b>. When it will be acceptable from the lecturer then you will be inform  by recieving an email. ThankYou!'
+                                            })
+                                          });
+                                        });
+                                      </script>
+                                    <?php
+                                    }elseif ($status == "already_submitted") {
+                                      ?>
+                                      <script type="text/javascript">
+                                        $(document).ready(function(){
+                                          $('.toastsDefaultDanger').ready(function() {
+                                            $(document).Toasts('create', {
+                                              class: 'bg-danger', 
+                                              title: 'Re-Submitted',
+                                              autohide:true,
+                                              delay:10000,
+                                              subtitle: 'Alread',
+                                              icon    : 'fas fa-info-circle fa-lg',
+                                              body: 'You have already submitted last time\n No need to re-submit wait for confirmation from the your Superior'
+                                            })
+                                          });
+                                        });
+                                      </script>
+                                    <?php
+                                    }elseif ($status == "extension_error") {
+                                    ?>
+                                      <script type="text/javascript">
+                                        $(document).ready(function(){
+                                          $('.toastsDefaultMaroon').ready(function() {
+                                            $(document).Toasts('create', {
+                                              class: 'bg-maroon', 
+                                              title: 'Files Error',
+                                              autohide:true,
+                                              delay:10000,
+                                              subtitle: 'Extensoin error',
+                                              icon    : 'fas fa-times-circle fa-lg',
+                                              body: 'Your files was not correct plz check your files and then try again'
+                                            })
+                                          });
+                                        });
+                                      </script>
+                                    <?php
+                                  }elseif ($status == "error_uploading_files") {
+                                    ?>
+                                      <script type="text/javascript">
+                                        $(document).ready(function(){
+                                          $('.toastsDefaultPurple').ready(function() {
+                                            $(document).Toasts('create', {
+                                              class: 'bg-purple', 
+                                              title: 'Uploading Error',
+                                              autohide:true,
+                                              delay:10000,
+                                              subtitle: 'error',
+                                              icon    : 'fas fa-times-circle fa-lg',
+                                              body: 'Your files Can not submite something went wrong!'
+                                            })
+                                          });
+                                        });
+                                      </script>
+                                    <?php
+                                  }elseif ($status == "not_exists") {
+                                    ?>
+                                      <script type="text/javascript">
+                                        $(document).ready(function(){
+                                          $('.toastsDefaultPurple').ready(function() {
+                                            $(document).Toasts('create', {
+                                              class: 'bg-purple', 
+                                              title: 'Not Exists',
+                                              autohide:true,
+                                              delay:10000,
+                                              subtitle: 'error',
+                                              icon    : 'fas fa-times-circle fa-lg',
+                                              body: 'Your previous assignment was not set this rebmission can not done!'
+                                            })
+                                          });
+                                        });
+                                      </script>
+                                    <?php
+                                  }else{
+                                    ?>
+                                      <script type="text/javascript">
+                                        $(document).ready(function(){
+                                          $('.toastsDefaultPurple').ready(function() {
+                                            $(document).Toasts('create', {
+                                              class: 'bg-purple', 
+                                              title: 'Not Done',
+                                              autohide:true,
+                                              delay:10000,
+                                              subtitle: 'Error',
+                                              icon    : 'fas fa-times-circle fa-lg',
+                                              body: 'Oops! can not re-submit something went wrong!'
+                                            })
+                                          });
+                                        });
+                                      </script>
+                                    <?php
+                                  }
+                                }else{
+                                  ?>
+                                      <script type="text/javascript">
+                                        $(document).ready(function(){
+                                          $('.toastsDefaultMaroon').ready(function() {
+                                            $(document).Toasts('create', {
+                                              class: 'bg-maroon', 
+                                              title: '0 Files',
+                                              autohide:true,
+                                              delay:10000,
+                                              subtitle: 'Error',
+                                              icon    : 'fas fa-times-circle fa-lg',
+                                              body: "Operation can not be done because \n You didn't select any files"
+                                            })
+                                          });
+                                        });
+                                      </script>
+                                    <?php
+                                }
+                                }
+                                  else{
+                                    ?>
+                                      <script type="text/javascript">
+                                        $(document).ready(function(){
+                                          $('.toastsDefaultdark').ready(function() {
+                                            $(document).Toasts('create', {
+                                              class: 'bg-dark', 
+                                              title: 'Missing Fields',
+                                              autohide:true,
+                                              delay:5000,
+                                              subtitle: 'Error',
+                                              icon    : 'fas fa-times-circle fa-lg',
+                                              body: 'Can not done missing input fileds'
+                                            })
+                                          });
+                                        });
+                                      </script>
+                                    <?php
+                                  }
+                                }
+                                ?>
                               </div>
                             </div>
                           </div>
@@ -753,7 +1218,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <?php
 
                     }
-                  }
+                  }else{
+                      echo "<h1 style='text-align:center;color:grey;'>Oops! Assignment Not Found Something Went Wrong</h1>";
+                    }
                   ob_end_flush();
                   ?>
           </div>
@@ -807,7 +1274,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="dist/js/adminlte.min.js"></script>
 
 
- 
+ <script>
+    $(document).on('click','.submit',function(e) {
+    var ass_id=$(this).attr("ass-id");
+    var ass_name=$(this).attr("ass-name");
+    var lec_name=$(this).attr("lec-name");
+    $('#id_v').val(ass_id);
+    $('#ass_name_v').val(ass_name);
+    $('#lec_name_v').val(lec_name);
+  });
+    </script>
 
 <!-- page script -->
 <script>

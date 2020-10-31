@@ -10,14 +10,17 @@ session_start();
 <?php
 include 'db_page.php';
 $cn=db_connection();
-$sql="SELECT * FROM `creat_assigment`";
+$std_class=$_SESSION["student_logged_in"]["student_class"];
+$std_semester=$_SESSION["student_logged_in"]["student_semester"];
+$sql="SELECT * FROM `creat_assigment` WHERE `class`='$std_class' and `semester`='$std_semester'";
 $run=mysqli_query($cn,$sql);
 $count = 0;
+if(mysqli_num_rows($run)>0){
 while($get_data=mysqli_fetch_array($run)){
   $count+=1;
 }
 
-
+}
           
 ?>
 <!DOCTYPE html>
@@ -148,7 +151,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <a href="students_new_assigments.php" class="nav-link active">
                   <i class="fas fa-ad nav-icon"></i>
                   <p>New Assigments</p>
-                  <span class="right badge badge-danger"><?php echo $count; ?></span>
                 </a>
               </li>
           <li class="nav-item">
@@ -218,7 +220,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="row">
           <div class="col-lg-12">
                 <!-- write or design something in 12 columns -->
-                <div class="table-responsive">
+            <div class="table-responsive">
             <table id="example2" class="table table-bordere table-hover">
               <thead>
                 <tr>
@@ -233,10 +235,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </thead>
                 <tbody>
                   <?php
-                    $sql="SELECT * FROM `creat_assigment`";
+                    $sql="SELECT * FROM `creat_assigment` WHERE `semester`='$std_semester' and `class`='$std_class'";
                     $run_a=mysqli_query($cn,$sql);
                     $id_count=0;
+                  if(mysqli_num_rows($run_a)>0){
                     while($get_data_a=mysqli_fetch_array($run_a)){
+                    date_default_timezone_set("Asia/Karachi");
                     $id_count+=1;
                     $id=$get_data_a['id'];
                     $assigment=$get_data_a['ass_name'];
@@ -303,7 +307,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <td style="text-align: center;"><?php echo $get_data_a['ass_name']; ?></td>
                         <td style="text-align: center;"><?php echo $get_data_a['department']."<br>".$get_data['semester']; ?></td>
                         <td style="text-align: center;"><?php echo "<i class='fas fa-clock'></i> ".$last_date; ?></td>
-                        <td style="text-align: center;">
+                        <td style="text-align: center;font-family: verdana;">
                           <?php 
                             echo "<p><span class='badge badge-success'>Submitted on : $student_submitted_on</span></p>"; 
                           
@@ -348,7 +352,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <td style="text-align: center;"><?php echo $get_data_a['ass_name']; ?></td>
                         <td style="text-align: center;"><?php echo $get_data_a['department']."<br>".$get_data['semester']; ?></td>
                         <td style="text-align: center;"><?php echo "<i class='fas fa-clock'></i> ".$last_date; ?></td>
-                        <td style="text-align: center;">
+                        <td style="text-align: center;font-family: verdana;">
                           <?php 
                             echo "<p><span class='badge badge-success'>Submitted on : $student_submitted_on_rjt</span></p>"; 
                           
@@ -539,6 +543,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     }
                         
                       }
+                    }
 
                     ob_end_flush();
                   ?>

@@ -10,11 +10,15 @@ session_start();
 <?php
 include 'db_page.php';
 $cn=db_connection();
-$sql="SELECT * FROM `creat_assigment`";
+$std_class=$_SESSION["student_logged_in"]["student_class"];
+$std_semester=$_SESSION["student_logged_in"]["student_semester"];
+$sql="SELECT * FROM `creat_assigment` WHERE `class`='$std_class' and `semester`='$std_semester'";
+$count = 0;
 $run=mysqli_query($cn,$sql);
-$count=0;
-while ($done=mysqli_fetch_array($run)) {
-  $count+=1;
+if(mysqli_num_rows($run)>0){
+  while($get_data=mysqli_fetch_array($run)){
+    $count+=1;
+  }
 }
 ?>
 <!DOCTYPE html>
@@ -150,7 +154,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <a href="students_new_assigments.php" class="nav-link active">
                   <i class="fas fa-ad nav-icon"></i>
                   <p>New Assigments</p>
-                  <span class="right badge badge-danger"><?php echo $count; ?></span>
                 </a>
               </li>
           <li class="nav-item">

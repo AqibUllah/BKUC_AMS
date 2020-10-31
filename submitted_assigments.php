@@ -10,13 +10,16 @@ session_start();
 <?php
 include 'db_page_2.php';
 $cn=db_connection();
-$sql="SELECT * FROM `creat_assigment`";
-$run=mysqli_query($cn,$sql);
+$std_class=$_SESSION["student_logged_in"]["student_class"];
+$std_semester=$_SESSION["student_logged_in"]["student_semester"];
+$sql="SELECT * FROM `creat_assigment` WHERE `class`='$std_class' and `semester`='$std_semester'";
 $count = 0;
+$run=mysqli_query($cn,$sql);
+if(mysqli_num_rows($run)>0){
 while($get_data=mysqli_fetch_array($run)){
   $count+=1;
 }
-
+}
 
           
 ?>
@@ -152,7 +155,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <a href="students_new_assigments.php" class="nav-link">
                   <i class="fas fa-ad nav-icon"></i>
                   <p>New Assigments</p>
-                  <span class="right badge badge-danger"><?php echo $count; ?></span>
                 </a>
               </li>
           <li class="nav-item">
@@ -268,6 +270,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   $sql3="SELECT * FROM `submit_assigments` WHERE `std_id`='$_id'";
                   $run3=mysqli_query($cn,$sql3);
 
+                  //get re-submitted data
+                  $sql4="SELECT * FROM `re_submit_assignments` WHERE `f_k`='$_id'";
+                  $run4=mysqli_query($cn,$sql4);
+
 
                   $total_counts=0;
                   if(mysqli_num_rows($run1)>0){
@@ -293,8 +299,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           <td><?php echo $total_counts; ?></td>
                           <td><?php echo $std_assigmen; ?></td>
                           <td><?php echo $ass_submit_date; ?></td>
-                          <td><?php echo "<span class='badge badge-success'>Completed</span>";?></td>
-                          <td><?php echo "<span class='badge badge-purple bg-purple'>$std_confirmation</span>";?></td>
+                          <td><?php echo "<span class='badge badge-success badge-pill' style='font-family:verdana;'>Completed</span>";?></td>
+                          <td><?php echo "<span class='badge badge-purple bg-purple badge-pill' style='font-family:verdana;'>$std_confirmation</span>";?></td>
                           <td class="text-center py-0 align-middle">
                             <div class="btn-group btn-group-sm">
                               <a href="student_view_submitted.php?get_std_acpt_id=<?php echo $id_a; ?>" class="btn btn-primary"><i class="fas fa-eye"></i></a>
@@ -307,35 +313,42 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <?php
 
                       }
-                  }if (mysqli_num_rows($run2)>0) {
-                    while ($get_data_c=mysqli_fetch_array($run2)) {
-                        $id_r=$get_data_c['id'];
-                        $std_name=$get_data_c['std_name'];
-                        $std_email=$get_data_c['std_email'];
-                        $std_mob=$get_data_c['std_mob'];
-                        $std_img=$get_data_c['std_img'];
-                        $std_assigmen=$get_data_c['asssigment'];
-                        $std_marks=$get_data_c['marks'];
-                        $std_title=$get_data_c['title'];
-                        $std_description=$get_data_c['description'];
-                        $ass_due_date=$get_data_c['due_date'];
-                        $ass_submit_date=$get_data_c['submition_date'];
-                        $std_confirmation=$get_data_c['confirmation'];
-                        $confirm_by=$get_data_c['confirm_by'];
-                        $lec_email=$get_data_c['lec_email'];
-                        $confirm_on=$get_data_c['confirm_on'];
+                  } if(mysqli_num_rows($run2)>0){
+                    
+                      while ($get_data_e=mysqli_fetch_array($run2)) {
+                        $id_r=$get_data_e['id'];
+                        $std_assigmen_r=$get_data_e['asssigment'];
+                        $submit_date_r=$get_data_e['submition_date'];
+                        $submitte_to=$get_data_e['confirm_by'];
+                        $descr_r=$get_data_e['title'];
+                        $title_r=$get_data_e['description'];
+                        $confirmation_r=$get_data_e['confirmation'];
+                        $confirm_on_r=$get_data_e['confirm_on'];
+                        $total_counts+=1;
+
+                        $sql5="SELECT * FROM `re_submit_assignments` WHERE `std_email`='$std_email' and `assignment`='$std_assigmen_r'";
+                        $run5=mysqli_query($cn,$sql5);
+                        if(mysqli_num_rows($run5)>0){
+
+                        while ($get_data_f=mysqli_fetch_array($run4)) {
+                        $id_rr=$get_data_f['f_k'];
+                        $std_assigmen_r=$get_data_f['assignment'];
+                        $re_submit_date_r=$get_data_f['re_submiited_on'];
+                        $submitte_to_r=$get_data_f['submitted_to'];
+                        $descr_r=$get_data_f['title'];
+                        $title_r=$get_data_f['descr'];
                         $total_counts+=1;
                         ?>
                         <tr>
                           <td><?php echo $total_counts; ?></td>
-                          <td><?php echo $std_assigmen; ?></td>
-                          <td><?php echo $ass_submit_date; ?></td>
-                          <td><?php echo "<span class='badge badge-success'>Completed</span>";?></td>
-                          <td><?php echo "<span class='badge badge-maroon bg-maroon'>$std_confirmation</span>";?></td>
+                          <td><?php echo $std_assigmen_r; ?></td>
+                          <td><?php echo "<span class='badge  badge-success badge-pill' style='font-family:verdana;'>Re-Submitted : $re_submit_date_r</span>" ?></td>
+                          <td><?php echo "<span class='badge badge-success badge-pill' style='font-family:verdana;'>Completed</span>";?></td>
+                          <td><?php echo "<span class='badge badge-primary bg-primary badge-pill' style='font-family:verdana;'>pending</span>";?></td>
                           <td class="text-center py-0 align-middle">
                             <div class="btn-group btn-group-sm">
-                              <a href="student_view_submitted.php?get_std_rjt_id=<?php echo $id_r; ?>" class="btn btn-primary"><i class="fas fa-eye"></i></a>
-                              <a href="#" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                              <a href="student_view_submitted.php?get_std_resubmit_id=<?php echo $id_rr; ?>" class="btn btn-primary"><i class="fas fa-eye"></i></a>
+                              <a href="student_view_submitted.php?get_std_rjt_id=<?php echo $id_r; ?>" class="btn btn-warning"><i class="fas fa-edit"></i></a>
                               <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
                               
                             </div>
@@ -344,7 +357,29 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <?php
 
                       }
-                  }
+                        }else{
+                          ?>
+                        <tr>
+                          <td><?php echo $total_counts; ?></td>
+                          <td><?php echo $std_assigmen_r; ?></td>
+                          <td><?php echo $submit_date_r; ?></td>
+                          <td><?php echo "<span class='badge badge-success badge-pill' style='font-family:verdana;'>Completed</span>";?></td>
+                          <td><?php echo "<span class='badge badge-danger bg-danger badge-pill' style='font-family:verdana;'>$confirmation_r</span>";?></td>
+                          <td class="text-center py-0 align-middle">
+                            <div class="btn-group btn-group-sm">
+                              <a href="student_view_submitted.php?get_std_rjt_id=<?php echo $id_r; ?>" class="btn btn-primary"><i class="fas fa-edit fa-lg" title="Re-Submite"></i></a>
+                              <a href="#" class="btn btn-danger"><i class="fas fa-trash fa-lg" title="Delete"></i></a>
+                              
+                            </div>
+                          </td>
+                        </tr>
+                        <?php
+                        }
+                        
+
+                      }
+                    }
+                  
                     if(mysqli_num_rows($run3)>0){
                       while($get_data_d=mysqli_fetch_array($run3)){
                       $submitted_id=$get_data_d['std_id'];
@@ -359,8 +394,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           <td><?php echo $total_counts; ?></td>
                           <td><?php echo $submitted_assigment; ?></td>
                           <td><?php echo $submitted_on; ?></td>
-                          <td><?php echo "<span class='badge badge-success'>Completed</span>";?></td>
-                          <td><?php echo "<span class='badge badge-primary'>pending</span>";?></td>
+                          <td><?php echo "<span class='badge badge-success badge-pill' style='font-family:verdana;'>Completed</span>";?></td>
+                          <td><?php echo "<span class='badge badge-primary badge-pill' style='font-family:verdana;'>pending</span>";?></td>
                           <td class="text-center py-0 align-middle">
                             <div class="btn-group btn-group-sm">
                               <a href="student_view_submitted.php?get_std_view_id=<?php echo $pk; ?>" class="btn btn-primary"><i class="fas fa-eye"></i></a>

@@ -23,7 +23,7 @@ if(isset($_GET['get_id'])){
         $department = $get['department'];
         $semseter = $get['semester'];
         $faculty = $get['faculty'];
-        $batch = $get['batch'];
+        $class = $get['class'];
         $session = $get['session'];
         $duration = $get['time_duration'];
         $marks = $get['ass_marks'];
@@ -250,13 +250,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
+        <?php
+            if(isset($_GET['get_id'])){
+            ?>
         <div class="row">
           <div class="col-12">
                       <a href="assigment_list.php" class="btn btn-secondary float-right"><i class="fas fa-angle-left"></i> Go Back</a>
           </div>
         </div><br>
+        <?php
+      }
+        ?>
         <div class="row">
           <div class="col-lg-12">
+            <?php
+            if(isset($_GET['get_id'])){
+            ?>
             <div class="card">
                   <div class="card-header bg-dark">
                     <div class="row">
@@ -269,6 +278,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <div class="card-body">
                    <table id="example2" class="table table-bordere table-hover">
                     <?php
+                    date_default_timezone_set("Asia/Karachi");
                       $start = strtotime($start_date);
                       $current=date("m/d/Y h:i:s A");
                       $current=strtotime($current);
@@ -299,6 +309,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                        <th>Department</th><td><?php echo $department; ?></td>
                       </tr>
                       <tr>
+                       <th>Class</th><td><?php echo $class; ?></td>
+                      </tr><tr>
                        <th>Semester</th><td><?php echo $semseter; ?></td>
                       </tr>
                       <tr>
@@ -331,6 +343,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     
                   </div>
                 </div>
+
+                <?php
+              }else{
+                echo "<h1 style='text-align:center;color:grey;'>Oops! Assignment Not Found Something Went Wrong</h1>";
+              }
+
+              ?>
               </div>
           </div>
         </div>

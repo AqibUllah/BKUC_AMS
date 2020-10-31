@@ -496,7 +496,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           $lec_entry=$get_lecturer['entry_date'];
                           }
                       }
-                  }
                       
                   ?>
                   <div class="col-12 col-sm-12 col-md-12 align-items-stretch">
@@ -535,6 +534,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </div>
               </div>
             </div>
+            <?php
+          }else{
+            echo "<h1 style='color:grey;text-align:center;'>Oops! User Not Found</h1>";
+          }
+
+          ?>
           </div>
           <!-- /.col -->
            <!-- fix for small devices only -->

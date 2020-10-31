@@ -521,11 +521,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           <!--<a href="?new_password_id=<?php //echo $data['id'];?>" class="btn btn-primary">Send</a>-->
                           <input type="hidden" name="h_value" id="h_value" value="<?php echo $data['id']; ?>">
                           <input type="submit" name="btn_submit" id="btn_submit" value="Send" class="btn btn-primary">
+                          <a href="?password_reject_id=<?php echo $data['id'];?>"  class="btn btn-danger">Reject</a>
                           </td>
                           <!--<a href="?password_send_id=<?php //echo $data['id'];?>" type="submit" class="btn btn-dark">Send</a>-->
                           </form>
-                        <td><a href="?password_reject_id=<?php echo $data['id'];?>"  class="btn btn-danger">Reject</a>
-                        </td>
+                        
                         
                       </tr>
                         <?php

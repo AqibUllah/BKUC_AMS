@@ -13,6 +13,7 @@
 	$Useremail = $arg['email'];
 	$subject = $arg['subject'];
 	$message = $arg['message'];
+	date_default_timezone_set("Asia/Karachi");
 	$current_date=date('m/d/Y h:i A');
 	$sql="SELECT * FROM `user_feedback` WHERE `username`='$UserName' and `user_email`='$Useremail' and `subject`='$subject' and `message`='$message'";
 	$run=mysqli_query($cn,$sql);
@@ -38,7 +39,7 @@
 	}
 	function Registration_Request_Student($arg){
 	$cn=db_connection();
-	$sql="INSERT INTO `tbl_students_requests`(`first_name`, `last_name`, `d_o_b`, `email`, `psswrd`, `phone`, `address`, `img`, `batch_no`, `session`, `faculty`, `department`, `message`, `entry_date_time`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	$sql="INSERT INTO `tbl_students_requests`(`first_name`, `last_name`, `d_o_b`, `email`, `psswrd`, `phone`, `address`, `img`, `class`, `semester`, `faculty`, `department`, `message`, `entry_date_time`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	$stmt=mysqli_prepare($cn,$sql);
 	if($stmt){
 		$uploaded_dir		 ="student images/";
@@ -54,15 +55,16 @@
 		$register_psswrd=$arg["std_psswrd"];
 		$register_mob=$arg["std_mob_no"];
 		$register_address=$arg["std_address"];
-		$register_batch=$arg["std_batch_no"];
-		$register_session=$arg["std_session"];
+		$register_class=$arg["std_class"];
+		$register_semester=$arg["std_semester"];
 		$register_faculty=$arg['std_faculty'];
 		$register_department=$arg["std_department"];
 		$message="$register_first_name $register_last_name Would like to request an account";
+		date_default_timezone_set("Asia/Karachi");
 		$date_time=date('m/d/Y h:i A');
 
 		mysqli_stmt_bind_param($stmt, 'ssssssssssssss', $register_first_name, $register_last_name, $register_dob,
-		$register_email,$register_psswrd,$register_mob,$register_address,$uploaded_dir,$register_batch,$register_session,
+		$register_email,$register_psswrd,$register_mob,$register_address,$uploaded_dir,$register_class,$register_semester,
 		$register_faculty,$register_department,$message,$date_time);
 
 		$status=mysqli_stmt_execute($stmt);
@@ -91,7 +93,7 @@ function SignUp_Lecturer($arg){
 	if(mysqli_num_rows($check_2)>0){
 		return "user_exists_2";
 	}
-	$sql="INSERT INTO `tbl_request_lectureres`(`username`, `email`, `pass`, `image`, `role`, `faculty`, `entry_date`) VALUES(?,?,?,?,?,?,?)";
+	$sql="INSERT INTO `tbl_request_lectureres`(`username`, `email`, `address`, `phone`, `pass`, `image`, `gender`, `faculty`, `entry_date`) VALUES(?,?,?,?,?,?,?,?,?)";
 	$stmt=mysqli_prepare($cn,$sql);
 	if($stmt){
 		$uploaded_dir		 ="lecturers images/";
@@ -103,11 +105,14 @@ function SignUp_Lecturer($arg){
 
 		$_admin_UserName=$arg["admin_username"];
 		$_admin_email=$arg["admin_email"];
+		$_admin_address=$arg["admin_address"];
+		$_admin_phone=$arg["admin_phone"];
 		$_admin_password=$arg["admin_psswrd"];
 		$_admin_faculty=$arg["admin_faculty"];
-		$_admin_role=$arg["admin_role"];
+		$_admin_gender=$arg["lec_gender"];
+		date_default_timezone_set("Asia/Karachi");
 		$date=date('D / d / F / Y , H:i:A');
-		mysqli_stmt_bind_param($stmt, 'sssssss', $_admin_UserName,$_admin_email,$_admin_password,$uploaded_dir,$_admin_role,$_admin_faculty,$date);
+		mysqli_stmt_bind_param($stmt, 'sssssssss', $_admin_UserName,$_admin_email,$_admin_address,$_admin_phone,$_admin_password,$uploaded_dir,$_admin_gender,$_admin_faculty,$date);
 		/*
 		mysqli_stmt_bind_param($stmt, 'sssssssssss', $arg["std_first_name"], $arg["std_last_name"], $arg["std_DOB"],$arg["std_email"],$arg["std_psswrd"],$arg["std_mob_no"],$arg["std_address"],$arg["std_batch_no"],$arg["std_session"],$arg["std_faculty"]
 			,$arg["std_department"]);*/
@@ -128,18 +133,20 @@ function SignUp_Lecturer($arg){
 function creat_assigment($arg){
 	$cn=db_connection();
 
-	$sql="INSERT INTO `creat_assigment`(`faculty`, `department`, `semester`, `batch`, `ass_name`, `ass_marks`, `session`, `time_duration`, `message`, `created_on`, `created_by`) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+	$sql="INSERT INTO `creat_assigment`(`faculty`, `department`, `semester`, `class`, `ass_name`, `ass_marks`, `session`, `time_duration`, `message`, `created_on`, `created_by`) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 	$stmt = mysqli_prepare($cn,$sql);
 	if($stmt){
 		$_faculty=$arg["select_faculty"];
 		$_department=$arg["select_department"];
 		$_semester=$arg["select_semester"];
-		$_batch=$arg["txt_batch"];
+		$_class=$arg["select_class"];
 		$_name=$arg["txt_assgmnt_name"];
 		$_ass_marks=$arg["assimgent_marks"];
 		$_session=$arg["txt_session"];
 		$_total_duration=$arg["txt_duration"];
 		$_message=$arg["txt_message"];
+
+		date_default_timezone_set("Asia/Karachi");
 		$_created_on=date('m/d/Y h:i A');
 		$_created_by=$_SESSION["lecturer_logged_in"]["username"];
 
@@ -167,7 +174,7 @@ function creat_assigment($arg){
 		                }
 
 
-		mysqli_stmt_bind_param($stmt, 'sssssssssss', $_faculty,$_department,$_semester,$_batch,$_name,$_ass_marks,$_session,$_total_duration,$_message,$_created_on,$_created_by);
+		mysqli_stmt_bind_param($stmt, 'sssssssssss', $_faculty,$_department,$_semester,$_class,$_name,$_ass_marks,$_session,$_total_duration,$_message,$_created_on,$_created_by);
 
 		$status=mysqli_stmt_execute($stmt);
 			if($status){
@@ -269,7 +276,7 @@ function submit_assigment_multiple(){
 		                	}
 		                }
 
-		                
+		                date_default_timezone_set("Asia/Karachi");
 	                    $submitted_on=date('m/d/Y h:i A');
 	                    $sql_fk="INSERT INTO `submit_assigments`(`std_id`,`assigment`,`title`,`description`,`submitted_on`,`assigment_was_created_by`) 
 	                          VALUES ('$Submitter_ID','$_assigment','$assigment_title','$assigment_discription','$submitted_on','$lecturer_name')";
@@ -331,9 +338,7 @@ function submit_assigment_multiple(){
 		                	}
 		                }
 
-                 $sql="INSERT INTO `student_whose_submitted`(`std_name`, `email`, `department`, 
-                                    `semester`, `faculty`, `std_img` , 
-                                     `submitted_date`, `assigment_created_by`) VALUES (?,?,?,?,?,?,?,?)";
+                 $sql="INSERT INTO `student_whose_submitted`(`std_name`, `email`, `department`, `semester`, `faculty`, `std_img` , `submitted_date`, `assigment_created_by`) VALUES (?,?,?,?,?,?,?,?)";
                   $stmt=mysqli_prepare($cn,$sql);
                   if($stmt){
                     $user_name=$_SESSION['student_logged_in']['first_name'];
@@ -344,6 +349,7 @@ function submit_assigment_multiple(){
                     $assigment=$_POST["txt_assigment_name"];
                     $assigment_title=$_POST["txt_title"];
                     $assigment_discription=$_POST["txt_description"];
+                    date_default_timezone_set("Asia/Karachi");
                     $submitted_date=date('m/d/Y h:i A');
                     mysqli_stmt_bind_param($stmt, 'ssssssss',$user_name,$user_email,$_loggedIn_std_department,$_loggedIn_std_semester,$_loggedIn_std_faculty,$login_student_image,$submitted_date,$lecturer_name);
                     $status_a = mysqli_stmt_execute($stmt);
@@ -372,7 +378,7 @@ function submit_assigment_multiple(){
                 }
             }
 
-
+            			date_default_timezone_set("Asia/Karachi");
                     	$submitted_on=date('m/d/Y h:i A');
 	                    $sql_fk="INSERT INTO `submit_assigments`(`std_id`,`assigment`,`title`,`description`,`submitted_on`,`assigment_was_created_by`) 
 	                          VALUES ('$Submitter_ID','$_assigment','$assigment_title','$assigment_discription','$submitted_on','$lecturer_name')";
@@ -411,6 +417,85 @@ function submit_assigment_multiple(){
                      return false;
                   }
 
+              }
+			
+		}
+
+
+		function re_submit_assignment(){
+			  $cn=db_connection();
+              $id=$_SESSION["student_logged_in"]['id'];
+              $user_name=$_SESSION['student_logged_in']['first_name'];
+              $user_email=$_SESSION['student_logged_in']['std_email'];
+              $login_student_image=$_SESSION['student_logged_in']['student_image'];
+              $_assigment=$_POST["text_assignment"];
+              $assigment_title=$_POST["text_title"];
+              $assigment_discription=$_POST["text_description"];
+              $lecturer_name=$_POST["lec_name"];
+              $sql="SELECT * FROM `student_whose_submitted` WHERE `email`='$user_email'";
+              $done=mysqli_query($cn,$sql);
+              if(mysqli_num_rows($done)>0){
+
+                while ($get=mysqli_fetch_assoc($done)) {
+                $std_department = $get['department'];
+                $Submitter_ID = $get['id'];
+                $std_faculty = $get['faculty'];
+                $std_semester = $get['semester'];
+                $std_image = $get['std_img'];
+                $Submitter_email = $get['email'];
+                
+                }
+
+                $sql="SELECT * FROM `re_submit_assignments` WHERE `f_k`='$Submitter_ID' and `assignment`='$_assigment'";
+	                $done=mysqli_query($cn,$sql);
+		                if(mysqli_num_rows($done)>0){
+	                	return "already_submitted";
+	                	exit();
+	                  }else{
+
+		                $filename_count  	  = count($_FILES["btn_evidence"]["name"]);
+		                for($i = 0;$i<$filename_count;$i++){
+		                	$filename     = $_FILES['btn_evidence']['name'][$i];
+		                	$text             =pathinfo($filename,PATHINFO_EXTENSION);
+		                	if($text == 'jpg' or $text == 'JPG' or $text == 'png' or $text == 'PNG' or
+				               $text == 'gif' or $text == 'GIF' or $text == 'jpeg' or $text == 'GPEG' or $text == 'pdf'
+				               or $text == 'PDF' or $text =='pptx' or $text=='PPTX' or $text == 'docx' or $text == 'DOCX' or $text == 'txt' or $text == 'TXT' or $text == 'doc' or $text == 'DOC' or $text == 'csv' or $text == 'CSV' or $text == 'xlsx' or $text == 'XLSX'){
+		                		continue;
+		                	}else{
+		                		return "extension_error";
+		                	}
+		                }
+
+		                date_default_timezone_set("Asia/Karachi");
+	                    $submitted_on=date('m/d/Y h:i A');
+	                    $sql_fk="INSERT INTO `re_submit_assignments`(`f_k`,`std_email`,`assignment`,`title`,`descr`,`re_submiited_on`,`submitted_to`) 
+	                          VALUES ('$Submitter_ID','$user_email','$_assigment','$assigment_title','$assigment_discription','$submitted_on','$lecturer_name')";
+	                       $add = mysqli_query($cn,$sql_fk);
+	                       for($i = 0;$i<$filename_count;$i++){
+
+				            $uploaded_dir = 'submitted  assigments/';
+				            $filename     = $_FILES['btn_evidence']['name'][$i];
+				            $uploaded_dir.= $filename;
+				            $tmp_dir      =$_FILES["btn_evidence"]["tmp_name"][$i];
+				            $sql="INSERT INTO `re_submitted_attachments`(`f_k`,`assignment`, `files`) VALUES ('$Submitter_ID','$_assigment','$uploaded_dir')";
+				            $done=mysqli_query($cn,$sql);
+				            if($done){
+				            	$uploaded=move_uploaded_file($tmp_dir, $uploaded_dir);
+				            }else{
+				            	if(file_exists($uploaded_dir)){
+				            		unlink($uploaded_dir);
+				            		return "error_uploading_files";
+				            	}
+				            }
+				        }
+	                       mysqli_close($cn);
+	                      return true;
+	                  }
+                
+
+              }else{
+              	
+              	return "not_exists";
               }
 			
 		}
@@ -457,15 +542,16 @@ function update_assigment(){
 		$_faculty=$_POST["select_faculty"];
 		$_department=$_POST["select_department"];
 		$_semester=$_POST["select_semester"];
-		$_batch=$_POST["txt_batch"];
+		$_class=$_POST["select_class"];
 		$_name=$_POST["txt_assgmnt_name"];
 		$_marks=$_POST["assimgent_marks"];
 		$_session=$_POST["txt_session"];
 		$_total_duration=$_POST["txt_duration"];
 		$_message=$_POST["txt_message"];
-		$_created_on=date('d/m/yy');
+		date_default_timezone_set("Asia/Karachi");
+		$_created_on=date('m/d/Y');
 		$_created_by=$_SESSION["lecturer_logged_in"]["username"];
-	$sql="UPDATE `creat_assigment` SET `faculty`='$_faculty',`department`='$_department',`semester`='$_semester',`batch`='$_batch',`ass_name`='$_name',`ass_marks`='$_marks',`session`='$_session',`time_duration`='$_total_duration',`message`='$_message',`created_on`='$_created_on',`created_by`='$_created_by' WHERE `id`='$id'";
+	$sql="UPDATE `creat_assigment` SET `faculty`='$_faculty',`department`='$_department',`semester`='$_semester',`class`='$_class',`ass_name`='$_name',`ass_marks`='$_marks',`session`='$_session',`time_duration`='$_total_duration',`message`='$_message',`created_on`='$_created_on',`created_by`='$_created_by' WHERE `id`='$id'";
 	$run=mysqli_query($cn,$sql);
 	$sql2="DELETE FROM `creat_assigment_attachments` WHERE `fk`='$id'";
 	$done=mysqli_query($cn,$sql2);
@@ -509,21 +595,87 @@ function edit_student(){
 	$text		  =pathinfo($filename,PATHINFO_EXTENSION);
 
 		$_id=$_SESSION["student_logged_in"]["id"];
+		$_std_old_email=$_SESSION["student_logged_in"]["std_email"];
+		$std_old_name=$_SESSION["student_logged_in"]["first_name"];
+
 		$_faculty=$_POST["edit_faculty"];
 		$_department=$_POST["edit_department"];
-		$_semester=$_POST["edit_semester"];
 		$_email=$_POST["edit_email"];
 		$_firstname=$_POST["edit_first_name"];
 		$_lastname=$_POST["edit_last_name"];
-		$_batch=$_POST["edit_batch"];
-		$_session=$_POST["edit_session"];
+		$_class=$_POST["edit_class"];
+		$_semester=$_POST["edit_semester"];
 		$_address=$_POST["edit_address"];
 		$_phone=$_POST["edit_phone"];
 		$_dob=$_POST["edit_birth"];
-	$sql="UPDATE `registred_students` SET `first_name`='$_firstname',`last_name`='$_lastname',`d_o_b`='$_dob',`email`='$_email',`phone`='$_phone',`address`='$_address',`img`='$uploaded_dir',`batch_no`='$_batch',`session`='$_session',`faculty`='$_faculty',`department`='$_department',`semester`='$_semester' WHERE `id`='$_id'";
+	$sql="UPDATE `registred_students` SET `first_name`='$_firstname',`last_name`='$_lastname',`d_o_b`='$_dob',`email`='$_email',`phone`='$_phone',`address`='$_address',`img`='$uploaded_dir',`class`='$_class',`faculty`='$_faculty',`department`='$_department',`semester`='$_semester' WHERE `id`='$_id'";
 	$run=mysqli_query($cn,$sql);
 	if($run){
-		return true;
+		//getting id form stdent_first_time_assignment submite table
+		$std_name=$_firstname." ".$_lastname;
+		$sql_g="SELECT * FROM `student_whose_submitted` WHERE `std_name`='$std_old_name' and 
+		`email`='$_std_old_email'";
+		$run_g=mysqli_query($cn,$sql_g);
+
+		if(mysqli_num_rows($run_g)>0){
+			while ($fetch_id=mysqli_fetch_assoc($run_g)) {
+				$fetched_id=$fetch_id['id'];
+			}
+		}else{
+
+			return false;
+		}
+
+		//getting id form student_rejected_assignment table
+		$std_name=$_firstname." ".$_lastname;
+		$sql_f="SELECT * FROM `students_assigment_rejected` WHERE `std_name`='$std_old_name' and 
+		`std_email`='$_std_old_email'";
+		$run_f=mysqli_query($cn,$sql_f);
+		if(mysqli_num_rows($run_f)>0){
+			while ($fetch_id_2=mysqli_fetch_assoc($run_f)) {
+				$fetched_id_2=$fetch_id_2['id'];
+			}
+		}
+
+		//getting id form student_accepted_assignment table
+		$std_name=$_firstname." ".$_lastname;
+		$sql_h="SELECT * FROM `students_assigment_accepted` WHERE `std_name`='$std_old_name' and `std_email`='$_std_old_email'";
+		$run_h=mysqli_query($cn,$sql_h);
+		if(mysqli_num_rows($run_h)>0){
+			while ($fetch_id_3=mysqli_fetch_assoc($run_h)) {
+				$fetched_id_3=$fetch_id_3['id'];
+			}
+		}
+		
+		//now also update in student_frist_time_submite_assignment table
+		$sql_re="UPDATE `student_whose_submitted` SET `std_name`='$std_name',
+		`email`='$_email',`department`='$_department',`semester`='$_semester',
+		`faculty`='$_faculty',`std_img`='$uploaded_dir' WHERE `id`='$fetched_id'";
+		$run2=mysqli_query($cn,$sql_re);
+		if($run2){
+			//now also update in student_assignment_rejected table
+			$sql_re="UPDATE `students_assigment_rejected` SET `std_name`='$std_name',
+			`std_email`='$_email',`std_img`='$uploaded_dir' WHERE `id`='$fetched_id_2'";
+			$run2=mysqli_query($cn,$sql_re);
+			if($run2){
+				//now also update in student_assignment_accepted table
+				$sql_re="UPDATE `students_assigment_accepted` SET `std_name`='$std_name',
+				`std_email`='$_email',`std_img`='$uploaded_dir' WHERE `id`='$fetched_id_3'";
+				$run2=mysqli_query($cn,$sql_re);
+				if($run2){
+					return true;
+				}else{
+					return false;
+				}
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
+
+		
+		
 	}else{
 		if(file_exists($uploaded_dir)){
 			unlink($uploaded_dir);
@@ -549,7 +701,6 @@ function edit_lecturer(){
 		$_email=$_POST["edit_email"];
 		$_usrename=$_POST["edit_username"];
 		$_gender=$_POST["edit_gender"];
-		$_session=$_POST["edit_session"];
 		$_address=$_POST["edit_address"];
 		$_skill=$_POST["edit_skill"];
 		$_phone=$_POST["edit_phone"];
@@ -793,7 +944,7 @@ function delete_assigment(){
 			$stmt = mysqli_prepare($cn,$sql);
 			if($stmt){
 				mysqli_stmt_bind_param($stmt , 's' ,$_login_email);
-				mysqli_stmt_bind_result($stmt, $db_id,$db_firstname,$db_lastname,$db_dob,$db_email,$db_type,$db_password,$db_phone,$db_address,$db_image,$db_batch,$db_session,$db_faculty,$db_department,$db_semester,$db_registry_date);
+				mysqli_stmt_bind_result($stmt, $db_id,$db_firstname,$db_lastname,$db_dob,$db_email,$db_type,$db_password,$db_phone,$db_address,$db_image,$db_class,$db_faculty,$db_department,$db_semester,$db_registry_date);
 				mysqli_stmt_execute($stmt);
 				mysqli_stmt_fetch($stmt);
 				
@@ -801,7 +952,7 @@ function delete_assigment(){
 					if(password_verify($_login_password, $db_password)){
 						  // $_SESSION["student_logged_in"];
 						  // header("location:Student_Dashboard.php");
-						return array("id"=>$db_id,"first_name"=>$db_firstname." ".$db_lastname,"student_image"=>$db_image,"std_email"=>$db_email);
+						return array("id"=>$db_id,"first_name"=>$db_firstname." ".$db_lastname,"student_image"=>$db_image,"std_email"=>$db_email,"student_class"=>$db_class,"student_semester"=>$db_semester);
 						
 						 
 					}else{
@@ -901,6 +1052,7 @@ $std_marks=$_POST["std_marks"];
 	                
             	}
             	//insert data to another tabel
+            	date_default_timezone_set("Asia/Karachi");
             	$on=date("m/d/Y h:i:s A");
             	$sql4="SELECT * FROM `students_assigment_accepted` WHERE `std_email`='$student_email' and `asssigment`='$submitted_assigment'";
 
@@ -1073,15 +1225,270 @@ $std_marks=$_POST["std_marks"];
             		}
 }
 
+function student_accept_assigment_again(){
+$cn=db_connection();
+$_PK=$_POST['h_value'];
+$std_marks=$_POST["std_marks"];
+				$lec_name=$_SESSION["lecturer_logged_in"]["username"];
+				$lec_email=$_SESSION["lecturer_logged_in"]["lec_email"];
+				//get assigment info
+                $sql="SELECT * FROM `re_submit_assignments` WHERE 
+                        `p_k`='$_PK'";
+                $run=mysqli_query($cn,$sql);
+                if(mysqli_num_rows($run)>0){
+
+	                while($get_data_b=mysqli_fetch_assoc($run)){
+	                    $submitted_id=$get_data_b['f_k'];
+	                    $submitted_assigment=$get_data_b['assignment'];
+	                    $submitted_on=$get_data_b['re_submiited_on'];
+	                    $title=$get_data_b['title'];
+	                    $description=$get_data_b['descr'];
+	                    $primary_key=$get_data_b['p_k'];
+	                }
+	                
+            	}
+            	//get lec assigment more info
+                $sql="SELECT * FROM `creat_assigment` WHERE 
+                        `ass_name`='$submitted_assigment' and `created_by`='$lec_name'";
+                $run_a=mysqli_query($cn,$sql);
+                if(mysqli_num_rows($run_a)>0){
+
+	                while($get_data_b=mysqli_fetch_assoc($run_a)){
+	                	$total_marks=$get_data_b['ass_marks'];
+	                    $due_date=substr($get_data_b['time_duration'], 22);
+	                }
+	                
+            	}
+            	//get student info
+            	$sql="SELECT * FROM `student_whose_submitted` WHERE 
+                        `id`='$submitted_id'";
+                $run_b=mysqli_query($cn,$sql);
+                if(mysqli_num_rows($run_b)>0){
+
+	                while($get_data_c=mysqli_fetch_assoc($run_b)){
+	                $student_name=$get_data_c['std_name'];
+                    $student_email=$get_data_c['email'];
+                    $student_department=$get_data_c['department'];
+                    $student_semester=$get_data_c['semester'];
+                    $student_img=$get_data_c['std_img'];
+                    $student_faculty=$get_data_c['faculty'];
+                    //$assigment_submitted_date=$get_data_a['submitted_date'];
+	                }
+	                
+            	}
+
+            	//cout attachements 
+            	$sql="SELECT * FROM `re_submitted_attachments` WHERE `f_k`='$submitted_id'";
+            	$run_e=mysqli_query($cn,$sql);
+            	$count_attach=0;
+            	if(mysqli_num_rows($run_e)>0){
+            		while ($get_attaches=(mysqli_fetch_assoc($run_e))) {
+            			$count_attach+=1;
+            		}
+            	}
+
+            	//get student more info from registred students table
+            	$sql="SELECT * FROM `registred_students` WHERE 
+                        `email`='$student_email'";
+                $run_c=mysqli_query($cn,$sql);
+                if(mysqli_num_rows($run_c)>0){
+
+	                while($get_data_d=mysqli_fetch_assoc($run_c)){
+	                $student_mob=$get_data_d['phone'];
+	                $std_image=$get_data_d['img'];
+	                }
+	                
+            	}
+            	//insert data to another tabel
+            	date_default_timezone_set("Asia/Karachi");
+            	$on=date("m/d/Y h:i:s A");
+            	$sql4="SELECT * FROM `students_assigment_accepted` WHERE `std_email`='$student_email' and `asssigment`='$submitted_assigment'";
+
+            	$done1=mysqli_query($cn,$sql4);
+            	if(mysqli_num_rows($done1)>0){
+
+            		return "already_accepted";
+
+            	}
+            	$sql="INSERT INTO `students_assigment_accepted`(`std_name`, `std_email`, `std_mob`, `std_img`, `asssigment`, `marks`, `title`, `description`, `due_date`, `submition_date`, `confirmation`, `confirm_by`, `lec_email`, `confirm_on`) VALUES ('$student_name','$student_email',
+            		'$student_mob','$std_image','$submitted_assigment','$std_marks','$title','$description','$due_date','$submitted_on','Accepted','$lec_name','$lec_email','$on')";
+            		$all_done=mysqli_query($cn,$sql);
+            		if($all_done){
+
+            			//now sending mail to student for confirmation
+            			//$template_file=("student_approve_style.php");
+							$to = $student_email;
+							$subject = "REGARDING : Assigment Accepted";
+							$headers="From: BKUC AMS". "\r\n";
+							$message="<html><body>";
+					        $message.="<div class='content'>
+							<section class='content-header'>
+						      <div class='container-fluid'>
+						        <div class='row mb-2'>
+						          <div class='col-lg-12 col-md-12'>
+						          	<center>
+						            <h2><i class='fas fa-globe'> </i> BKUC ASSIGMENT MANAGEMENT SYSTEM</h2>
+						        	</center>
+						          </div>
+						        </div>
+						      </div><!-- /.container-fluid -->
+						    </section>
+							<section class='content'>
+						      <div class='container-fluid'>
+						        <div class='row'>
+						          <div class='col-12'>
+						            <div class='callout callout-info bg-info'>
+						              <p class='h5'><i class='fas fa-user'></i> &nbsp;<strong>$student_name</strong></p>
+						            </div>
+						            <div class='callout callout-success bg-success'>
+						              <p class='h5'><i class='fas fa-info-circle'></i> &nbsp;Your assigment has been <b> Accepted</b>&nbsp; <i class='fas fa-check-circle'></i></p>
+						            </div>
+						            
+
+						            <!-- Main content -->
+						            <div class='invoice p-3 mb-3'>
+						              <!-- title row -->
+						              <div class='row'>
+						                <div class='col-12'>
+						                  <h4>
+						                    <i class='fas fa-globe'></i> BKUC, AMS.
+						                    <small class='float-right'>Date: ".date('m/d/Y')."</small>
+						                  </h4>
+						                </div>
+						                <!-- /.col -->
+						              </div><br>
+						              <!-- info row -->
+						              <div class='row invoice-info'>
+						                <div class='col-sm-4 invoice-col'>
+						                  From<br>
+						                  <address>
+						                    <strong>BKUC, ADMINISTRATOR.</strong><br>
+						                    <strong>Phone:</strong> 192 343923<br>
+						                    <strong>Email:</strong> administrator@gmail.com
+						                  </address>
+						                </div>
+						                <!-- /.col -->
+						                <div class='col-sm-4 invoice-col'>
+						                  Accepted From<br>
+						                  <address>
+						                    <strong>$lec_name</strong><br>
+						                    <strong>Email:</strong> $lec_email
+						                  </address>
+						                </div>
+						              </div>
+						              <!-- /.row -->
+
+						              <!-- Table row -->
+						              <div class='row'>
+						                <div class='col-12 table-responsive'>
+						                  <table class='table table-striped'>
+						                    <thead>
+						                    <tr>
+						                      <th>Assigment</th>
+						                      <th>Title</th>
+						                      <th>Description</th>
+						                      <th style='text-align: center;'>Submitted On</th>
+						                      <th style='text-align: center;'>Attachments</th>
+						                    </tr>
+						                    </thead>
+						                    <tbody>
+						                    <tr>
+						                      <td>$submitted_assigment</td>
+						                      <td>$title</td>
+						                      <td>$description</td>
+						                      <td style='text-align: center;'>$submitted_on</td>
+						                      <td style='text-align: center;'>$count_attach</td>
+						                    </tr>
+						                    </tbody>
+						                  </table>
+						                </div>
+						                <!-- /.col -->
+						              </div><br>
+						              <!-- /.row -->
+
+						              <div class='row'>
+						                <!-- accepted payments column -->
+						                <div class='col-6'>
+
+						                </div>
+						                <!-- /.col -->
+						                <div class='col-6'>
+						                  <p class='lead text-center text-muted'>Accepted ON : $on</p>
+
+						                  <div class='table-responsive'>
+						                    <table class='table'>
+						                      <tr>
+						                        <th style='width:50%'>Assigment Marks</th>
+						                        <td>$total_marks</td>
+						                      </tr>
+						                      <tr>
+						                        <th>Getting Marks</th>
+						                        <td>$std_marks</td>
+						                      </tr>
+						                      <tr>
+						                        <th>Confirmation</th>
+						                        <td style='color: green;'><strong>Accepted</strong> <i fas fa-check></i></td>
+						                      </tr>
+						                    </table>
+						                  </div>
+						                </div>
+						                <!-- /.col -->
+						              </div>
+						              <!-- /.row -->
+						            </div>
+						            <!-- /.invoice -->
+						          </div><!-- /.col -->
+						        </div><!-- /.row -->
+						      </div><!-- /.container-fluid -->
+						    </section>
+						    <!-- /.content -->
+						</div>";
+
+					        $message.="</body></html>";
+							$headers .= "Reply-To: aqibullah3312@gmail.com" . "\r\n";
+							$headers .= "MIME-Version: 1.0"."\r\n";
+							$headers .= "MIME-Version: 1.0"."\r\n";
+							$headers .= "Content-Type: text/html; charset=ISO-8859-1"."\r\n";
+							mail($to, $subject, $message,$headers);
+
+            			$sql2="DELETE FROM `re_submit_assignments` WHERE `p_k`='$_PK'";
+            			$all_done2=mysqli_query($cn,$sql2);
+            			if($all_done2){
+            				$sql3="DELETE FROM `re_submitted_attachments` WHERE `f_k`='$submitted_id' and `assignment`='$submitted_assigment'";
+            				$all_done3=mysqli_query($cn,$sql3);
+            				if($all_done3){
+            					$sql4="DELETE FROM `students_assigment_rejected` WHERE `std_name`='$student_name' and `std_email`='$student_email'";
+            					$all_done4=mysqli_query($cn,$sql4);
+            					if($all_done4){
+            						mysqli_close($cn);
+            						return "done";
+            					}else{
+            						return "old_info_delettion_error";
+            					}
+            				}else{
+            					return "evidence not delete";
+            				}
+            				
+            			}else{
+            				mysqli_close($cn);
+            				return "not delete";
+            			}
+            		}else{
+            			mysqli_close($cn);
+            			return "not accept";
+            		}
+}
+
 function student_reject_assigment(){
 $cn=db_connection();
-$_PK=$_GET['student_reject_id'];
-//$std_marks=$_POST["std_marks"];
+//$_PK=$_GET['student_reject_id'];
+$ass_id=$_POST['assigment_id'];
+$reject_reason = $_POST['txt_reject_reason'];
 				$lec_name=$_SESSION["lecturer_logged_in"]["username"];
 				$lec_email=$_SESSION["lecturer_logged_in"]["lec_email"];
 				//get assigment info
                 $sql="SELECT * FROM `submit_assigments` WHERE 
-                        `primary_key`='$_PK'";
+                        `primary_key`='$ass_id'";
                 $run=mysqli_query($cn,$sql);
                 if(mysqli_num_rows($run)>0){
 
@@ -1093,19 +1500,260 @@ $_PK=$_GET['student_reject_id'];
 	                    $description=$get_data_b['description'];
 	                    $primary_key=$get_data_b['primary_key'];
 	                }
+
+	                //cout attachements 
+	            	$sql="SELECT * FROM `attach_evidences` WHERE `id`='$submitted_id'";
+	            	$run_e=mysqli_query($cn,$sql);
+	            	$count_attach=0;
+	            	if(mysqli_num_rows($run_e)>0){
+	            		while ($get_attaches=(mysqli_fetch_assoc($run_e))) {
+	            			$count_attach+=1;
+	            		}
+	            	}
+	                
+            	}else{
+            		//get assigment info
+	                $sql="SELECT * FROM `re_submit_assignments` WHERE 
+	                        `p_k`='$ass_id'";
+	                $run=mysqli_query($cn,$sql);
+	                if(mysqli_num_rows($run)>0){
+
+		                while($get_data_b=mysqli_fetch_assoc($run)){
+		                    $submitted_id=$get_data_b['f_k'];
+		                    $submitted_assigment=$get_data_b['assignment'];
+		                    $submitted_on=$get_data_b['re_submiited_on'];
+		                    $title=$get_data_b['title'];
+		                    $description=$get_data_b['descr'];
+		                    $primary_key=$get_data_b['p_k'];
+
+		                }
+
+		                //cout attachements 
+		            	$sql="SELECT * FROM `re_submitted_attachments` WHERE `f_k`='$submitted_id'";
+		            	$run_e=mysqli_query($cn,$sql);
+		            	$count_attach=0;
+		            	if(mysqli_num_rows($run_e)>0){
+		            		while ($get_attaches=(mysqli_fetch_assoc($run_e))) {
+		            			$count_attach+=1;
+		            		}
+		            	}
+            		}
+
+            		//get lec assigment more info
+                $sql="SELECT * FROM `creat_assigment` WHERE 
+                        `ass_name`='$submitted_assigment' and `created_by`='$lec_name'";
+                $run_a=mysqli_query($cn,$sql);
+                if(mysqli_num_rows($run_a)>0){
+
+	                while($get_data_b=mysqli_fetch_assoc($run_a)){
+	                	$total_marks=$get_data_b['ass_marks'];
+	                    $due_date=substr($get_data_b['time_duration'], 22);
+	                }
 	                
             	}
+            	//get student info
+            	$sql="SELECT * FROM `student_whose_submitted` WHERE 
+                        `id`='$submitted_id'";
+                $run_b=mysqli_query($cn,$sql);
+                if(mysqli_num_rows($run_b)>0){
 
-            	//cout attachements 
-            	$sql="SELECT * FROM `attach_evidences` WHERE `id`='$submitted_id'";
-            	$run_e=mysqli_query($cn,$sql);
-            	$count_attach=0;
-            	if(mysqli_num_rows($run_e)>0){
-            		while ($get_attaches=(mysqli_fetch_assoc($run_e))) {
-            			$count_attach+=1;
+	                while($get_data_c=mysqli_fetch_assoc($run_b)){
+	                $student_name=$get_data_c['std_name'];
+                    $student_email=$get_data_c['email'];
+                    $student_department=$get_data_c['department'];
+                    $student_semester=$get_data_c['semester'];
+                    $student_img=$get_data_c['std_img'];
+                    $student_faculty=$get_data_c['faculty'];
+                    //$assigment_submitted_date=$get_data_a['submitted_date'];
+	                }
+	                
+            	}
+            	//get student more info from registred students table
+            	$sql="SELECT * FROM `registred_students` WHERE 
+                        `email`='$student_email'";
+                $run_c=mysqli_query($cn,$sql);
+                if(mysqli_num_rows($run_c)>0){
+
+	                while($get_data_d=mysqli_fetch_assoc($run_c)){
+	                $student_mob=$get_data_d['phone'];
+	                $std_image=$get_data_d['img'];
+	                }
+	                
+            	}
+            	//insert data to another tabel
+            	date_default_timezone_set("Asia/Karachi");
+            	$on=date("m/d/Y h:i A");
+            	$re_submit_date="Again Rejected On : ".$on;
+            	$sql4="SELECT * FROM `students_assigment_rejected` WHERE `std_email`='$student_email' and `asssigment`='$submitted_assigment'";
+
+            	$done1=mysqli_query($cn,$sql4);
+            	if(mysqli_num_rows($done1)>0){
+            		while ($abc=mysqli_fetch_assoc($done1)) {
+            			$id_rr=$abc['id'];
+            		}
+            		$sql="UPDATE `students_assigment_rejected` SET `title`='$title',`description`='$description',`submition_date`='$on',`reject_reason`='$reject_reason',`confirm_on`='$re_submit_date' 
+            			WHERE `id`='$id_rr'";
+            		$don2 = mysqli_query($cn,$sql);
+            		if($don2){
+            			
+            			$sql2="DELETE FROM `re_submit_assignments` WHERE 
+            			`p_k`='$ass_id'";
+            			$all_done2=mysqli_query($cn,$sql2);
+
+            			if($all_done2){
+            				$sql3="DELETE FROM `re_submitted_attachments` WHERE `f_k`='$submitted_id' and `assignment`='$submitted_assigment'";
+            				$all_done3=mysqli_query($cn,$sql3);
+            				if($all_done3){
+            				//now infrom student using email
+            				$to = $student_email;
+							$subject = "REGARDING : Assigment Rejected";
+							$headers="From: BKUC AMS". "\r\n";
+							$message="<html><body>";
+					        $message.="<div class='content'>
+							<section class='content-header'>
+						      <div class='container-fluid'>
+						        <div class='row mb-2'>
+						          <div class='col-lg-12 col-md-12'>
+						          	<center>
+						            <h2><i class='fas fa-globe'> </i> BKUC ASSIGMENT MANAGEMENT SYSTEM</h2>
+						        	</center>
+						          </div>
+						        </div>
+						      </div><!-- /.container-fluid -->
+						    </section>
+							<section class='content'>
+						      <div class='container-fluid'>
+						        <div class='row'>
+						          <div class='col-12'>
+						            <div class='callout callout-info bg-info'>
+						              <p class='h5'><i class='fas fa-user'></i> &nbsp;<strong>$student_name</strong></p>
+						            </div>
+						            <div class='callout callout-danger bg-danger'>
+						              <p class='h5'><i class='fas fa-info-circle'></i> &nbsp;Your assigment has been <b> Rejected</b>&nbsp; <i class='fas fa-times-circle'></i></p>
+						            </div>
+						            
+
+						            <!-- Main content -->
+						            <div class='invoice p-3 mb-3'>
+						              <!-- title row -->
+						              <div class='row'>
+						                <div class='col-12'>
+						                  <h4>
+						                    <i class='fas fa-globe'></i> BKUC, AMS.
+						                    <small class='float-right'>Date: date('m/d/Y')</small>
+						                  </h4>
+						                </div>
+						                <!-- /.col -->
+						              </div><br>
+						              <!-- info row -->
+						              <div class='row invoice-info'>
+						                <div class='col-sm-4 invoice-col'>
+						                  From<br>
+						                  <address>
+						                    <strong>BKUC, ADMINISTRATOR.</strong><br>
+						                    <strong>Phone:</strong> 192 343923<br>
+						                    <strong>Email:</strong> administrator@gmail.com
+						                  </address>
+						                </div>
+						                <!-- /.col -->
+						                <div class='col-sm-4 invoice-col'>
+						                  Rejected From<br>
+						                  <address>
+						                    <strong>$lec_name</strong><br>
+						                    <strong>Email:</strong> $lec_email
+						                  </address>
+						                </div>
+						              </div>
+						              <!-- /.row -->
+
+						              <!-- Table row -->
+						              <div class='row'>
+						                <div class='col-12 table-responsive'>
+						                  <table class='table table-striped'>
+						                    <thead>
+						                    <tr>
+						                      <th>Assigment</th>
+						                      <th>Title</th>
+						                      <th>Description</th>
+						                      <th style='text-align: center;'>Submitted On</th>
+						                      <th style='text-align: center;'>Attachments</th>
+						                    </tr>
+						                    </thead>
+						                    <tbody>
+						                    <tr>
+						                      <td>$submitted_assigment</td>
+						                      <td>$title</td>
+						                      <td>$description</td>
+						                      <td style='text-align: center;'>$submitted_on</td>
+						                      <td style='text-align: center;'>$count_attach</td>
+						                    </tr>
+						                    </tbody>
+						                  </table>
+						                </div>
+						                <!-- /.col -->
+						              </div><br>
+						              <!-- /.row -->
+
+						              <div class='row'>
+						                <!-- accepted payments column -->
+						                <div class='col-6'>
+
+						                </div>
+						                <!-- /.col -->
+						                <div class='col-6'>
+						                  <p class='lead text-center text-muted'>Accepted ON : $on</p>
+
+						                  <div class='table-responsive'>
+						                    <table class='table'>
+						                      <tr>
+						                        <th style='width:50%'>Assigment Marks</th>
+						                        <td>$total_marks</td>
+						                      </tr>
+						                      <tr>
+						                        <th>Getting Marks</th>
+						                        <td>0</td>
+						                      </tr>
+						                      <tr>
+						                        <th>Confirmation</th>
+						                        <td style='color: red;'><strong>Rejected</strong> &nbsp;<i fas fa-times-circle></i></td>
+						                      </tr>
+						                    </table>
+						                  </div>
+						                </div>
+						                <!-- /.col -->
+						              </div>
+						              <!-- /.row -->
+						            </div>
+						            <!-- /.invoice -->
+						          </div><!-- /.col -->
+						        </div><!-- /.row -->
+						      </div><!-- /.container-fluid -->
+						    </section>
+						    <!-- /.content -->
+						</div>";
+
+					        $message.="</body></html>";
+							$headers .= "Reply-To: aqibullah3312@gmail.com" . "\r\n";
+							$headers .= "MIME-Version: 1.0"."\r\n";
+							$headers .= "MIME-Version: 1.0"."\r\n";
+							$headers .= "Content-Type: text/html; charset=ISO-8859-1"."\r\n";
+							mail($to, $subject, $message,$headers);
+
+            					mysqli_close($cn);
+            					return "rejected_again";
+            				}else{
+            					return "evidence not delete";
+            				}
+            				
+            			}else{
+            				mysqli_close($cn);
+            				return "not delete";
+            			}
+   
             		}
             	}
 
+			}
             	//get lec assigment more info
                 $sql="SELECT * FROM `creat_assigment` WHERE 
                         `ass_name`='$submitted_assigment' and `created_by`='$lec_name'";
@@ -1148,17 +1796,16 @@ $_PK=$_GET['student_reject_id'];
 	                
             	}
             	//insert data to another tabel
-            	$on=date("m/d/Y h:i:s A");
+            	date_default_timezone_set("Asia/Karachi");
+            	$on=date("m/d/Y h:i A");
             	$sql4="SELECT * FROM `students_assigment_rejected` WHERE `std_email`='$student_email' and `asssigment`='$submitted_assigment'";
 
             	$done1=mysqli_query($cn,$sql4);
             	if(mysqli_num_rows($done1)>0){
-
-            		return "already_accepted";
-
+            		return "already_rejected";
             	}
-            	$sql="INSERT INTO `students_assigment_rejected`(`std_name`, `std_email`, `std_mob`, `std_img`,`asssigment`, `marks`, `title`, `description`, `due_date`, `submition_date`, `confirmation`, `confirm_by`, `lec_email`, `confirm_on`) VALUES ('$student_name','$student_email',
-            		'$student_mob','$std_image','$submitted_assigment','$std_marks','$title','$description','$due_date','$submitted_on','Rejected','$lec_name','$lec_email','$on')";
+            	$sql="INSERT INTO `students_assigment_rejected`(`std_name`, `std_email`, `std_mob`, `std_img`,`asssigment`, `marks`, `title`, `description`, `due_date`, `submition_date`, `confirmation`, `reject_reason`, `confirm_by`, `lec_email`, `confirm_on`) VALUES ('$student_name','$student_email',
+            		'$student_mob','$std_image','$submitted_assigment','0','$title','$description','$due_date','$submitted_on','Rejected','$reject_reason','$lec_name','$lec_email','$on')";
             		$all_done=mysqli_query($cn,$sql);
             		if($all_done){
 
@@ -1301,7 +1948,8 @@ $_PK=$_GET['student_reject_id'];
 
 
 
-            			$sql2="DELETE FROM `submit_assigments` WHERE `primary_key`='$_PK'";
+            			$sql2="DELETE FROM `submit_assigments` WHERE 
+            			`primary_key`='$ass_id'";
             			$all_done2=mysqli_query($cn,$sql2);
             			if($all_done2){
             				$sql3="DELETE FROM `attach_evidences` WHERE `id`='$submitted_id' and `assigment`='$submitted_assigment'";
@@ -1338,11 +1986,15 @@ $_PK=$_GET['student_reject_id'];
 				$Phone=$row["phone"];
 				$Address=$row["address"];
 				$image=$row["img"];
-				$Batch=$row["batch_no"];
-				$Session=$row["session"];
+				$Class=$row["class"];
+				$Semester=$row["semester"];
 				$Faculty=$row['faculty'];
 				$Department=$row["department"];
-				$date=date('d-m-yy');
+
+				//set timezone
+				date_default_timezone_set("Asia/Karachi");
+				//set date
+				$date=date('m-d-Y');
 		}
 		$sql="SELECT `email` FROM `registred_students`";
 		$registred_email=mysqli_query($cn,$sql);
@@ -1353,18 +2005,18 @@ $_PK=$_GET['student_reject_id'];
 				exit("<script type='text/javascript'>alert('This Student is Already Approved');</script>");
 			}
 		}
-		$sql="INSERT INTO `registred_students`(`first_name`, `last_name`, `d_o_b`, `email`, `type`, `psswrd`, `phone`, `address`, `img`, `batch_no`, `session`, `faculty`, `department`, `registry_date`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		$sql="INSERT INTO `registred_students`(`first_name`, `last_name`, `d_o_b`, `email`, `type`, `psswrd`, `phone`, `address`, `img`, `class`, `faculty`, `department`, `semester`, `registry_date`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 					$stmt=mysqli_prepare($cn,$sql);
 					if($stmt){
 						mysqli_stmt_bind_param($stmt, 'ssssssssssssss', $FirstName,$LastName,$Dob,$Email,$type,$Password,
-						$Phone,$Address,$image,$Batch,$Session,$Faculty,$Department,$date);
+						$Phone,$Address,$image,$Class,$Faculty,$Department,$Semester,$date);
 						$status=mysqli_stmt_execute($stmt);
 						if($status){
 							//$template_file=("student_approve_style.php");
-							include('php mailer/PHPMailerAutoload.php');
+							//include('php mailer/PHPMailerAutoload.php');
 							$to = $Email;
 							$subject = "REGARDING : Approval";
-							$headers="From: Bkuc Assigment Management System";
+							$headers="From: BKUC AMS";
 							$message="<html><body>";
 					        $message.="<div style='max-width: 600px;min-width: 200px;background-color: #fff;padding: 20px;margin: auto';>
 							<center><img style='max-height: 75px;' src='https://www.bkuc.edu.pk/public/images/top_banner1.png'></a></center>
@@ -1409,9 +2061,11 @@ $_PK=$_GET['student_reject_id'];
 		while ($row=mysqli_fetch_array($run)) {
 				$username=$row["username"];
 				$Email=$row["email"];
+				$address=$row["address"];
+				$phone=$row["phone"];
 				$Password=$row["pass"];
 				$image=$row["image"];
-				$role=$row["role"];
+				$gender=$row["gender"];
 				$Faculty=$row["faculty"];
 				$date=$row["entry_date"];
 		}
@@ -1424,15 +2078,15 @@ $_PK=$_GET['student_reject_id'];
 				exit("<script type='text/javascript'>alert('This Teacher is Already Approved You must be Rejecte this Teacher');</script>");
 			}
 		}
-		$sql="INSERT INTO `registred_lecturers`(`username`, `email`, `pass`, `image`, `role`, `faculty`, `entry_date`) VALUES(?,?,?,?,?,?,?)";
-					$stmt=mysqli_prepare($cn,$sql);
+		$creator="Assignment Creator";
+		$sql="INSERT INTO `registred_lecturers`(`username`, `email`, `address`, `phone`, `pass`, `image`, `gender`, `role`, `faculty`, `entry_date`) 
+			VALUES('$username','$Email','$address','$phone','$Password','$image','$gender','$creator','$Faculty','$date')";
+					$stmt=mysqli_query($cn,$sql);
 					if($stmt){
-						mysqli_stmt_bind_param($stmt, 'sssssss', $username,$Email,$Password,$image,$role,$Faculty,$date);
-						$status=mysqli_stmt_execute($stmt);
-						if($status){
-							//$template_file = ("lecturer_approve_style.php");
+
 							$to = $Email;
 							$subject = "REGARDING : Approval";
+							$headers  ="From: BKUC AMS";
 							$message="<html><body>";
 					        $message.="<div style='max-width: 600px;min-width: 200px;background-color: #fff;padding: 20px;margin: auto';>
 							<center><img style='max-height: 75px;' src='https://www.bkuc.edu.pk/public/images/top_banner1.png'></a></center>
@@ -1442,7 +2096,6 @@ $_PK=$_GET['student_reject_id'];
 							<p style='font-size: 8px;'><i><strong>Do not forget to share with others.</strong></i></p>
 							</div>";
 					        $message.="</body></html>";
-							$headers  ="From: BKUC ASSIGMENT MANAGEMENT SYSTEM";
 							$headers .= "MIME-Version: 1.0"."\r\n";
 							$headers .= "MIME-Version: 1.0"."\r\n";
 							$headers .= "Content-Type: text/html; charset=ISO-8859-1"."\r\n";
@@ -1450,20 +2103,17 @@ $_PK=$_GET['student_reject_id'];
 							 $sql =  "DELETE FROM `tbl_request_lectureres` WHERE `tbl_request_lectureres`.`id` = '$id'";
 			    				  $run=mysqli_query($cn,$sql);
 			    				  if($run){
-			    				  	?>
-			    				  	<script type="text/javascript">
-			    				  		window.location='teacher_requests_page.php';
-			    				  	</script>
-			    				  	<?php
+			    				  mysqli_close($cn);
+					        		return  true;
+			    				  }else{
+			    				  	mysqli_close($cn);
+					        		return  false;
 			    				  }
-    				  		mysqli_stmt_close($stmt);
-    				  		mysqli_close($cn);
-					        return  "Student Approved";
-						}
-							mysqli_stmt_close($stmt);
-							mysqli_close($cn);
-					        return  "Error in Approving";
+    				  		
 						
+					}else{
+						mysqli_close($cn);
+					        return  false;
 					}
 
 					 

@@ -263,7 +263,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       }
                     }
 
-                }
                   
                 ?>
 
@@ -386,6 +385,166 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                     
                 </div>
+                <?php
+              }elseif(isset($_GET['student_id_2'])){
+                  $pk=$_GET['student_id_2'];
+                  $sql="SELECT * FROM `re_submit_assignments` WHERE `p_k`='$pk'";
+                    $get=mysqli_query($cn,$sql);
+                    if(mysqli_num_rows($get)>0){
+                      while ($get_submit_data=mysqli_fetch_array($get)) {
+                        $id_a=$get_submit_data['f_k'];
+                        $submitted_date_on=$get_submit_data['re_submiited_on'];
+                        $pk=$get_submit_data['p_k'];
+                        $std_assigment_title=$get_submit_data['title'];
+                        $std_assigment_description=$get_submit_data['descr'];
+                        $fk_assigment=$get_submit_data['assignment'];
+                      }
+
+                      $sql="SELECT * FROM `student_whose_submitted` WHERE `id`='$id_a'";
+                      $run=mysqli_query($cn,$sql);
+                      while($get_data=mysqli_fetch_array($run)){
+                        $submitted_id=$get_data['id'];
+                        $std_image=$get_data['std_img'];
+                        $student_name=$get_data['std_name'];
+                        $student_email=$get_data['email'];
+                        $student_department=$get_data['department'];
+                        $student_semester=$get_data['semester'];
+                        $student_submitted_Date=$get_data['submitted_date'];
+                        $student_faculty=$get_data['faculty'];
+                        $assigment_submitted_date=$get_data['submitted_date'];
+                        //$assigment_count+=1;
+                      }
+                    }
+
+                  
+                ?>
+
+                <div class="row">
+                  <div class="col-lg-6 col-md-6">
+                              <!-- About Me Box -->
+                    <div class="card card-primary">
+                      <div class="card-header">
+                        <h3 class="card-title text-white">Student Information</h3>
+                        <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                        </button>                  
+                        </div>
+                      </div>
+                      <!-- /.card-header -->
+                      <div class="card-body">
+                        <div class="text-center">
+                          <img class="profile-user-img img-fluid img-circle"
+                               src="<?php echo $std_image; ?>"
+                               alt="User profile picture">
+                               <h3 class="text-muted profile-username text-center">
+                                  <?php echo $student_name; ?>
+                               </h3>
+                        </div>
+                        <hr>
+                        <strong><i class="fas fa-envelope mr-1"></i> Email</strong>
+
+                        <p class="text-muted">
+                          <?php echo $student_email; ?>
+                        </p>
+
+                        <hr>
+
+                        <strong><i class="fas fa-star mr-1"></i> Department</strong>
+
+                        <p class="text-muted"><?php echo $student_department; ?></p>
+
+                        <hr>
+
+                        <strong><i class="fas fa-tachometer-alt mr-1"></i> Semester</strong>
+
+                        <p class="text-muted">
+                          <?php echo $student_semester; ?>
+                        </p>
+                      </div>
+                      <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                  </div>
+                  <?php
+
+                    $sql="SELECT * FROM `re_submit_assignments` WHERE `f_k`='$id_a' and `assignment`='$fk_assigment'";
+                    $getting=mysqli_query($cn,$sql);
+                    if(mysqli_num_rows($getting)>0){
+                      while ($get_submit_data=mysqli_fetch_array($getting)) {
+                        $id_b=$get_submit_data['f_k'];
+                        $submitted_date_on=$get_submit_data['re_submiited_on'];
+                        $pk=$get_submit_data['p_k'];
+                        $fk_assigment=$get_submit_data['assignment'];
+                      }
+                    }
+
+                    $sql="SELECT * FROM `re_submitted_attachments` WHERE `f_k`='$id_a' and `assignment`='$fk_assigment'";
+                    $getting=mysqli_query($cn,$sql);
+                    if(mysqli_num_rows($getting)>0){
+                      while ($get_submit_data=mysqli_fetch_array($getting)) {
+                        $id_b=$get_submit_data['f_k'];
+                        $fk_assigment=$get_submit_data['assignment'];
+                        $fk_assigment_files=$get_submit_data['files'];
+                      }
+                    }
+                  
+                  ?>
+
+                    <div class="col-lg-6 col-md-6">
+                      <!-- Profile Image -->
+                      <div class="card card-danger">
+                        <div class="card-header">
+                          <h3 class="card-title text-white">Evidence</h3>
+                          <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                              <i class="fas fa-minus"></i>
+                            </button>
+                          </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body box-profile">
+                          <div class="text-center">
+                            <a href="preview_pdf.php?view_evidence_id_2=<?php echo $pk; ?>" class="btn btn-secondary">Open Evidence <span class="fas fa-file"></span></a>
+                          </div>
+                          <h3 class="profile-username text-center"><?php echo $fk_assigment;?></h3>
+                            
+                          <hr>
+                          <h3 class="profile-username">title</h3>
+                          <p class="text-muted"><?php echo $std_assigment_title;?></p>
+                          <hr>
+                          <h3 class="profile-username">Description</h3>
+                          <p class="text-muted"><?php echo $std_assigment_description;?></p>
+                          <hr>
+                          <h3 class="profile-username">Submitted Date</h3>
+                          <p class="text-muted"><?php echo $submitted_date_on;?></p>
+                          <center>
+                            <div class="row">
+                              <div class="col-md-6">
+                                <a href="#" class="btn btn-danger btn-block">Reject</a>
+                              </div>
+                              <div class="col-md-6">
+                                <a href="#" class="btn btn-success btn-block">Accept</a>
+                              </div>
+                            </div>
+                            
+                            
+                          </center>
+                        </div>
+                        <!-- /.card-body -->
+                      </div>
+                      <!-- /.card -->
+                    </div>
+
+                    
+                </div>
+                <?php
+              }
+              else{
+                echo "<h1 style='text-align:center;color:grey;'>Oops! Evidence Not Found Something Went Wrong</h1>";
+                  }
+                ?>
+              
           </div>
           <!-- /.col-md-6 -->
         </div>

@@ -8,14 +8,20 @@ session_start();
 ?>
 
 <?php
-include 'db_page.php';
+include 'db_page_2.php';
 $cn=db_connection();
-$sql="SELECT * FROM `creat_assigment`";
-$run=mysqli_query($cn,$sql);
+$std_class=$_SESSION["student_logged_in"]["student_class"];
+$std_semester=$_SESSION["student_logged_in"]["student_semester"];
+$sql="SELECT * FROM `creat_assigment` WHERE `class`='$std_class' and `semester`='$std_semester'";
 $count = 0;
+$run=mysqli_query($cn,$sql);
+if(mysqli_num_rows($run)>0){
 while($get_data=mysqli_fetch_array($run)){
   $count+=1;
 }
+}
+
+
 $student_id=$_SESSION["student_logged_in"]["id"];
 $sql="SELECT * FROM `registred_students` WHERE `id`='$student_id'";
 $done=mysqli_query($cn,$sql);
@@ -30,8 +36,8 @@ if($done){
     $_phone=$get_std_info['phone'];
     $_address=$get_std_info['address'];
     $_img=$get_std_info['img'];
-    $_batch=$get_std_info['batch_no'];
-    $_session=$get_std_info['session'];
+    $_class=$get_std_info['class'];
+    $_semester=$get_std_info['semester'];
     $_faculty=$get_std_info['faculty'];
     $_department=$get_std_info['department'];
     $_semester=$get_std_info['semester'];
@@ -62,41 +68,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style.css">
-    <style type="text/css">
-      table td{
-        font-size: 12px;
-        height: auto;
-        width: auto;
-      }
-      .btn{
-        font-size: 12px;
-        width: auto;
-        height: auto;
-        padding: auto;
-      }
-       label{
-        padding: 9px 30px;
-        border: 3px solid #ffc86554;
-        border-radius: 8px;
-        font-size: 10px;
-        background-color: red;
-        cursor: hand;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        color:white;
-      }
-      label:hover{
-        transform: scale(1.02);
-      }label.active{
-        background-color: #ffc86554;
-        color: black;
-      }label span{
-        font-weight: normal;
-      }
-      h3{
-        color: white;
-      }
-    </style>
+    <link rel="stylesheet" type="text/css" href="file.css">
 </head>
 <body class="hold-transition sidebar-mini sidebar-collapse layout-footer-fixed layout-navbar-fixed layout-fixed">
 <div class="wrapper">
@@ -191,7 +163,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <a href="students_new_assigments.php" class="nav-link">
                   <i class="fas fa-ad nav-icon"></i>
                   <p>New Assigments</p>
-                  <span class="right badge badge-danger"><?php echo $count; ?></span>
                 </a>
               </li>
           <li class="nav-item">
@@ -261,6 +232,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row">
           <div class="col-lg-12 col-md-12">
+            <?php
+            if(isset($_GET['update_done'])){
+              ?>
+              <div class="alert alert-success">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong style="font-family:" class="h4"><i class="fas fa-check-circle fa-lg"></i>&nbsp;Done!<br></strong><div class="h5">Your profile has been updated You need to logout to settings up your changes <a href="LogOff_page.php" class="btn btn-danger">Re Login</a></div>
+              </div>
+              <?php
+            }
+            ?>
             <div class="card">
               <div class="card-header p-2">
                 <div class="card-tools">
@@ -336,9 +317,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <!-- /.card-header -->
                         <div class="card-body box-profile">
                           <div class="text-center">
-                            <img class="profile-user-img img-fluid img-circle"
+                            <?php
+                            if(file_exists($_img)){
+                              ?>
+                              <img class="profile-user-img img-fluid img-circle"
                                  src="<?php echo $_img; ?>"
                                  alt="User profile picture">
+                              <?php
+                            }else{
+                              ?>
+                              <img class="profile-user-img img-fluid img-circle"
+                                 src="student images/male.png"
+                                 alt="User profile picture">
+                              <?php
+                            }
+                            ?>
+                            
                           </div>
                           <h3 class="profile-username text-center"><?php echo $_std_name; ?></h3>
                           <?php if(strlen($_semester)>0){
@@ -388,17 +382,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                 <hr>
 
-                <strong><i class="fas fa-pencil-alt mr-1"></i> Batch #</strong>
+                <strong><i class="fas fa-pencil-alt mr-1"></i> Class</strong>
 
                 <p class="text-muted">
-                 <?php echo $_batch; ?>
+                 <?php echo $_class; ?>
                 </p>
 
                 <hr>
 
-                <strong><i class="far fa-file-alt mr-1"></i> Session</strong>
+                <strong><i class="far fa-file-alt mr-1"></i> Semester</strong>
 
-                <p class="text-muted"><?php echo $_session; ?></p>
+                <p class="text-muted"><?php echo $_semester; ?></p>
               </div>
               <!-- /.card-body -->
             </div>
@@ -479,23 +473,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <!-- /.card-header -->
                         <div class="card-body box-profile">
                           <div class="text-center">
-                            <img class="profile-user-img img-fluid img-circle"
-                                 src="<?php echo $_img; ?>"
-                                 alt="User profile picture">
-                                 <input type="file" name="edit_file" id="upload_img"  hidden onchange="readURL(this);" value="Document">
-                                 <label for="upload_img" id="selector">SELECT IMAGE</label>
-                                  <script type="text/javascript">
-                                    var loader = function(e){
-                                    let file = e.target.files;
-                                    let show = "<span>Selected File : </span>"+file[0].name;
-                                    let output = document.getElementById("selector");
-                                    output.innerHTML=show;
-                                    output.classList.add("active");
-                                    };
-                                    let fileinput = document.getElementById("upload_img");
-                                    fileinput.addEventListener("change",loader);
-                                  </script>
-                                  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<!--                             <img class="profile-user-img img-fluid img-circle"
+                                 src="<?php //echo $_img; ?>"
+                                 alt="User profile picture"> -->
+                                 <label for="edit_file" id="selector_profile">SELECT IMAGE</label><br><br>
+                                 <input type="file" name="edit_file" id="edit_file" 
+                                  hidden>
+                                 <script src="profile_file.js"></script>
                           </div>
                           <h3 class="profile-username text-center">
                                   <div class="input-group mb-3">
@@ -506,64 +490,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <input type="text" name="edit_last_name" value="<?php echo $_last_name ?>" class="form-control" placeholder="last name">
                                   </div>
                           </h3>
-        
-                          <p class="text-muted text-center"><?php echo $_user_type; ?></p>
-                          <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                      <span class="input-group-text"><i>semeter</i></span>
-                                      <select name="edit_semester" class="form-control">
-                                        <option disabled selected>Select Semester</option>
-                                        <?php 
-                                        if(strlen($_semester)>0){
-                                          ?>
-                                          <option selected="<?php echo $_faculty; ?>"><?php echo $_semester; ?></option>
-                                          <?php
-                                        }
-                                        ?>
-                                        <option value="Semester 1st" name="edit_semester">Semester 1st</option>
-                                        <option value="Semester 2nd" name="edit_semester">Semester 2nd</option>
-                                        <option value="Semester 3rd" name="edit_semester">Semester 3rd</option>
-                                        <option value="Semester 4th" name="edit_semester">Semester 4th</option>
-                                        <option value="Semester 5th" name="edit_semester">Semester 5th</option>
-                                        <option value="Semester 6th" name="edit_semester">Semester 6th</option>
-                                        <option value="Semester 7th" name="edit_semester">Semester 7th</option>
-                                        <option value="Semester 8th" name="edit_semester">Semester 8th</option>
-                                      </select>
-                                    </div>
-                                    
-                                  </div>
+
                                   <input type="submit" name="btn_update" value="Update" style="font-family: verdana;font-size: 15px;" class="btn btn-purple bg-purple btn-block">
                         </div>
                         <!-- /.card-body -->
-                            <script type="text/javascript">
-                                    window.onload = function() {
-                                  var canvas = document.getElementById("myCanvas");
-                                  var ctx = canvas.getContext("2d");
-                                  var img = document.getElementById("scream");
-                                  ctx.drawImage(img, 10, 10);
-                              };
-                              function PreviewImage() {
-                                  pdffile=document.getElementById("upload_img").files[0];
-                                  pdffile_url=URL.createObjectURL(pdffile);
-                                  $('#viewer').attr('src',pdffile_url);
-                              }
-                                  </script>
-                                  <script type="text/javascript">
-                                  function readURL(input) {
-                                      if (input.files && input.files[0]) {
-                                          var reader = new FileReader();
-
-                                          reader.onload = function (e) {
-                                              $('#viewer')
-                                                  .attr('src', e.target.result)
-                                                  .width(400)
-                                                  .height(200);
-                                          };
-
-                                          reader.readAsDataURL(input.files[0]);
-                                      }
-                                  }
-                                  </script>
                       </div>
                       <!-- /.card -->
             </div>
@@ -609,19 +539,72 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </select>
                 </div>
                 <hr>
-                <div class="input-group mb-3">
+                <?php
+                if(isset($_class)>0){
+                  ?>
+                  <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text"><i>Batch</i></span>
+                        <span class="input-group-text"><i>Class</i></span>
                     </div>
-                        <input type="text" name="edit_batch" value="<?php echo $_batch; ?>" class="form-control" placeholder="Batch">
+                      <select name="edit_class" class="form-control">
+                          <option selected="<?php echo $_class ?>"><?php echo $_class; ?></option>
+                          <option value="BA" name="edit_class">BA</option>
+                          <option value="BSC" name="edit_class">BSC</option>
+                          <option value="BS" name="edit_class">BS</option>
+                          <option value="MA" name="edit_class">MA</option>
+                          <option value="MSC" name="edit_class">MSC</option>
+                          <option value="MCS" name="edit_class">MCS</option>
+                          <option value="M-PHIL" name="edit_class">M-PHIL</option>
+                          <option value="PHD" name="edit_class">PHD</option>
+                      </select>
                 </div>
+                  <?php
+                }else{
+                  ?>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i>Class</i></span>
+                    </div>
+                        <select name="edit_class" class="form-control">
+                          <option disabled selected="Class">Class</option>
+                          <option value="BA" name="edit_class">BA</option>
+                          <option value="BSC" name="edit_class">BSC</option>
+                          <option value="BS" name="edit_class">BS</option>
+                          <option value="MA" name="edit_class">MA</option>
+                          <option value="MSC" name="edit_class">MSC</option>
+                          <option value="MCS" name="edit_class">MCS</option>
+                          <option value="M-PHIL" name="edit_class">M-PHIL</option>
+                          <option value="PHD" name="edit_class">PHD</option>
+                        </select>
+                </div>
+                  <?php
+                }
+                ?>
                 <hr>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i>Session</i></span>
-                    </div>
-                        <input type="text" name="edit_session" value="<?php echo $_session; ?>" class="form-control" placeholder="Session">
-                </div>
+                 <div class="input-group mb-3">
+                                    <div class="input-group-prepend ">
+                                      <span class="input-group-text"><i>semeter</i></span>
+                                      </div>
+                                      <select name="edit_semester" class="form-control">
+                                        <option disabled selected="Select Semester">Select Semester</option>
+                                        <?php 
+                                        if(strlen($_semester)>0){
+                                          ?>
+                                          <option selected="<?php echo $_faculty; ?>" name="edit_semester"><?php echo $_semester; ?></option>
+                                          <?php
+                                        }
+                                        ?>
+                                        <option value="Semester 1st" name="edit_semester">Semester 1st</option>
+                                        <option value="Semester 2nd" name="edit_semester">Semester 2nd</option>
+                                        <option value="Semester 3rd" name="edit_semester">Semester 3rd</option>
+                                        <option value="Semester 4th" name="edit_semester">Semester 4th</option>
+                                        <option value="Semester 5th" name="edit_semester">Semester 5th</option>
+                                        <option value="Semester 6th" name="edit_semester">Semester 6th</option>
+                                        <option value="Semester 7th" name="edit_semester">Semester 7th</option>
+                                        <option value="Semester 8th" name="edit_semester">Semester 8th</option>
+                                      </select>
+                                    
+                                  </div>
               </div>
               <!-- /.card-body -->
             </div>
@@ -831,6 +814,7 @@ if(isset($_POST['btn_update'])){
                $text == 'gif' or $text == 'GIF' or $text == 'jpeg' or $text == 'GPEG'){
               $status=edit_student();
             if($status === true){
+              header("location:student_profile.php?update_done");
                   ?>
                     <script type="text/javascript">
                       $(document).ready(function(){

@@ -492,8 +492,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           $std_phone=$get_student['phone'];
                           $std_address=$get_student['address'];
                           $std_image=$get_student['img'];
-                          $std_batch=$get_student['batch_no'];
-                          $std_session=$get_student['session'];
+                          $std_class=$get_student['class'];
+                          $std_semester=$get_student['semester'];
                           $std_faculty=$get_student['faculty'];
                           $std_department=$get_student['department'];
                           $std_semester=$get_student['semester'];

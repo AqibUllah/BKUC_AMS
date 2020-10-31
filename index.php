@@ -346,38 +346,14 @@ if(isset($_GET['success'])){
           <p>New Assignments</p>
         </div>
         <div class="container-fluid">
-            <h3 class="text-center display-4">Search</h3>
+           <!-- <h3 class="text-center display-4">Search</h3>  -->
             <div class="row">
                 <div class="col-md-8 offset-md-2">
                     <form action="#" method="post">
                         <div class="input-group">
-                          <!-- <select class="select2" multiple="multiple" data-placeholder="Search Your Assignment" style="width: 100%;">
-                              <option>Alabama</option>
-                              <option>Alaska</option>
-                              <option>California</option>
-                              <option>Delaware</option>
-                              <option>Tennessee</option>
-                              <option>Texas</option>
-                              <option>Washington</option>
-                            </select> -->
-
-
-                            <!-- search   -->          
+                            <!-- search -->          
                             <!-- <select class="form-control form-control-lg select2" data-dropdown-css-class="select2-info" name="search_assigment" data-placeholder="Search your assignment">
-                              <option disabled selected>Search your assignment here</option>
-                              <?php
-                                if(mysqli_num_rows($run)>0){
-                                    while ($get=mysqli_fetch_assoc($run)) {
-                                      $id=$get['id'];
-                                      $assignment=$get['ass_name'];
-                                      ?>
-                                      <option value="<?php echo $assignment ?>" name="search_assigment">
-                                        <?php echo $assignment ?>
-                                      </option>
-                                      <?php
-                                    }
-                                }
-                              ?>
+                              <option disabled selected>Search your assignment here</option>  
                             </select>
                             <div class="input-group-append">
                                 <button type="submit" class="btn btn-info">
@@ -427,6 +403,8 @@ if(isset($_GET['success'])){
 
                     $last_data=substr($total_deadline, 22);
                     $comp_lastdate=strtotime($last_data);
+
+                    date_default_timezone_set("Asia/Karachi");
                     $current=date("m/d/Y h:i:s A");
                     $current=strtotime($current);
 

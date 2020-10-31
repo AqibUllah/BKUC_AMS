@@ -471,17 +471,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             $phone=$get_data["phone"];
                             $std_image=$get_data["img"];
                             $address=$get_data["address"];
-                            $batch_no=$get_data["batch_no"];
-                            $session=$get_data["session"];
+                            $class=$get_data["class"];
+                            $semester=$get_data["semester"];
                             $faculty=$get_data["faculty"];
                             $department=$get_data["department"];
                             $message=$get_data["message"];
                             $on=$get_data["entry_date_time"];
                             }
-                        
-                        }else{
-                          echo "<h2>OOPS! User Not Found <span class='fa fa-angle-right'> <a href='student_requests_page.php'> Go Back To Request Page </a></span></h2>";
-                        }
                       
                     ?>
 
@@ -494,7 +490,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <div class="col-7">
                       <h2 class="lead"><i class="fas fa-sm fa-user"></i> <b> <?php echo $first_name." ".$last_name; ?></b><br>
                       </h2>
-                      <p class="text-muted text-sm"><b>About: </b> Student  / Of / <?php echo $faculty; ?> / <?php echo $department; ?> </p>
+                      <p class="text-muted text-sm"><b>About: </b> Student Of / <?php echo $faculty; ?> / <?php echo $department." / ".$class." / ".$semester; ?> </p>
                       <ul class="ml-4 mb-0 fa-ul text-muted">
                         <li class="small"><span class="fa-li"><i class="fas fa-lg fa-envelope"></i> </span>&nbsp; Email: <?php echo $email; ?> </li><br>
                         <li class="small"><span class="fa-li"><i class="fas fa-lg fa-map"></i> </span> &nbsp;Address: <?php echo $address; ?> </li><br>
@@ -526,6 +522,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </div>
                 </div>
               </div>
+              <?php
+              }else{
+               echo "<h2>OOPS! User Not Found <span class='fa fa-angle-right'> <a href='student_requests_page.php'> Go Back To Request Page </a></span></h2>";
+              }
+              ?>
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->

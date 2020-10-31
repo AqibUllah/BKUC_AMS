@@ -411,8 +411,7 @@ if(isset($_GET['accepted_std_details_id'])){
     </section>
     <!-- /.content -->
   <?php
-}
-if(isset($_GET['rejected_std_details_id'])){
+}else if(isset($_GET['rejected_std_details_id'])){
 ?>
 <section class="content">
       <div class="container-fluid">
@@ -493,8 +492,9 @@ if(isset($_GET['rejected_std_details_id'])){
     </section>
     <!-- /.content -->
 <?php
+}else{
+  echo "<h1 style='text-align:center;color:grey;'>Oops! Student Not Found Something Went Wrong</h1>";
 }
-
 ob_end_flush();
 ?>
 

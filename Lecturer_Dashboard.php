@@ -8,7 +8,7 @@ session_start();
 ?>
 
 <?php
-            include('db_page.php');
+            include('db_page_2.php');
             $cn=db_connection();
             $id_count=0;
             $lec_name=$_SESSION["lecturer_logged_in"]["username"];
@@ -45,6 +45,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <style type="text/css">
+      h3{
+        color: white;
+      }
+    </style>
 </head>
 <body class="hold-transition sidebar-mini sidebar-collapse layout-footer-fixed layout-navbar-fixed layout-fixed">
 <div class="wrapper">
@@ -134,10 +139,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <p>
                 Dashboard
               </p>
+              <i class="right fas fa-bars fa-lg"></i>
             </a>
           </li>
           <li class="nav-item">
-            <a href="creat_assigment.php" class="nav-link">
+            <a href="creat_assigment.php" class="nav-link bg-info">
               <i class="nav-icon fas fa-file"></i>
               <p>
                 Creat Assigment
@@ -146,7 +152,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
           <li class="nav-item">
-            <a href="assigment_list.php" class="nav-link">
+            <a href="assigment_list.php" class="nav-link bg-success">
               <i class="nav-icon fas fa-check"></i>
               <p>
                 Created Assigments
@@ -155,7 +161,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
           <li class="nav-item">
-            <a href="show_assigment_submitted_list_to_lecturer.php" class="nav-link">
+            <a href="show_assigment_submitted_list_to_lecturer.php" class="nav-link bg-warning">
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Students Submitted
@@ -164,7 +170,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
           <li class="nav-item">
-            <a href="assigment_category.php" class="nav-link">
+            <a href="assigment_category.php" class="nav-link bg-maroon">
               <i class="nav-icon fas fa-globe"></i>
               <p>
                 Assigments History
@@ -172,7 +178,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
           <li class="nav-item has-treeview menu-close">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link bg-purple">
               <i class="nav-icon fas fa-wrench"></i>
               <p>
                 Account Settings
@@ -192,13 +198,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <p>Change Password</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="LogOff_page.php" class="nav-link">
+            </ul>
+            <li class="nav-item">
+                <a href="LogOff_page.php" class="nav-link bg-danger">
                   <i class="nav-icon fas fa-lock nav-icon"></i>
                   <p>Log Out</p>
                 </a>
               </li>
-            </ul>
           </li>
         </ul>
       </nav>
@@ -260,35 +266,51 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <?php
                 $sql="SELECT * FROM `submit_assigments` WHERE 
                         `assigment_was_created_by`='$lec_name'";
-                    $run_b=mysqli_query($cn,$sql);
-                  if(mysqli_num_rows($run_b)>0){
-                    //if(mysqli_num_rows($run_b)>0){
+                $run_b=mysqli_query($cn,$sql);
+
+                $sql2="SELECT * FROM `re_submit_assignments` WHERE 
+                      `submitted_to`='$lec_name'";
+                $run_c=mysqli_query($cn,$sql2);
+
                     $assigment_count=0;
+                  if(mysqli_num_rows($run_b)>0){
                     while($get_data_b=mysqli_fetch_assoc($run_b)){
                     $assigment_count+=1;
                   }
-                  echo "<h3>$assigment_count</h3>";
-                }else{
-                  echo "<h3>0</h3>";
+                  //echo "<h3>$assigment_count</h3>";
                 }
+                
+                  if(mysqli_num_rows($run_c)>0){
+                    while (mysqli_fetch_assoc($run_c)) {
+                      $assigment_count+=1;
+                    }
+                    //echo "<h3>$assigment_count</h3>";
+                  }
+
+                  
+                //else{
+                  echo "<h3>$assigment_count</h3>";
+                //}
                 ?>
                 
 
-                <p>Students Submitted</p>
+                <p >Students Submitted</p>
               </div>
               <div class="icon">
                 <?php
-                if(mysqli_num_rows($run_b)==1){
+                //if(mysqli_num_rows($run_b)==1 or mysqli_num_rows($run_c)==1){
+                if($assigment_count == 1){
                   ?>
                   <i class="ion ion-person"></i>
                   <?php
-                }elseif(mysqli_num_rows($run_b)>1){
+                }//elseif(mysqli_num_rows($run_b)>1 or mysqli_num_rows($run_c)>1){
+                 elseif($assigment_count>1 or $assigment_count>1){
                   ?>
                   <i class="ion ion-person-add"></i>
                   <?php
                 }else{
                   ?>
-                  <i class="ion ion-bag"></i>
+                  <i class="nav-icon fas fa-users"></i>
                   <?php
                 }
 

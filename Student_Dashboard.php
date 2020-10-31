@@ -10,11 +10,15 @@ session_start();
 <?php
 include 'db_page_2.php';
 $cn=db_connection();
-$sql="SELECT * FROM `creat_assigment`";
-$run=mysqli_query($cn,$sql);
+$std_class=$_SESSION["student_logged_in"]["student_class"];
+$std_semester=$_SESSION["student_logged_in"]["student_semester"];
+$sql="SELECT * FROM `creat_assigment` WHERE `class`='$std_class' and `semester`='$std_semester'";
 $count = 0;
+$run=mysqli_query($cn,$sql);
+if(mysqli_num_rows($run)>0){
 while($get_data=mysqli_fetch_array($run)){
   $count+=1;
+}
 }
 ?>
 
@@ -95,6 +99,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
+<style type="text/css">
+  h3{
+    color: white;
+  }
+</style>
 <body class="hold-transition sidebar-mini sidebar-collapse layout-footer-fixed layout-navbar-fixed layout-fixed">
 <div class="wrapper">
 
@@ -187,7 +196,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <a href="students_new_assigments.php" class="nav-link">
                   <i class="fas fa-ad nav-icon"></i>
                   <p>New Assigments</p>
-                  <span class="right badge badge-danger"><?php echo $count; ?></span>
                 </a>
               </li>
           <li class="nav-item">

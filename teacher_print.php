@@ -37,7 +37,9 @@
                         while ($get_data=mysqli_fetch_assoc($run)) {
                         $username=$get_data["username"];
                         $email=$get_data["email"];
-                        $role=$get_data["role"];
+                        $address=$get_data["address"];
+                        $phone=$get_data["phone"];
+                        $gender=$get_data["gender"];
                         $faculty=$get_data["faculty"];
                         $entry_date=$get_data["entry_date"];
                         }?>
@@ -76,20 +78,33 @@
                         ?>
                   </div>
                 </div>
+                              <center>
+                <div class="row">
+                  <div class="col-md-12">
+                <?php
+                echo "<span style='font-family:Arial;'><h4 style='text-align:center;'>MR. ".$username." Would like to request an account please make sure"."</h4></span>";
+                ?>
+                  </div>
+                </div></center>
               </div>
-              <div class="card-body mr-1">
-                <table class="table table-bordere table-hover mb-3">
+              <div class="card-body">
+                <div class="table-responsive">
+                <table class="table table-bordere table-hover">
                   <div class="row">
                     <div class="col-md-6">
                       <?php 
                         if(isset($_GET['teacher_print_id'])){
                           ?>
                       <th>user Type</th>
+                      <th>Address</th>
+                      <th>Phone</th>
                       <th>Faculty</th>
                       <th>Request Date</th>
                       <th>Print Date</th></tr>
                      <tr>
-                       <td><?php echo $role; ?></td>
+                       <td><?php echo "Teacher"; ?></td>
+                        <td><?php echo $address; ?></td>
+                        <td><?php echo $phone; ?></td>
                         <td><?php echo $faculty; ?></td>
                         <td><?php echo $entry_date; ?></td>
                         <td><?php echo date('d/m/yy'); ?></td>
@@ -100,21 +115,13 @@
                     </div> 
                   </div>              
                 </table>
-              <center>
-                <div class="row">
-                  <div class="col-md-12">
-                <?php
-                echo "<span class='badge badge-warning' style='font-family:Arial;'><h4 style='text-align:center;'>MR. ".$username." Would like to request an account please make sure"."</h4></span>";
-                ?>
-                  </div>
-                </div></center>
+                </div>
               </div>
               <div class="card-footer">
                 <div class="row" style="margin-left: 100px;">
                   <div class="col-lg-4"></div>
                     <div class="col-lg-4"></div>
                       <div class="col-lg-4">
-                        <a href="teacher_requests_page.php"  class="btn btn-success">Go Back</a>
                       </div>
                 </div>
               </div>

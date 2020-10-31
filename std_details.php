@@ -470,10 +470,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
+        <?php
+        if(isset($_GET['std_id'])){
+                    ?>
         <div class="row">
           <div class="col-12 col-sm-12 col-md-12">
                   <?php
-                  if(isset($_GET['std_id'])){
                     $id=$_GET['std_id'];
                     $sql="SELECT * FROM `registred_students` WHERE `id`='$id'";
                       $get_data=mysqli_query($cn,$sql);
@@ -488,15 +490,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           $std_phone=$get_student['phone'];
                           $std_address=$get_student['address'];
                           $std_image=$get_student['img'];
-                          $std_batch=$get_student['batch_no'];
-                          $std_session=$get_student['session'];
+                          $std_class=$get_student['class'];
+                          $std_semester=$get_student['semester'];
                           $std_faculty=$get_student['faculty'];
                           $std_department=$get_student['department'];
                           $std_semester=$get_student['semester'];
                           $std_entry=$get_student['registry_date'];
                           }
                       }
-                  }
                       
                   ?>
                   <div class="col-12 col-sm-12 col-md-12 align-items-stretch">
@@ -511,7 +512,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           <div class="col-7">
                             <h2 class="lead"><b><?php echo $std_fname." ".$std_lname; ?></b></h2>
                             <p class="text-muted text-sm"><b>Email: </b> <?php echo $std_email; ?> </p>
-                            <p class="text-muted text-sm"><b>About: </b> <?php echo $std_role;  ?> OF <?php echo $std_faculty; ?></p>
+                            <p class="text-muted text-sm"><b>About: </b> <?php echo $std_role;  ?> OF <?php echo $std_faculty ." / ". $std_class ." / ". $std_semester; ?></p>
                             <p class="text-muted text-sm"><b>Department: </b><?php echo $std_department; ?></p>
                             <p class="text-muted text-sm"><b>Semester: </b><?php echo $std_semester; ?></p>
                             <ul class="ml-4 mb-0 fa-ul text-muted">
@@ -650,6 +651,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- /.col -->
           </div>
         </div>
+        <?php
+              }else{
+              echo "<h1 style='color:grey;text-align:center;'>Oops! Student Not Found</h1>";
+
+              }
+
+              ?>
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->

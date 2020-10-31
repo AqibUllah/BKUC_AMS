@@ -502,15 +502,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       while($data=mysqli_fetch_array($run)){
                         $count=$count+1;
                         ?>
-                       <tr>
+                       <tr id="data_id">
                         <td><?php echo /*$data['id']*/$count; ?></td>
                         <td><?php echo $data['username']; ?></td>
                         <td><?php echo $data['email']; ?></td>
                         <td><?php echo $data['faculty']; ?></td>
                         <td><?php echo $data['entry_date']; ?></td>
-                        <td><a href="?approve_id=<?php echo $data['id'];?>"  class="btn btn-primary">Accept</a>
+                        <td>
+                          <a href="teacher_details_page.php?details_id=<?php echo $data['id'];?>"  class="btn btn-success">Details</a>
+                          <a href="?approve_id=<?php echo $data['id'];?>"  class="btn btn-primary">Accept</a>
                         <a href="?teacher_reject_id=<?php echo $data['id'];?>"  class="btn btn-danger">Reject</a>
-                        <a href="teacher_details_page.php?details_id=<?php echo $data['id'];?>"  class="btn btn-success">Details</a>
+                        
                         </td>
                       </tr>
                         <?php
@@ -599,8 +601,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <?php
  if(isset($_GET['approve_id'])){
     $status=approve_lecturers();
-    if($status){
-      echo "Lecturer Approved";
+    if($status == true){
+      header("location:teacher_requests_page.php");
+    }else{
+      echo "<script>alert('error in approving');</script>";
     }
  }
    if(isset($_GET['teacher_reject_id'])){

@@ -63,6 +63,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         font-size: 25px;
         font-weight: bold;
         color: green;
+      }#reject_to{
+        border-radius: 20px;
       }
     </style>
 </head>
@@ -275,6 +277,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               autohide:true,
                               delay:5000,
                               subtitle: 'Done',
+                              icon    : 'fas fa-check-circle fa-lg',
                               body: "Assigment has been Rejected"
                             })
                           });
@@ -282,6 +285,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         
                       </script>
                     <?php
+                    }elseif(isset($_GET['done_reject_again'])){
+                      ?>
+                        <script type="text/javascript">
+                          $(document).ready(function(){
+                            $('.toastsDefaultPurple').ready(function() {
+                              $(document).Toasts('create', {
+                                class: 'bg-purple', 
+                                title: 'Again Rejected',
+                                autohide:true,
+                                delay:5000,
+                                subtitle: 'Again Done',
+                                icon    : 'fas fa-check-circle fa-lg',
+                                body: "Once again you rejected this assignment"
+                              })
+                            });
+                          });
+                        </script>
+                      <?php
                     }
                   ?>
                   <div class="table-responsive">
@@ -299,6 +320,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <tbody>
                     
                   <?php
+                  $sql_r="SELECT * FROM `re_submit_assignments` WHERE `submitted_to`='$lec_name'";
+                  $run_r=mysqli_query($cn,$sql_r);
+
                   $assigment_count = 0;
                   
                   $sql_a="SELECT * FROM `submit_assigments` WHERE `assigment_was_created_by`='$lec_name'";
@@ -329,6 +353,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     $student_email=$get_data_a['email'];
                     $student_department=$get_data_a['department'];
                     $student_semester=$get_data_a['semester'];
+                    $student_img=$get_data_a['std_img'];
                     $student_submitted_Date=$get_data_a['submitted_date'];
                     $student_faculty=$get_data_a['faculty'];
                     $assigment_submitted_date=$get_data_a['submitted_date'];
@@ -343,33 +368,155 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     //$assigment_count+=1;
 
                     ?>
-                       <tr>
+                       <tr id="<?php echo $primary_key; ?>">
                       <td><?php echo $assigment_count; ?></td>
                       <td><?php echo $student_name; ?></td>
                       <td><?php echo $submitted_assigment; ?></td>
                       <td><?php echo $submitted_on; ?></td>
-                      <form method="post" action="show_assigment_submitted_list_to_lecturer.php">
+                      <form method="post">
                       <td>
                         <input type="text" placeholder="student marks / <?php echo $total_marks ?>" name="std_marks" class="form-control">
                         </td>
-                      <td class="text-center py-0 align-middle">
+                      <td>
 
                           <a href="student_view_evidence.php?student_id=<?php echo $primary_key; ?>" class="btn btn-primary">View Evidence</a>
-                          <input type="hidden" name="h_value" id="h_value" value="<?php echo $primary_key; ?>">
-                          <a href="?student_reject_id=<?php echo $primary_key; ?>" class="btn btn-danger">Reject</a>
+                          <!-- <a href="?student_reject_id=<?php //echo $primary_key; ?>" class="btn btn-danger">Reject</a> -->
+                          <a href="#view_assigment_model" class="" data-toggle="modal">
+                          <i class="fas fa-times-circle fa-lg view" data-toggle="tooltip" 
+                            ass-id="<?php echo $primary_key; ?>"
+                            std-name="<?php echo $student_name; ?>"
+                            std-img="<?php echo $student_img; ?>"
+                            title="reject assignment"></i></a>
+
                           
+                            <input type="hidden" name="h_value" id="h_value" value="<?php echo $primary_key; ?>">
                           <input type="submit" name="btn_accept" id="btn_accept" value="Accept" class="btn btn-success">
-                        
+                          </form>
                       </td>
-                    </form>
+
+                      <!-- model assigment information -->
+                      <div class="modal fade" id="view_assigment_model" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <form method="post">
+                              <div class="modal-header bg-danger">
+                                <p class="modal-title" id="exampleModalLabel">Assignment Rejecting</p>
+                                <button type="button" class="close btn-danger" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              
+                              <div class="modal-body">
+                                <input type="hidden" name="assigment_id" id="id_v">
+                                <p class="badge badge-maroon bg-maroon" style="border-radius: 20px;padding: 5px;">Rejecting To : </p>&nbsp;<input type="text" style="border:none;border-radius: 20px;padding-left: 10px;" name="" class="bg-danger" id="student_name_v">
+                                <div class="form-group">
+                                  <textarea name="txt_reject_reason" placeholder="Why? type some reasons.." class="form-control"></textarea>
+                                </div>
+                              </div>
+                              <div class="modal-footer bg-light">
+                                <button type="button" class="btn btn-danger btn-float" data-dismiss="modal">Close</button>
+
+                                <!-- <input type="submit" name="btn_reject_done" value="Reject Assignment" class="btn btn-danger btn-float btn-block"> -->
+                                <button type="submit" class="btn btn-danger btn-float btn-block" name="reject_assigment">Reject Assignment</button>
+                              </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
                       </tr>
                     
                     <?php
 
-                  }
+                      } // end while
 
+                    } // end while
+                  }if (mysqli_num_rows($run_r)>0) {
+                    while ($get_data_r=mysqli_fetch_array($run_r)) {
+                    $assigment_count+=1;
+                    $_id=$get_data_r['f_k'];
+                    $student_email=$get_data_r['std_email'];
+                    $student_assignment=$get_data_r['assignment'];
+                    $description=$get_data_r['descr'];
+                    $title=$get_data_r['title'];
+                    $student_re_submited_on=$get_data_r['re_submiited_on'];
+                    $pk=$get_data_r['p_k'];
+                    $assigment_re_submitted_to=$get_data_r['submitted_to'];
+
+                    //this query for just getting total marks of every assignment
+                    $sql="SELECT * FROM `creat_assigment` WHERE `created_by`='$lec_name' and `ass_name`='$student_assignment'";
+                    $run_f=mysqli_query($cn,$sql);
+                    if(mysqli_num_rows($run_f)>0){
+                      while ($get_data_f=mysqli_fetch_array($run_f)) {
+                        $total_marks = $get_data_f['ass_marks'];
+                      }
                     }
-                  }
+                    //this query is just for getting every student name
+                    $sql="SELECT * FROM `student_whose_submitted` WHERE `id`='$_id'";
+                    $run=mysqli_query($cn,$sql);
+                    while($get_data_g=mysqli_fetch_assoc($run)){
+                      $student_name_r=$get_data_g['std_name'];
+                    }
+
+                    ?>
+                       <tr id="<?php echo $primary_key; ?>">
+                      <td><?php echo $assigment_count; ?></td>
+                      <td><?php echo $student_name_r; ?></td>
+                      <td><?php echo $student_assignment; ?></td>
+                      <td><?php echo "<span class='badge badge-purple bg-purple badge-pill' style='font-family:verdana;'>Re-Submitted : $student_re_submited_on</span>"; ?></td>
+                      <form method="post">
+                      <td>
+                        <input type="text" placeholder="student marks / <?php echo $total_marks ?>" name="std_marks" class="form-control">
+                        </td>
+                      <td>
+
+                          <a href="student_view_evidence.php?student_id_2=<?php echo $pk; ?>" class="btn btn-primary">View Evidence</a>
+                          <!-- <a href="?student_reject_id=<?php //echo $primary_key; ?>" class="btn btn-danger">Reject</a> -->
+                          <a href="#view_assigment_model" class="" data-toggle="modal">
+                          <i class="fas fa-times-circle fa-lg view" data-toggle="tooltip" 
+                            ass-id="<?php echo $pk; ?>"
+                            std-name="<?php echo $student_name_r; ?>"
+                            title="Assignment reject again"></i></a>
+
+                          
+                            <input type="hidden" name="h_value" id="h_value" value="<?php echo $pk; ?>">
+                          <input type="submit" name="btn_accept_again" id="btn_accept" value="Accept" class="btn btn-success">
+                          </form>
+                      </td>
+
+                      <!-- model assigment information -->
+                      <div class="modal fade" id="view_assigment_model" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <form method="post">
+                              <div class="modal-header bg-danger">
+                                <p class="modal-title" id="exampleModalLabel">Assignment Rejecting</p>
+                                <button type="button" class="close btn-danger" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              
+                              <div class="modal-body">
+                                <input type="hidden" name="assigment_id" id="id_v">
+                                <p class="badge badge-maroon bg-maroon" style="border-radius: 20px;padding: 5px;">Rejecting To : </p>&nbsp;<input type="text" style="border:none;border-radius: 20px;padding-left: 10px;" name="" class="bg-danger" id="student_name_v">
+                                <div class="form-group">
+                                  <textarea name="txt_reject_reason" placeholder="Why? type some reasons.." class="form-control"></textarea>
+                                </div>
+                              </div>
+                              <div class="modal-footer bg-light">
+                                <button type="button" class="btn btn-danger btn-float" data-dismiss="modal">Close</button>
+
+                                <!-- <input type="submit" name="btn_reject_done" value="Reject Assignment" class="btn btn-danger btn-float btn-block"> -->
+                                <button type="submit" class="btn btn-danger btn-float btn-block" name="reject_assigment">Reject Assignment</button>
+                              </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </tr>
+                    
+                    <?php
+                    }
+                  } // end if
                   ?>
             </tbody>
           </table>
@@ -395,14 +542,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- /.control-sidebar -->
 
   <!-- Main Footer -->
-  <footer class="main-footer">
-    <!-- To the right -->
-    <div class="float-right d-none d-sm-inline">
-      <a href="http://www.bkucams.000webhostapp.com">www.bkucams.000webhostapp.com</a>
-    </div>
-    <!-- Default to the left -->
-    <strong>BKUC AMS &copy; Developed by <a href="https://adminlte.io">Aqib Lodhi </a></strong> All rights reserved.
-  </footer>
+  
 </div>
 <!-- ./wrapper -->
 
@@ -424,6 +564,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
+
+<script>
+    $(document).on('click','.view',function(e) {
+    var ass_id=$(this).attr("ass-id");
+    var std_name=$(this).attr("std-name");
+    var std_img=$(this).attr("std-img");
+    $('#id_v').val(ass_id);
+    $('#student_name_v').val(std_name);
+    $('#std_img_v').val(std_img);
+  });
+    </script>
 
 <!-- page script -->
 <script>
@@ -551,16 +702,88 @@ if(isset($_POST["btn_accept"])){
                     
 }
 
-
-if(isset($_GET['student_reject_id'])){
-  $status = student_reject_assigment();
-  if($status == "done"){
-              ?>
+if(isset($_POST["btn_accept_again"])){
+  include('functions_page.php');
+  $std_marks=$_POST['std_marks'];
+  //$status = input_recieved($_POST['std_marks']);
+  if($std_marks != "" or $std_marks != null){
+    $status = student_accept_assigment_again();
+    if($status == "done"){
+      ?>
                 <script type="text/javascript">
-                  window.location="show_assigment_submitted_list_to_lecturer.php?reject_id";
+                  window.location="show_assigment_submitted_list_to_lecturer.php?success_id";
                 </script>
               <?php
-  }else{
+
+    }elseif ($status == "old_info_delettion_error") {
+      ?>
+                <script type="text/javascript">
+                  $(document).ready(function(){
+                    $('.toastsDefaultMaroon').ready(function() {
+                      $(document).Toasts('create', {
+                        class: 'bg-maroon', 
+                        title: 'Not Done',
+                        autohide:true,
+                        delay:5000,
+                        subtitle: 'Error',
+                        body: "Oops! Previous Info about this student can not delete"
+                      })
+                    });
+                  });
+                </script>
+              <?php
+    }elseif ($status == "evidence not delete") {
+      ?>
+                <script type="text/javascript">
+                  $(document).ready(function(){
+                    $('.toastsDefaultDanger').ready(function() {
+                      $(document).Toasts('create', {
+                        class: 'bg-danger', 
+                        title: 'Not Done',
+                        autohide:true,
+                        delay:5000,
+                        subtitle: 'Error',
+                        body: "Oops! Evidence files not deleted something went wrong"
+                      })
+                    });
+                  });
+                </script>
+              <?php
+    }elseif ($status=="already_accepted") {
+      ?>
+                <script type="text/javascript">
+                  $(document).ready(function(){
+                    $('.toastsDefaultInfo').ready(function() {
+                      $(document).Toasts('create', {
+                        class: 'bg-info', 
+                        title: 'accepted',
+                        autohide:true,
+                        delay:5000,
+                        subtitle: 'Already done',
+                        body: "Assigment was already accepted"
+                      })
+                    });
+                  });
+                </script>
+              <?php
+    }elseif ($status == "not delete") {
+    ?>
+                <script type="text/javascript">
+                  $(document).ready(function(){
+                    $('.toastsDefaultMaroon').ready(function() {
+                      $(document).Toasts('create', {
+                        class: 'bg-maroon', 
+                        title: 'Error',
+                        autohide:true,
+                        delay:5000,
+                        subtitle: 'Not delete',
+                        body: "data can not delete"
+                      })
+                    });
+                  });
+                </script>
+              <?php
+  }elseif ($status == "not accept") {
     ?>
                 <script type="text/javascript">
                   $(document).ready(function(){
@@ -570,7 +793,79 @@ if(isset($_GET['student_reject_id'])){
                         title: 'Error',
                         autohide:true,
                         delay:5000,
+                        subtitle: 'Not Accept',
+                        body: "Oops! Student can not accept something went wrong."
+                      })
+                    });
+                  });
+                </script>
+              <?php
+  }
+
+}else{
+    ?>
+                <script type="text/javascript">
+                  $(document).ready(function(){
+                    $('.toastsDefaultMaroon').ready(function() {
+                      $(document).Toasts('create', {
+                        class: 'bg-maroon', 
+                        title: 'Error',
+                        autohide:true,
+                        delay:5000,
+                        subtitle: 'Not Accept',
+                        body: "can not accept beacuse of students marks was empty"
+                      })
+                    });
+                  });
+                </script>
+              <?php
+  }
+  
+                    
+}
+
+if(isset($_POST['reject_assigment'])){
+  if($_POST['txt_reject_reason'] != null or $_POST['txt_reject_reason'] != ""){
+      $status = student_reject_assigment();
+  if($status == "done"){
+              ?>
+                <script type="text/javascript">
+                  window.location="show_assigment_submitted_list_to_lecturer.php?reject_id";
+                </script>
+              <?php
+  }else if($status == "rejected_again"){
+    header("location:show_assigment_submitted_list_to_lecturer.php?done_reject_again");
+  }else if($status == "already_rejected"){
+    ?>
+                <script type="text/javascript">
+                  $(document).ready(function(){
+                    $('.toastsDefaultMaroon').ready(function() {
+                      $(document).Toasts('create', {
+                        class: 'bg-maroon', 
+                        title: 'Alreay Rejected',
+                        autohide:true,
+                        delay:5000,
                         subtitle: 'Not Done',
+                        icon    : 'fas fa-info fa-lg',
+                        body: "This assignment was already rejected"
+                      })
+                    });
+                  });
+                </script>
+              <?php
+  }
+  else{
+            ?>
+                <script type="text/javascript">
+                  $(document).ready(function(){
+                    $('.toastsDefaultDanger').ready(function() {
+                      $(document).Toasts('create', {
+                        class: 'bg-danger', 
+                        title: 'Error',
+                        autohide:true,
+                        delay:5000,
+                        subtitle: 'Not Done',
+                        icon    : 'fas fa-times-circle fa-lg',
                         body: "Oops Something went wrong"
                       })
                     });
@@ -578,6 +873,26 @@ if(isset($_GET['student_reject_id'])){
                 </script>
               <?php
   }
+  }else{
+?>
+                <script type="text/javascript">
+                  $(document).ready(function(){
+                    $('.toastsDefaultPurple').ready(function() {
+                      $(document).Toasts('create', {
+                        class: 'bg-purple', 
+                        title: 'Error',
+                        autohide:true,
+                        delay:6000,
+                        subtitle: 'Not Done',
+                        icon    : 'fas fa-times-circle fa-lg',
+                        body: "Reason was not set plz type some reasons and then try again"
+                      })
+                    });
+                  });
+                </script>
+              <?php
+  }
+
 }
 
 ob_end_flush();

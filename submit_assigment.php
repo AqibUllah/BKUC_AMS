@@ -10,11 +10,15 @@ session_start();
 <?php
 include 'db_page_2.php';
 $cn=db_connection();
-$sql="SELECT * FROM `creat_assigment`";
-$run=mysqli_query($cn,$sql);
+$std_class=$_SESSION["student_logged_in"]["student_class"];
+$std_semester=$_SESSION["student_logged_in"]["student_semester"];
+$sql="SELECT * FROM `creat_assigment` WHERE `class`='$std_class' and `semester`='$std_semester'";
 $count = 0;
+$run=mysqli_query($cn,$sql);
+if(mysqli_num_rows($run)>0){
 while($get_data=mysqli_fetch_array($run)){
   $count+=1;
+}
 }
 
 ?>
@@ -163,7 +167,6 @@ if(isset($_GET["extension_error"])){
                 <a href="students_new_assigments.php" class="nav-link">
                   <i class="fas fa-ad nav-icon"></i>
                   <p>New Assigments</p>
-                  <span class="right badge badge-danger"><?php echo $count; ?></span>
                 </a>
               </li>
           <li class="nav-item">
@@ -265,18 +268,6 @@ if(isset($_GET["extension_error"])){
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                       <i class="fas fa-minus"></i>
                     </button>
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-tool dropdown-toggle" data-toggle="dropdown">
-                        <i class="fas fa-wrench"></i>
-                      </button>
-                      <div class="dropdown-menu dropdown-menu-right" role="menu">
-                        <a href="#" class="dropdown-item">Action</a>
-                        <a href="#" class="dropdown-item">Another action</a>
-                        <a href="#" class="dropdown-item">Something else here</a>
-                        <a class="dropdown-divider"></a>
-                        <a href="#" class="dropdown-item">Separated link</a>
-                      </div>
-                    </div>
                     <button type="button" class="btn btn-tool" data-card-widget="remove">
                       <i class="fas fa-times"></i>
                     </button>
@@ -314,14 +305,47 @@ if(isset($_GET["extension_error"])){
                             $run=mysqli_query($cn,$sql);
                             if($run){
                               while($_get_data=mysqli_fetch_array($run)){
+                                date_default_timezone_set("Asia/Karachi");
                                 $name_of_assigments=$_get_data['ass_name'];
-                                //$total_time=$_get_data['time_duration'];
                                 $start_date=substr($_get_data['time_duration'],0,19);
                                 $last_date=substr($_get_data['time_duration'], 22);
+
+                                //set timezone
+                                date_default_timezone_set("Asia/Karachi");
                                 $current=date("m/d/Y h:i:s A");
                                 $current=strtotime($current);
                                 $end = strtotime($last_date);
-                                if($end>$current){
+
+                                //check in students submitted table
+                                $std_email=$_SESSION["student_logged_in"]["std_email"];
+                                $sql="select * from student_whose_submitted where email='$std_email'";
+                                $ch1=mysqli_query($cn,$sql);
+                                if($ch1){
+                                  while ($fetch=mysqli_fetch_array($ch1)) {
+                                    $std_id=$fetch['id'];
+                                  }
+                                }
+
+                                //check in accepted table
+                                $sql="select * from students_assigment_accepted where std_email='$std_email' and asssigment='$name_of_assigments'";
+                                $ch3=mysqli_query($cn,$sql);
+
+                                //check in rejected table
+                                $sql="select * from students_assigment_rejected where std_email='$std_email' and asssigment='$name_of_assigments'";
+                                $ch4=mysqli_query($cn,$sql);
+
+                                //check in newly submitted assignments table
+                                $sql="select * from submit_assigments where assigment='$name_of_assigments' and std_id='$std_id'";
+                                $ch2=mysqli_query($cn,$sql);
+
+                                if(mysqli_num_rows($ch2)>0){
+                                  
+                                }else if(mysqli_num_rows($ch3)>0){
+                                  
+                                }else if(mysqli_num_rows($ch4)>0){
+                                  
+                                }
+                                else if($end>$current){
                                   ?>
                                  <option value="<?php echo $name_of_assigments; ?>" name="txt_assigment_name" class="form-control"><?php echo $name_of_assigments; ?></option>
                                   <?php
@@ -543,7 +567,8 @@ if(isset($_GET["extension_error"])){
 if(isset($_POST['btn_submit_assigment'])){
   include('functions_page.php');
   $status = input_recieved($_POST);
-  if($status === true){
+  $select_option_text=$_POST['txt_assigment_name'];
+  if($status === true and $select_option_text!= null){
           
           //$uploaded_dir   = 'submitted  assigments/';
           
@@ -577,6 +602,7 @@ if(isset($_POST['btn_submit_assigment'])){
                         autohide:true,
                         delay:10000,
                         subtitle: 'Submitted',
+                        icon    : 'fas fa-check-circle fa-lg',
                         body: 'Your assigment has been submitted successfully.when it will be acceptable from the lecturer then you will be inform  by recieving an email. ThankYou!'
                       })
                     });
@@ -594,6 +620,7 @@ if(isset($_POST['btn_submit_assigment'])){
                         autohide:true,
                         delay:10000,
                         subtitle: 'not submit',
+                        icon    : 'fas fa-times-circle fa-lg',
                         body: 'Some files can not be acceptable plz check your files and then try gain.'
                       })
                     });
@@ -608,13 +635,14 @@ if(isset($_POST['btn_submit_assigment'])){
                 ?>
                 <script type="text/javascript">
                   $(document).ready(function(){
-                    $('.toastsDefaultDanger').ready(function() {
+                    $('.toastsDefaultInfo').ready(function() {
                       $(document).Toasts('create', {
-                        class: 'bg-danger', 
+                        class: 'bg-info', 
                         title: 'Error',
                         autohide:true,
-                        delay:5000,
+                        delay:6000,
                         subtitle: 'not submit',
+                        icon    : 'fas fa-info-circle fa-lg',
                         body: 'You have already submitted your assigment.'
                       })
                     });
@@ -653,7 +681,8 @@ if(isset($_POST['btn_submit_assigment'])){
                                 delay    : 9000,
                                 title: 'Warning',
                                 subtitle: 'Not Done',
-                                body: "You don't have any evidence first show your evidence then your assigment will be submit."
+                                icon    :  'fas fa-times fa-lg',
+                                body: "Something went wrong plz select your assignment evidences."
                               })
                             });
                       });
@@ -669,9 +698,9 @@ if(isset($_POST['btn_submit_assigment'])){
               class: 'bg-maroon', 
               title: 'Error',
               autohide:true,
-              delay:4000,
+              delay:5000,
               subtitle: 'missing fields',
-              icon: 'fas fa-envelope fa-lg',
+              icon: 'fas fa-edit fa-lg',
               body: 'Missing Input Fields <strong>All REQUIRED</strong>'
             })
           });

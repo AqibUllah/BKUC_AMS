@@ -18,6 +18,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
   <title>Lecturers Details</title>
+
+  <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="lib/lightbox/css/lightbox.css" type="text/css" media="screen" />
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
     <!-- DataTables -->
@@ -41,6 +44,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
         padding: 20px;
           height: 50px;
         }
+        img{
+        width: 150px;
+        height: 150px;
+      }
     </style>
 </head>
 <body class="hold-transition sidebar-mini sidebar-collapse layout-footer-fixed layout-navbar-fixed layout-fixed">
@@ -450,40 +457,53 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
-            <div class="card  bg-secondary">
-              <div class="card-header text-white bg-dark mb-3">
-                <div class="row">
-                        <?php
+                    <?php
                       $cn=db_connection();
                        if(isset($_GET['details_id'])){
                         $id=$_GET['details_id'];
                         $sql="SELECT * FROM `tbl_request_lectureres` WHERE `id`='$id'";
                         $run=mysqli_query($cn,$sql);
-                        while ($get_data=mysqli_fetch_assoc($run)) {
-                        $username=$get_data["username"];
-                        $email=$get_data["email"];
-                        $role=$get_data["role"];
-                        $faculty=$get_data["faculty"];
-                        $entry_date=$get_data["entry_date"];
-                        }?>
-                  <div class="col-md-10">
-                    <h3 style=""><?php echo "Name  : ". $username; ?></h3>
-                    <h3 style=""><?php echo "Email : ".$email; ?></h3>
-                  </div>
-                    <div class="col-md-2">
-                                       <?php
-                      $cn=db_connection();
-                       if(isset($_GET['details_id'])){
-                        $id=$_GET['details_id'];
-                        $sql="SELECT * FROM `tbl_request_lectureres` WHERE `id`='$id'";
-                        $run=mysqli_query($cn,$sql);
-                        $get_data=mysqli_fetch_assoc($run);
-          
-                        }?>
-                        <div class="img img-circle">
-                          <?php if(file_exists($get_data["image"])){
+                            while ($get_data=mysqli_fetch_assoc($run)) {
+                            $id=$get_data['id'];
+                            $lec_name=$get_data["username"];
+                            $lec_email=$get_data["email"];
+                            $lec_phone=$get_data["phone"];
+                            $lec_image=$get_data["image"];
+                            $lec_address=$get_data["address"];
+                            $lec_faculty=$get_data["faculty"];
+                            $lec_gender=$get_data["gender"];
+                            $lec_entry=$get_data["entry_date"];
+                            }
+                      
+                    ?>
+
+                <div class="card bg-light">
+                <div class="card-header text-muted border-bottom-0">
+                  Lecturer Information
+                </div>
+                <div class="card-body pt-0">
+                  <div class="row">
+                    <div class="col-7">
+                      <h2 class="lead"><i class="fas fa-sm fa-user"></i> <b> <?php echo $lec_name; ?></b><br>
+                      </h2>
+                      <p class="text-muted text-sm"><b>About: </b> Related / <?php echo $lec_faculty; ?> </p>
+                      <ul class="ml-4 mb-0 fa-ul text-muted">
+                        <li class="small"><span class="fa-li"><i class="fas fa-lg fa-envelope"></i> </span>&nbsp; Email: <?php echo $lec_email; ?> </li><br>
+                        <li class="small"><span class="fa-li"><i class="fas fa-lg fa-map"></i> </span> &nbsp;Address: <?php echo $lec_address; ?> </li><br>
+                        <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i> </span> &nbsp;Phone #: <?php echo $lec_phone; ?> </li><br>
+                        <li class="small"><span class="fa-li"><i class="fas fa-lg fa-clock"></i> </span> &nbsp;Request on: <?php echo $lec_entry; ?></li>
+                      </ul>
+                    </div>
+                    <div class="col-5 text-center">
+                      
+                      <div class="img img-circle">
+                          <?php
+                           if(file_exists($lec_image)){
+
                             ?>
-                            <img src="<?php echo $get_data["image"]; ?>" class="img-circle" style="width: 80%;height: 90%; margin: auto;float: right;">
+                            <a href="<?php echo $lec_image; ?>" data-toggle="lightbox" rel="lightbox" data-gallery="gallery" class="col-md-12">
+                            <img src="<?php echo $lec_image; ?>" width="100%" height="100%"  class="img-circle img-fluid">
+                          </a>
                              <?php
                           } else{
                               echo "No Image<br>Available";
@@ -491,67 +511,48 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           ?>
                           
                         </div>
-                        <?php
-                        
-
-                      }else{
-                        echo "<h2>OOPS! User Not Found <span class='fa fa-angle-right'> <a href='teacher_requests_page.php'> Go Back To Request Page </a></span></h2>";
-                      }
-                   
-                        ?>
-                  </div>
-                </div>
-              </div>
-              <div class="card-body mr-1">
-                <div class="table-responsive">
-                <table class="table table-bordere table-hover table-dark mb-3">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <?php 
-                        if(isset($_GET['details_id'])){
-                          ?>
-                      <th>user Type</th>
-                      <th>Faculty</th>
-                      <th>Request Date</th></tr>
-                     <tr>
-                       <td><?php echo $role; ?></td>
-                        <td><?php echo $faculty; ?></td>
-                        <td><?php echo $entry_date; ?></td>
-                     </tr>
                     </div>
-                    <div class="col-md-6">
-                     
-                    </div> 
-                  </div>              
-                </table>
-              </div>
-              <center>
-                <div class="row">
-                  <div class="col-md-12">
-                <?php
-                echo "<span class='badge badge-warning' style='font-family:Arial;'><h4 style='text-align:center;'>MR. ".$username." Would like to request an account please make sure"."</h4></span>";
-                ?>
                   </div>
-                </div></center>
-              </div>
-              <div class="card-footer bg-dark">
-                <div class="row" style="margin-left: 100px;">
-                  <div class="col-lg-4"><a href="teacher_print.php?teacher_print_id=<?php echo $_GET['details_id']; ?>" class="btn btn-info btn-block">Print</a></div>
-                    <div class="col-lg-4"></div>
-                      <div class="col-lg-4">
-                        <a href="?approve_id=<?php echo $_GET['details_id'];?>"  class="btn btn-primary">Accept</a>
-                        <a href="?teacher_reject_id=<?php echo $_GET['details_id'];?>" class="btn btn-danger">Reject</a>
-                        <a href="teacher_requests_page.php"  class="btn btn-success">Go Back</a>
-                      </div>
                 </div>
-              </div>
-            </div>
-                        <?php
+                <div class="card-footer">
+                <div class="row">
+                  <div class="col-md-1">
+                  <div class="float-left">
+                    <a href="teacher_requests_page.php" class="btn btn-info btn-float btn-block">
+                      <i class="fas fa-angle-left"></i>
+                      Back
+                    </a>
+                  </div>
+                  </div>
+                  <div class="col-md-1">
+                  <div class="float-left">
+                    <a href="teacher_print.php?teacher_print_id=<?php echo $_GET['details_id']; ?>" class="btn btn-primary btn-float btn-block">
+                      Print <i class="fas fa-file"></i>
+                    </a>
+                  </div>
+                  </div>
+                </div>
+                
+                  
 
-                        }
-
-                        ob_end_flush();
-                       ?>
+                  <div class="form-group">
+                  <div class="text-right">
+                    
+                    <a href="?teacher_reject_id=<?php echo $_GET['details_id'];?>" class="btn btn-danger btn-sm">
+                      <i class="fas fa-times"></i>
+                      Reject
+                    </a>
+                    <a href="?approve_id=<?php echo $_GET['details_id'];?>" class="btn btn-sm btn-success">
+                      <i class="fas fa-check"></i> Accept
+                    </a>
+                  </div>
+                </div>
+              
+              <?php
+              }else{
+               echo "<h2>OOPS! User Not Found <span class='fa fa-angle-right'> <a href='student_requests_page.php'> Go Back To Request Page </a></span></h2>";
+              }
+              ?>
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
@@ -575,7 +576,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-
+<?php
+ ob_end_flush();
+?>
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
@@ -600,6 +603,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
+<script src="lib/lightbox/js/lightbox.min.js"></script>
+<link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
 <!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- REQUIRED SCRIPTS -->

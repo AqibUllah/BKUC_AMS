@@ -263,6 +263,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               $run=mysqli_query($cn,$sql);
               $ass_count=0;
               while($get_data=mysqli_fetch_array($run)){
+                date_default_timezone_set("Asia/Karachi");
                 $ass_count+=1;
                 $marks = $get_data['ass_marks'];
                 $start_date=substr($get_data['time_duration'],0,19);

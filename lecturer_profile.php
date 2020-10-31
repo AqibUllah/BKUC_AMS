@@ -764,7 +764,7 @@ function PreviewImage() {
 <?php 
 if(isset($_POST['btn_update'])){
   include('functions_page.php');
-    $status=validate_sanitize_student_Update_inputs($_POST);
+    $status=validate_sanitize_lecturer_Update_inputs($_POST);
       if(is_array($status)){
           $uploaded_dir = 'lecturers images/';
           $filename   = $_FILES["edit_file"]["name"];

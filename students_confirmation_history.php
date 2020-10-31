@@ -240,6 +240,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
+        <?php
+        if(isset($_GET['assigment_name'])){         
+        ?>
         <div class="row">
           <div class="col-lg-6">
             <div class="card card-success">
@@ -366,6 +369,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
             
           </div>
         </div>
+
+        <?php
+      }else{
+        echo "<h1 style='text-align:center;color:grey;'>Oops! Assignment Not Found Something Went Wrong</h1>";
+      }
+        ?>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>

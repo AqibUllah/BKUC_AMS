@@ -278,7 +278,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       </div>
                       <div class="col-sm-6">
                         <div class="form-group">
-                          <select name="select_department" class="form-control">
+                          <select name="select_department" class="form-control" required>
                             <option disabled selected value ="Department" name="select_department">Department</option>
                             <option value="Computer Science" name="select_department">Computer Science</option>
                             <option value="Chemistry" name="select_department">Chemistry</option>
@@ -289,6 +289,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       </div>
                     </div>
                     <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <select name="select_class" class="form-control" required>
+                            <option disabled selected value ="Class">Class</option>
+                            <option value="BS" name="select_class">BS</option>
+                            <option value="BA" name="select_class">BA</option>
+                            <option value="BSC" name="select_class">BSC</option>
+                            <option value="BBA" name="select_class">BBA</option>
+                            <option value="MA" name="select_class">MA</option>
+                            <option value="MSC" name="select_class">MSC</option>
+                            <option value="MCS" name="select_class">MCS</option>
+                            <option value="M-PHIL" name="select_class">M-PHIL</option>
+                          </select>
+                        </div>
+                      </div>
                       <div class="col-sm-6">
                         <div class="form-group">
                           <select name="select_semester" class="form-control" required>
@@ -302,11 +317,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <option value="Semester 7th" name="select_semester">Semester 7th</option>
                             <option value="Semester 8th" name="select_semester">Semester 8th</option>
                           </select>
-                        </div>
-                      </div>
-                      <div class="col-sm-6">
-                        <div class="form-group">
-                          <input type="text" name="txt_batch" placeholder="Batch No" class="form-control">
                         </div>
                       </div>
                     </div>

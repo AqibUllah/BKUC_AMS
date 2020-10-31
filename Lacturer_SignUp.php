@@ -3,7 +3,7 @@
 <head>
 	<title>Lecturer  | Sign Up</title>
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- jQuery -->
@@ -48,7 +48,7 @@
 		</div>
 		<div class="card" style="background: transparent;">
 			<div class="card-body login-card-body">
-				<form method="post" class="md-form" enctype="multipart/form-data">
+				<form method="post" id="quickForm" class="md-form" enctype="multipart/form-data">
           <div class="file-field">
               <input type="file" name="lecturer_image" class="upload-input">
           </div>
@@ -68,22 +68,22 @@
 		                    </div>
 		                  </div>
 					</div>
-			        <div class="input-group mb-2">
-			             <input type="password" name="admin_psswrd" placeholder="Password" class="form-control">
-			                 <div class="input-group-append">
-			                   <div class="input-group-text">
-			                     <span class="fas fa-lock"></span>
-			                   </div>
-			                 </div>
-			        </div>
-			        <div class="input-group mb-2">
-			             <input type="password" name="admin_confirm_psswrd" placeholder="Confirm Password" class="form-control">
-			                 <div class="input-group-append">
-			                   <div class="input-group-text">
-			                     <span class="fas fa-lock"></span>
-			                   </div>
-			                 </div>
-			        </div>
+          <div class="input-group mb-2">
+             <input type="text" name="admin_address" placeholder="Address" class="form-control">
+                      <div class="input-group-append">
+                        <div class="input-group-text">
+                          <span class="fas fa-map"></span>
+                        </div>
+                      </div>
+          </div>
+          <div class="input-group mb-2">
+             <input type="text" name="admin_phone" placeholder="Phone" class="form-control">
+                      <div class="input-group-append">
+                        <div class="input-group-text">
+                          <span class="fas fa-phone"></span>
+                        </div>
+                      </div>
+          </div>
 		            <div class="input-group mb-2">
 		                <select name="admin_faculty" class="form-control">
 		                  <option disabled selected>Faculty</option>
@@ -93,12 +93,28 @@
 		                </select>
 		            </div>
 		            <div class="input-group mb-2">
-		                <select name="admin_role" class="form-control">
-		                  <option disabled selected>Select Role</option>
-		                  <option value="Lecturer" name="admin_role">Lecturer</option>
-		                  <option value="Manager" name="admin_role">Manager</option>
+		                <select name="lec_gender" class="form-control">
+		                  <option disabled selected>Gender</option>
+		                  <option value="Male" name="lec_gender">Male</option>
+		                  <option value="Female" name="lec_gender">Female</option>
 		                </select>
 		            </div>
+                <div class="input-group mb-2">
+                   <input type="password" name="admin_psswrd" placeholder="Password" class="form-control">
+                       <div class="input-group-append">
+                         <div class="input-group-text">
+                           <span class="fas fa-lock"></span>
+                         </div>
+                       </div>
+              </div>
+              <div class="input-group mb-2">
+                   <input type="password" name="admin_confirm_psswrd" placeholder="Confirm Password" class="form-control">
+                       <div class="input-group-append">
+                         <div class="input-group-text">
+                           <span class="fas fa-lock"></span>
+                         </div>
+                       </div>
+              </div>
 					<div class="row">
   						<div class="col-12">
   							<input type="submit" name="btn_admin_sign_Up" class="btn btn-success btn-block" value="Sign Up">
@@ -122,6 +138,9 @@
 <script src="plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- jquery-validation -->
+<script src="plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="plugins/jquery-validation/additional-methods.min.js"></script>
 <!-- Select2 -->
 <script src="plugins/select2/js/select2.full.min.js"></script>
 <!-- Bootstrap4 Duallistbox -->
@@ -300,6 +319,74 @@
 
 </script>
 
+
+<!-- Page specific script -->
+<script>
+$(function () {
+  $('#quickForm').validate({
+    rules: {
+      admin_email: {
+        required: true,
+        email: true,
+      },admin_username: {
+        required: true,
+      },admin_address: {
+        required: true,
+      },admin_phone: {
+        required: true,
+      },admin_faculty: {
+        required: true,
+      },lec_gender: {
+        required: true,
+      },admin_psswrd: {
+        required: true,
+        minlength: 8
+      },admin_confirm_psswrd: {
+        required: true,
+        minlength: 8
+      },
+    },
+    messages: {
+      admin_email: {
+        required: "Please enter email address",
+        email: "Please enter a vaild email address"
+      }, admin_username: {
+        required: "Please enter username"
+      },
+      admin_address: {
+        required: "Please enter valid address",
+      },
+      admin_phone: {
+        required: "Please enter your mob #",
+      },admin_faculty: {
+        required: "Please select your faculty",
+      },
+      lec_gender: {
+        required: "Please enter your gender",
+      },
+      admin_psswrd: {
+        required: "Please provide a password",
+        minlength: "Your password must be at least 8 characters long"
+      },
+      admin_confirm_psswrd: {
+        required: "Please enter your password again that should be match",
+      },
+    },
+    errorElement: 'span',
+    errorPlacement: function (error, element) {
+      error.addClass('invalid-feedback');
+      element.closest('.form-group').append(error);
+    },
+    highlight: function (element, errorClass, validClass) {
+      $(element).addClass('is-invalid');
+    },
+    unhighlight: function (element, errorClass, validClass) {
+      $(element).removeClass('is-invalid');
+    }
+  });
+});
+</script>
+
 </body>
 </html>
 
@@ -367,12 +454,12 @@ if(isset($_POST['btn_admin_sign_Up'])){
                                     $('.toastsDefaultInfo').ready(function() {
                                       $(document).Toasts('create', {
                                         class: 'bg-info', 
-                                        title: 'Error',
-                                        subtitle: 'Already Pending',
+                                        title: 'Already in pending',
+                                        subtitle: 'ID Exists',
                                         autohide : true,
                                         delay:8000,
-                                        icon: 'fas fa-info',
-                                        body: 'Your Account is Already in pending. Wait for confirmation from the admin<strong>ThankYou!</strong>.'
+                                        icon: 'fas fa-info-circle',
+                                        body: 'Your Account is Already in pending. Wait for confirmation from the admin <strong>ThankYou!</strong>.'
                                       })
                                     });
                               });
