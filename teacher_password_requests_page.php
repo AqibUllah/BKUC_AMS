@@ -283,7 +283,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="admin_main_dashboard.php" class="nav-link">
+            <a href="admin_main_dashboard.php" class="nav-link bg-primary">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -291,7 +291,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
           <li class="nav-item has-treeview menu-close">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link bg-success">
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Accounts Requests
@@ -303,48 +303,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <a href="student_requests_page.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Student Requests</p>
-                      <?php
-                      $cn=db_connection();
-                      $sql="SELECT * FROM `tbl_students_requests`";
-                      $run=mysqli_query($cn,$sql);
-                      $count=0;
-                      while ($done=mysqli_fetch_array($run)) {
-                        $count=$count+1;
-                      }
-                      if($count>0){
-                        echo "<span class='right badge badge-danger' style='font-size: 10px;'>$count</span>";
-                      }else{
-                        
-                      }
-                      
-                      ?>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="teacher_requests_page.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Teacher Requests</p>
-                   <?php
-                      $cn=db_connection();
-                      $sql="SELECT * FROM `tbl_request_lectureres`";
-                      $run=mysqli_query($cn,$sql);
-                      $count=0;
-                      while ($done=mysqli_fetch_array($run)) {
-                        $count=$count+1;
-                      }
-                      if($count>0){
-                        echo "<span class='right badge badge-danger' style='font-size: 10px;'>$count</span>";
-                      }else{
-                        
-                      }
-                      
-                      ?>
+                  <i class="right nav-icon fas fa-angle-double-right"></i>
                 </a>
               </li>
             </ul>
           </li>
           <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
+            <a href="#" class="nav-link bg-danger">
               <i class="nav-icon fas fa-key"></i>
               <p>
                 Password Requests
@@ -370,7 +341,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       
                       ?>
                         
-                      </p></a>
+                </p>
+              </a>
               </li>
               <li class="nav-item"><a href="teacher_password_requests_page.php" class="nav-link active"><i class="far fa-circle nav-icon"></i>
               <p>
@@ -390,11 +362,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       
                       ?>
 
-              </p></a>
+              </p>
+              <i class="right nav-icon fas fa-angle-double-right"></i>
+            </a>
               </li>
             </ul>
             <li class="nav-item">
-            <a href="user_feedback.php" class="nav-link">
+            <a href="user_feedback.php" class="nav-link bg-info">
               <i class="nav-icon fas fa-globe"></i>
               <p>
                 Users Feedback
@@ -402,7 +376,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
             <li class="nav-item has-treeview menu-close">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link bg-purple">
               <i class="nav-icon fas fa-wrench"></i>
               <p>
                 Account Settings
@@ -422,14 +396,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <p>Change Password</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="LogOff_page.php" class="nav-link">
-                  <i class="nav-icon fas fa-lock nav-icon"></i>
-                  <p>Log Out</p>
-                </a>
-              </li>
             </ul>
           </li>
+            <li class="nav-item">
+              <a href="LogOff_page.php" class="nav-link bg-danger">
+              <i class="nav-icon fas fa-lock nav-icon"></i>
+              <p>Log Out</p>
+              </a>
+            </li>
           </li>
         </ul>
       </nav>

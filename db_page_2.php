@@ -7,12 +7,12 @@
 		return $cn;
 	}
 
-	function insert_user_feedback($arg){
+function insert_user_feedback(){
 	$cn=db_connection();
-	$UserName = $arg['name'];
-	$Useremail = $arg['email'];
-	$subject = $arg['subject'];
-	$message = $arg['message'];
+	$UserName = $_POST['name'];
+	$Useremail = $_POST['email'];
+	$subject = $_POST['subject'];
+	$message = $_POST['message'];
 	date_default_timezone_set("Asia/Karachi");
 	$current_date=date('m/d/Y h:i A');
 	$sql="SELECT * FROM `user_feedback` WHERE `username`='$UserName' and `user_email`='$Useremail' and `subject`='$subject' and `message`='$message'";
@@ -2207,11 +2207,13 @@ function forgot_password($arg){
 			while ($fetch_data=mysqli_fetch_array($run)) {
 				$_id=$fetch_data["id"];
 				$_email = $fetch_data["email"];
-				return array("id"=>$_id,"email"=>$_email);
-				mysqli_close($cn);
 			}
+			mysqli_close($cn);
+			return array("id"=>$_id,"email"=>$_email);
 			//return false;
-		} return false;
+		}else{
+			return false;
+		} 
 	}
 	else if($usertype == "Lecturer"){
 		$sql="SELECT * FROM `registred_lecturers` WHERE `email`='$email'";
@@ -2221,12 +2223,15 @@ function forgot_password($arg){
 			while($_get_data=mysqli_fetch_array($done)) {
 				$_lec_id=$_get_data["id"];
 				$_lec_email = $_get_data["email"];
-				return array("id"=>$_lec_id,"email"=>$_lec_email);
-				mysqli_close($cn);
+				
 			}
+			mysqli_close($cn);
+			return array("id"=>$_lec_id,"email"=>$_lec_email);
 			//return false;
+		}else{
+			return false;
 		}
-		return false;
+		
 	}
 	//return false;
 		
@@ -2242,9 +2247,9 @@ function confirm_forgott_password($arg){
 	$get_sql="SELECT `email` FROM `password_retrieve`";
 	$check=mysqli_query($cn,$get_sql);
 	while ($done=mysqli_fetch_array($check)) {
-			$check_email=$done["email"];
-				if($email == $check_email){
-		return false;
+		$check_email=$done["email"];
+		if($email == $check_email){
+			return false;
 		}
 	}
 		$Role=$arg["forgot_user_type"];
@@ -2269,7 +2274,7 @@ function confirm_forgott_password($arg){
 	while ($done=mysqli_fetch_array($check)) {
 			$check_email=$done["email"];
 				if($email == $check_email){
-		return false;
+					return false;
 		}else{
 		$Role=$arg["forgot_user_type"];
 		$sql="INSERT INTO `lecturer_password_retreive`(`user_name`, `email`,`Role`,`confirmation`) Values(?,?,?,?)";

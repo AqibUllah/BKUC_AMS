@@ -275,7 +275,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="admin_main_dashboard.php" class="nav-link">
+            <a href="admin_main_dashboard.php" class="nav-link bg-primary">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -283,7 +283,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
           <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
+            <a href="#" class="nav-link bg-success active">
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Account Requests
@@ -336,7 +336,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </ul>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link bg-danger">
               <i class="nav-icon fas fa-key"></i>
               <p>
                 Password Requests
@@ -386,7 +386,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
             </ul>
             <li class="nav-item">
-            <a href="user_feedback.php" class="nav-link">
+            <a href="user_feedback.php" class="nav-link bg-info">
               <i class="nav-icon fas fa-globe"></i>
               <p>
                 Users Feedback
@@ -394,7 +394,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
             <li class="nav-item has-treeview menu-close">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link bg-purple">
               <i class="nav-icon fas fa-wrench"></i>  <!-- fas fa-cogs -->
               <p>
                 Account Settings
@@ -414,14 +414,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <p>Change Password</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="LogOff_page.php" class="nav-link">
+            </ul>
+          </li>
+          <li class="nav-item">
+                <a href="LogOff_page.php" class="nav-link bg-danger">
                   <i class="nav-icon fas fa-lock nav-icon"></i>
                   <p>Log Out</p>
                 </a>
               </li>
-            </ul>
-          </li>
           </li>
         </ul>
       </nav>

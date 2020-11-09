@@ -616,7 +616,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <div class="col-sm-4 border-right">
                     <div class="description-block">
                       <h5 class="h3" style="color: red;"><?php echo $count_reject; ?></h5>
-                      <span class="h5">Rejected</span>
+                      <span class="h5 text-danger">Rejected</span>
                     </div>
                     <!-- /.description-block -->
                   </div>
@@ -637,7 +637,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <div class="col-sm-4">
                     <div class="description-block">
                       <h5 class="h3" style="color: green;"><?php echo $count_submit; ?></h5>
-                      <span class="h5">Accepted</span>
+                      <span class="h5 text-success">Accepted</span>
                     </div>
                     <!-- /.description-block -->
                   </div>

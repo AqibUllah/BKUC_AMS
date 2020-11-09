@@ -47,13 +47,14 @@
   <center>
 	<div class="login-box" style="width: 100%">
 		<div class="login-logo">
-			<a href="#"><b>Register</b> STUDENT</a>
+			<a href="#"><b>Register</b> Lecturer</a>
 		</div>
-    <div class="card card-default">
+        <div class="card card-default">
             <center>
               <div class="card-header bg-primary">
-                <h3 class="card-title">Registration form</h3>
-              </div></center>
+                <h3 class="card-title">Registration Form</h3>
+              </div>
+            </center>
               <form method="post" id="quickForm" class="md-form" enctype="multipart/form-data">
               <div class="card-body p-0">
                 <div class="bs-stepper">
@@ -88,6 +89,13 @@
                         <span class="bs-stepper-circle">4</span>
                       </button>
                     </div>
+                    <div class="line"></div>
+                    <div class="step" data-target="#step-5">
+                      <button type="button" class="step-trigger" role="tab" aria-controls="step-5" id="step-5-trigger">
+                        <span class="bs-stepper-label">Step</span>
+                        <span class="bs-stepper-circle">5</span>
+                      </button>
+                    </div>
                   </div>
                   </div>
                   </div>
@@ -95,36 +103,24 @@
                     <!-- your steps content here -->
                     <div id="step-1" class="content" role="tabpanel" aria-labelledby="step-1-trigger">
                       <div class="form-group">
-                        <label for="std_first_name" class="float-left">First Name</label>
-                        <input type="text" name="std_first_name" class="form-control" id="std_first_name" placeholder="first name">
+                        <label for="admin_username" class="float-left">Full Name</label>
+                        <input type="text" name="admin_username" class="form-control" id="admin_username" placeholder="full name">
                       </div>
                       <div class="form-group">
-                        <label for="std_last_name" class="float-left">Last Name</label>
-                        <input type="text"v name="std_last_name" class="form-control" id="std_last_name" placeholder="last name">
-                      </div>
-                      <div class="form-group">
-                        <label for="std_DOB" class="float-left">Date Of Birth</label>
-                        <input type="text"v name="std_DOB" class="form-control" id="std_DOB" placeholder="date of birth" data-inputmask-alias="datetime" data-inputmask-inputformat="dd-mm-yyyy" data-mask>
+                        <label for="admin_email" class="float-left">Email Address</label>
+                        <input type="text"v name="admin_email" class="form-control" id="admin_email" placeholder="email address">
                       </div>
                       <button class="btn btn-primary float-right" type="button" id="btn-step-1">Next &nbsp;
                        <i class="fas fa-angle-right"></i></button><br><br>
                     </div>
                     <div id="step-2" class="content" role="tabpanel" aria-labelledby="step-2-trigger">
                       <div class="form-group">
-                        <label for="std_mob_no" class="float-left">Phone</label>
-                        <input type="text"v name="std_mob_no" class="form-control" id="std_mob_no" placeholder="mob # " data-inputmask='"mask": "(9999) (9999999)"' data-mask>
+                        <label for="admin_address" class="float-left">Permanat Address</label>
+                        <input type="text"v name="admin_address" class="form-control" id="admin_address" placeholder="your Address">
                       </div>
                       <div class="form-group">
-                        <label for="std_email" class="float-left">Email</label>
-                        <input type="text" name="std_email" class="form-control" id="std_email" placeholder="Email">
-                      </div>
-                      <div class="form-group">
-                        <label for="std_address" class="float-left">Address</label>
-                        <input type="text"v name="std_address" class="form-control" id="std_address" placeholder="Address">
-                      </div>
-                      <div class="form-group">
-                        <label for="std_psswrd" class="float-left">Set password</label>
-                        <input type="password" name="std_psswrd" class="form-control" id="std_psswrd" placeholder="Password">
+                        <label for="admin_phone" class="float-left">Phone</label>
+                        <input type="text" name="admin_phone" class="form-control" id="admin_phone" placeholder="Phone">
                       </div>
                       <button class="btn btn-primary float-left" type="button" onclick="stepper.previous()">
                       <i class="fas fa-angle-left"></i>&nbsp; Previous</button>
@@ -133,57 +129,21 @@
                     </div>
                     <div id="step-3" class="content" role="tabpanel" aria-labelledby="step-3-trigger">
                       <div class="form-group">
-                        <label for="std_class" class="float-left">Select Class</label>
-                        <select name="std_class" id="std_class" class="form-control">
+                        <label for="admin_faculty" class="float-left">Select Faculty</label>
+                        <select name="admin_faculty" id="admin_faculty" class="form-control">
                           <option disabled selected></option>
-                          <option value="BA" name="std_class">BA</option>
-                          <option value="BSC" name="std_class">BSC</option>
-                          <option value="BS" name="std_class">BS</option>
-                          <option value="MA" name="std_class">MA</option>
-                          <option value="MSC" name="std_class">MSC</option>
-                          <option value="MCS" name="std_class">MCS</option>
-                          <option value="M-PHIL" name="std_class">M-PHIL</option>
-                          <option value="PHD" name="std_class">PHD</option>
+                          <option value="Management Science" name="admin_faculty">Management Science</option>
+                          <option value="Social Science" name="admin_faculty">Social Science</option>
+                          <option value="Arts" name="admin_faculty">Arts</option>
                         </select>
                       </div>
                       <div class="form-group">
-                        <label for="std_address" class="float-left">Select Semester</label>
-                          <select name="std_semester" id="std_semester" class="form-control">
+                        <label for="lec_gender" class="float-left">Select Gender</label>
+                          <select name="lec_gender" id="lec_gender" class="form-control">
                             <option disabled selected></option>
-                            <option value="Semester 1st" name="std_semester">Semester 1st</option>
-                            <option value="Semester 2nd" name="std_semester">Semester 2nd</option>
-                            <option value="Semester 3rd" name="std_semester">Semester 3rd</option>
-                            <option value="Semester 4th" name="std_semester">Semester 4th</option>
-                            <option value="Semester 5th" name="std_semester">Semester 5th</option>
-                            <option value="Semester 6th" name="std_semester">Semester 6th</option>
-                            <option value="Semester 7th" name="std_semester">Semester 7th</option>
-                            <option value="Semester 7th" name="std_semester">Semester 8th</option>
+                            <option value="Male" name="lec_gender">Male</option>
+                            <option value="Female" name="lec_gender">Female</option>
                           </select>
-                      </div>
-                      <div class="form-group">
-                        <label for="std_faculty" class="float-left">Select Faculty</label>
-                        <select name="std_faculty" id="std_faculty" class="form-control">
-                          <option disabled selected></option>
-                          <option value="Management Science" name="std_faculty">Management Science</option>
-                          <option value="Social Science" name="std_faculty">Social Science</option>
-                          <option value="Arts" name="std_faculty">Arts</option>
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label for="std_department" class="float-left">Select Department</label>
-                        <select name="std_department" id="std_department"
-                          class="form-control">
-                          <option disabled selected></option>
-                          <option value="Computer Science" name="std_department">Computer Science</option>
-                          <option value="Chemistry" name="std_department">Chemistry</option>
-                          <option value="Bio Technology" name="std_department">Bio Technology</option>
-                          <option value="Mathematics" name="std_department">Mathematics</option>
-                          <option value="English" name="std_department">English</option>
-                          <option value="Socialogy" name="std_department">Socialogy</option>
-                          <option value="Geology" name="std_department">Geology</option>
-                          <option value="Economics" name="std_department">Economics</option>
-                          <option value="Agriculture" name="std_department">Agriculture</option>
-                        </select>
                       </div>
                       <button class="btn btn-primary float-left" type="button" onclick="stepper.previous()">
                       <i class="fas fa-angle-left"></i>&nbsp; Previous</button>
@@ -192,27 +152,56 @@
                     </div>
                     <div id="step-4" class="content" role="tabpanel" aria-labelledby="step-4-trigger">
                       <div class="form-group">
-                         <label for="student_image" id="selector">Choose Image</label>
+                        <label for="admin_psswrd" class="float-left">Password</label>
+                        <div class="input-group mb-2">
+                        <input type="password" id="admin_psswrd" name="admin_psswrd" placeholder="Password" class="form-control">
+                         <div class="input-group-append">
+                           <div class="input-group-text">
+                             <span class="fas fa-lock"></span>
+                           </div>
+                         </div>
+                       </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="admin_confirm_psswrd" class="float-left">Confirm Password</label>
+                        <div class="input-group mb-2">
+                          <input type="password" name="admin_confirm_psswrd" id="admin_confirm_psswrd" placeholder="Confirm Password" class="form-control">
+                         <div class="input-group-append">
+                           <div class="input-group-text">
+                             <span class="fas fa-lock"></span>
+                           </div>
+                         </div>
+                       </div>
+                      </div>
+                      <button class="btn btn-primary float-left" type="button" onclick="stepper.previous()">
+                      <i class="fas fa-angle-left"></i>&nbsp; Previous</button>
+                      <button class="btn btn-primary float-right" type="button" id="btn-step-4">Next &nbsp;<i class="fas fa-angle-right"></i></button>
+                      <br><br>
+                    </div>
+                    <div id="step-5" class="content" role="tabpanel" aria-labelledby="step-5-trigger">
+                      <div class="form-group">
+                         <label for="lecturer_image" id="selector">Choose Image</label>
                          <center>
-                        <div class="input-group mb-1">
-                            <input type="file" class="form-controls" id="student_image" name="student_image" hidden>
-                            <script src="file.js"></script>
-                        </div>
+                          <div class="input-group mb-1">
+                              <input type="file" class="form-controls" id="lecturer_image" name="lecturer_image" hidden>
+                              <script src="signup_lec_image.js"></script>
+                          </div>
                         </center>
                       </div>
                       <button class="btn btn-primary" type="button" onclick="stepper.previous()"><i class="fas fa-angle-left"></i>
                      &nbsp; Previous</button>
-                      <button class="btn btn-success" id="btn-step-4" name="btn_sign_Up">Done &nbsp;<i class="fas fa-check-circle"></i></button><br><br>
+                      <button class="btn btn-success" id="btn-step-5" name="btn_admin_sign_Up">Done &nbsp;<i class="fas fa-check-circle"></i></button><br><br>
                     </div>
                   </div>
                   </div>
-                </div><!-- /.card-body -->
+                </div>
               </form>
                 <div class="card-footer bg-info">
                   <a class="text-danger" href="login_page.php">Already Member Goto Login Page</a><br>
                   <a class="text-danger" href="https:bkucams.000webhostapp.com">Bkuc Assignment Management System.</a>
                 </div>
-              </div><!-- /.card -->
+              </div>
+              <!-- /.card-body -->
             </div>
           </center>
 
@@ -252,34 +241,29 @@
 <script>
   $(document).ready(function(){
     $("#btn-step-1").on('click',function(){
-      var field1 = document.getElementById("std_first_name").value;
-      var field2 = document.getElementById("std_last_name").value;
-      var field3 = document.getElementById("std_DOB").value;
-      if(field1 != "" & field2 != "" & field3 != ""){
+      var field1 = document.getElementById("admin_username").value;
+      var field2 = document.getElementById("admin_email").value;
+      if(field1 != "" & field2 != ""){
         stepper.next();
       }else{
         $(function () {
           $('#step-1').validate({
             rules: {
-              std_first_name: {
+              admin_username: {
                 required: true,
               },
-              std_last_name: {
+              admin_email: {
                 required: true,
-              },
-              std_DOB: {
-                required: true,
+                email   :true,
               },
             },
             messages: {
-              std_first_name: {
-                required: "Please enter first name",
+              admin_username: {
+                required: "Please enter full name",
               },
-              std_last_name: {
-                required: "Please enter last name"
-              },
-              std_DOB: {
-                required: "Please enter your date Of birth"
+              admin_email: {
+                required: "Please enter email address",
+                email   : "please enter a valid email address",
               },
             },
             errorElement: 'span',
@@ -299,45 +283,27 @@
     });
 
     $("#btn-step-2").on('click',function(){
-      var field4 = document.getElementById("std_mob_no").value;
-      var field5 = document.getElementById("std_email").value;
-      var field6 = document.getElementById("std_address").value;
-      var field7 = document.getElementById("std_psswrd").value;
-      if(field4 != "" & field5 != "" & field6 != "" & field7 != ""){
+      var field3 = document.getElementById("admin_address").value;
+      var field4 = document.getElementById("admin_phone").value;
+      if(field3 != "" & field4 != "" ){
         stepper.next();
       }else{
         $(function () {
           $('#step-2').validate({
             rules: {
-              std_mob_no: {
+              admin_address: {
                 required: true,
               },
-              std_email: {
+              admin_phone: {
                 required: true,
-                email:true,
-              },
-              std_address: {
-                required: true,
-              },
-              std_psswrd: {
-                required: true,
-                minlength:8
               },
             },
             messages: {
-              std_mob_no: {
-                required: "Please enter your mob number",
+              admin_address: {
+                required: "Please enter your address",
               },
-              std_email: {
-                required: "Please enter your email address",
-                email:"Please enter a valid email address"
-              },
-              std_address: {
-                required: "Please enter your permanant address",
-              },
-              std_psswrd: {
-                required: "Please provide your new password",
-                minlength: "Your password must be at least 8 characters long"
+              admin_phone: {
+                required: "Please enter your mob #",
               },
             },
             errorElement: 'span',
@@ -357,41 +323,67 @@
     });
 
     $("#btn-step-3").on('click',function(){
-      var field8 = document.getElementById("std_class").value;
-      var field9 = document.getElementById("std_semester").value;
-      var field10 = document.getElementById("std_faculty").value;
-      var field11 = document.getElementById("std_department").value;
-      if(field8 != "" & field9 !="" & field10 != "" & field11 != ""){
+      var field5 = document.getElementById("admin_faculty").value;
+      var field6 = document.getElementById("lec_gender").value;
+      if(field5 != "" & field6 !=""){
         stepper.next();
       }else{
         $(function () {
           $('#step-3').validate({
             rules: {
-              std_class: {
+              admin_faculty: {
                 required: true,
               },
-              std_semester: {
-                required: true,
-              },
-              std_faculty: {
-                required: true,
-              },
-              std_department: {
+              lec_gender: {
                 required: true,
               },
             },
             messages: {
-              std_class: {
-                required: "Please select your class",
-              },
-              std_semester: {
-                required: "Please select your semester",
-              },
-              std_faculty: {
+              admin_faculty: {
                 required: "Please select your faculty",
               },
-              std_department: {
-                required: "Please select your department",
+              lec_gender: {
+                required: "Please select your gender",
+              },
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+              error.addClass('invalid-feedback');
+              element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+              $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+              $(element).removeClass('is-invalid');
+            }
+          });
+        });
+      }
+    });
+
+    $("#btn-step-4").on('click',function(){
+      var field7 = document.getElementById("admin_psswrd").value;
+      var field8 = document.getElementById("admin_confirm_psswrd").value;
+      if(field7 != "" & field8 !=""){
+        stepper.next();
+      }else{
+        $(function () {
+          $('#step-4').validate({
+            rules: {
+              admin_psswrd: {
+                required: true,
+              },
+              admin_confirm_psswrd: {
+                required: true,
+              },
+            },
+            messages: {
+              admin_psswrd: {
+                required: "Please enter password",
+              },
+              admin_confirm_psswrd: {
+                required: "Please enter confirm password",
               },
             },
             errorElement: 'span',
@@ -778,67 +770,50 @@
 $(function () {
   $('#quickForm').validate({
     rules: {
-      std_email: {
+      admin_email: {
         required: true,
         email: true,
-      },std_first_name: {
+      },admin_username: {
         required: true,
-      },std_last_name: {
+      },admin_address: {
         required: true,
-      },std_DOB: {
+      },admin_phone: {
         required: true,
-      },std_mob_no: {
+      },admin_faculty: {
         required: true,
-      },std_address: {
+      },lec_gender: {
         required: true,
-      },std_class: {
+      },admin_psswrd: {
         required: true,
-      },std_semester: {
+        minlength: 8,
+      },admin_confirm_psswrd: {
         required: true,
-      },std_faculty: {
-        required: true,
-      },std_department: {
-        required: true,
-      },std_psswrd: {
-        required: true,
-        minlength: 8
+        minlength:8,
       },
     },
     messages: {
-      std_email: {
+      admin_email: {
         required: "Please enter a email address",
         email: "Please enter a vaild email address"
-      }, std_first_name: {
-        required: "Please enter first name"
+      }, admin_username: {
+        required: "Please enter full name"
       },
-      std_last_name: {
+      admin_username: {
         required: "Please enter last name",
       },
-      std_DOB: {
-        required: "Please enter your date of birth",
-      },std_class: {
-        required: "Please select your class",
-      },
-      std_address: {
-        required: "Please enter valid address",
-      },
-      std_semester: {
-        required: "Please select your semester",
-      },
-      std_faculty: {
+      admin_phone: {
+        required: "Please enter your mob #",
+      },admin_faculty: {
         required: "Please select your faculty",
       },
-      std_department: {
-        required: "Please select your department",
+      lec_gender: {
+        required: "Please select your gender",
       },
-      std_class: {
-        required: "Please select your class",
-      },std_mob_no: {
-        required: "Please enter your mob #",
+      admin_psswrd: {
+        required: "Please enter your password",
       },
-      std_psswrd: {
-        required: "Please provide a password",
-        minlength: "Your password must be at least 8 characters long"
+      admin_confirm_psswrd: {
+        required: "Please enter your confirm password",
       },
     },
     errorElement: 'span',
@@ -862,23 +837,25 @@ $(function () {
 </html>
 
 <?php
-if(isset($_POST['btn_sign_Up'])){
-	include('functions_page.php');
-		$status=validate_sanitize_student_SignUp_inputs($_POST);
+if(isset($_POST['btn_admin_sign_Up'])){
+  include('functions_page.php');
+      $status=validate_sanitize_admin_SignUp_inputs($_POST);
       if(is_array($status)){
-        include('db_page_2.php');
-            $uploaded_dir     ="student images/";
-            $filename         =$_FILES["student_image"]["name"];
-            $uploaded_dir   .=$filename;
-            $tmp_dir         =$_FILES["student_image"]["tmp_name"];
-                 if(pathinfo($filename, PATHINFO_EXTENSION)!=null){
-                         $text             =pathinfo($filename, PATHINFO_EXTENSION);
-                        if($text == 'jpg' or $text == 'JPG' or $text == 'png' or $text == 'PNG' or
-                          $text == 'gif' or $text == 'GIF' or $text == 'jpeg' or $text == 'GPEG'){
-                          $status = Registration_Request_Student($status);
-                          $uploaded=move_uploaded_file($tmp_dir, $uploaded_dir);
-                        if($status === true){
-                          ?>
+                 include('db_page_2.php');
+                 $uploaded_directory     ="lecturers images/";
+                 $filename               =$_FILES["lecturer_image"]["name"];
+                 $uploaded_directory    .=$filename;
+                 $tmp_directory          =$_FILES["lecturer_image"]["tmp_name"];
+                 $text                   =pathinfo($filename, PATHINFO_EXTENSION);
+
+                 /*   if($text == 'jpg' or $text == 'JPG' or $text == 'png' or $text == 'PNG' or
+                          $text == 'gif' or $text == 'GIF' or $text == 'jpeg' or $text == 'GPEG'){ */
+                      if($_POST["admin_psswrd"] == $_POST["admin_confirm_psswrd"]){ 
+
+                          $status = SignUp_Lecturer($status);
+                          if($status=== true){
+                            $uploaded=move_uploaded_file($tmp_directory, $uploaded_directory);
+                            ?>
                             <script type="text/javascript">
                               $(document).ready(function(){
                                     $('.toastsDefaultSuccess').ready(function() {
@@ -886,16 +863,56 @@ if(isset($_POST['btn_sign_Up'])){
                                         class: 'bg-success', 
                                         title: 'Request Pending',
                                         subtitle: 'Pending',
-                                        body: 'Your Account  Request is now Pending for Approval.<br>Please wait for confirmation.Thank You!'
+                                        autohide : true,
+                                        delay:10000,
+                                        icon: 'fas fa-check',
+                                        body: 'Sir! Your Account Request is now Pending for Approval.<br>Please wait for confirmation.Thank You!'
                                       })
                                     });
                               });
                             </script>
                           <?php 
-                        }else{
-                              if(file_exists($uploaded_dir)){
-                                  unlink($uploaded_dir);
-                              }
+                          }elseif ($status == "user_exists") {
+                            ?>
+                            <script type="text/javascript">
+                              $(document).ready(function(){
+                                    $('.toastsDefaultInfo').ready(function() {
+                                      $(document).Toasts('create', {
+                                        class: 'bg-info', 
+                                        title: 'Not Register',
+                                        subtitle: 'Email Exists',
+                                        autohide : true,
+                                        delay:4000,
+                                        icon: 'fas fa-info',
+                                        body: 'This User is Already <strong>EXISTS</strong>.'
+                                      })
+                                    });
+                              });
+                            </script>
+                          <?php 
+                          }elseif ($status == "user_exists_2") {
+                            ?>
+                            <script type="text/javascript">
+                              $(document).ready(function(){
+                                    $('.toastsDefaultInfo').ready(function() {
+                                      $(document).Toasts('create', {
+                                        class: 'bg-info', 
+                                        title: 'Already in pending',
+                                        subtitle: 'ID Exists',
+                                        autohide : true,
+                                        delay:8000,
+                                        icon: 'fas fa-info-circle',
+                                        body: 'Your Account is Already in pending. Wait for confirmation from the admin <strong>ThankYou!</strong>.'
+                                      })
+                                    });
+                              });
+                            </script>
+                          <?php 
+                          }else{
+
+                             // if(file_exists($uploaded_directory)){
+                             //      unlink($uploaded_directory);
+                             //  }
                            ?>
                             <script type="text/javascript">
                               $(document).ready(function(){
@@ -903,64 +920,78 @@ if(isset($_POST['btn_sign_Up'])){
                                       $(document).Toasts('create', {
                                         class: 'bg-info', 
                                         title: 'Not Register',
-                                        icon    : 'fas fa-info-circle fa-lg',
-                                        body: 'This User is Already <strong>EXISTS</strong>.'
+                                        subtitle: 'wrong',
+                                        autohide : true,
+                                        delay:6000,
+                                        icon: 'fas fa-times',
+                                        body: 'Oops Account can not register. Somwthing went <strong>Wrong</strong>.'
                                       })
                                     });
                               });
                             </script>
                           <?php 
 
-                        }
-                         
-          }else{
-                 ?>
-                <script type="text/javascript">
-                  $(document).ready(function(){
-                        $('.toastsDefaultDanger').ready(function() {
-                          $(document).Toasts('create', {
-                            class: 'bg-danger', 
-                            title: 'Extension Error',
-                            subtitle: 'Not Image',
-                            body: 'Its not an image file.'
-                          })
-                        });
-                  });
-                </script>
-              <?php 
-          }
-         }else{
-              ?>
-                <script type="text/javascript">
-                  $(document).ready(function(){
-                        $('.toastsDefaultDanger').ready(function() {
-                          $(document).Toasts('create', {
-                            class: 'bg-danger', 
-                            title: 'Not Register',
-                            subtitle: 'Not Select',
-                            body: 'Plz select the Image then try.'
-                          })
-                        });
-                  });
-                </script>
-              <?php 
-         }
-      }else{
-            ?>
-              <script type="text/javascript">
-                $(document).ready(function(){
-                      $('.toastsDefaultMaroon').ready(function() {
-                        $(document).Toasts('create', {
-                          class: 'bg-maroon', 
-                          title: 'Error',
-                          subtitle: 'Formate Error',
-                          body: 'Email <strong>FORMATE</strong> was not correct.'
-                        })
-                      });
-                });
-              </script>
-            <?php
-      }
+                          }
+
+                      }else{
+                        ?>
+                          <script type="text/javascript">
+                            $(document).ready(function(){
+                                  $('.toastsDefaultDanger').ready(function() {
+                                    $(document).Toasts('create', {
+                                      class: 'bg-danger', 
+                                      title: 'Error',
+                                      subtitle: 'Mis Matche',
+                                      autohide : true,
+                                      delay:4000,
+                                      icon: 'fas fa-times',
+                                      body: 'Confirm Password Not <strong>Matche</strong>.'
+                                    })
+                                  });
+                            });
+                          </script>
+                         <?php
+                      }
+
+                  /*  }else{
+                       ?>
+                        <script type="text/javascript">
+                          $(document).ready(function(){
+                                $('.toastsDefaultDanger').ready(function() {
+                                  $(document).Toasts('create', {
+                                    class: 'bg-danger', 
+                                    title: 'Extension Error',
+                                    subtitle: 'Not Image',
+                                    autohide : true,
+                                    delay:4000,
+                                    icon: 'fas fa-times',
+                                    body: 'Its not an image file.'
+                                  })
+                                });
+                          });
+                        </script>
+                        <?php 
+                    } */
+               }else{
+                   ?>
+                  <script type="text/javascript">
+                    $(document).ready(function(){
+                          $('.toastsDefaultMaroon').ready(function() {
+                            $(document).Toasts('create', {
+                              class: 'bg-maroon', 
+                              title: 'Error',
+                              subtitle: 'Formate Error',
+                              autohide : true,
+                              delay:4000,
+                              icon: 'fas fa-times',
+                              body: 'Email <strong>FORMATE</strong> was not correct.'
+                            })
+                          });
+                    });
+                  </script>
+                <?php
+               }
 }
 
+            
 ?>

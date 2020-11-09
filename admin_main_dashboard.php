@@ -280,10 +280,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <p>
                 Dashboard
               </p>
+              <i class="right nav-icon fas fa-angle-double-right"></i>
             </a>
           </li>
           <li class="nav-item has-treeview menu-close">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link bg-success">
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Account Requests
@@ -336,7 +337,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </ul>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link bg-danger">
               <i class="nav-icon fas fa-key"></i>
               <p>
                 Password Requests
@@ -385,16 +386,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p></a>
               </li>
             </ul>
-            <li class="nav-item">
-            <a href="user_feedback.php" class="nav-link">
+          <li class="nav-item">
+            <a href="user_feedback.php" class="nav-link bg-info">
               <i class="nav-icon fas fa-globe"></i>
               <p>
                 Users Feedback
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="total_user.php" class="nav-link bg-purple">
+              <i class="nav-icon fas fa-user-friends"></i>
+              <p>
+                Total Users
+              </p>
+            </a>
+          </li>
             <li class="nav-item has-treeview menu-close">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link bg-purple">
               <i class="nav-icon fas fa-wrench"></i>  <!-- fas fa-cogs -->
               <p>
                 Account Settings
@@ -414,14 +423,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <p>Change Password</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="LogOff_page.php" class="nav-link">
+            </ul>
+          </li>
+          <li class="nav-item">
+                <a href="LogOff_page.php" class="nav-link bg-danger">
                   <i class="nav-icon fas fa-lock nav-icon"></i>
                   <p>Log Out</p>
                 </a>
               </li>
-            </ul>
-          </li>
           </li>
         </ul>
       </nav>

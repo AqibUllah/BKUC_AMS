@@ -1,3 +1,6 @@
+<?php
+ob_start(); 
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,60 +38,45 @@
   <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <style type="text/css">
+    img{
+      width: 100px;
+      height: 100px;
+    }
+  </style>
 </head>
 <body class="hold-transition" style="background: #eee;">
 	<div class="row">
 		<div class="col-md-4">
-			<?php 
-      if(isset($_GET['id_error'])){
-             $error = $_GET['id_error'];
-             ?>
-              <script type="text/javascript">
-                $(document).ready(function(){
-                      $('.toastsDefaultMaroon').ready(function() {
-                        $(document).Toasts('create', {
-                          class: 'bg-maroon', 
-                          title: 'Error',
-                          subtitle: '',
-                          icon:'fas fa-exclamation-triangle',
-                          body: 'Plz select the <strong>User</strong> type to creat an account'
-                        })
-                      });
-                });
-              </script>
-    <?php
-
-      }
- 
-      ?>
 		</div>
 		<div class="col-md-4">
 				<div class="login_box">
 		<div class="login-logo">
-			<b>USER</b> TYPE
+			<b>Recovering</b> password
 		</div>
 		<div class="card">
 			<div class="card-body login-card-body">
 				<form method="post">
-					<div class="input-group mb-3">
-						<label>Select User Type</label>
-					</div>
-					<div class="input-group mb-3">
-						<select name="select_user_type" class="mdb-select md-form colorful-select dropdown-primary form-control" >
-							<option name="select_user_type" disabled selected>Choose your option</option>
-							<option data-icon="fa-heart" value="Admin" name="select_user_type">Lecturer</option>
-							<option value="Student" name="select_user_type">Student</option>
-						</select>
-						<div class="input-group-text">
-							<span class="fa fa-users"></span>
-						</div>
-					</div>
-					<div class="input-group mb-3">
-						<div class="col-md-7"></div>
-						<div class="col-md-5">
-							<input type="submit" name="btn_next" class="btn btn-primary btn-block" value="Next >>">
-						</div>
-					</div>
+            <div class="row">
+              <div class="col-md-4"></div>
+              <div class="col-md-4">
+                <center>
+                  <img src="img/bkuc_logo.jpg" width="100%" height="100%">      
+                </center>
+              </div>
+              <div class="col-md-4"></div>
+            </div>
+          <label for="select_forgott_type">Select your way</label>
+          <div class="form-group">
+          <select class="form-control" name="select_forgott_type">
+            <option disabled selected="select one option">select one option</option>
+            <option value="Sending your details to admin" name="select_forgott_type">Sending your details to admin</option>
+            <option value="Quickly change by asking some questions" name="select_forgott_type">Quickly change by asking some questions</option>
+          </select>
+        </div>
+          <div class="form-group">
+          <input type="submit" name="btn_next" style="font-family: verdana;" value="Next &nbsp;&nbsp;>" class="btn float-right btn-purple bg-purple">
+          </div>
 				</form>
 			</div>
 		</div>
@@ -102,13 +90,13 @@
 
 <?php
 if(isset($_POST['btn_next'])){
-	$select_type=$_POST["select_user_type"];
-	if($select_type == "Admin"){
-		header("location:Lecturer_SignUp.php");
-	}else if($select_type == "Student"){
-		header("location:student_SignUp.php");
+	$select_forgott_type=$_POST["select_forgott_type"];
+	if($select_forgott_type == "Sending your details to admin"){
+		header("location:forgott_password_page.php");
+	}else if($select_forgott_type == "Quickly change by asking some questions"){
+		header("location:recover_password_way2.php");
 	}else {
-    header("location:select_type_page.php?id_error=Plz Select the type");
+    header("location:seelct_forgot_options.php?id_error");
 	}
 }
 
@@ -116,6 +104,8 @@ if(isset($_POST['btn_next'])){
 //   echo $_GET['id_error'];
 // }
 
+
+ob_end_flush();
 ?>
 
 <!-- jQuery -->

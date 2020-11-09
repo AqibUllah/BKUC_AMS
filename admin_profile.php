@@ -48,6 +48,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="file.css">
     <style type="text/css">
       table td{
         font-size: 12px;
@@ -324,7 +325,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="admin_main_dashboard.php" class="nav-link">
+            <a href="admin_main_dashboard.php" class="nav-link bg-primary">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -332,10 +333,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
           <li class="nav-item has-treeview menu-close">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link bg-success">
               <i class="nav-icon fas fa-users"></i>
               <p>
-                Account Requests
+                Accounts Requests
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -384,8 +385,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
             </ul>
           </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
+          <li class="nav-item has-treeview menu-close">
+            <a href="#" class="nav-link bg-danger">
               <i class="nav-icon fas fa-key"></i>
               <p>
                 Password Requests
@@ -393,7 +394,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item"><a href="student_password_requests_page.php" class="nav-link"><i class="fas fa-graduation-cap"></i>
+              <li class="nav-item"><a href="student_password_requests_page.php" class="nav-link"><i class="far fa-circle nav-icon"></i>
               <p>
                <?php
                       $cn=db_connection();
@@ -413,7 +414,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         
                       </p></a>
               </li>
-              <li class="nav-item"><a href="teacher_password_requests_page.php" class="nav-link"><i class="fas fa-user-md"></i>
+              <li class="nav-item"><a href="teacher_password_requests_page.php" class="nav-link"><i class="far fa-circle nav-icon"></i>
               <p>
                  <?php
                       $cn=db_connection();
@@ -435,7 +436,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
             </ul>
             <li class="nav-item">
-            <a href="user_feedback.php" class="nav-link">
+            <a href="user_feedback.php" class="nav-link active bg-info">
               <i class="nav-icon fas fa-globe"></i>
               <p>
                 Users Feedback
@@ -443,8 +444,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
             <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-wrench"></i>  <!-- fas fa-cogs -->
+            <a href="#" class="nav-link bg-purple">
+              <i class="nav-icon fas fa-wrench"></i>
               <p>
                 Account Settings
                 <i class="right fas fa-angle-left"></i>
@@ -453,8 +454,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="admin_profile.php" class="nav-link active">
-                  <i class="nav-icon fas fa-id-card nav-icon"></i>
+                  <i class="nav-icon far fa-user nav-icon"></i>
                   <p>Profile</p>
+                  <i class="right nav-icon fas fa-angle-double-right"></i>
                 </a>
               </li>
               <li class="nav-item">
@@ -463,14 +465,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <p>Change Password</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="LogOff_page.php" class="nav-link">
-                  <i class="nav-icon fas fa-lock nav-icon"></i>
-                  <p>Log Out</p>
-                </a>
-              </li>
             </ul>
           </li>
+            <li class="nav-item">
+              <a href="LogOff_page.php" class="nav-link bg-danger">
+              <i class="nav-icon fas fa-lock nav-icon"></i>
+              <p>Log Out</p>
+              </a>
+            </li>
           </li>
         </ul>
       </nav>
@@ -677,23 +679,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <!-- /.card-header -->
                         <div class="card-body box-profile">
                           <div class="text-center">
-                            <img class="profile-user-img img-fluid img-circle"
-                                 src="<?php echo $admin_img; ?>"
-                                 alt="User profile picture">
-                                 <input type="file" name="edit_file" id="upload_img"  hidden onchange="readURL(this);" value="Document">
-                                 <label for="upload_img" id="selector">SELECT IMAGE</label>
-                                  <script type="text/javascript">
-                                    var loader = function(e){
-                                    let file = e.target.files;
-                                    let show = "<span>Selected File : </span>"+file[0].name;
-                                    let output = document.getElementById("selector");
-                                    output.innerHTML=show;
-                                    output.classList.add("active");
-                                    };
-                                    let fileinput = document.getElementById("upload_img");
-                                    fileinput.addEventListener("change",loader);
-                                  </script>
-                                  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+                            <label for="edit_file" id="selector">SELECT IMAGE</label>
+                                 <input type="file" name="edit_file" id="edit_file"  hidden>
+                                 <script src="admin_profile_file.js"></script>
                           </div>
                           <h3 class="profile-username text-center">
                                   <div class="input-group mb-3">

@@ -58,43 +58,6 @@
 <body>
 <?php
 ob_start();
-if(isset($_GET['success'])){
-   ?>
-      <script type="text/javascript">
-            $(document).ready(function(){
-                  $('.toastsDefaultSuccess').ready(function() {
-                    $(document).Toasts('create', {
-                      position: 'topRight',
-                      class: 'bg-success', 
-                      autohide : true,
-                      delay    : 5000,
-                      title: 'Done',
-                      subtitle: 'Sent',
-                      body: "Your feedback has been <strong>Sent</strong>."
-                    })
-                  });
-            });
-          </script>
-      <?php
-}elseif(isset($_GET['error_exist'])){
- ?>
-      <script type="text/javascript">
-            $(document).ready(function(){
-                  $('.toastsDefaultMaroon').ready(function() {
-                    $(document).Toasts('create', {
-                      position: 'topRight',
-                      class: 'bg-maroon', 
-                      autohide : true,
-                      delay    : 5000,
-                      title: 'Error',
-                      subtitle: 'Already sent',
-                      body: "Your feedback already <strong>sent</strong>."
-                    })
-                  });
-            });
-          </script>
-      <?php
-}
 ?>
   <!--==========================
     Header
@@ -394,7 +357,7 @@ if(isset($_GET['success'])){
                     $faculty=$get['faculty'];
                     $department=$get['department'];
                     $semester=$get['semester'];
-                    $batch=$get['batch'];
+                    $class=$get['class'];
                     $session=$get['session'];
                     $total_deadline=$get['time_duration'];
                     $message=$get['message'];
@@ -466,7 +429,7 @@ if(isset($_GET['success'])){
                           <td><?php echo $last_data; ?></td>
                           <td style="text-align: center;">
                           <a href="#view_assigment_model" class="edit" data-toggle="modal">
-                            <i class="fas fa-eye view" data-toggle="tooltip" 
+                            <i class="fas fa-eye view fa-lg" data-toggle="tooltip" 
                             ass-id="<?php echo $get["id"]; ?>"
                             ass-name="<?php echo $get["ass_name"]; ?>"
                             ass-marks="<?php echo $get["ass_marks"]; ?>"
@@ -576,7 +539,7 @@ if(isset($_GET['success'])){
 
         <div class="section-header">
           <h2>Contact Us</h2>
-          <p>Nihil officia ut sint molestiae tenetur.</p>
+          <p>Bkuc Assignment Management System.</p>
         </div>
 
         <div class="row contact-info">
@@ -733,6 +696,40 @@ if(isset($_GET['success'])){
   <script src="lib/venobox/venobox.min.js"></script>
   <script src="lib/owlcarousel/owl.carousel.min.js"></script>
 
+<?php
+if(isset($_GET['success'])){
+      ?>
+      <script type="text/javascript">
+            $(document).ready(function(){
+                  $('.swalDefaultSuccess').ready(function() {
+                  Toast.fire({
+                    type: 'success',
+                    title: '<strong>Success</strong>, Feed back has been recieved.'
+                  })
+                });
+            });
+          </script>
+      <?php
+}elseif(isset($_GET['error_exist'])){
+    ?>
+      <script type="text/javascript">
+            $(document).ready(function(){
+                  $('.toastsDefaultMaroon').ready(function() {
+                    $(document).Toasts('create', {
+                      position: 'topRight',
+                      class: 'bg-maroon', 
+                      autohide : true,
+                      delay    : 5000,
+                      title: 'Error',
+                      subtitle: 'Already sent',
+                      body: "Your feedback already <strong>sent</strong>."
+                    })
+                  });
+            });
+          </script>
+      <?php
+}
+?>
 <!-- Select2 -->
 <script src="plugins/select2/js/select2.full.min.js"></script>
 
@@ -760,7 +757,7 @@ if(isset($_GET['success'])){
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
 
-    <script>
+  <script>
     $(document).on('click','.view',function(e) {
     var ass_id=$(this).attr("ass-id");
     var ass_name=$(this).attr("ass-name");
@@ -820,6 +817,162 @@ if(isset($_GET['success'])){
   });
 </script>
 
+<script type="text/javascript">
+  $(function() {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    });
+
+    $('.swalDefaultSuccess').click(function() {
+      Toast.fire({
+        type: 'success',
+        title: '<strong>Success</strong>, Data inserted successfully.'
+      })
+    });
+    $('.swalDefaultInfo').click(function() {
+      Toast.fire({
+        type: 'info',
+        title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
+    });
+    $('.swalDefaultError').click(function() {
+      Toast.fire({
+        type: 'error',
+        title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
+    });
+    $('.swalDefaultWarning').click(function() {
+      Toast.fire({
+        type: 'warning',
+        title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
+    });
+    $('.swalDefaultQuestion').click(function() {
+      Toast.fire({
+        type: 'question',
+        title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
+    });
+
+    $('.toastrDefaultSuccess').click(function() {
+      toastr.success('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+    });
+    $('.toastrDefaultInfo').click(function() {
+      toastr.info('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+    });
+    $('.toastrDefaultError').click(function() {
+      toastr.error('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+    });
+    $('.toastrDefaultWarning').click(function() {
+      toastr.warning('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+    });
+
+    $('.toastsDefaultDefault').click(function() {
+      $(document).Toasts('create', {
+        title: 'Toast Title',
+        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
+    });
+    $('.toastsDefaultTopLeft').click(function() {
+      $(document).Toasts('create', {
+        title: 'Toast Title',
+        position: 'topLeft',
+        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
+    });
+    $('.toastsDefaultBottomRight').click(function() {
+      $(document).Toasts('create', {
+        title: 'Toast Title',
+        position: 'bottomRight',
+        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
+    });
+    $('.toastsDefaultBottomLeft').click(function() {
+      $(document).Toasts('create', {
+        title: 'Toast Title',
+        position: 'bottomLeft',
+        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
+    });
+    $('.toastsDefaultAutohide').click(function() {
+      $(document).Toasts('create', {
+        title: 'Toast Title',
+        autohide: true,
+        delay: 750,
+        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
+    });
+    $('.toastsDefaultNotFixed').click(function() {
+      $(document).Toasts('create', {
+        title: 'Toast Title',
+        fixed: false,
+        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
+    });
+    $('.toastsDefaultFull').click(function() {
+      $(document).Toasts('create', {
+        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.',
+        title: 'Toast Title',
+        subtitle: 'Subtitle',
+        icon: 'fas fa-envelope fa-lg',
+      })
+    });
+    $('.toastsDefaultFullImage').click(function() {
+      $(document).Toasts('create', {
+        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.',
+        title: 'Toast Title',
+        subtitle: 'Subtitle',
+        image: '../../dist/img/user3-128x128.jpg',
+        imageAlt: 'User Picture',
+      })
+    });
+    $('.toastsDefaultSuccess').click(function() {
+      $(document).Toasts('create', {
+        class: 'bg-success', 
+        title: 'Toast Title',
+        subtitle: 'Subtitle',
+        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
+    });
+    $('.toastsDefaultInfo').click(function() {
+      $(document).Toasts('create', {
+        class: 'bg-info', 
+        title: 'Toast Title',
+        subtitle: 'Subtitle',
+        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
+    });
+    $('.toastsDefaultWarning').click(function() {
+      $(document).Toasts('create', {
+        class: 'bg-warning', 
+        title: 'Toast Title',
+        subtitle: 'Subtitle',
+        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
+    });
+    $('.toastsDefaultDanger').click(function() {
+      $(document).Toasts('create', {
+        class: 'bg-danger', 
+        title: 'Toast Title',
+        subtitle: 'Subtitle',
+        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
+    });
+    $('.toastsDefaultMaroon').click(function() {
+      $(document).Toasts('create', {
+        class: 'bg-maroon', 
+        title: 'Toast Title',
+        subtitle: 'Subtitle',
+        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
+    });
+  });
+
+</script>
+
 </body>
 
 </html>
@@ -829,31 +982,21 @@ if(isset($_POST['btn_send'])){
     $useremail=$_POST['email'];
     $usersubject=$_POST['subject'];
     $usermessage=$_POST['message'];
+
     if($username != "" or $username != null or $useremail != "" or $useremail != null or
       $usersubject != "" or $usersubject != null or $usermessage != "" or $usermessage != null){
-      include('db_page_2.php');
-      $status = insert_user_feedback($_POST);
+
+      $status = insert_user_feedback();
       if($status == true){
-        ?>
-        <script type="text/javascript">
-          window.location="index.php?success";
-        </script>
-        <?php
-        //header("location:index.php?success");
+        header("location:index.php?success");
       }elseif ($status == "exist") {
-        //header("location:index.php?error_exist");
-        ?>
-        <script type="text/javascript">
-          window.location="index.php?error_exist";
-        </script>
-        <?php
-        ?><h1 style="color: green;">user Feed back already recieved</h1><?php
+        header("location:index.php?error_exist");
       }
       else{
         ?><h1 style="color: red;">user Feed back can not recieved</h1><?php
       }
     }else{
-
+      echo "<script>alert('missing input fields!');</script>";
     }
 }
 ob_end_flush();

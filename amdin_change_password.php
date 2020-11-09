@@ -312,7 +312,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="admin_main_dashboard.php" class="nav-link active">
+            <a href="admin_main_dashboard.php" class="nav-link bg-primary">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -320,10 +320,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
           <li class="nav-item has-treeview menu-close">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link bg-success">
               <i class="nav-icon fas fa-users"></i>
               <p>
-                Account Requests
+                Accounts Requests
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -372,8 +372,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
             </ul>
           </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
+          <li class="nav-item has-treeview menu-close">
+            <a href="#" class="nav-link bg-danger">
               <i class="nav-icon fas fa-key"></i>
               <p>
                 Password Requests
@@ -381,7 +381,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item"><a href="student_password_requests_page.php" class="nav-link"><i class="fas fa-graduation-cap"></i>
+              <li class="nav-item"><a href="student_password_requests_page.php" class="nav-link"><i class="far fa-circle nav-icon"></i>
               <p>
                <?php
                       $cn=db_connection();
@@ -401,7 +401,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         
                       </p></a>
               </li>
-              <li class="nav-item"><a href="teacher_password_requests_page.php" class="nav-link"><i class="fas fa-user-md"></i>
+              <li class="nav-item"><a href="teacher_password_requests_page.php" class="nav-link"><i class="far fa-circle nav-icon"></i>
               <p>
                  <?php
                       $cn=db_connection();
@@ -423,16 +423,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
             </ul>
             <li class="nav-item">
-            <a href="user_feedback.php" class="nav-link">
+            <a href="user_feedback.php" class="nav-link active bg-info">
               <i class="nav-icon fas fa-globe"></i>
               <p>
                 Users Feedback
               </p>
+              <i class="right nav-icon fas fa-angle-double-right"></i>
             </a>
           </li>
-            <li class="nav-item has-treeview menu-close">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-wrench"></i>  <!-- fas fa-cogs -->
+            <li class="nav-item has-treeview menu-open">
+            <a href="#" class="nav-link bg-purple">
+              <i class="nav-icon fas fa-wrench"></i>
               <p>
                 Account Settings
                 <i class="right fas fa-angle-left"></i>
@@ -441,24 +442,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="admin_profile.php" class="nav-link">
-                  <i class="nav-icon fas fa-id-card nav-icon"></i>
+                  <i class="nav-icon far fa-user nav-icon"></i>
                   <p>Profile</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="amdin_change_password.php" class="nav-link">
+                <a href="amdin_change_password.php" class="nav-link active">
                   <i class="nav-icon fas fa-lock-open nav-icon"></i>
                   <p>Change Password</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="LogOff_page.php" class="nav-link">
-                  <i class="nav-icon fas fa-lock nav-icon"></i>
-                  <p>Log Out</p>
+                  <i class="right nav-icon fas fa-angle-double-right"></i>
                 </a>
               </li>
             </ul>
           </li>
+            <li class="nav-item">
+              <a href="LogOff_page.php" class="nav-link bg-danger">
+              <i class="nav-icon fas fa-lock nav-icon"></i>
+              <p>Log Out</p>
+              </a>
+            </li>
           </li>
         </ul>
       </nav>

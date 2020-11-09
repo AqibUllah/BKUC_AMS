@@ -288,7 +288,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="admin_main_dashboard.php" class="nav-link">
+            <a href="admin_main_dashboard.php" class="nav-link bg-primary">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -296,7 +296,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
           <li class="nav-item has-treeview menu-close">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link bg-success">
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Accounts Requests
@@ -349,7 +349,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </ul>
           </li>
           <li class="nav-item has-treeview menu-close">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link bg-danger">
               <i class="nav-icon fas fa-key"></i>
               <p>
                 Password Requests
@@ -399,15 +399,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
             </ul>
             <li class="nav-item">
-            <a href="user_feedback.php" class="nav-link active">
+            <a href="user_feedback.php" class="nav-link active bg-info">
               <i class="nav-icon fas fa-globe"></i>
               <p>
                 Users Feedback
               </p>
+              <i class="right nav-icon fas fa-angle-double-right"></i>
             </a>
           </li>
             <li class="nav-item has-treeview menu-close">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link bg-purple">
               <i class="nav-icon fas fa-wrench"></i>
               <p>
                 Account Settings
@@ -427,14 +428,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <p>Change Password</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="LogOff_page.php" class="nav-link">
-                  <i class="nav-icon fas fa-lock nav-icon"></i>
-                  <p>Log Out</p>
-                </a>
-              </li>
             </ul>
           </li>
+            <li class="nav-item">
+              <a href="LogOff_page.php" class="nav-link bg-danger">
+              <i class="nav-icon fas fa-lock nav-icon"></i>
+              <p>Log Out</p>
+              </a>
+            </li>
           </li>
         </ul>
       </nav>
@@ -487,16 +488,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       while($data=mysqli_fetch_array($run)){
                         $count=$count+1;
                         ?>
-                       <tr>
+                       <tr id="<?php echo $data["id"]; ?>">
                         <td><?php echo $count; ?></td>
                         <td><?php echo $data['username']; ?></td>
                         <td><?php echo $data['user_email']; ?></td>
                         <td style="text-align: center;">
-                        <form method="get" action="#">
+                       
                               <a href="?user_remove=<?php echo $data['id'];?>" class="btn btn-danger"><i class="fas fa-times"></i>&nbsp; Remove</a>
-                              <a href="user_details.php?user_id=<?php echo $data['id'];?>" class="btn btn-success">Response &nbsp;<i class="fas fa-envelope"></i></a>
-                              
-                          </form>
+                              <a href="#send_response" class="btn btn-success" data-toggle="modal"><i class="fas fa-envelope view fa-lg" 
+                                data-toggle="tooltip" 
+                            feedback-id="<?php echo $data['id']; ?>"
+                            feedback-email="<?php echo $data['user_email']; ?>"
+                            feedback-message="<?php echo $data['message']; ?>"
+                            feedback-subject="<?php echo $data['subject']; ?>"
+                            user-name="<?php echo $data['username']; ?>"> Response</i></a>
+          
+                        
                         
                         </td>
                         
@@ -505,6 +512,38 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       }
                       ?>
                 </table>
+
+                <!-- model assigment information -->
+                      <div class="modal fade" id="send_response" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <form method="post">
+                              <div class="modal-header bg-info">
+                                <h4 class="text-white">User Feedback</h4>
+                              </div>
+                              <div class="modal-body">
+                                <div class="form-group">
+                                  <label>User Subject</label>
+                                  <input type="text" name="subject" id="subject_v" class="form-control" readonly>
+                                  <input type="hidden" name="user_id" id="id_v">
+                                  <label for="user_message">User Feedback</label>
+                                  <textarea class="form-control" readonly id="message_v" name="user_message"></textarea>
+                                </div>
+                                <div class="form-group">
+                                  <input type="hidden" name="to_name" id="username_v">
+                                  <label for="response">Send Response To <input type="text"  name="to_email" id="email_v" class="bg-maroon" style="border: none;border-radius: 20px;padding-left:10px;" readonly></label>
+                                  <textarea class="form-control" name="response"></textarea>
+                                </div>
+                              </div>
+                              <div class="modal-footer bg-light">
+                                <button type="button" class="btn btn-danger btn-float" data-dismiss="modal">Close</button>
+                                <button type="submit" name="btn_send" class="btn btn-primary btn-block btn-float">Send &nbsp;<i class="fas fa-envelope fa-lg"></i></button>
+                              </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+
               </div>
           </div>
           <!-- /.col-lg-12 -->
@@ -515,6 +554,87 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+
+  <?php
+
+              if(isset($_POST['btn_send'])){
+                  $_id=$_POST['user_id'];
+                  $_subject=$_POST['subject_v'];
+                  $_usermessage['message_v'];
+                  $responser    =$_SESSION["admin_logged_in"]["username"];
+                  $responser_email    =$_SESSION["admin_logged_in"]["admin_email"];
+                  $reponser_img =$_SESSION['admin_logged_in']['admin_image'];
+                  $_message=$_POST['response'];
+                  $to_email=$_POST['to_email'];
+                  $to_name=$_POST['to_name'];
+                  date_default_timezone_set("Asia/Karachi");
+                  $on=date('m/d/Y H:i A');
+                  if($_message != "" or $_message !=null){
+                    $sql="INSERT INTO `response_feedback`(`response`, `response_by`, `responser_img`, `date`, `responser_email`, `to_name`, `to_email`) VALUES ('$_message','$responser','$reponser_img','$on','$responser_email','$to_name','$to_email')";
+                    $run=mysqli_query($cn,$sql);
+                    if($run){
+                      $to = $to_email;
+                      $subject = "REGARDING : Your Feedback" . "\r\n";
+                      $headers="From: BKUC AMS"."\r\n";
+                      $message="<html><body>";
+                      $message.="<div style='max-width: 600px;min-width: 200px;background-color: #fff;padding: 20px;margin: auto';>
+                      <center><img style='max-height: 75px;' src='https://www.bkuc.edu.pk/public/images/top_banner1.png'></a></center>
+                      <h3>BKUC ASSIGMENT MANAGEMENT SYSTEM</h3>
+                    <table border='1px solid-black'>
+                      <div class='form-group'>
+                        <tr>
+                        <th>Your Subject</th>
+                        <td>$_subject</td>
+                        </tr>
+                        <tr>
+                        <th>Your Feedback</th>
+                        <td>$_usermessage</td>
+                        </tr>
+                      </div>
+
+                      <div class='form-group'>
+                        <tr>
+                        <th>Response</th>
+                        <td>$_message</td>
+                        </tr>
+                      </div>
+                    </table>
+                      <div class='form-group'>
+                      </div>
+                      </div>";
+                      $message .="</body></html>";
+                      $headers .= "Reply-To: aqibullah3312@gmail.com" . "\r\n";
+                      $headers .= "MIME-Version: 1.0"."\r\n";
+                      $headers .= "MIME-Version: 1.0"."\r\n";
+                      $headers .= "Content-Type: text/html; charset=ISO-8859-1"."\r\n";
+                      mail($to, $subject, $message,$headers);
+                      $sql="DELETE FROM `user_feedback` WHERE `id`='$_id'";
+                      $run=mysqli_query($cn,$sql);
+                      if($run){
+                        header("location:user_feedback.php?success");
+                      }else{
+                        ?>
+                      <script>
+                        
+                        alert('Info has been send but did not delete!');
+                      </script>
+                      <?php
+                      }
+                    }else{
+                      ?>
+                      <script>
+                        
+                        alert('Error in sending something went wrong!');
+                      </script>
+                      <?php
+                    }
+                  }
+                  
+              }
+                  
+  ?>
+
+
 <?php
 if(isset($_GET['user_remove'])){
   $id=$_GET['user_remove'];
@@ -528,6 +648,8 @@ if(isset($_GET['user_remove'])){
     <?php
   }
   // echo "<h1>hello</h1>";
+
+  ob_end_flush();
 }
 ?>
   <!-- Control Sidebar -->
@@ -573,6 +695,20 @@ if(isset($_GET['user_remove'])){
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
 
+<script>
+    $(document).on('click','.view',function(e) {
+    var fedd_id=$(this).attr("feedback-id");
+    var feed_email=$(this).attr("feedback-email");
+    var feed_message=$(this).attr("feedback-message");
+    var feed_subject=$(this).attr("feedback-subject");
+    var feed_username=$(this).attr("user-name");
+    $('#id_v').val(fedd_id);
+    $('#email_v').val(feed_email);
+    $('#message_v').val(feed_message);
+    $('#subject_v').val(feed_subject);
+    $('#username_v').val(feed_username);
+  });
+</script>
 
 <script type="text/javascript">
   $(function() {

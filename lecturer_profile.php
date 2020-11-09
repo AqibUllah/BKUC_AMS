@@ -54,7 +54,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="file.css">
     <style type="text/css">
+        #profile_id.active{
+            color:white;
+        }#profile_edit_id.active{
+            color:white;
+        }
       table td{
         font-size: 12px;
         height: auto;
@@ -84,6 +90,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         color: black;
       }label span{
         font-weight: normal;
+      }h3{
+        color: black;
       }
     </style>
 </head>
@@ -270,8 +278,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </button>
                 </div>
                 <ul class="nav nav-pills nav-justified">
-                  <li class="nav-item"><a class="nav-link active" style="color: black;" href="#profile" data-toggle="tab"><strong>My Profile</strong></a></li>
-                  <li class="nav-item"><a class="nav-link" style="color: black;" href="#edit" data-toggle="tab"><strong>Add or Edit Profile</strong></a></li>
+                  <li class="nav-item"><a class="nav-link active" id="profile_id" href="#profile" data-toggle="tab"><strong>My Profile</strong></a></li>
+                  <li class="nav-item"><a class="nav-link" id="profile_edit_id" href="#edit" data-toggle="tab"><strong>Edit Profile</strong></a></li>
                   
                 </ul>
               </div><!-- /.card-header -->
@@ -352,17 +360,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <!-- /.card-header -->
                         <div class="card-body box-profile">
                           <div class="text-center">
-                            <img class="profile-user-img img-fluid img-circle"
+                            <?php
+                            if(file_exists($_image)){
+                              ?>
+                              <img class="profile-user-img img-fluid img-circle"
                                  src="<?php echo $_image; ?>"
                                  alt="User profile picture">
+                              <?php
+                            }else{
+                              ?>
+                              <img class="profile-user-img img-fluid img-circle"
+                                 src="student images/male.png"
+                                 alt="User profile picture">
+                              <?php
+                            }
+                            ?>
                           </div>
                           <h3 class="profile-username text-center"><?php echo $_username; ?></h3>
         
-                          <p class="text-muted text-center"><?php echo $_user_role; ?></p>
-                          <hr><br>
-                          <center>
-                          <button type="submit" class="btn btn-danger btn-block">Add more info</button>
-                          </center>
+                          <p class="text-muted text-center">Assignment Creator</p>
                         </div>
                         <!-- /.card-body -->
                       </div>
@@ -473,23 +489,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <!-- /.card-header -->
                         <div class="card-body box-profile">
                           <div class="text-center">
-                            <img class="profile-user-img img-fluid img-circle"
-                                 src="<?php echo $_image; ?>"
-                                 alt="User profile picture">
-                                 <input type="file" name="edit_file" id="upload_img"  hidden onchange="readURL(this);" value="Document">
-                                 <label for="upload_img" id="selector">SELECT IMAGE</label>
-                                  <script type="text/javascript">
-                                    var loader = function(e){
-                                    let file = e.target.files;
-                                    let show = "<span>Selected File : </span>"+file[0].name;
-                                    let output = document.getElementById("selector");
-                                    output.innerHTML=show;
-                                    output.classList.add("active");
-                                    };
-                                    let fileinput = document.getElementById("upload_img");
-                                    fileinput.addEventListener("change",loader);
-                                  </script>
-                                  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+                                 <label for="edit_file" id="lec_selector_profile">SELECT IMAGE</label>
+                                 <input type="file" name="edit_file" id="edit_file"  hidden>
+                                 <script src="lec_profile_file.js"></script>
                           </div>
                           <h3 class="profile-username text-center">
                                   <div class="input-group mb-3">

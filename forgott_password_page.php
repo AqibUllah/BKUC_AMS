@@ -88,7 +88,7 @@ if(isset($_POST['btn_send_password'])){
       if($_POST["forgot_user_type"] != "Select User Type"){
           $status=validate_sanitize_forgott_password_inputs($_POST);
     if(is_array($status)){
-      include('db_page.php');
+      include('db_page_2.php');
       $status=forgot_password($status);
       if(is_array($status) === true){
         $status=confirm_forgott_password($_POST);
