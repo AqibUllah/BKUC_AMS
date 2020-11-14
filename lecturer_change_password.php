@@ -124,8 +124,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item">
-            <a href="Lecturer_Dashboard.php" class="nav-link">
+           <li class="nav-item">
+            <a href="Lecturer_Dashboard.php" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -133,24 +133,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
           <li class="nav-item">
-            <a href="creat_assigment.php" class="nav-link">
+            <a href="creat_assigment.php" class="nav-link bg-info">
               <i class="nav-icon fas fa-file"></i>
               <p>
                 Creat Assigment
-                <span class="right badge badge-info">New</span>
+                <span class="right badge badge-danger">New</span>
               </p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="assigment_list.php" class="nav-link">
+            <a href="assigment_list.php" class="nav-link bg-success">
               <i class="nav-icon fas fa-check"></i>
               <p>
                 Created Assigments
+                
               </p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="show_assigment_submitted_list_to_lecturer.php" class="nav-link">
+            <a href="show_assigment_submitted_list_to_lecturer.php" class="nav-link bg-warning">
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Students Submitted
@@ -159,7 +160,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
           <li class="nav-item">
-            <a href="assigment_category.php" class="nav-link">
+            <a href="assigment_category.php" class="nav-link bg-maroon">
               <i class="nav-icon fas fa-globe"></i>
               <p>
                 Assigments History
@@ -167,8 +168,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
           <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+            <a href="#" class="nav-link bg-purple">
+              <i class="nav-icon fas fa-wrench"></i>
               <p>
                 Account Settings
                 <i class="right fas fa-angle-left"></i>
@@ -177,23 +178,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="lecturer_profile.php" class="nav-link">
-                  <i class="far fa-user nav-icon"></i>
+                  <i class="nav-icon far fa-user nav-icon"></i>
                   <p>Profile</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="lecturer_change_password.php" class="nav-link active">
-                  <i class="fas fa-lock-open nav-icon"></i>
+                  <i class="nav-icon fas fa-lock-open nav-icon"></i>
                   <p>Change Password</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="LogOff_page.php" class="nav-link">
-                  <i class="fas fa-lock nav-icon"></i>
-                  <p>Log Out</p>
+                  <i class="right fas fa-angle-double-right fa-lg"></i>
                 </a>
               </li>
             </ul>
+            <li class="nav-item">
+                <a href="LogOff_page.php" class="nav-link bg-danger">
+                  <i class="nav-icon fas fa-lock nav-icon"></i>
+                  <p>Log Out</p>
+                </a>
+              </li>
           </li>
         </ul>
       </nav>

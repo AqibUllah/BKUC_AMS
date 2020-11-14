@@ -219,7 +219,7 @@ if(isset($_GET['get_id'])){
       $department = $get['department'];
       $semseter = $get['semester'];
       $faculty = $get['faculty'];
-      $batch = $get['batch'];
+      $class = $get['class'];
       $session = $get['session'];
       $duration = $get['time_duration'];
       $marks = $get['ass_marks'];

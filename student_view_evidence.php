@@ -139,7 +139,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="Lecturer_Dashboard.php" class="nav-link">
+            <a href="Lecturer_Dashboard.php" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -147,7 +147,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
           <li class="nav-item">
-            <a href="creat_assigment.php" class="nav-link">
+            <a href="creat_assigment.php" class="nav-link bg-info">
               <i class="nav-icon fas fa-file"></i>
               <p>
                 Creat Assigment
@@ -156,25 +156,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
           <li class="nav-item">
-            <a href="assigment_list.php" class="nav-link">
+            <a href="assigment_list.php" class="nav-link bg-success">
               <i class="nav-icon fas fa-check"></i>
               <p>
-                Created Assigments
-                
+                Created Assigments              
               </p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="assigment_list.php" class="nav-link active">
+            <a href="show_assigment_submitted_list_to_lecturer.php" class="nav-link bg-warning">
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Students Submitted
-                
               </p>
+              <i class="right fas fa-angle-double-right fa-lg"></i>
             </a>
           </li>
           <li class="nav-item">
-            <a href="assigment_category.php" class="nav-link">
+            <a href="assigment_category.php" class="nav-link bg-maroon">
               <i class="nav-icon fas fa-globe"></i>
               <p>
                 Assigments History
@@ -182,8 +181,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
           <li class="nav-item has-treeview menu-close">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+            <a href="#" class="nav-link bg-purple">
+              <i class="nav-icon fas fa-wrench"></i>
               <p>
                 Account Settings
                 <i class="right fas fa-angle-left"></i>
@@ -202,13 +201,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <p>Change Password</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="LogOff_page.php" class="nav-link">
+            </ul>
+            <li class="nav-item">
+                <a href="LogOff_page.php" class="nav-link bg-danger">
                   <i class="nav-icon fas fa-lock nav-icon"></i>
                   <p>Log Out</p>
                 </a>
               </li>
-            </ul>
           </li>
         </ul>
       </nav>
@@ -357,7 +356,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           <h3 class="profile-username text-center"><?php echo $fk_assigment;?></h3>
                             
                           <hr>
-                          <h3 class="profile-username">title</h3>
+                          <h3 class="profile-username">Title</h3>
                           <p class="text-muted"><?php echo $std_assigment_title;?></p>
                           <hr>
                           <h3 class="profile-username">Description</h3>

@@ -139,7 +139,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <p>
                 Dashboard
               </p>
-              <i class="right fas fa-bars fa-lg"></i>
+              <i class="right fas fa-angle-double-right fa-lg"></i>
             </a>
           </li>
           <li class="nav-item">
@@ -325,7 +325,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- /.col -->
            <div class="col-12 col-sm-6 col-md-3">
             <!-- small box -->
-            <div class="small-box bg-danger">
+            <div class="small-box bg-maroon">
               <div class="inner">
                 <h3>History</h3>
 
