@@ -72,7 +72,7 @@ ob_start();
           <div class="card card-default">
             <center>
               <div class="card-header bg-primary">
-                <h3 class="card-title">Just 5 Steps To Recover</h3>
+                <h3 class="card-title">Just 4 Steps To Recover</h3>
               </div>
             </center>
               <form method="post" id="quickForm" class="md-form">
@@ -84,7 +84,7 @@ ob_start();
                         </div>
                           <center>
                             <div class="form-group">
-                              <span class="badge badge-primary h1" id="abc"> Step 2 / 5 </span>
+                              <span class="badge badge-primary h1" id="abc"> Step 2 / 4 </span>
                             </div>
                           </center>
                     </div>
@@ -158,12 +158,215 @@ if(isset($_POST['btn_check_birth'])){
     $run2= mysqli_query($cn,$sql2);
 
     if(mysqli_num_rows($run)>0){
-      mysqli_close($cn);
-       header("location:step3.php?email=$email");
+      
+      //generate random number
+                  $n = range(0, 9);
+                  shuffle($n);
+                  $code = "";
+                  $email_code="";
+                  for($x=0;$x<6;$x++){
+
+                    $email_code .= $n[$x]." ";
+                    $code.=$n[$x];
+                  }
+                  //inserting to db
+                  $sql="SELECT * FROM `pass_verif_codes` WHERE `email`='$email'";
+                  $check_code=mysqli_query($cn,$sql);
+                  if(mysqli_num_rows($check_code)>0){
+                    $sql="UPDATE `pass_verif_codes` SET `code`='$code' 
+                                  WHERE `email`='$email'";
+                    $done=mysqli_query($cn,$sql);
+                    if($done){
+                      mysqli_close($cn);
+                      $to = $email;
+                      $subject = "REGARDING : Verification";
+                      $headers="From: BKUC AMS";
+                      $message="<html><body>";
+                      $message.="<div style='max-width: 600px;min-width: 200px;background-color: #fff;padding: 20px;margin: auto';>
+                      <center><img style='max-height: 75px;' src='https://www.bkuc.edu.pk/public/images/top_banner1.png'></a></center>
+                      <h3>BKUC ASSIGMENT MANAGEMENT SYSTEM</h3>
+                      <strong>Account Verification</strong>
+                      <p>Your Password Verification Code is : $email_code</p>
+                      <p style='font-size: 8px;'><i><strong>Your account going to recovering.</strong></i></p>
+                      </div>";
+                      $message.="</body></html>";
+                      $headers .= "Reply-To: aqibullah3312@gmail.com" . "\r\n";
+                      $headers .= "MIME-Version: 1.0"."\r\n";
+                      $headers .= "MIME-Version: 1.0"."\r\n";
+                      $headers .= "Content-Type: text/html; charset=ISO-8859-1"."\r\n";
+                      mail($to, $subject, $message,$headers);
+                      header("location:step4.php?email=$email");
+                        /*  header('Location: step4.php?' . http_build_query(array(
+                          'email' => $email,
+                          'code' => $code
+                      ))); */
+
+                    }else{
+                      mysqli_close($cn);
+                      ?>
+                        <div class="row">
+                          <div class="col-lg-2 col-md-2 col-sm-2"></div>
+                          <div class="col-lg-8 col-md-8 col-sm-8">
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                              <div class="h1">Code Error !<i class="fas fa-exclamation-triangle fa-sm"></i></div>
+                              <p>Code did not sending Something went wrong.</p>
+                              <button type="button" style="font-size: 50px;" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </div>
+                          </div>
+                          <div class="col-lg-2 col-md-2 col-sm-2"></div>
+                        </div>
+                        <?php
+                    }
+
+                  }else{
+                    $sql="INSERT INTO `pass_verif_codes`(`email`,`code`) VALUES('$email','$code')";
+                    $run=mysqli_query($cn,$sql);
+                    if($run){
+                      mysqli_close($cn);
+                      $to = $email;
+                      $subject = "REGARDING : Verification";
+                      $headers="From: BKUC AMS";
+                      $message="<html><body>";
+                      $message.="<div style='max-width: 600px;min-width: 200px;background-color: #fff;padding: 20px;margin: auto';>
+                      <center><img style='max-height: 75px;' src='https://www.bkuc.edu.pk/public/images/top_banner1.png'></a></center>
+                      <h3>BKUC ASSIGMENT MANAGEMENT SYSTEM</h3>
+                      <strong>Account Verification</strong>
+                      <p>Your Password Verification Code is : $email_code</p>
+                      <p style='font-size: 8px;'><i><strong>Your account going to recovering.</strong></i></p>
+                      </div>";
+                      $message.="</body></html>";
+                      $headers .= "Reply-To: aqibullah3312@gmail.com" . "\r\n";
+                      $headers .= "MIME-Version: 1.0"."\r\n";
+                      $headers .= "MIME-Version: 1.0"."\r\n";
+                      $headers .= "Content-Type: text/html; charset=ISO-8859-1"."\r\n";
+                      mail($to, $subject, $message,$headers);
+                      header("location:step4.php?email=$email");
+
+                    }else{
+                      mysqli_close($cn);
+                      ?>
+                        <div class="row">
+                          <div class="col-lg-2 col-md-2 col-sm-2"></div>
+                          <div class="col-lg-8 col-md-8 col-sm-8">
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                              <div class="h1">Code Error !<i class="fas fa-exclamation-triangle fa-sm"></i></div>
+                              <p>Code did not send Something went wrong.</p>
+                              <button type="button" style="font-size: 50px;" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </div>
+                          </div>
+                          <div class="col-lg-2 col-md-2 col-sm-2"></div>
+                        </div>
+                        <?php
+                    }
+                  }
 
     }elseif (mysqli_num_rows($run2)>0) {
-      mysqli_close($cn);
-      header("location:step3.php?email=$email");
+      
+       //generate random number
+                  $n = range(0, 9);
+                  shuffle($n);
+                  $code = "";
+                  $email_code="";
+                  for($x=0;$x<6;$x++){
+
+                    $email_code .= $n[$x]." ";
+                    $code.=$n[$x];
+                  }
+                  //inserting to db
+                  $sql="SELECT * FROM `pass_verif_codes` WHERE `email`='$email'";
+                  $check_code=mysqli_query($cn,$sql);
+                  if(mysqli_num_rows($check_code)>0){
+                    $sql="UPDATE `pass_verif_codes` SET `code`='$code' 
+                                  WHERE `email`='$email'";
+                    $done=mysqli_query($cn,$sql);
+                    if($done){
+                      mysqli_close($cn);
+                      $to = $email;
+                      $subject = "REGARDING : Verification";
+                      $headers="From: BKUC AMS";
+                      $message="<html><body>";
+                      $message.="<div style='max-width: 600px;min-width: 200px;background-color: #fff;padding: 20px;margin: auto';>
+                      <center><img style='max-height: 75px;' src='https://www.bkuc.edu.pk/public/images/top_banner1.png'></a></center>
+                      <h3>BKUC ASSIGMENT MANAGEMENT SYSTEM</h3>
+                      <strong>Account Verification</strong>
+                      <p>Your Password Verification Code is : $email_code</p>
+                      <p style='font-size: 8px;'><i><strong>Your account going to recovering.</strong></i></p>
+                      </div>";
+                      $message.="</body></html>";
+                      $headers .= "Reply-To: aqibullah3312@gmail.com" . "\r\n";
+                      $headers .= "MIME-Version: 1.0"."\r\n";
+                      $headers .= "MIME-Version: 1.0"."\r\n";
+                      $headers .= "Content-Type: text/html; charset=ISO-8859-1"."\r\n";
+                      mail($to, $subject, $message,$headers);
+                      header("location:step4.php?email=$email");
+                        /*  header('Location: step4.php?' . http_build_query(array(
+                          'email' => $email,
+                          'code' => $code
+                      ))); */
+
+                    }else{
+                      mysqli_close($cn);
+                      ?>
+                        <div class="row">
+                          <div class="col-lg-2 col-md-2 col-sm-2"></div>
+                          <div class="col-lg-8 col-md-8 col-sm-8">
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                              <div class="h1">Code Error !<i class="fas fa-exclamation-triangle fa-sm"></i></div>
+                              <p>Code did not send Something went wrong.</p>
+                              <button type="button" style="font-size: 50px;" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </div>
+                          </div>
+                          <div class="col-lg-2 col-md-2 col-sm-2"></div>
+                        </div>
+                        <?php
+                    }
+
+                  }else{
+                    $sql="INSERT INTO `pass_verif_codes`(`email`,`code`) VALUES('$email','$code')";
+                    $run=mysqli_query($cn,$sql);
+                    if($run){
+                      mysqli_close($cn);
+                      $to = $email;
+                      $subject = "REGARDING : Verification";
+                      $headers="From: BKUC AMS";
+                      $message="<html><body>";
+                      $message.="<div style='max-width: 600px;min-width: 200px;background-color: #fff;padding: 20px;margin: auto';>
+                      <center><img style='max-height: 75px;' src='https://www.bkuc.edu.pk/public/images/top_banner1.png'></a></center>
+                      <h3>BKUC ASSIGMENT MANAGEMENT SYSTEM</h3>
+                      <strong>Account Verification</strong>
+                      <p>Your Password Verification Code is : $email_code</p>
+                      <p style='font-size: 8px;'><i><strong>Your account going to recovering.</strong></i></p>
+                      </div>";
+                      $message.="</body></html>";
+                      $headers .= "Reply-To: aqibullah3312@gmail.com" . "\r\n";
+                      $headers .= "MIME-Version: 1.0"."\r\n";
+                      $headers .= "MIME-Version: 1.0"."\r\n";
+                      $headers .= "Content-Type: text/html; charset=ISO-8859-1"."\r\n";
+                      mail($to, $subject, $message,$headers);
+                      header("location:step4.php?email=$email");
+
+                    }else{
+                      mysqli_close($cn);
+                      ?>
+                        <div class="row">
+                          <div class="col-lg-2 col-md-2 col-sm-2"></div>
+                          <div class="col-lg-8 col-md-8 col-sm-8">
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                              <div class="h1">Code Error !<i class="fas fa-exclamation-triangle fa-sm"></i></div>
+                              <p>Code did not send Something went wrong.</p>
+                              <button type="button" style="font-size: 50px;" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </div>
+                          </div>
+                          <div class="col-lg-2 col-md-2 col-sm-2"></div>
+                        </div>
+                        <?php
+                    }
+                  }
+
     }
     else{
       mysqli_close($cn);

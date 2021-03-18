@@ -69,7 +69,7 @@ ob_start();
 		      <div class="card card-default">
             <center>
               <div class="card-header bg-primary">
-                <h3 class="card-title">Just 5 Steps To Recover</h3>
+                <h3 class="card-title">Just 4 Steps To Recover</h3>
               </div>
             </center>
               <form method="post" id="quickForm" class="md-form">
@@ -81,7 +81,7 @@ ob_start();
                         </div>
                           <center>
                             <div class="form-group">
-                              <span class="badge badge-primary h1" id="abc"> Step 1 / 5 </span>
+                              <span class="badge badge-primary h1" id="abc"> Step 1 / 4 </span>
                             </div>
                           </center>
                     </div>
@@ -99,7 +99,7 @@ ob_start();
                 <div class="card-footer bg-info">
                   <center>
                   <a href="login_page.php">Goto Login Page</a><br>
-                  <a href="https:bkucams.000webhostapp.com">Bkuc Assignment Management System.</a>
+                  <a href="index.php">Bkuc Assignment Management System.</a>
                   </center>
                 </div>
               </div>
@@ -138,7 +138,7 @@ if(isset($_POST['btn_check_email'])){
           <div class="col-lg-2 col-md-2 col-sm-2"></div>
           <div class="col-lg-8 col-md-8 col-sm-8">
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-              <div class="h1">Mismatche <i class="fas fa-times-circle fa-sm"></i></div>
+              <div class="h1">Mismatch <i class="fas fa-times-circle fa-sm"></i></div>
               <p>Invalid User Email ID</p>
               <button type="button" style="font-size: 50px;" class="close" data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true">&times;</span>

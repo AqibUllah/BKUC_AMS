@@ -32,11 +32,13 @@
 		<div class="card" style="background: transparent;">
 			<div class="card-body login-card-body">
 				<div class="row">
-					<div class="col-md-4"></div>
-					<div class="col-md-4">
-					<img class="login-logo" src="images/image.jpg" style="height: 80px;width: 80px;">
+					<div class="col-lg-4 col-md-4 col-sm-4"></div>
+					<div class="col-lg-4 col-md-4 col-sm-4">
+          <center>
+					   <img class="login-logo" src="images/image.jpg" style="height: 80px;width: 80px;">
+          </center>
 					</div>
-					<div class="col-md-4"></div>
+					<div class="col-lg-4 col-md-4 col-sm-4"></div>
 				</div>
 				<form method="post">
           <div class="input-group mb-3">

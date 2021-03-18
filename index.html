@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        
+        <meta charset="utf-8" />
+        <title>Beauty Skin Domex Printing System</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta content="Themesbrand" name="author" />
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="assets/images/fav.jpg">
+
+        <!-- Bootstrap Css -->
+        <link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+        <!-- Icons Css -->
+        <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <!-- App Css-->
+        <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+    <!-- DataTables -->
+  <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.css">
+        
+    </head>
+    <!-- <body data-sidebar="dark"> -->
+
+    <body data-layout="horizontal" data-topbar="dark">
+
+        <!-- Begin page -->
+        <div id="layout-wrapper">
+            <!-- ============================================================== -->
+
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+            <div class="main-content">
+
+                <div class="page-content">
+                    <div class="container-fluid">
+
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box d-flex align-items-center justify-content-between">
+                                    <h1 class="mb-0 font-size-28">Beauty Skin Domex Printing System</h1>
+                                    
+                                </div>
+                                <p>Marked * is Required Feild. Click Add More Button to Add new Shipment. After all done Click Print Bill Now Button. If you want to Delete the shipment details please click Delete Button</p>
+                            </div>
+                        </div>
+                        <!-- end page title -->
+                        <form method="get" onsubmit="getdata()" name="print_form" class="repeater" action="" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-12" id="one">
+                              
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title mb-4">Reciver Address</h4>
+   <!-- class="repeater" -->            
+                                            <div data-repeater-list="group-a">
+                                                <div data-repeater-item class="row" id="row1">
+                                                    <table id="example2">
+                                                        <form method="get" id="example2">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>
+                                                                <div class="row">
+                                                                    <div class="col-md-2"></div>
+                                                                   <div class="col-md-4">
+                                                                        <img src= "Capture.JPG" style="float: right;">
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <div class="page-title-box d-flex align-items-center justify-content-between">
+                                                                            <h1 class="mb-0 font-size-28">Beauty Skin Domex Printing System</h1>
+                                                                            
+                                                                        </div>
+                                                                        <p>Marked * is Required Feild. Click Add More Button to Add new Shipment. After all done Click Print Bill Now Button. If you want to Delete the shipment details please click Delete Button</p>
+                                                                    </div>
+                                                                    <div class="col-md-2"></div> 
+                                                                </div><br>
+                                                                <div class="row">
+                                                                    <div class="col-md-2"></div>
+                                                                    <div class="col-md-4">
+                                                                        <textarea rows="10" cols="60">
+                                                                            
+                                                                        </textarea>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <textarea rows="10" cols="60">
+                                                                            
+                                                                        </textarea>
+                                                                    </div>
+                                                                    <div class="col-md-2"></div>
+                                                                </div>
+                                                            </th>
+                                                                </tr>
+                                                            </thead>
+                                                        </form>
+                                                    </table>
+                                                </div>
+                                                    
+                                            </div>
+                                            
+                                            <div class="row"></div>
+                                            
+                                                <label for="message">Add More Forms</label>
+                                                <br>
+                                            <input data-repeater-create type="button" class="btn btn-success mt-3 mt-lg-0" value="Add More +" style="width: 200px;"/>
+                                            
+                                        
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-12" id="details">
+                               <!-- <div class="col-12">
+                                   <h2><strong><i>Domestic Express (Pvt) Ltd</i></strong></h2>
+                                   <p style="font-size: 16px;font-style: italic;"><b>No.511, 10th Mile Post Road, Werahera, Boralesgamuwa.<br><font style="font-size: 19px;">HOTLINE: 001 7 759 759  Pick up Desk: 011 7 75 85 95</font><br><font style="font-size: 15px;">E-mail: info@domex.IK Website:www.domex.IK</font></b></p>
+                                   <div class="form-group">
+                                     Customer Name :   
+                                   </div>
+                                   
+                                   <div class="form-group">
+                                   Address : 
+                                    </div>
+                                   <div class="form-group">
+                                   Mobile No : 
+                                   </div> -->
+                                   <script type="text/javascript">
+            
+
+                                        // function getdata(el){
+                                        //     var ab = document.body.innerHTML;
+                                        //     var bc = document.getElementById(el).innerHTML;
+                                        //     document.body.innerHTML = bc;
+
+                                        //     //window.print();
+                                        //     document.body.innerHTML = ab;
+                                        //     document.write(ab);
+                                        // }
+
+                                        function getdata(){
+                                            var c_name = document.getElementById('customer_name').value;
+                                            var c_add = document.getElementById('customer_address').value;
+                                            var desc = document.getElementById('discr').value;
+                                            var ecome = document.getElementById('e_com').value;
+                                            var mob_one = document.getElementById('number1').value;
+                                            var mob_two = document.getElementById('number2').value;
+                                            var mob_three = document.getElementById('number3').value;
+                                            document.write("<h1 style='text-align:center;'><strong><i>Domestic Express (Pvt) Ltd</i></strong></h1>");
+                                            document.write("<p style='font-size: 16px;font-style: italic;text-align:center;'><b>No.511, 10th Mile Post Road, Werahera, Boralesgamuwa.</b></p>");
+
+                                            document.write("<p style='font-size: 15px;text-align:center;'>E-mail: info@domex.IK Website:www.domex.IK</p>");
+                                            document.write("\n");
+                                            document.write("<table width='100%'><thead><tr style='color:white;background:black;'><th width='50%'>Customer Name</th><th width='50%'>Address</th></tr></thead>\n\n<tbody><tr><td align='center'>"+c_name+"</td><td align='center'>"+c_add+"</td></tr><tr  style='color:white;background:black;'><th>Discription Of Gods</th><th>E Com</th></tr><tr><td align='center'>"+desc+"</td><td align='center'>"+ecome+"</td></tr></tbody></table>");
+                                            document.write("<br><br><br><br><br><br><br>");
+                                            document.write("<table><tr><th width='300px' style='background:black;color:white;'>Mob #1</th></tr><tr><td align='center'>"+mob_one+"</td></tr><tr><th width='300px' style='background:black;color:white;'>Mob #2</th></tr><tr><td align='center'>"+mob_two+"</td></tr><tr><th width='300px' style='background:black;color:white;'>Mob #3</th></tr><tr><td align='center'>"+mob_three+"</td></tr></table>");
+                                            window.print();
+                                        }
+
+                                    </script>
+                               </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            
+                        </div>
+                        
+                        </form>
+
+                    </div> <!-- container-fluid -->
+                </div>
+                <!-- End Page-content -->
+
+                
+                <footer class="footer">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <script>document.write(new Date().getFullYear())</script> © Beauty Skin
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="text-sm-right d-none d-sm-block">
+                                    Design & Develop by Alcaline Solutions
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+            <!-- end main content-->
+
+        </div>
+        <!-- END layout-wrapper -->
+
+        
+
+        <!-- Right bar overlay-->
+        <div class="rightbar-overlay"></div>
+
+        <!-- JAVASCRIPT -->
+        <script src="assets/libs/jquery/jquery.min.js"></script>
+        <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/libs/metismenu/metisMenu.min.js"></script>
+        <script src="assets/libs/simplebar/simplebar.min.js"></script>
+        <script src="assets/libs/node-waves/waves.min.js"></script>
+        <!-- DataTables  & Plugins -->
+        <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+        <script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+        <script src="plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+        <script src="plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+        <script src="plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+        <script src="plugins/datatables-buttons/js/buttons.print.min.js"></script>
+        <script src="plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+        <!-- form repeater js -->
+        <script src="assets/libs/jquery.repeater/jquery.repeater.min.js"></script>
+
+        <script src="assets/js/pages/form-repeater.int.js"></script>
+
+        <script src="assets/js/app.js"></script>
+
+        <script>
+            $(document).on('click','.view',function(e) {
+            var ass_id=$(this).attr("ass-id");
+            var std_name=$(this).attr("std-name");
+            var std_img=$(this).attr("std-img");
+            $('#id_v').val(ass_id);
+            $('#student_name_v').val(std_name);
+            $('#std_img_v').val(std_img);
+          });
+            </script>
+
+        <!-- page script -->
+        <script>
+          $(function () {
+            $("#example1").DataTable({
+              "responsive": true, "lengthChange": false, "search": false, "autoWidth": true,"ordering":false,
+              "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            
+          });
+
+          $(function () {
+            $("#example2").DataTable({
+              "responsive": true, "lengthChange": true, "autoWidth": true,
+              "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
+          });
+          
+        </script>
+
+    </body>
+</html>

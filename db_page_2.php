@@ -814,7 +814,7 @@ function student_password_change(){
 	$cn=db_connection();
 	$_id=$_SESSION["student_logged_in"]["id"];
 	$_new_pass=$_POST['new_pass'];
-	$_confirm_pass=$_POST['confirm_pass'];
+	$_confirm_pass=$_POST;
 	if($_new_pass == $_confirm_pass){
 		$_password_hashed=password_hash($_new_pass, PASSWORD_DEFAULT);
 		$sql="UPDATE `registred_students` SET `psswrd`='$_password_hashed' WHERE `id`=$_id";
@@ -2275,7 +2275,9 @@ function confirm_forgott_password($arg){
 			$check_email=$done["email"];
 				if($email == $check_email){
 					return false;
-		}else{
+		}
+	}
+
 		$Role=$arg["forgot_user_type"];
 		$sql="INSERT INTO `lecturer_password_retreive`(`user_name`, `email`,`Role`,`confirmation`) Values(?,?,?,?)";
 		$stmt=mysqli_prepare($cn,$sql);
@@ -2292,8 +2294,6 @@ function confirm_forgott_password($arg){
 					return false;
 				}
 			}
-		}
-	}
 	}else{
 		return "Plz Select the user type";
 	}

@@ -120,7 +120,7 @@
                       </div>
                       <div class="form-group">
                         <label for="admin_phone" class="float-left">Phone</label>
-                        <input type="text" name="admin_phone" class="form-control" id="admin_phone" placeholder="Phone">
+                        <input type="text" name="admin_phone" class="form-control" id="admin_phone" placeholder="Phone" data-inputmask='"mask": "(9999) (9999999)"' data-mask>
                       </div>
                       <button class="btn btn-primary float-left" type="button" onclick="stepper.previous()">
                       <i class="fas fa-angle-left"></i>&nbsp; Previous</button>

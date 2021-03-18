@@ -72,7 +72,7 @@ ob_start();
           <div class="card card-default">
             <center>
               <div class="card-header bg-primary">
-                <h3 class="card-title">Just 5 Steps To Recover</h3>
+                <h3 class="card-title">Just 4 Steps To Recover</h3>
               </div>
             </center>
               <form method="post" id="quickForm" class="md-form">
@@ -84,7 +84,7 @@ ob_start();
                         </div>
                           <center>
                             <div class="form-group">
-                              <span class="badge badge-primary h1" id="abc"> Step 5 / 5 </span>
+                              <span class="badge badge-primary h1" id="abc"> Step 4 / 4 </span>
                             </div>
                           </center>
                     </div>

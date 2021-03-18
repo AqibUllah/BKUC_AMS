@@ -44,7 +44,9 @@ session_start();
 				<div class="row">
 					<div class="col-md-4"></div>
 					<div class="col-md-4">
-					<img class="login-logo" src="images/image.jpg" style="height: 80px;width: 80px;">
+            <center>
+					   <img class="login-logo" src="images/image.jpg" style="height: 80px;width: 80px;">
+          </center>
 					</div>
 					<div class="col-md-4"></div>
 				</div>
@@ -89,7 +91,6 @@ session_start();
 			</div>
 		</div>
 		
-
 <!--<h1>
 <?php  
 /*
