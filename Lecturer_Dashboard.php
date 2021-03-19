@@ -314,8 +314,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <?php
                 }
 
-
-                ob_end_flush();
                 ?>
                 
               </div>
@@ -340,6 +338,59 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </div>
           <!-- /.col -->
         </div><!-- /.row -->
+        <div class="col-md-12 col-lg-12 col-12">
+          <div class="card card-primary">
+            <div class="card-header text-center" style="text-align: center;">
+              <center>Assignment Questions</center>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+            <table id="example2" class="table table-bordere table-hover">
+              <thead class="bg-info">
+                <tr>
+                  <th>#</th>
+                  <th>Student Name</th>
+                  <th>Assigment</th>
+                  <th>Questions</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php
+                $lec_name = $_SESSION["lecturer_logged_in"]["username"];
+                 $sql = "select * from `std_questions` where `to`='$lec_name'";
+                 $run = mysqli_query($cn,$sql);
+                 $count = 0;
+                 if($run){
+                  while ($fetch = mysqli_fetch_assoc($run)) {
+                    $count +=1;
+                    ?>
+                    <tr>
+                      <td><?php echo $count; ?></td>
+                      <td><?php echo $fetch['std_name']; ?></td>
+                      <td><?php echo $fetch['assignment']; ?></td>
+                      <td><?php echo $fetch['question']; ?></td>
+                      <td><a href="Lecturer_Dashboard.php?id=<?php echo $fetch['id'];?>" class="btn btn-danger">Reject</a>
+                      <a href="#response_modal" class="btn btn-info view" 
+                            data-toggle="modal" data-toggle="tooltip"
+                            ques-id="<?php echo $fetch['id']; ?>" 
+                            std-email="<?php echo $fetch['std_email']; ?>" 
+                            std-name="<?php echo $fetch['std_name']; ?>" 
+                            std-question="<?php echo $fetch['question']; ?>" 
+                            ass-name="<?php echo $fetch['assignment']; ?>">Response</a></td>
+                    </tr>
+                    <?php
+                    include('response_modal.php');
+                  }
+                 }
+                ?>
+              </tbody>
+            </table>
+          </div>
+              </div>
+          </div>
+          
+        </div>
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
@@ -396,6 +447,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
 
+<script>
+    $(document).on('click','.view',function(e) {
+    var ques_id=$(this).attr("ques-id");
+    var ass_name=$(this).attr("ass-name");
+    var std_name=$(this).attr("std-name");
+    var std_email=$(this).attr("std-email");
+    var std_question=$(this).attr("std-question");
+    $('#ques_id').val(ques_id);
+    $('#ass_name').val(ass_name);
+    $('#student_name').val(std_name);
+    $('#std_email').val(std_email);
+    $('#std_question').val(std_question);
+  });
+    </script>
+
 <!-- page script -->
 <script>
   $(function () {
@@ -410,5 +476,161 @@ scratch. This page gets rid of all links and provides the needed markup only.
     });
   });
 </script>
+
+<?php
+if(isset($_GET['id'])){
+  $id = $_GET['id'];
+  $sql = "delete from std_questions where id='$id'";
+  $run = mysqli_query($cn,$sql);
+  if($run){
+    header("location:Lecturer_Dashboard.php?deleted");
+  }else{
+    header("location:Lecturer_Dashboard.php?error_delete");
+  }
+}
+if(isset($_GET['success'])){
+              ?>
+                <script type="text/javascript">
+                  $(document).ready(function(){
+                    $('.toastsDefaultSuccess').ready(function() {
+                      $(document).Toasts('create', {
+                        class: 'bg-success', 
+                        title: 'Done',
+                        autohide:true,
+                        delay:5000,
+                        subtitle: 'Responded',
+                        icon    : 'fas fa-check fa-lg',
+                        body: "You responded this question"
+                      })
+                    });
+                  });
+                </script>
+              <?php
+}
+if(isset($_GET['deleted'])){
+              ?>
+                <script type="text/javascript">
+                  $(document).ready(function(){
+                    $('.toastsDefaultPurple').ready(function() {
+                      $(document).Toasts('create', {
+                        class: 'bg-purple', 
+                        title: 'Done',
+                        autohide:true,
+                        delay:5000,
+                        subtitle: 'Rejected',
+                        icon    : 'fas fa-check fa-lg',
+                        body: "You rejected this student question"
+                      })
+                    });
+                  });
+                </script>
+              <?php
+}
+if(isset($_GET['error'])){
+              ?>
+                <script type="text/javascript">
+                  $(document).ready(function(){
+                    $('.toastsDefaultDanger').ready(function() {
+                      $(document).Toasts('create', {
+                        class: 'bg-danger', 
+                        title: 'Error',
+                        autohide:true,
+                        delay:5000,
+                        subtitle: 'Not Send',
+                        icon    : 'fas fa-remove fa-lg',
+                        body: "Oops! something went wrong"
+                      })
+                    });
+                  });
+                </script>
+              <?php
+}
+if(isset($_GET['error_delete'])){
+              ?>
+                <script type="text/javascript">
+                  $(document).ready(function(){
+                    $('.toastsDefaultDanger').ready(function() {
+                      $(document).Toasts('create', {
+                        class: 'bg-danger', 
+                        title: 'Error',
+                        autohide:true,
+                        delay:5000,
+                        subtitle: 'Not Done',
+                        icon    : 'fas fa-remove fa-lg',
+                        body: "Oops! something went wrong"
+                      })
+                    });
+                  });
+                </script>
+              <?php
+}
+if(isset($_GET['del_error'])){
+              ?>
+                <script type="text/javascript">
+                  $(document).ready(function(){
+                    $('.toastsDefaultDanger').ready(function() {
+                      $(document).Toasts('create', {
+                        class: 'bg-danger', 
+                        title: 'Error',
+                        autohide:true,
+                        delay:5000,
+                        subtitle: 'Not Delete',
+                        icon    : 'fas fa-remove fa-lg',
+                        body: "Oops! Question can not be deleted try to reject this"
+                      })
+                    });
+                  });
+                </script>
+              <?php
+}
+if(isset($_POST['send'])){
+  $mssg = $_POST['message'];
+  $question_id = $_POST['ques_id'];
+  $ass_name = $_POST['assi_name'];
+  $std_name = $_POST['std_name'];
+  $std_question = $_POST['std_question'];
+  $std_email = $_POST['std_email'];
+  $lec_name = $_SESSION["lecturer_logged_in"]['username'];
+  date_default_timezone_set("Asia/Karachi");
+  $date=date('m/d/Y h:i A');
+  $sql = "insert into `question_response`(`std_name`,`std_email`,`assignment`,`std_question`,`response`,`response_from`,`date`) values('$std_name','$std_email','$ass_name','$std_question','$mssg','$lec_name','$date')";
+  $run = mysqli_query($cn,$sql);
+  if($run){
+
+    // send  email to assingment owner
+              $subject = "REGARDING : Assignment Question";
+              $message="<html><body>";
+              $message.="<div style='max-width: 600px;min-width: 200px;background-color: #fff;padding: 20px;margin: auto';>
+              <center><img style='max-height: 75px;' src='https://www.bkuc.edu.pk/public/images/top_banner1.png'></a></center>
+              <h3>B K U C | A M S</h3>
+              <p><strong style='color:green;'>My Question:</strong></p>
+              <p>$std_question</p>
+              <p><strong style='color:green;'>Response:</strong></p>
+              <i>Dear $std_name!</i>
+              <p style='font-size: 11px;'>$mssg!</p>
+              <a href='http://bkucams.000webhostapp.com'>Visit Your Portal Here..</a>
+              </div>";
+              $message.="</body></html>";
+              $headers="From: BKUC AMS";
+              $headers .= "MIME-Version: 1.0"."\r\n";
+              $headers .= "MIME-Version: 1.0"."\r\n";
+              $headers .= "Content-Type: text/html; charset=ISO-8859-1"."\r\n";
+              mail($std_email, $subject, $message,$headers);
+
+    $sql = "delete from `std_questions` where `id`='$question_id'";
+    $run=mysqli_query($cn,$sql);
+    if($run){
+      header("location:Lecturer_Dashboard.php?success");
+    }else{
+      header("location:Lecturer_Dashboard.php?del_error");
+    }
+    
+  }else{
+    header("location:Lecturer_Dashboard.php?error");
+  }
+}
+
+ob_end_flush();
+?>
 </body>
 </html>

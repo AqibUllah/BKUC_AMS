@@ -312,16 +312,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="clearfix hidden-md-up"></div>
           <div class="col-12 col-sm-6 col-md-3">
             <!-- small box -->
+            <?php
+            $sql = "select * from std_questions where std_email='$std_email'";
+            $run = mysqli_query($cn,$sql);
+            $q_count = 0;
+            if($run){
+              while (mysqli_fetch_array($run)) {
+                $q_count +=1;
+              }
+            }
+            ?>
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>Soon</h3>
+                <h3><?php echo $q_count; ?></h3>
 
-                <p class="text-white">will be update</p>
+                <p class="text-white">My Questions</p>
               </div>
               <div class="icon">
                 <i class="ion ion-funnel"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="confusion.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->

@@ -221,7 +221,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="col-lg-12">
                 <!-- write or design something in 12 columns -->
             <div class="table-responsive">
-            <table id="example2" class="table table-bordere table-hover">
+            <table width="100%" id="example2" class="table table-bordere table-hover">
               <thead>
                 <tr>
                 <th>S.No</th>
@@ -246,6 +246,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     $assigment=$get_data_a['ass_name'];
                     $department=$get_data_a['department'];
                     $time_duration=$get_data_a['time_duration'];
+                    $created_by=$get_data_a['created_by'];
                     $start_date=substr($get_data_a['time_duration'],0,19);
                     $last_date=substr($get_data_a['time_duration'], 22);
                     $start = strtotime($start_date);
@@ -448,6 +449,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   }else{
                     ?>
                     <a href="assigments_details.php?get_id=<?php echo $get_data_a['id']; ?>" class="btn btn-info">Details <i class="fas fa-angle-right"></i></a>
+                    <a href="#?get_id=<?php echo $get_data_a['id']; ?>" class="btn btn-danger"> Confusion <i class="fas fa-angle-right"></i></a>
                     <a href="submit_assigment.php?assigment_id=<?php echo $id; ?>" class="btn btn-success">Submit <i class="fas fa-angle-right"></i></a><?php
                   } ?>
                 </td>
@@ -516,10 +518,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <td style="text-align: center;"><?php echo $get_data_a['ass_name']; ?></td>
                 <td style="text-align: center;"><?php echo $get_data_a['department']."<br>".$get_data_a['semester']; ?></td>
                 <td style="text-align: center;"><?php echo "<i class='fas fa-clock'></i> ".$last_date; ?></td>
-                <td style="text-align: center;"><?php if($end>$current){echo "<i class='fas fa-clock'></i> ".$days." days ".$hours." hourse ".$minutes." minutes Remaining";}else{echo "<span class='badge badge-maroon bg-danger'>Time Out</span>";} ?></td>
+                <td><?php if($end>$current){echo "<i class='fas fa-clock'></i> ".$days." days ".$hours." hourse ".$minutes." minutes Remaining";}else{echo "<span class='badge badge-maroon bg-danger'>Time Out</span>";} ?></td>
                 <?php if($end>$current){if($calc > 8.99){
                   echo "<td style='text-align:center;'><span class='badge badge-primary'>in progress</span><br><br>
-                  <div class='progress progress-sm bg-secondary' style='height:3px;'>
+                  <div class='progress progress-sm' style='height:3px;'>
                         <div class='progress-bar bg-primary' style='width: $calc%;'></div>
                       </div>
                   </td>";
@@ -528,14 +530,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <div class='progress-bar bg-maroon' style='width: $calc%;'></div>
                       </div>
                   </td>";}}else{echo "<td style='text-align:center;'><span class='badge badge-danger'>Expired</span></td>";} ?>
-                <td class="float-right" style="width: 142px;">
+                <td>
 
                   <?php if($current>=$end){
                     ?><a href="#?get_id=<?php echo $get_data['id']; ?>" class="btn btn-danger btn-block">Can't submit</a><?php
                   }else{
                     ?>
-                    <a href="assigments_details.php?get_id=<?php echo $get_data_a['id']; ?>" class="btn btn-info">Details <i class="fas fa-angle-right"></i></a>
-                    <a href="submit_assigment.php?assigment_id=<?php echo $id; ?>" class="btn btn-success">Submit <i class="fas fa-angle-right"></i></a><?php
+                    <a href="assigments_details.php?get_id=<?php echo $get_data_a['id']; ?>" class="btn btn-info btn-sm">Details <i class="fas fa-angle-right"></i></a>
+                    <a href="#question_model" data-toggle="modal" data-toggle="tooltip" 
+                            ass-id="<?php echo $get_data_a['id']; ?>"
+                            ass-name="<?php echo $get_data_a['ass_name']; ?>"
+                            std-name="<?php echo $get_data['std_name']; ?>"
+                            std-email="<?php echo $get_data['email']; ?>" class="btn btn-danger btn-sm view"> Any Question <i class="fas fa-question" 
+                            title="reject assignment"></i></a>
+                    <a href="submit_assigment.php?assigment_id=<?php echo $id; ?>" class="btn btn-success btn-sm">Submit <i class="fas fa-angle-right"></i></a><?php
                   } ?>
                 </td>
               </tr>                          
@@ -544,7 +552,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         
                       }
                     }
-
+                    include('question_modal.php');
                     ob_end_flush();
                   ?>
 
@@ -604,6 +612,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
 
+<script>
+    $(document).on('click','.view',function(e) {
+    var ass_id=$(this).attr("ass-id");
+    var ass_name=$(this).attr("ass-name");
+    var std_name=$(this).attr("std-name");
+    var std_email=$(this).attr("std-email");
+    $('#ass_id').val(ass_id);
+    $('#ass_name').val(ass_name);
+    $('#student_name').val(std_name);
+    $('#std_email').val(std_email);
+  });
+    </script>
+
 <!-- page script -->
 <script>
     $(function () {
@@ -621,5 +642,55 @@ scratch. This page gets rid of all links and provides the needed markup only.
     }).buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
   });
 </script>
+
+<?php
+if(isset($_POST['send'])){
+  $mssg = $_POST['message'];
+  $ass_name = $_POST['assi_name'];
+  $stdnt_name = $_SESSION["student_logged_in"]['first_name'];
+  date_default_timezone_set("Asia/Karachi");
+  $date=date('m/d/Y h:i A');
+  $sql = "insert into `std_questions`(`std_name`,`std_email`,`assignment`,`question`,`to`,`date`) values('$stdnt_name','$std_email','$ass_name','$mssg','$created_by','$date')";
+  $run = mysqli_query($cn,$sql);
+  if($run){
+
+    ?>
+                <script type="text/javascript">
+                  $(document).ready(function(){
+                    $('.toastsDefaultSuccess').ready(function() {
+                      $(document).Toasts('create', {
+                        class: 'bg-success', 
+                        title: 'Done',
+                        autohide:true,
+                        delay:5000,
+                        subtitle: 'Question',
+                        icon    : 'fas fa-check fa-lg',
+                        body: "Your question has been send to assingment owner"
+                      })
+                    });
+                  });
+                </script>
+              <?php
+  }else{
+    ?>
+                <script type="text/javascript">
+                  $(document).ready(function(){
+                    $('.toastsDefaultDanger').ready(function() {
+                      $(document).Toasts('create', {
+                        class: 'bg-danger', 
+                        title: 'Error',
+                        autohide:true,
+                        delay:5000,
+                        subtitle: 'Not Send',
+                        icon    : 'fas fa-remove fa-lg',
+                        body: "Oops! something went wrong"
+                      })
+                    });
+                  });
+                </script>
+              <?php
+  }
+}
+?>
 </body>
 </html>

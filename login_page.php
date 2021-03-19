@@ -73,7 +73,7 @@ session_start();
           </div>
 					<div class="row">
 						<div class="col-8">
-							<a href="seelct_forgot_options.php" class="badge badge-danger">Forgott Password?</a>
+							<a href="seelct_forgot_options.php" class="text-danger"><strong>Forgott Password?</strong></a>
 						</div>
 						<div class="col-4">
 							<input type="submit" name="btn_login_signIn" class="btn btn-info btn-block" value="Sign In">

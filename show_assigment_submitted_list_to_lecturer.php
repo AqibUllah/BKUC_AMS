@@ -393,7 +393,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           </form>
                       </td>
 
-                      <!-- model assigment information -->
+                      <!-- model assigment rejection -->
                       <div class="modal fade" id="view_assigment_model" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                           <div class="modal-dialog" role="document">
                             <div class="modal-content">
