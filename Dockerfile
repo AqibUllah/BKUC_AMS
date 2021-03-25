@@ -1,3 +1,3 @@
-FROM alpine
+FROM nginx:latest
 LABEL maintainer="aqibullah3312@gmail.com"
-COPY . /src
+COPY . /usr/share/nginx/html
